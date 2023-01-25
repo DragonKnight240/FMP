@@ -63,6 +63,7 @@ public class UnitManager : MonoBehaviour
             NewUnit.GetComponent<UnitBase>().Position = new int[2];
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
             NewUnit.GetComponent<UnitBase>().Position[1] = Y;
+            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
             UnitsInGame.Add(NewUnit);
         }
     }

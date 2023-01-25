@@ -29,18 +29,38 @@ public class Interact : MonoBehaviour
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
             {
-                if(Hit.transform.GetComponent<UnitBase>())
+                if(Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Ally"))
                 {
-                    SelectedUnit = Hit.transform.GetComponent<UnitBase>();
-                    print("Selected Unit");
+                    if (SelectedUnit != Hit.transform.GetComponent<UnitBase>())
+                    {
+                        SelectedUnit = Hit.transform.GetComponent<UnitBase>();
+                        print("Selected Unit");
+                    }
+                    else
+                    {
+                        SelectedUnit = null;
+                        print("Deselect Unit");
+                    }
+                }
+                else if(Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Enemy"))
+                {
+                    if(SelectedUnit)
+                    {
+                        if(SelectedUnit.AttackTiles.Contains(TileManager.Instance.Grid[Hit.transform.GetComponent<UnitBase>().Position[0], Hit.transform.GetComponent<UnitBase>().Position[1]].GetComponent<Tile>()))
+                        {
+                            SelectedUnit.Attack(Hit.transform.GetComponent<UnitBase>());
+                            SelectedUnit = null;
+                            print("Attack Enemy");
+                        }
+                    }
                 }
 
                 if(Hit.transform.GetComponent<Tile>() && SelectedUnit)
                 {
-                    print("Move Unit");
                     if (SelectedUnit.Move(Hit.transform.GetComponent<Tile>()))
                     {
                         SelectedUnit = null;
+                        print("Move Unit");
                     }
                 }
             }

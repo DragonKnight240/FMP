@@ -5,13 +5,14 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public bool CanMoveOn;
-    public UnitBase Unit;
+    internal UnitBase Unit;
     internal bool Occupied;
     public GameObject CentrePoint;
     internal List<GameObject> AdjacentTiles;
     internal int[] GridPosition;
 
     public Material InRangeMaterial; //Temp
+    public Material WeaponRangeMaterial; //Temp
     Material OGMaterial;
 
     // Start is called before the first frame update
@@ -31,9 +32,23 @@ public class Tile : MonoBehaviour
         
     }
 
-    public void Show()
+    public void Show(bool WeaponRange = false)
     {
-        GetComponent<MeshRenderer>().material = InRangeMaterial;
+        if (WeaponRange)
+        {
+            GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().material = InRangeMaterial;
+        }
+    }
+
+    public void ChangeOccupant(UnitBase NewUnit)
+    {
+        Unit = NewUnit;
+        Occupied = true;
+        CanMoveOn = false;
     }
 
     public void Hide()
