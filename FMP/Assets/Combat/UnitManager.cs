@@ -14,7 +14,8 @@ public class UnitManager : MonoBehaviour
 
     public static UnitManager Instance;
     public List<StartingPositions> UnitPositions;
-    internal List<GameObject> UnitsInGame;
+    internal List<GameObject> AllyUnits;
+    internal List<GameObject> EnemyUnits;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,28 @@ public class UnitManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        UnitsInGame = new List<GameObject>();
+        AllyUnits = new List<GameObject>();
+        EnemyUnits = new List<GameObject>();
+    }
+
+    private void Update()
+    {
+        if(!TurnManager.Instance.isPlayerTurn)
+        {
+            AIUnitMove();
+        }
+    }
+
+    void AIUnitMove()
+    {
+        foreach(GameObject Enemy in EnemyUnits)
+        {
+            if(!Enemy.GetComponent<UnitAI>().MovedForTurn)
+            {
+                Enemy.GetComponent<UnitAI>().MoveUnit();
+                break;
+            }
+        }
     }
 
     public void PlaceUnits()
@@ -64,7 +86,17 @@ public class UnitManager : MonoBehaviour
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
             NewUnit.GetComponent<UnitBase>().Position[1] = Y;
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
-            UnitsInGame.Add(NewUnit);
+            
+            if(NewUnit.CompareTag("Enemy"))
+            {
+                EnemyUnits.Add(NewUnit);
+                TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
+            }
+            else
+            {
+                AllyUnits.Add(NewUnit);
+                TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
+            }
         }
     }
 }

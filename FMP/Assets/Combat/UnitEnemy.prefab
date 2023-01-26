@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4912302776816303754}
   - component: {fileID: 2782864998359480250}
   - component: {fileID: 6842314290299493770}
-  - component: {fileID: 2740718854175698610}
+  - component: {fileID: -5451165715722164602}
   m_Layer: 0
   m_Name: UnitEnemy
   m_TagString: Enemy
@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2740718854175698610
+--- !u!114 &-5451165715722164602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,11 +106,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1478534406159762325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c62df0853585604dabb17cf5736e1ea, type: 3}
+  m_Script: {fileID: 11500000, guid: af9d9b1683a4b114199f5c02126be21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HealthMax: 50
   CurrentHealth: 0
   Movement: 2
   EquipedWeapon: {fileID: 0}
+  Strength: 2
   Inventory: []

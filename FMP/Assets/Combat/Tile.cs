@@ -13,12 +13,13 @@ public class Tile : MonoBehaviour
 
     public Material InRangeMaterial; //Temp
     public Material WeaponRangeMaterial; //Temp
+    public Material OverlayMaterial; //Temp
     Material OGMaterial;
 
     // Start is called before the first frame update
     void Start()
     {
-        if(CanMoveOn || Unit)
+        if(!CanMoveOn || Unit)
         {
             Occupied = true;
         }
@@ -32,23 +33,31 @@ public class Tile : MonoBehaviour
         
     }
 
-    public void Show(bool WeaponRange = false)
+    public void Show(bool WeaponRange = false, bool Overlay = false, bool Reset = false)
     {
-        if (WeaponRange)
+        if (WeaponRange && !Reset)
         {
             GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
         }
-        else
+        else if(!Overlay && !Reset)
         {
             GetComponent<MeshRenderer>().material = InRangeMaterial;
+        }
+        else if(Overlay && !Reset)
+        {
+            GetComponent<MeshRenderer>().material = OverlayMaterial;
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().material = OGMaterial;
         }
     }
 
     public void ChangeOccupant(UnitBase NewUnit)
     {
         Unit = NewUnit;
-        Occupied = true;
-        CanMoveOn = false;
+        Occupied = NewUnit? true : false;
+        CanMoveOn = NewUnit ? false : true;
     }
 
     public void Hide()
@@ -107,5 +116,44 @@ public class Tile : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        if (Unit)
+        {
+            if (!Unit.CompareTag("Enemy"))
+            {
+                Unit.MoveableArea();
+            }
+        }
+        
+        Show(false, true);
+        CameraMove.Instance.FollowTarget = transform;
+    }
+
+    private void OnMouseExit()
+    {
+        if(Unit && !Interact.Instance.SelectedUnit)
+        {
+            Unit.ResetMoveableTiles();
+        }
+        
+        WhichColour();
+    }
+
+    internal void WhichColour()
+    {
+        if (Interact.Instance.SelectedUnit)
+        {
+            bool inRange = Interact.Instance.SelectedUnit.AttackTiles.Contains(this);
+            if (inRange)
+            {
+                Show(Interact.Instance.SelectedUnit.AttackTiles.Contains(this) && Interact.Instance.SelectedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
+                return;
+            }
+        }
+
+        Show(false, false, true);
     }
 }
