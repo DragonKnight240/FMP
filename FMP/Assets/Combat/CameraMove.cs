@@ -10,6 +10,7 @@ public class CameraMove : MonoBehaviour
     public Vector3 offSet;
     public float SmoothSpeed;
     public float CloseEnough = 2;
+    internal bool ShouldFollow = true;
 
     // Start is called before the first frame update
     void Start()
@@ -36,10 +37,10 @@ public class CameraMove : MonoBehaviour
     {
         if (FollowTarget)
         {
-                Vector3 DesiredPosition = FollowTarget.position + offSet;
-                Vector3 SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed);
+            Vector3 DesiredPosition = FollowTarget.position + offSet;
+            Vector3 SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed);
 
-                transform.position = SmoothPosition;
+            transform.position = SmoothPosition;
         }
     }
 }

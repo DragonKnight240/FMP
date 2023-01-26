@@ -34,27 +34,29 @@ public class TurnManager : MonoBehaviour
         {
             foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
             {
-                if(!Unit.GetComponent<UnitBase>().MovedForTurn)
+                if(!Unit.GetComponent<UnitBase>().EndTurn)
                 {
                     break;
                 }
 
                 isPlayerTurn = false;
                 TurnChange.Invoke();
+                Interact.Instance.SelectedUnit = null;
                 print("Turn Change Enemy");
             }
         }
         else
         {
-            foreach (GameObject Unit in UnitManager.Instance.EnemyUnits)
+            foreach (GameObject Unit in UnitManager.Instance.EnemyUnits )
             {
-                if (!Unit.GetComponent<UnitBase>().MovedForTurn)
+                if (!Unit.GetComponent<UnitBase>().EndTurn)
                 {
                     break;
                 }
 
                 isPlayerTurn = true;
                 TurnChange.Invoke();
+                Interact.Instance.SelectedUnit = null;
                 print("Turn Change Player");
             }
         }

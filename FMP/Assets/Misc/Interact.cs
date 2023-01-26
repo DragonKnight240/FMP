@@ -7,7 +7,7 @@ public class Interact : MonoBehaviour
     public static Interact Instance;
     internal UnitBase SelectedUnit;
     internal UnitBase TempSelectedUnit;
-    CombatMenu CombatMenu;
+    internal CombatMenu CombatMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -27,44 +27,77 @@ public class Interact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        //With Combat Options up checks against selected unit so deselection is possible
+        if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            RaycastHit Hit;
-
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (TurnManager.Instance.isPlayerTurn)
+                RaycastHit Hit;
+
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
                 {
-                    if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Ally"))
+                    if (Hit.transform.GetComponent<UnitBase>())
                     {
-                        SelectionUnit(Hit.transform.GetComponent<UnitBase>());
-                    }
-                    else if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Enemy"))
-                    {
-                        AttackUnit(Hit.transform.GetComponent<UnitBase>());
-                    }
-                    else if(Hit.transform.GetComponent<Tile>())
-                    {
-                        if(Hit.transform.GetComponent<Tile>().Unit)
+                        if (Hit.transform.gameObject == SelectedUnit.gameObject)
                         {
-                            if(Hit.transform.GetComponent<Tile>().Unit.CompareTag("Ally"))
+                            SelectionUnit(Hit.transform.GetComponent<UnitBase>());
+                        }
+                    }
+                    else if (Hit.transform.GetComponent<Tile>())
+                    {
+                        if (Hit.transform.GetComponent<Tile>().Unit)
+                        {
+                            if (Hit.transform.GetComponent<Tile>().Unit == SelectedUnit)
                             {
                                 SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
                             }
-                            else if(Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
-                            {
-                                AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
-                            }
-                        }
-                        else if (SelectedUnit)
-                        {
-                            MoveUnit(Hit.transform.GetComponent<Tile>());
                         }
                     }
                 }
-                else
+            }
+        }
+        else
+        {
+            //Checks every possible way the user could click on the unit/tile
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                RaycastHit Hit;
+
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
                 {
-                    //Enemy Turn
+                    if (TurnManager.Instance.isPlayerTurn)
+                    {
+                        if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Ally"))
+                        {
+                            SelectionUnit(Hit.transform.GetComponent<UnitBase>());
+                        }
+                        else if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Enemy"))
+                        {
+                            AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                        }
+                        else if (Hit.transform.GetComponent<Tile>())
+                        {
+                            if (Hit.transform.GetComponent<Tile>().Unit)
+                            {
+                                if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Ally"))
+                                {
+                                    SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
+                                }
+                                else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
+                                {
+                                    AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
+                                }
+                            }
+                            else if (SelectedUnit)
+                            {
+                                MoveUnit(Hit.transform.GetComponent<Tile>());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Enemy Turn
+                    }
                 }
             }
         }
@@ -79,8 +112,13 @@ public class Interact : MonoBehaviour
         }
         else
         {
-            SelectedUnit = null;
-            print("Deselect Unit");
+            if(CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+            {
+                SelectedUnit = null;
+                print("Deselect Unit");
+            }
+            
+            ChangeMenuButtons();
         }
     }
 
@@ -108,16 +146,27 @@ public class Interact : MonoBehaviour
 
     public void ChangeMenuButtons()
     {
-        CombatMenu.AttackButton.onClick.RemoveAllListeners();
-        //CombatMenu.AttackButton.onClick.AddListener(SelectedUnit.);
+        if (!CombatMenu.gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
+        {
+            CombatMenu.AttackButton.onClick.RemoveAllListeners();
+            CombatMenu.AttackButton.onClick.AddListener(SelectedUnit.AttackButton);
 
-        CombatMenu.MoveButton.onClick.RemoveAllListeners();
-        //CombatMenu.MoveButton.onClick.AddListener(SelectedUnit.);
+            CombatMenu.MoveButton.onClick.RemoveAllListeners();
+            CombatMenu.MoveButton.onClick.AddListener(SelectedUnit.MoveButton);
 
-        CombatMenu.ItemButton.onClick.RemoveAllListeners();
-        //CombatMenu.ItemButton.onClick.AddListener(SelectedUnit);
+            CombatMenu.ItemButton.onClick.RemoveAllListeners();
+            CombatMenu.ItemButton.onClick.AddListener(SelectedUnit.ItemButton);
 
-        CombatMenu.WaitButton.onClick.RemoveAllListeners();
-        CombatMenu.WaitButton.onClick.AddListener(SelectedUnit.WaitUnit);
+            CombatMenu.WaitButton.onClick.RemoveAllListeners();
+            CombatMenu.WaitButton.onClick.AddListener(SelectedUnit.WaitUnit);
+
+            CameraMove.Instance.ShouldFollow = false;
+            CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            CameraMove.Instance.ShouldFollow = true;
+            CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

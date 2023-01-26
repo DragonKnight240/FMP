@@ -12,10 +12,19 @@ public class UnitManager : MonoBehaviour
         public int Y;
     }
 
+    internal enum CombatOptions
+    {
+        Move,
+        Attack,
+        Item,
+        Wait
+    }
+
     public static UnitManager Instance;
     public List<StartingPositions> UnitPositions;
     internal List<GameObject> AllyUnits;
     internal List<GameObject> EnemyUnits;
+    internal CombatOptions CurrentCombat;
 
     // Start is called before the first frame update
     void Start()

@@ -13,7 +13,6 @@ public class UnitAI : UnitBase
 
     public void MoveUnit()
     {
-        MoveableArea();
         if (!CanAttack())
         {
             int RandLocation = Random.Range(0, MoveableTiles.Count - 1);
@@ -23,6 +22,8 @@ public class UnitAI : UnitBase
         {
             Attack(EnemyInRange);
         }
+
+        EndTurn = true;
     }
 
     bool CanAttack()

@@ -12,6 +12,8 @@ public class UnitBase : MonoBehaviour
     internal List<Tile> AttackTiles;
     public Weapon EquipedWeapon;
     internal bool MovedForTurn = false;
+    internal bool AttackedForTurn = false;
+    internal bool EndTurn = false;
     //Stats
     public int Strength = 2;
     //Weapon
@@ -24,6 +26,8 @@ public class UnitBase : MonoBehaviour
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();
         CurrentHealth = HealthMax;
+
+        MoveableArea();
     }
 
     // Update is called once per frame
@@ -34,28 +38,70 @@ public class UnitBase : MonoBehaviour
     //Moves the character from the current location to the wanted location
     internal bool Move(Tile NewTile)
     {
-        if (MoveableTiles.Contains(NewTile))
+        if (!MovedForTurn)
         {
-            MovedForTurn = true;
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            transform.position = NewTile.CentrePoint.transform.position;
-            Position[0] = NewTile.GridPosition[0];
-            Position[1] = NewTile.GridPosition[1];
-            NewTile.ChangeOccupant(this);
-            ResetMoveableTiles();
+            if (MoveableTiles.Contains(NewTile))
+            {
+                MovedForTurn = true;
+                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+                transform.position = NewTile.CentrePoint.transform.position;
+                Position[0] = NewTile.GridPosition[0];
+                Position[1] = NewTile.GridPosition[1];
+                NewTile.ChangeOccupant(this);
+                ResetMoveableTiles();
 
-            return true;
-            
+                List<GameObject> Tile = new List<GameObject>();
+                Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
+
+                if(!AttackableArea(Tile, false))
+                {
+                    AttackedForTurn = true;
+                }
+
+                return true;
+            }
         }
 
         return false;
+    }
+    public bool AttackableArea(List<GameObject> CheckingTiles, bool ShowTiles = true)
+    {
+        CheckingTiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+
+        if (EquipedWeapon)
+        {
+            for (int i = 0; i < EquipedWeapon.Range; i++)
+            {
+                CheckingTiles = CheckTiles(CheckingTiles, true, ShowTiles);
+            }
+        }
+        else
+        {
+            CheckingTiles = CheckTiles(CheckingTiles, true, ShowTiles);
+        }
+
+        //Checks if an enemy unit is in the attack range
+        foreach(Tile tile in AttackTiles)
+        {
+            if(tile.Unit)
+            {
+                //Makes sure it's not a unit on the same team
+                if (!tile.Unit.CompareTag(tag))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
     }
 
     //Finds what tiles can be moved to from the current place
     public void MoveableArea()
     {
-        MoveableTiles = new List<Tile>();
-        AttackTiles = new List<Tile>();
+        MoveableTiles.Clear();
+        AttackTiles.Clear();
         List<GameObject> CheckingTiles = new List<GameObject>();
         CheckingTiles.Add(TileManager.Instance.Grid[Position[0],Position[1]]);
 
@@ -64,21 +110,11 @@ public class UnitBase : MonoBehaviour
             CheckingTiles = CheckTiles(CheckingTiles);
         }
 
-        if (EquipedWeapon)
-        {
-            for (int i = 0; i < EquipedWeapon.Range; i++)
-            {
-                CheckingTiles = CheckTiles(CheckingTiles, true);
-            }
-        }
-        else
-        {
-            CheckingTiles = CheckTiles(CheckingTiles, true);
-        }
+        AttackableArea(CheckingTiles);
     }
 
     //Adds the adjacent tiles to moveable/attack tiles list and shows the tiles in the correct colour
-    internal List<GameObject> CheckTiles(List<GameObject> tiles, bool WeaponRange = false)
+    internal List<GameObject> CheckTiles(List<GameObject> tiles, bool WeaponRange = false, bool ShowTile = true)
     {
         List<GameObject> NextLayer = new List<GameObject>();
 
@@ -94,7 +130,11 @@ public class UnitBase : MonoBehaviour
                     }
                     AttackTiles.Add(AdjacentTile.GetComponent<Tile>());
                     NextLayer.Add(AdjacentTile);
-                    AdjacentTile.GetComponent<Tile>().Show(WeaponRange);
+
+                    if (ShowTile)
+                    {
+                        AdjacentTile.GetComponent<Tile>().Show(WeaponRange);
+                    }
                 }
 
             }
@@ -103,13 +143,37 @@ public class UnitBase : MonoBehaviour
         return NextLayer;
     }
 
-    //Hides all tiles
-    internal void ResetMoveableTiles()
+    //Hides all changed tiles
+    internal void HideAllChangedTiles()
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.Hide();
+            if (Interact.Instance.SelectedUnit)
+            {
+                //if (!Interact.Instance.SelectedUnit.AttackTiles.Contains(tile))
+                //{
+                    tile.Hide();
+                //}
+            }
+            else
+            {
+                tile.Hide();
+            }
         }
+    }
+
+    internal void ShowAllInRangeTiles()
+    {
+        foreach (Tile tile in AttackTiles)
+        {
+            tile.WhichColour();
+        }
+    }
+
+    //Hides all changed tiles and Clears both lists
+    internal void ResetMoveableTiles()
+    {
+        HideAllChangedTiles();
 
         MoveableTiles.Clear();
         AttackTiles.Clear();
@@ -132,35 +196,90 @@ public class UnitBase : MonoBehaviour
 
         ResetMoveableTiles();
         MovedForTurn = true;
+        AttackedForTurn = true;
+        EndTurn = true;
     }
 
     private void OnMouseEnter()
     {
-        MoveableArea();
-        
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Show(false, true);
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        {
+            if (!CompareTag("Enemy"))
+            {
+                if (!MovedForTurn)
+                {
+                    ShowAllInRangeTiles();
+                }
+                else if (!AttackedForTurn)
+                {
+                    List<GameObject> Tiles = new List<GameObject>();
+                    Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+                    AttackableArea(Tiles);
+                }
+            }
+            else
+            {
+                ShowAllInRangeTiles();
+            }
+
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Show(false, true);
+        }
     }
 
     private void OnMouseExit()
     {
-        if (!Interact.Instance.SelectedUnit && !CompareTag("Enemy"))
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            ResetMoveableTiles();
-        }
-        else
-        {
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().WhichColour();
+            if (!Interact.Instance.SelectedUnit)
+            {
+                HideAllChangedTiles();
+            }
+            else
+            {
+                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().WhichColour();
+            }
         }
     }
 
     public void TurnChange()
     {
         MovedForTurn = false;
+        AttackedForTurn = false;
+        EndTurn = false;
+
+        MoveableArea();
     }
 
     internal void WaitUnit()
     {
+        foreach(Tile tile in AttackTiles)
+        {
+            tile.Hide();
+        }
+
         MovedForTurn = true;
+        AttackedForTurn = true;
+        EndTurn = true;
+        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+    }
+
+    internal void MoveButton()
+    {
+
+        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+    }
+
+    internal void AttackButton()
+    {
+        List<GameObject> MainTile = new List<GameObject>();
+        MainTile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+        AttackableArea(MainTile);
+        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+    }
+
+    internal void ItemButton()
+    {
+        Interact.Instance.CombatMenu.InventoryObject.SetActive(true);
     }
 
 }

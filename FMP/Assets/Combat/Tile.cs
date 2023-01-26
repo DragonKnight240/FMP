@@ -120,25 +120,48 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (Unit)
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            if (!Unit.CompareTag("Enemy"))
+            if (Unit)
             {
-                Unit.MoveableArea();
+                if (!Unit.CompareTag("Enemy"))
+                {
+                    if (!Unit.MovedForTurn)
+                    {
+                        Unit.ShowAllInRangeTiles();
+                    }
+                    else
+                    {
+                        List<GameObject> Tiles = new List<GameObject>();
+                        Tiles.Add(gameObject);
+                        Unit.AttackableArea(Tiles);
+                    }
+                }
+                else
+                {
+                    Unit.ShowAllInRangeTiles();
+                }
             }
+
+            Show(false, true);
+            CameraMove.Instance.FollowTarget = transform;
         }
-        
-        Show(false, true);
-        CameraMove.Instance.FollowTarget = transform;
     }
 
     private void OnMouseExit()
     {
-        if(Unit && !Interact.Instance.SelectedUnit)
+        if (Unit && !Interact.Instance.SelectedUnit)
         {
-            Unit.ResetMoveableTiles();
+            Unit.HideAllChangedTiles();
         }
-        
+        else if (Unit)
+        {
+            if (Unit != Interact.Instance.SelectedUnit)
+            {
+                Unit.HideAllChangedTiles();
+            }
+        }
+
         WhichColour();
     }
 
