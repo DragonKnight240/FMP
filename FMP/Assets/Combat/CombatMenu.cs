@@ -7,6 +7,7 @@ using TMPro;
 public class CombatMenu : MonoBehaviour
 {
     public GameObject CombatMenuObject;
+    public Button SpecialButton;
     public Button MoveButton;
     public Button AttackButton;
     public Button ItemButton;

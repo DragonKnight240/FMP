@@ -8,17 +8,36 @@ public class UnitBase : MonoBehaviour
     public int CurrentHealth;
     internal int[] Position;
     public int Movement = 3;
+
     internal List<Tile> MoveableTiles;
     internal List<Tile> AttackTiles;
+
+    //Inventory
     public Weapon EquipedWeapon;
+    public List<Item> Inventory;
+
+    //Turn Checks
     internal bool MovedForTurn = false;
     internal bool AttackedForTurn = false;
     internal bool EndTurn = false;
+
     //Stats
     public int Strength = 2;
-    //Weapon
+
+    //Weapon Proficientcy
+    public float BowProficiency;
+    public int BowLevel;
+
+    public float SwordProficiency;
+    public int SwordLevel;
+
+    public float MagicProficiency;
+    public int MagicLevel;
+
+    public float FistProficiency;
+    public int FistLevel;
+
     //Class
-    public List<Item> Inventory;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +46,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles = new List<Tile>();
         CurrentHealth = HealthMax;
 
-        MoveableArea();
+        MoveableArea(false);
     }
 
     // Update is called once per frame
@@ -98,7 +117,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //Finds what tiles can be moved to from the current place
-    public void MoveableArea()
+    public void MoveableArea(bool ShowTiles = true)
     {
         MoveableTiles.Clear();
         AttackTiles.Clear();
@@ -107,10 +126,10 @@ public class UnitBase : MonoBehaviour
 
         for(int i = 0; i < Movement; i++)
         {
-            CheckingTiles = CheckTiles(CheckingTiles);
+            CheckingTiles = CheckTiles(CheckingTiles, false, ShowTiles);
         }
 
-        AttackableArea(CheckingTiles);
+        AttackableArea(CheckingTiles, ShowTiles);
     }
 
     //Adds the adjacent tiles to moveable/attack tiles list and shows the tiles in the correct colour
@@ -124,12 +143,17 @@ public class UnitBase : MonoBehaviour
             {
                 if (!MoveableTiles.Contains(AdjacentTile.GetComponent<Tile>()))
                 {
-                    if (!WeaponRange)
+                    if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit)
                     {
-                        MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
+                        if (!WeaponRange)
+                        {
+                            MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
+                        }
+
+                        NextLayer.Add(AdjacentTile);
+
                     }
                     AttackTiles.Add(AdjacentTile.GetComponent<Tile>());
-                    NextLayer.Add(AdjacentTile);
 
                     if (ShowTile)
                     {
@@ -166,7 +190,7 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.WhichColour();
+            tile.WhichColour(this);
         }
     }
 
@@ -247,7 +271,7 @@ public class UnitBase : MonoBehaviour
         AttackedForTurn = false;
         EndTurn = false;
 
-        MoveableArea();
+        MoveableArea(false);
     }
 
     internal void WaitUnit()
@@ -280,6 +304,19 @@ public class UnitBase : MonoBehaviour
     internal void ItemButton()
     {
         Interact.Instance.CombatMenu.InventoryObject.SetActive(true);
+    }
+
+    internal void SpecialButton()
+    {
+        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+
+        foreach(GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+        {
+            if(tile.GetComponent<Tile>().Special)
+            {
+                tile.GetComponent<Tile>().Special.Special(this);
+            }
+        }
     }
 
 }

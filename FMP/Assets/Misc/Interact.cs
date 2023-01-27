@@ -160,6 +160,9 @@ public class Interact : MonoBehaviour
             CombatMenu.WaitButton.onClick.RemoveAllListeners();
             CombatMenu.WaitButton.onClick.AddListener(SelectedUnit.WaitUnit);
 
+            CombatMenu.SpecialButton.onClick.RemoveAllListeners();
+            CombatMenu.SpecialButton.onClick.AddListener(SelectedUnit.SpecialButton);
+
             CameraMove.Instance.ShouldFollow = false;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }

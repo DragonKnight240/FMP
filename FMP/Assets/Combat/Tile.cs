@@ -10,11 +10,12 @@ public class Tile : MonoBehaviour
     public GameObject CentrePoint;
     internal List<GameObject> AdjacentTiles;
     internal int[] GridPosition;
+    public InteractOnGrid Special;
 
     public Material InRangeMaterial; //Temp
     public Material WeaponRangeMaterial; //Temp
     public Material OverlayMaterial; //Temp
-    Material OGMaterial;
+    Material OGMaterial; 
 
     // Start is called before the first frame update
     void Start()
@@ -165,14 +166,25 @@ public class Tile : MonoBehaviour
         WhichColour();
     }
 
-    internal void WhichColour()
+    internal void WhichColour(UnitBase PassedUnit = null)
     {
+        bool inRange;
+
         if (Interact.Instance.SelectedUnit)
         {
-            bool inRange = Interact.Instance.SelectedUnit.AttackTiles.Contains(this);
+            inRange = Interact.Instance.SelectedUnit.AttackTiles.Contains(this);
             if (inRange)
             {
                 Show(Interact.Instance.SelectedUnit.AttackTiles.Contains(this) && Interact.Instance.SelectedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
+                return;
+            }
+        }
+        else if(PassedUnit)
+        {
+            inRange = PassedUnit.AttackTiles.Contains(this);
+            if (inRange)
+            {
+                Show(PassedUnit.AttackTiles.Contains(this) && PassedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
                 return;
             }
         }
