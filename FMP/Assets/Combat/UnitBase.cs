@@ -224,6 +224,11 @@ public class UnitBase : MonoBehaviour
         EndTurn = true;
     }
 
+    internal void CalculateDamageTaken(int Attack)
+    {
+        CurrentHealth -= Attack;
+    }
+
     private void OnMouseEnter()
     {
         if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)

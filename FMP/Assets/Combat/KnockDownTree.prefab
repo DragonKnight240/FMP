@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1817610947827136490}
   m_Layer: 0
   m_Name: KnockDownTree
-  m_TagString: Blocker
+  m_TagString: Special
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,5 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9598031f75d08ff45a8aeaa22dc6b491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DirectionInteraction: 0
+  HitAmountWidth: 0
+  HitAmountHeight: 15
   SwordLevelMin: 0
-  FallDirection: 0

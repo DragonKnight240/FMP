@@ -5,18 +5,13 @@ using UnityEngine;
 public class KnockableTree : InteractOnGrid
 {
     public int SwordLevelMin;
+    internal int damage = 2;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //Position = new int[2];
-
-        //ActiveTiles = new List<GameObject>();
-        //ActiveTiles = TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles;
-
-        //AoETiles = new List<GameObject>();
-        //AoETiles
+        AoETiles = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -29,7 +24,10 @@ public class KnockableTree : InteractOnGrid
     {
         if(Unit.SwordLevel >= SwordLevelMin)
         {
-
+            CalculateAoE();
+            //Gameobject Falls
+            DealAoEDamage();
+            
         }
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
@@ -42,7 +40,7 @@ public class KnockableTree : InteractOnGrid
     internal override void CalculateAoE()
     {
         int CheckPositionX = Position[0];
-        int CheckPositionY = Position[0];
+        int CheckPositionY = Position[1];
 
         switch (DirectionInteraction)
         {
@@ -83,6 +81,17 @@ public class KnockableTree : InteractOnGrid
                     }
                     break;
                 }
+        }
+    }
+
+    internal void DealAoEDamage()
+    {
+        foreach (GameObject tile in AoETiles)
+        {
+            if(tile.GetComponent<Tile>().Unit)
+            {
+                tile.GetComponent<Tile>().Unit.CalculateDamageTaken(damage);
+            }
         }
     }
 }
