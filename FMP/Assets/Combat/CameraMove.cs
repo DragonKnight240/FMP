@@ -38,7 +38,7 @@ public class CameraMove : MonoBehaviour
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
-            RB.velocity = new Vector3((x * SmoothSpeed * Time.timeScale), 0, (z * SmoothSpeed * Time.timeScale));
+            RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), 0, (z * SmoothSpeed * 100 *Time.timeScale));
         }
     }
 
@@ -46,9 +46,18 @@ public class CameraMove : MonoBehaviour
     {
         if(ButtonMovement)
         {
+            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy)
+            {
+                LerpTo();
+            }
             return;
         }
 
+        LerpTo();
+    }
+
+    void LerpTo()
+    {
         if (FollowTarget)
         {
             Vector3 DesiredPosition = FollowTarget.position + offSet;
