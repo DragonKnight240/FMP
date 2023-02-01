@@ -6,10 +6,9 @@ public class CameraMove : MonoBehaviour
 {
     public static CameraMove Instance; 
     Camera Cam;
-    internal Transform FollowTarget;
+    public Transform FollowTarget;
     public Vector3 offSet;
     public float SmoothSpeed;
-    public float CloseEnough = 2;
     internal bool ShouldFollow = true;
     internal Rigidbody RB;
     public bool ButtonMovement = true;

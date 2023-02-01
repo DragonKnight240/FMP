@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BLINK.Tools
 {
@@ -10,7 +9,7 @@ namespace BLINK.Tools
         private ScriptableObject scriptableObj;
         private SerializedObject serialObj;
         
-        public GameObject[] weaponGameObjects;
+        public GameObject[] gameObjectList;
         private float xOffset = 0.0313f;
         private float yOffset;
 
@@ -47,7 +46,7 @@ namespace BLINK.Tools
 
         private void DrawMainWindow()
         {
-            var serialProp = serialObj.FindProperty("weaponGameObjects");
+            var serialProp = serialObj.FindProperty("gameObjectList");
             EditorGUILayout.PropertyField(serialProp, true);
             GUILayout.Space(10);
             if (GUILayout.Button("INITIALIZE", GUILayout.MinWidth(150), GUILayout.MinHeight(30),
@@ -95,13 +94,13 @@ namespace BLINK.Tools
 
         private void Init()
         {
-            Renderer renderer = weaponGameObjects[0].GetComponent<Renderer>();
+            Renderer renderer = gameObjectList[0].GetComponent<Renderer>();
             if (renderer != null)
             {
                 cachedMaterial = renderer.sharedMaterial;
                 newMaterial = new Material(cachedMaterial);
 
-                foreach (var weapon in weaponGameObjects)
+                foreach (var weapon in gameObjectList)
                 {
                     Renderer r = weapon.GetComponent<Renderer>();
                     if (r == null) continue;
@@ -125,7 +124,7 @@ namespace BLINK.Tools
 
         private void UpdateMaterial()
         {
-            if (weaponGameObjects.Length == 0) return;
+            if (gameObjectList.Length == 0) return;
             if (newMaterial == null) return;
 
             int offsetValue = sliderValue;
@@ -152,7 +151,7 @@ namespace BLINK.Tools
         {
             foreach (var go in Selection.gameObjects)
             {
-                if (!go.TryGetComponent(out global::MaterialTilingOffset mto)) continue;
+                if (!go.TryGetComponent(out global::BLINK.Tools.MaterialTilingOffset mto)) continue;
                 mto.xOffset = GetXOffset();
                 mto.yOffset = yOffset;
             }
