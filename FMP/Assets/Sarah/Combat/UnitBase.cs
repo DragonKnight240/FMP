@@ -106,6 +106,7 @@ public class UnitBase : MonoBehaviour
                         }
                     }
 
+                    transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
                 }
             }
