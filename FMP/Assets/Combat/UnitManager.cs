@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
+    public enum UnitType
+    {
+        Ally,
+        Enemy
+    }
+
     [System.Serializable]
     public struct StartingPositions
     {
+        public UnitType UnitType;
         public GameObject Unit;
         public int X;
         public int Y;
@@ -14,7 +21,12 @@ public class UnitManager : MonoBehaviour
 
     public static UnitManager Instance;
     public List<StartingPositions> UnitPositions;
-    internal List<GameObject> UnitsInGame;
+    internal List<GameObject> AllyUnits;
+    internal List<GameObject> EnemyUnits;
+    internal List<UnitBase> DeadEnemyUnits;
+    internal List<UnitBase> DeadAllyUnits;
+    public string OverWorldScene;
+    internal bool SetupFinished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,13 +40,54 @@ public class UnitManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        UnitsInGame = new List<GameObject>();
+        AllyUnits = new List<GameObject>();
+        EnemyUnits = new List<GameObject>();
+        DeadEnemyUnits = new List<UnitBase>();
+        DeadAllyUnits = new List<UnitBase>();
+    }
+
+    private void Update()
+    {
+        if (!TurnManager.Instance.isPlayerTurn)
+        {
+            AIUnitMove();
+        }
+
+        if (SetupFinished)
+        {
+            if (DeadEnemyUnits.Count == EnemyUnits.Count)
+            {
+                //win
+                print("Win");
+                EndingCombat();
+            }
+            else if (DeadAllyUnits.Count == AllyUnits.Count)
+            {
+                //lose
+                print("Lose");
+                RestartCombat();
+            }
+        }
+    }
+
+    void AIUnitMove()
+    {
+        foreach (GameObject Enemy in EnemyUnits)
+        {
+            if (!Enemy.GetComponent<UnitAI>().MovedForTurn)
+            {
+                Enemy.GetComponent<UnitAI>().MoveUnit();
+                break;
+            }
+        }
     }
 
     public void PlaceUnits()
     {
         int X;
         int Y;
+
+        int Index = 0;
 
         foreach (StartingPositions Position in UnitPositions)
         {
@@ -45,7 +98,7 @@ public class UnitManager : MonoBehaviour
             {
                 X = TileManager.Instance.Width;
             }
-            else if(X < 0)
+            else if (X < 0)
             {
                 X = 0;
             }
@@ -59,12 +112,47 @@ public class UnitManager : MonoBehaviour
                 Y = 0;
             }
 
-            GameObject NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+            GameObject NewUnit;
+
+            if (Position.UnitType == UnitType.Ally)
+            {
+                if (Index <= GameManager.Instance.MaxUnits + GameManager.Instance.NumRecruited)
+                {
+                    NewUnit = Instantiate(GameManager.Instance.ControlledUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                    Index++;
+                    AllyUnits.Add(NewUnit);
+                    TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
+                }
+                else
+                {
+                    print("Skip Unit");
+                    continue;
+                }
+            }
+            else
+            {
+                NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                EnemyUnits.Add(NewUnit);
+                TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
+            }
+
             NewUnit.GetComponent<UnitBase>().Position = new int[2];
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
             NewUnit.GetComponent<UnitBase>().Position[1] = Y;
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
-            UnitsInGame.Add(NewUnit);
         }
+
+        SetupFinished = true;
+    }
+
+    internal void RestartCombat()
+    {
+        SceneLoader.Instance.ReloadScene();
+    }
+
+    internal void EndingCombat()
+    {
+        GameManager.Instance.ControlledUnits = AllyUnits;
+        SceneLoader.Instance.LoadNewScene(OverWorldScene);
     }
 }
