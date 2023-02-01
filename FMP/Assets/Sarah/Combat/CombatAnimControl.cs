@@ -5,19 +5,19 @@ using UnityEngine;
 public class CombatAnimControl : MonoBehaviour
 {
     Animator Anim;
-    Rigidbody RB;
+    UnitBase Unit;
 
     // Start is called before the first frame update
     void Start()
     {
         Anim = GetComponent<Animator>();
-        RB = GetComponent<Rigidbody>();
+        Unit = GetComponent<UnitBase>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (RB.velocity != new Vector3(0, 0, 0))
+        if (Unit.Moving)
         {
             Anim.SetTrigger("Move");
             ResetAllTriggers();

@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class UnitBase : MonoBehaviour
 {
+    class Node
+    {
+        public Node PreviousTile;
+        public Tile Tile;
+        public int FCost;
+        public int HCost;
+        public int GCost;
+    }
+
     public string UnitName;
     public int HealthMax = 50;
     public int CurrentHealth;
     internal int[] Position;
     public int Movement = 3;
+    public float MoveSpeed = 10;
 
     internal List<Tile> MoveableTiles;
     internal List<Tile> AttackTiles;
 
     internal bool isAlive = true;
+    internal bool Moving = false;
+    List<Tile> Path;
 
     //Inventory
     public Weapon EquipedWeapon;
@@ -59,6 +71,7 @@ public class UnitBase : MonoBehaviour
         Inventory = new List<Item>();
         InRangeTargets = new List<UnitBase>();
         WeaponsIninventory = new List<Weapon>();
+        Path = new List<Tile>();
     }
 
     // Update is called once per frame
@@ -73,6 +86,29 @@ public class UnitBase : MonoBehaviour
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
                 gameObject.SetActive(false);
             }
+            else
+            {
+                if (Moving)
+                {
+                    if(Path.Count <= 0)
+                    {
+                        return;
+                    }
+
+                    if (new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z) ==
+                        new Vector3(transform.position.x, transform.position.y, transform.position.z))
+                    {
+                        Path.RemoveAt(0);
+                        if (Path.Count <= 0)
+                        {
+                            Moving = false;
+                            return;
+                        }
+                    }
+
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
+                }
+            }
         }
     }
 
@@ -85,7 +121,10 @@ public class UnitBase : MonoBehaviour
             {
                 MovedForTurn = true;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-                transform.position = NewTile.CentrePoint.transform.position;
+                Path = new List<Tile>(FindRouteTo(NewTile));
+                Moving = true;
+                //transform.LookAt()
+                //transform.position = NewTile.CentrePoint.transform.position;
                 Position[0] = NewTile.GridPosition[0];
                 Position[1] = NewTile.GridPosition[1];
                 NewTile.ChangeOccupant(this);
@@ -373,6 +412,105 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
     }
 
+    //A* Pathfinding
+    List<Tile> FindRouteTo(Tile TargetTile)
+    {
+        List<Node> ToCheckNodes = new List<Node>();
+        Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
 
+        Node Start = new Node { Tile = TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>(), FCost = 0, GCost = 0, HCost = 0 };
+        Node End = new Node { Tile = TargetTile, FCost = 0, GCost = 0, HCost = 0 };
+
+        ToCheckNodes.Add(Start);
+        Node CurrentNode;
+
+        int G;
+        List<Tile> Path = new List<Tile>();
+
+        while (ToCheckNodes.Count > 0)
+        {
+            CurrentNode = ToCheckNodes[0];
+
+            foreach(Node Node in ToCheckNodes)
+            {
+                if(Node.FCost < CurrentNode.FCost)
+                {
+                    CurrentNode = Node;
+                }
+            }
+
+            CheckedNodes.Add(CurrentNode.Tile, CurrentNode);
+            ToCheckNodes.Remove(CurrentNode);
+
+            if(CurrentNode.Tile == End.Tile)
+            {
+                Path = FindPath(CurrentNode);
+                print("Success");
+                return Path;
+            }
+
+            foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
+            {
+                if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()))
+                {
+                    continue;
+                }
+
+                G = CurrentNode.GCost + 1;
+
+                if(G<CurrentNode.GCost || !HasTile(ToCheckNodes, AdjacentTile.GetComponent<Tile>()))
+                {
+                    Node AdjacentNode = new Node { PreviousTile = CurrentNode, Tile = AdjacentTile.GetComponent<Tile>(), GCost = G, HCost = DistanceToTile(AdjacentTile.GetComponent<Tile>(), End.Tile) };
+                    AdjacentNode.FCost = AdjacentNode.GCost + AdjacentNode.HCost;
+
+                    if(!ToCheckNodes.Contains(AdjacentNode))
+                    {
+                        ToCheckNodes.Add(AdjacentNode);
+                    }
+                }
+            }
+        }
+
+        print("Failed");
+        return Path;
+    }
+
+    List<Tile> FindPath(Node EndNode)
+    {
+        List<Tile> Path = new List<Tile>();
+        Node Node = EndNode;
+
+        Path.Add(EndNode.Tile);
+
+        while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
+        {
+            print(Node.PreviousTile);
+            print(Node.PreviousTile.PreviousTile);
+
+            Path.Add(Node.PreviousTile.Tile);
+            Node = Node.PreviousTile;
+        }
+        Path.Reverse();
+
+        return Path;
+    }
+
+    int DistanceToTile(Tile StartTile, Tile EndTile)
+    {
+        return Mathf.Abs(StartTile.GridPosition[0] - EndTile.GridPosition[0]) + Mathf.Abs(StartTile.GridPosition[1] - EndTile.GridPosition[1]);
+    }
+
+    bool HasTile(List<Node> Nodes, Tile EndTile)
+    {
+        foreach(Node Node in Nodes)
+        {
+            if(EndTile == Node.Tile)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

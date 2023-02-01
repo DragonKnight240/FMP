@@ -6,12 +6,10 @@ public class Checker : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        print("Trigger Enter");
         if(other.CompareTag("Blocker") || other.CompareTag("Special"))
         {
             transform.GetComponentInParent<Tile>().CanMoveOn = false;
             transform.GetComponentInParent<Tile>().FindAdjacentTiles();
-            print("Block");
 
             if(other.CompareTag("Special"))
             {
@@ -23,13 +21,11 @@ public class Checker : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        print("Trigger Exit");
         if (other.CompareTag("Blocker") || other.CompareTag("Special"))
         {
             transform.GetComponentInParent<Tile>().CanMoveOn = true;
             transform.GetComponentInParent<Tile>().Occupied = false;
             transform.GetComponentInParent<Tile>().FindAdjacentTiles();
-            print("Block");
 
             if (other.CompareTag("Special"))
             {
