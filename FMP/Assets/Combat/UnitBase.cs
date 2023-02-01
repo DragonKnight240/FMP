@@ -304,6 +304,11 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if(EndTurn)
+        {
+            return;
+        }
+
         if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
         {
             if (!CompareTag("Enemy"))
@@ -362,6 +367,9 @@ public class UnitBase : MonoBehaviour
         MovedForTurn = true;
         AttackedForTurn = true;
         EndTurn = true;
+
+        Interact.Instance.SelectedUnit = null;
+        HideAllChangedTiles();
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
     }
 

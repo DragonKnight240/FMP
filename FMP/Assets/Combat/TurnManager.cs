@@ -25,6 +25,8 @@ public class TurnManager : MonoBehaviour
         {
             TurnChange = new UnityEvent();
         }
+
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -32,22 +34,21 @@ public class TurnManager : MonoBehaviour
     {
         if(isPlayerTurn)
         {
-            foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
+            foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
             {
-
-                if(!Unit.GetComponent<UnitBase>().EndTurn)
+                if (!Unit.GetComponent<UnitBase>().EndTurn)
                 {
                     if (Unit.GetComponent<UnitBase>().isAlive)
                     {
-                        break;
+                        return;
                     }
                 }
-
-                isPlayerTurn = false;
-                TurnChange.Invoke();
-                Interact.Instance.SelectedUnit = null;
-                print("Turn Change Enemy");
             }
+
+            isPlayerTurn = false;
+            TurnChange.Invoke();
+            Interact.Instance.SelectedUnit = null;
+            print("Turn Change Enemy");
         }
         else
         {
@@ -57,15 +58,15 @@ public class TurnManager : MonoBehaviour
                 {
                     if (!Unit.GetComponent<UnitBase>().EndTurn)
                     {
-                        break;
+                        return;
                     }
                 }
-
-                isPlayerTurn = true;
-                TurnChange.Invoke();
-                Interact.Instance.SelectedUnit = null;
-                print("Turn Change Player");
             }
+
+            isPlayerTurn = true;
+            TurnChange.Invoke();
+            Interact.Instance.SelectedUnit = null;
+            print("Turn Change Player");
         }
     }
 }

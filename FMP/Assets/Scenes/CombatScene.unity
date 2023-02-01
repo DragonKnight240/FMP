@@ -5154,6 +5154,8 @@ MonoBehaviour:
   - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
   - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
   - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
+  MaxUnits: 6
+  MaxRecruitable: 2
 --- !u!4 &1569221630
 Transform:
   m_ObjectHideFlags: 0
@@ -5615,11 +5617,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitPositions:
-  - Unit: {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
-    X: 3
+  - UnitType: 0
+    Unit: {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
+    X: 2
     Y: 2
-  - Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+  - UnitType: 0
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 4
+    Y: 2
+  - UnitType: 0
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 6
+    Y: 2
+  - UnitType: 0
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
     X: 8
+    Y: 2
+  - UnitType: 1
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 5
     Y: 7
   OverWorldScene: 
 --- !u!4 &1653266685

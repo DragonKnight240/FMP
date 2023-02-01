@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> ControlledUnits;
     internal GameObject EnemyCombatStarter;
     internal Vector3 PlayerReturnToOverworld;
+    public int MaxUnits = 6;
+    internal int NumRecruited = 0;
+    public int MaxRecruitable = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -22,20 +25,10 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        ControlledUnits = new List<GameObject>();
     }
 
-    // Update is called once per frame
-    void Update()
+    internal void OnLoadLevel()
     {
-        
-    }
 
-    internal void LoadingCombat()
-    {
-        foreach (GameObject Unit in ControlledUnits)
-        {
-
-        }
     }
 }

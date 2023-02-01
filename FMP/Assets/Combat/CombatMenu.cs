@@ -95,10 +95,16 @@ public class CombatMenu : MonoBehaviour
 
     public void ChangeAttack(bool Next)
     {
-        int NewIndex;
-        if(Next)
+        int NewIndex = 0;
+        if (Next)
         {
 
+        }
+        else
+        {
+            if (NewIndex <= 0)
+            {
+            }
         }
     }
 }

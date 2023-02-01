@@ -107,12 +107,27 @@ public class Interact : MonoBehaviour
     {
         if (SelectedUnit != Unit)
         {
+            if (Unit.EndTurn)
+            {
+                return;
+            }
+
             SelectedUnit = Unit;
             print("Selected Unit");
+
+            if (Unit.MovedForTurn)
+            {
+                ChangeMenuButtons();
+            }
         }
         else
         {
-            if(CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+            if (Unit.EndTurn)
+            {
+                return;
+            }
+
+            if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
             {
                 SelectedUnit = null;
                 print("Deselect Unit");

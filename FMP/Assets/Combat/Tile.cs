@@ -121,6 +121,14 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (Unit)
+        {
+            if (Unit.EndTurn)
+            {
+                return;
+            }
+        }
+
         if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
         {
             if (Unit)
