@@ -26,7 +26,7 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    void Save()
+    public void Save()
     {
         SaveObject saveObject = new SaveObject {Units = GameManager.Instance.ControlledUnits, PlayerLocationOverworld = GameManager.Instance.PlayerReturnToOverworld };
         string Json = JsonUtility.ToJson(saveObject);
@@ -34,7 +34,7 @@ public class SaveSystem : MonoBehaviour
         File.WriteAllText(Application.dataPath + "/save.txt", Json);
     }
 
-    void Load()
+    public void Load()
     {
         if(File.Exists(Application.dataPath + "/save.txt"))
         {
