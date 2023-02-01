@@ -135,11 +135,21 @@ public class Interact : MonoBehaviour
     {
         if (SelectedUnit)
         {
-            if (SelectedUnit.AttackTiles.Contains(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()))
+            if (CombatMenu.AttackMenuObject.activeInHierarchy)
             {
-                SelectedUnit.Attack(Unit);
-                SelectedUnit = null;
-                print("Attack Enemy");
+                if (SelectedUnit.AttackTiles.Contains(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()))
+                {
+                    SelectedUnit.Attack(Unit);
+                    SelectedUnit = null;
+                    print("Attack Enemy");
+
+                    CombatMenu.AttackMenuObject.SetActive(false);
+                }
+            }
+            else
+            {
+                UnitControlled TempSelect = (UnitControlled)SelectedUnit;
+                TempSelect.AttackButton();
             }
         }
     }
@@ -148,20 +158,22 @@ public class Interact : MonoBehaviour
     {
         if (!CombatMenu.gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
         {
+            UnitControlled Unit = (UnitControlled)SelectedUnit;
+
             CombatMenu.AttackButton.onClick.RemoveAllListeners();
-            CombatMenu.AttackButton.onClick.AddListener(SelectedUnit.AttackButton);
+            CombatMenu.AttackButton.onClick.AddListener(Unit.AttackButton);
 
             CombatMenu.MoveButton.onClick.RemoveAllListeners();
-            CombatMenu.MoveButton.onClick.AddListener(SelectedUnit.MoveButton);
+            CombatMenu.MoveButton.onClick.AddListener(Unit.MoveButton);
 
             CombatMenu.ItemButton.onClick.RemoveAllListeners();
-            CombatMenu.ItemButton.onClick.AddListener(SelectedUnit.ItemButton);
+            CombatMenu.ItemButton.onClick.AddListener(Unit.ItemButton);
 
             CombatMenu.WaitButton.onClick.RemoveAllListeners();
-            CombatMenu.WaitButton.onClick.AddListener(SelectedUnit.WaitUnit);
+            CombatMenu.WaitButton.onClick.AddListener(Unit.WaitUnit);
 
             CombatMenu.SpecialButton.onClick.RemoveAllListeners();
-            CombatMenu.SpecialButton.onClick.AddListener(SelectedUnit.SpecialButton);
+            CombatMenu.SpecialButton.onClick.AddListener(Unit.SpecialButton);
 
             CameraMove.Instance.ShouldFollow = false;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);

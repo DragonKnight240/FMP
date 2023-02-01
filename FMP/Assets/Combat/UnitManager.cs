@@ -12,19 +12,13 @@ public class UnitManager : MonoBehaviour
         public int Y;
     }
 
-    internal enum CombatOptions
-    {
-        Move,
-        Attack,
-        Item,
-        Wait
-    }
-
     public static UnitManager Instance;
     public List<StartingPositions> UnitPositions;
     internal List<GameObject> AllyUnits;
     internal List<GameObject> EnemyUnits;
-    internal CombatOptions CurrentCombat;
+    internal List<UnitBase> DeadEnemyUnits;
+    internal List<UnitBase> DeadAllyUnits;
+    public string OverWorldScene;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +34,8 @@ public class UnitManager : MonoBehaviour
 
         AllyUnits = new List<GameObject>();
         EnemyUnits = new List<GameObject>();
+        DeadEnemyUnits = new List<UnitBase>();
+        DeadAllyUnits = new List<UnitBase>();
     }
 
     private void Update()
@@ -47,6 +43,17 @@ public class UnitManager : MonoBehaviour
         if(!TurnManager.Instance.isPlayerTurn)
         {
             AIUnitMove();
+        }
+
+        if(DeadEnemyUnits.Count == EnemyUnits.Count)
+        {
+            //win
+            GameManager.Instance.ControlledUnits = AllyUnits;
+            SceneLoader.Instance.LoadNewScene(OverWorldScene);
+        }
+        else if(DeadAllyUnits.Count == AllyUnits.Count)
+        {
+            //lose
         }
     }
 

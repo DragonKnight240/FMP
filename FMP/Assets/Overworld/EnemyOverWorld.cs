@@ -24,6 +24,14 @@ public class EnemyOverWorld : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(GameManager.Instance.EnemyCombatStarter)
+        {
+            if(GameManager.Instance.EnemyCombatStarter == this.gameObject)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
         PatrolLocations = new List<Transform>();
 
         if(PatrolLocationsParent)
@@ -86,6 +94,7 @@ public class EnemyOverWorld : MonoBehaviour
         {
             Time.timeScale = 0;
             ReachedPlayer = true;
+            GameManager.Instance.EnemyCombatStarter = gameObject;
             SceneLoader.Instance.LoadNewScene(CombatMapName);
         }
     }
@@ -96,6 +105,7 @@ public class EnemyOverWorld : MonoBehaviour
         {
             Time.timeScale = 0;
             ReachedPlayer = true;
+            GameManager.Instance.EnemyCombatStarter = gameObject;
             SceneLoader.Instance.LoadNewScene(CombatMapName);
         }
     }

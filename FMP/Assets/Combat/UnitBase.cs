@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UnitBase : MonoBehaviour
 {
+    public string UnitName;
     public int HealthMax = 50;
     public int CurrentHealth;
     internal int[] Position;
@@ -12,9 +13,13 @@ public class UnitBase : MonoBehaviour
     internal List<Tile> MoveableTiles;
     internal List<Tile> AttackTiles;
 
+    internal bool isAlive = true;
+
     //Inventory
     public Weapon EquipedWeapon;
     public List<Item> Inventory;
+    internal List<Weapon> WeaponsIninventory;
+    internal UnitBase AttackTarget;
 
     //Turn Checks
     internal bool MovedForTurn = false;
@@ -39,6 +44,9 @@ public class UnitBase : MonoBehaviour
 
     //Class
 
+
+    internal List<UnitBase> InRangeTargets; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,11 +55,25 @@ public class UnitBase : MonoBehaviour
         CurrentHealth = HealthMax;
 
         MoveableArea(false);
+
+        Inventory = new List<Item>();
+        InRangeTargets = new List<UnitBase>();
+        WeaponsIninventory = new List<Weapon>();
     }
 
     // Update is called once per frame
     virtual public void Update()
     {
+        if (isAlive)
+        {
+            if (CurrentHealth <= 0)
+            {
+                isAlive = false;
+                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+                UnitManager.Instance.DeadEnemyUnits.Add(this);
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     //Moves the character from the current location to the wanted location
@@ -119,6 +141,7 @@ public class UnitBase : MonoBehaviour
     //Finds what tiles can be moved to from the current place
     public void MoveableArea(bool ShowTiles = true)
     {
+        HideAllChangedTiles();
         MoveableTiles.Clear();
         AttackTiles.Clear();
         List<GameObject> CheckingTiles = new List<GameObject>();
@@ -224,14 +247,64 @@ public class UnitBase : MonoBehaviour
         EndTurn = true;
     }
 
-    internal void CalculateDamageTaken(int Attack)
+    internal int CalculateDamage()
+    {
+        int Damage;
+        if (EquipedWeapon)
+        {
+            Damage = EquipedWeapon.Damage;
+        }
+        else
+        {
+            Damage = Strength;
+        }
+        
+        return Damage;
+    }
+
+    internal int CalcuateHitChance()
+    {
+        int HitChance = 100;
+        return HitChance;
+    }
+
+    internal int CalculateCritChance()
+    {
+        int CritChance = 0;
+        return CritChance;
+    }
+
+    internal int CalculateReturnDamage()
+    {
+        int ReturnDamage = 0;
+        return ReturnDamage;
+    }
+
+    internal int CalculateReturnHitChance()
+    {
+        int ReturnHitChance = 0;
+        return ReturnHitChance;
+    }
+
+    internal int CalculateReturnCritChance()
+    {
+        int ReturnCritChance = 0;
+        return ReturnCritChance;
+    }
+
+    internal void DecreaseHealth(int Attack)
     {
         CurrentHealth -= Attack;
     }
 
+    internal void IncreaseHealth(int Health)
+    {
+        CurrentHealth += Health;
+    }
+
     private void OnMouseEnter()
     {
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
         {
             if (!CompareTag("Enemy"))
             {
@@ -257,7 +330,7 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
         {
             if (!Interact.Instance.SelectedUnit)
             {
@@ -292,36 +365,6 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
     }
 
-    internal void MoveButton()
-    {
 
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
-    }
-
-    internal void AttackButton()
-    {
-        List<GameObject> MainTile = new List<GameObject>();
-        MainTile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
-        AttackableArea(MainTile);
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
-    }
-
-    internal void ItemButton()
-    {
-        Interact.Instance.CombatMenu.InventoryObject.SetActive(true);
-    }
-
-    internal void SpecialButton()
-    {
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
-
-        foreach(GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
-        {
-            if(tile.GetComponent<Tile>().Special)
-            {
-                tile.GetComponent<Tile>().Special.Special(this);
-            }
-        }
-    }
 
 }

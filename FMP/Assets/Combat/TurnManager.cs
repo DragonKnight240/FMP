@@ -34,9 +34,13 @@ public class TurnManager : MonoBehaviour
         {
             foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
             {
+
                 if(!Unit.GetComponent<UnitBase>().EndTurn)
                 {
-                    break;
+                    if (Unit.GetComponent<UnitBase>().isAlive)
+                    {
+                        break;
+                    }
                 }
 
                 isPlayerTurn = false;
@@ -51,7 +55,10 @@ public class TurnManager : MonoBehaviour
             {
                 if (!Unit.GetComponent<UnitBase>().EndTurn)
                 {
-                    break;
+                    if (!Unit.GetComponent<UnitBase>().EndTurn)
+                    {
+                        break;
+                    }
                 }
 
                 isPlayerTurn = true;

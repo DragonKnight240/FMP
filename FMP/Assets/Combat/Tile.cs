@@ -121,7 +121,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
         {
             if (Unit)
             {
@@ -151,19 +151,22 @@ public class Tile : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (Unit && !Interact.Instance.SelectedUnit)
+        if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
         {
-            Unit.HideAllChangedTiles();
-        }
-        else if (Unit)
-        {
-            if (Unit != Interact.Instance.SelectedUnit)
+            if (Unit && !Interact.Instance.SelectedUnit)
             {
                 Unit.HideAllChangedTiles();
             }
-        }
+            else if (Unit)
+            {
+                if (Unit != Interact.Instance.SelectedUnit)
+                {
+                    Unit.HideAllChangedTiles();
+                }
+            }
 
-        WhichColour();
+            WhichColour();
+        }
     }
 
     internal void WhichColour(UnitBase PassedUnit = null)

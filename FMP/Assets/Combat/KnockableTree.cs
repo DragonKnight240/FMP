@@ -25,7 +25,7 @@ public class KnockableTree : InteractOnGrid
         if(Unit.SwordLevel >= SwordLevelMin)
         {
             CalculateAoE();
-            //Gameobject Falls
+            //gameObject.transform.Rotate()
             DealAoEDamage();
             
         }
@@ -90,7 +90,7 @@ public class KnockableTree : InteractOnGrid
         {
             if(tile.GetComponent<Tile>().Unit)
             {
-                tile.GetComponent<Tile>().Unit.CalculateDamageTaken(damage);
+                tile.GetComponent<Tile>().Unit.DecreaseHealth(damage);
             }
         }
     }

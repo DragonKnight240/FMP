@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitAI : UnitBase
 {
-    internal UnitBase EnemyInRange;
+    UnitBase InRangeTarget;
 
     override public void Update()
     {
@@ -20,7 +20,7 @@ public class UnitAI : UnitBase
         }
         else
         {
-            Attack(EnemyInRange);
+            Attack(InRangeTarget);
         }
 
         EndTurn = true;
@@ -34,7 +34,7 @@ public class UnitAI : UnitBase
             {
                 if(tile.Unit.CompareTag("Ally"))
                 {
-                    EnemyInRange = tile.Unit;
+                    InRangeTarget = tile.Unit;
                     return true;
                 }
             }

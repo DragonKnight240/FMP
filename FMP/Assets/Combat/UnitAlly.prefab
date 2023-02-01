@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2628863663514431269}
   - component: {fileID: 5100643457579148821}
   - component: {fileID: 4513539572341672997}
-  - component: {fileID: 5070883363445997341}
+  - component: {fileID: -3994483561582522923}
   m_Layer: 0
   m_Name: UnitAlly
   m_TagString: Ally
@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5070883363445997341
+--- !u!114 &-3994483561582522923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,12 +106,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8418168880956035642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c62df0853585604dabb17cf5736e1ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 3747188df2d4fbe4c963cb70101f768b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitName: 
   HealthMax: 20
   CurrentHealth: 0
   Movement: 2
   EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
-  Strength: 2
   Inventory: []
+  Strength: 2
+  BowProficiency: 0
+  BowLevel: 0
+  SwordProficiency: 0
+  SwordLevel: 0
+  MagicProficiency: 0
+  MagicLevel: 0
+  FistProficiency: 0
+  FistLevel: 0
