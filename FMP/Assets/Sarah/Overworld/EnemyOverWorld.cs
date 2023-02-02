@@ -35,17 +35,21 @@ public class EnemyOverWorld : MonoBehaviour
 
             CurrentNode = PatrolLocations[0];
         }
+
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.EnemyCombatStarter)
+        if (GameManager.Instance)
         {
-            if (GameManager.Instance.EnemyCombatStarter == this.gameObject)
+            if (GameManager.Instance.EnemyCombatStarter)
             {
-                gameObject.SetActive(false);
+                if (GameManager.Instance.EnemyCombatStarter == this.gameObject)
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
 
@@ -78,13 +82,16 @@ public class EnemyOverWorld : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z), ChaseSpeed * Time.timeScale);
         }
 
-        if((transform.position - Player.transform.position).magnitude < AggroRange)
+        if (Player)
         {
-            PlayerInRange = true;
-        }
-        else
-        {
-            PlayerInRange = false;
+            if ((transform.position - Player.transform.position).magnitude < AggroRange)
+            {
+                PlayerInRange = true;
+            }
+            else
+            {
+                PlayerInRange = false;
+            }
         }
     }
 

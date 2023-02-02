@@ -2525,7 +2525,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 60, z: 0}
+  m_LocalPosition: {x: 67, y: 60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2555,9 +2555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88dca091a8abed04badf9b631f5dd1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FollowTarget: {fileID: 0}
   offSet: {x: 0, y: 45, z: -30}
   SmoothSpeed: 0.5
-  CloseEnough: 2
   ButtonMovement: 1
 --- !u!54 &963194231
 Rigidbody:
@@ -5150,10 +5150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ControlledUnits:
-  - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
-  - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
-  - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
-  - {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   MaxUnits: 6
   MaxRecruitable: 2
 --- !u!4 &1569221630
@@ -5618,19 +5618,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitPositions:
   - UnitType: 0
-    Unit: {fileID: 8418168880956035642, guid: 0022ee4f43425be468ed6288f5dc8ace, type: 3}
+    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 2
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 4
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 6
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 8
     Y: 2
   - UnitType: 1
@@ -6880,8 +6880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6f1cb1cc67333469f58ac2e1e971ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Height: 15
-  Width: 15
+  Height: 10
+  Width: 10
   GridParent: {fileID: 0}
   TilePrefab: {fileID: 8189690832267535239, guid: d78aaad326f572341bba20fa5d3e8dfd, type: 3}
   TileSize: 15
@@ -6893,7 +6893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896884447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.0127897, y: -6.4487915, z: 1.6653156}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
