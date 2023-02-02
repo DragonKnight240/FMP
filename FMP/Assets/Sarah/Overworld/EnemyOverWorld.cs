@@ -113,8 +113,15 @@ public class EnemyOverWorld : MonoBehaviour
         {
             Time.timeScale = 0;
             ReachedPlayer = true;
-            GameManager.Instance.EnemyCombatStarter = gameObject;
-            GameManager.Instance.PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+            //if (GameManager.Instance)
+            //{
+                GameManager.Instance.EnemyCombatStarter = gameObject;
+
+                //if (Player)
+                //{
+                    GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
+                //}
+            //}
             SceneLoader.Instance.LoadNewScene(CombatMapName);
         }
     }
