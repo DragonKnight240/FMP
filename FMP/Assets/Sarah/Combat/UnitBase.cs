@@ -124,7 +124,6 @@ public class UnitBase : MonoBehaviour
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
                 Path = new List<Tile>(FindRouteTo(NewTile));
                 Moving = true;
-                //transform.LookAt()
                 //transform.position = NewTile.CentrePoint.transform.position;
                 Position[0] = NewTile.GridPosition[0];
                 Position[1] = NewTile.GridPosition[1];

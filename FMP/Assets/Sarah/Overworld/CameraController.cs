@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     GameObject Player;
-    GameObject Cam;
+    public float RotationSpeed = 2;
     float x = 0;
     float y = 0;
 
@@ -13,19 +13,23 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
-        Cam = FindObjectOfType<Camera>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        x += Input.GetAxis("Mouse X");
-        y += Input.GetAxis("Mouse Y");
+        Vector3 ViewDir = transform.position - new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z);
 
-        transform.localRotation = Quaternion.Euler(0, x, 0);
-        transform.localRotation = Quaternion.Euler(-y, 0, 0);
+        x = Input.GetAxis("Mouse X");
+        y = Input.GetAxis("Mouse Y");
 
-        //transform.LookAt(Player.transform);
+        Vector3 InputDir = transform.forward * x + transform.right * y;
+
+        if(InputDir != Vector3.zero)
+        {
+            Player.transform.forward = Vector3.Slerp(Player.transform.forward, InputDir.normalized, Time.deltaTime * RotationSpeed);
+            transform.position = Vector3.Slerp(Player.transform.forward, InputDir.normalized, Time.deltaTime * RotationSpeed);
+        }
 
     }
 }

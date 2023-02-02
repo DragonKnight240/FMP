@@ -48,8 +48,12 @@ public class KnockableTree : InteractOnGrid
                 {
                     for (int i = 0; i < HitAmountHeight - 1; i++)
                     {
-                        CheckPositionY++;
-                        AoETiles.Add(TileManager.Instance.Grid[CheckPositionX, CheckPositionY]);
+                        if(CheckPositionY < TileManager.Instance.Height-1 && CheckPositionY >= 0)
+                        {
+                            CheckPositionY++;
+                            AoETiles.Add(TileManager.Instance.Grid[CheckPositionX, CheckPositionY]);
+                        }
+
                     }
                     break;
                 }
