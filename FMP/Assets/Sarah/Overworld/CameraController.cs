@@ -6,6 +6,8 @@ public class CameraController : MonoBehaviour
 {
     GameObject Player;
     public float RotationSpeed = 2;
+    public float SmoothSpeed;
+    public Vector3 offSet;
     float x = 0;
     float y = 0;
 
@@ -27,9 +29,8 @@ public class CameraController : MonoBehaviour
 
         if(InputDir != Vector3.zero)
         {
+            
             Player.transform.forward = Vector3.Slerp(Player.transform.forward, InputDir.normalized, Time.deltaTime * RotationSpeed);
-            transform.position = Vector3.Slerp(Player.transform.forward, InputDir.normalized, Time.deltaTime * RotationSpeed);
         }
-
     }
 }

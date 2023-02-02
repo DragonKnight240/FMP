@@ -11,6 +11,11 @@ public class AnimationController : MonoBehaviour
     void Start()
     {
         RB = GetComponent<Rigidbody>();
+        if(RB == null)
+        {
+            RB = GetComponentInParent<Rigidbody>();
+        }
+
         Anim = GetComponent<Animator>();
     }
 

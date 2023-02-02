@@ -37,6 +37,7 @@ public class EnemyOverWorld : MonoBehaviour
         }
 
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
+        print(Player);
     }
 
     // Update is called once per frame

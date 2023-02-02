@@ -27,6 +27,7 @@ public class TurnManager : MonoBehaviour
         }
 
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
