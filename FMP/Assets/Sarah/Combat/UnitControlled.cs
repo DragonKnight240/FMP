@@ -24,6 +24,7 @@ public class UnitControlled : UnitBase
         }
         else
         {
+            print("No in range targets");
             Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
         }
     }

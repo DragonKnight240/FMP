@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UnitManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class UnitManager : MonoBehaviour
     internal List<UnitBase> DeadAllyUnits;
     public string OverWorldScene;
     internal bool SetupFinished = false;
+    internal UnityEvent UnitUpdate;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +47,13 @@ public class UnitManager : MonoBehaviour
         EnemyUnits = new List<GameObject>();
         DeadEnemyUnits = new List<UnitBase>();
         DeadAllyUnits = new List<UnitBase>();
+        UnitUpdate = new UnityEvent();
+        UnitUpdate.AddListener(print);
+    }
+
+    void print()
+    {
+        print("Played");
     }
 
     private void Update()
@@ -122,6 +132,7 @@ public class UnitManager : MonoBehaviour
                     Index++;
                     AllyUnits.Add(NewUnit);
                     TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
+
                 }
                 else
                 {
@@ -136,6 +147,7 @@ public class UnitManager : MonoBehaviour
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
             }
 
+            UnitUpdate.AddListener(() => { NewUnit.GetComponent<UnitBase>().MoveableArea(false); });
             NewUnit.GetComponent<UnitBase>().Position = new int[2];
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
             NewUnit.GetComponent<UnitBase>().Position[1] = Y;

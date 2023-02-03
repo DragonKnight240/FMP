@@ -31,7 +31,7 @@ public class CombatAnimControl : MonoBehaviour
             {
                 CurrentAnimation = AnimParameters.Move;
                 Anim.SetTrigger("Move");
-                ResetAllTriggers("Move");
+                //ResetAllTriggers("Move");
             }
         }
         else if(CurrentAnimation != AnimParameters.Attack)
@@ -40,7 +40,7 @@ public class CombatAnimControl : MonoBehaviour
             {
                 CurrentAnimation = AnimParameters.Idle;
                 Anim.SetTrigger("Idle");
-                ResetAllTriggers("Idle");
+                //ResetAllTriggers("Idle");
             }
         }
     }
