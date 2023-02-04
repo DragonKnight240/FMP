@@ -69,13 +69,14 @@ public class EnemyOverWorld : MonoBehaviour
                 }
 
                 CurrentNode = PatrolLocations[NodeNum];
+                transform.LookAt(new Vector3(CurrentNode.position.x, transform.position.y, CurrentNode.position.z));
             }
             else
             {
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(CurrentNode.position.x, transform.position.y, CurrentNode.position.z), MoveSpeed * Time.timeScale);
+                transform.LookAt(new Vector3(CurrentNode.position.x, transform.position.y, CurrentNode.position.z));
             }
 
-            transform.LookAt(new Vector3(CurrentNode.position.x, transform.position.y, CurrentNode.position.z));
         }
         else
         {

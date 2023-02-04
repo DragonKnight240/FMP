@@ -125,8 +125,8 @@ public class UnitBase : MonoBehaviour
                 Path = new List<Tile>(FindRouteTo(NewTile));
                 Moving = true;
                 //transform.position = NewTile.CentrePoint.transform.position;
-                Position[0] = NewTile.GridPosition[0];
-                Position[1] = NewTile.GridPosition[1];
+                Position[0] = Path[Path.Count - 1].GridPosition[0];
+                Position[1] = Path[Path.Count - 1].GridPosition[1];
 
                 if (!Attacking)
                 {
