@@ -164,7 +164,7 @@ public class UnitManager : MonoBehaviour
 
     internal void EndingCombat()
     {
-        GameManager.Instance.ControlledUnits = AllyUnits;
+        //GameManager.Instance.ControlledUnits = AllyUnits;
         SceneLoader.Instance.LoadNewScene(OverWorldScene);
     }
 }
