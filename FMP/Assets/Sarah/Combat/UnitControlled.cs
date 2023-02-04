@@ -67,6 +67,8 @@ public class UnitControlled : UnitBase
     internal void AttackDisplay()
     {
         Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - AttackTarget.CalculateReturnDamage()) / HealthMax;
+        Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name;
+        Interact.Instance.CombatMenu.Attack.text = "Normal";
         Interact.Instance.CombatMenu.DamageAlly.text = CalculateDamage().ToString();
         Interact.Instance.CombatMenu.HitAlly.text = CalcuateHitChance().ToString();
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();
