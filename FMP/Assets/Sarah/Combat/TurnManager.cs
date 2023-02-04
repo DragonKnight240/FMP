@@ -57,7 +57,7 @@ public class TurnManager : MonoBehaviour
             {
                 if (!Unit.GetComponent<UnitBase>().EndTurn)
                 {
-                    if (!Unit.GetComponent<UnitBase>().EndTurn)
+                    if (Unit.GetComponent<UnitBase>().isAlive)
                     {
                         return;
                     }

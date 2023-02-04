@@ -12,6 +12,7 @@ public class UnitControlled : UnitBase
 
     internal void AttackButton()
     {
+        InRangeTargets.Clear();
         FindInRangeTargets();
 
         if (InRangeTargets.Count > 0)
@@ -56,9 +57,15 @@ public class UnitControlled : UnitBase
         {
             if (tile.Unit)
             {
-                if (tile.Unit.CompareTag("Enemy"))
+                if (!InRangeTargets.Contains(tile.Unit))
                 {
-                    InRangeTargets.Add(tile.Unit);
+                    if (tile.Unit.CompareTag("Enemy"))
+                    {
+                        if (tile.Unit.isAlive)
+                        {
+                            InRangeTargets.Add(tile.Unit);
+                        }
+                    }
                 }
             }
         }

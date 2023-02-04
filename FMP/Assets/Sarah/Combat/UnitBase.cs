@@ -57,7 +57,7 @@ public class UnitBase : MonoBehaviour
     //Class
 
 
-    internal List<UnitBase> InRangeTargets; 
+    public List<UnitBase> InRangeTargets; 
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +84,7 @@ public class UnitBase : MonoBehaviour
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
+                //Destroy(this.gameObject);
                 gameObject.SetActive(false);
             }
             else
@@ -116,34 +117,42 @@ public class UnitBase : MonoBehaviour
     //Moves the character from the current location to the wanted location
     internal bool Move(Tile NewTile, bool Attacking = false)
     {
-        if (!MovedForTurn)
+        if (MovedForTurn)
         {
-            if (MoveableTiles.Contains(NewTile) || Attacking)
+            return false;
+        }
+
+        if (MoveableTiles.Contains(NewTile) || Attacking)
+        {
+            MovedForTurn = true;
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            Path = new List<Tile>(FindRouteTo(NewTile));
+            Moving = true;
+            //transform.position = NewTile.CentrePoint.transform.position;
+            if (Path.Count > 0)
             {
-                MovedForTurn = true;
-                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-                Path = new List<Tile>(FindRouteTo(NewTile));
-                Moving = true;
-                //transform.position = NewTile.CentrePoint.transform.position;
                 Position[0] = Path[Path.Count - 1].GridPosition[0];
                 Position[1] = Path[Path.Count - 1].GridPosition[1];
+            }
 
-                if (!Attacking)
-                {
-                    NewTile.ChangeOccupant(this);
-                }
-                else
+            if (!Attacking)
+            {
+                NewTile.ChangeOccupant(this);
+            }
+            else
+            {
+                if (Path.Count > 0)
                 {
                     Path[Path.Count - 1].ChangeOccupant(this);
                 }
-
-                ResetMoveableTiles();
-                UnitManager.Instance.UnitUpdate.Invoke();
-                List<GameObject> Tile = new List<GameObject>();
-                Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
-
-                return true;
             }
+
+            ResetMoveableTiles();
+            UnitManager.Instance.UnitUpdate.Invoke();
+            List<GameObject> Tile = new List<GameObject>();
+            Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
+
+            return true;
         }
 
         return false;
@@ -275,6 +284,9 @@ public class UnitBase : MonoBehaviour
 
     internal void Attack(UnitBase Enemy)
     {
+        List<GameObject> tiles = new List<GameObject>();
+        tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+
         //Change later to proper logic
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
         //Damage and hit rate to be calculated and implemented later
@@ -459,7 +471,8 @@ public class UnitBase : MonoBehaviour
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
-                if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()))
+                if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
+                    (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile))
                 {
                     continue;
                 }

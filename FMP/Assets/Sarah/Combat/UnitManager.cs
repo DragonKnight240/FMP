@@ -84,7 +84,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if (!Enemy.GetComponent<UnitAI>().MovedForTurn)
+            if (!Enemy.GetComponent<UnitAI>().MovedForTurn && Enemy.GetComponent<UnitAI>().isAlive)
             {
                 Enemy.GetComponent<UnitAI>().MoveUnit();
                 break;

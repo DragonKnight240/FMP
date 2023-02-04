@@ -31,7 +31,13 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Unit)
+        {
+            if(!Unit.isActiveAndEnabled)
+            {
+                ChangeOccupant(null);
+            }
+        }
     }
 
     public void Show(bool WeaponRange = false, bool Overlay = false, bool Reset = false)

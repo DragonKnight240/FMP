@@ -157,7 +157,7 @@ public class Interact : MonoBehaviour
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
                     print("Attack Enemy");
-
+                    UnitManager.Instance.UnitUpdate.Invoke();
                     CombatMenu.AttackMenuObject.SetActive(false);
                 }
             }

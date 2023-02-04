@@ -6,6 +6,7 @@ public class AnimationController : MonoBehaviour
 {
     Animator Anim;
     Rigidbody RB;
+    public float yFallMin = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class AnimationController : MonoBehaviour
     {
         if(RB.velocity != new Vector3(0,0,0))
         {
-            if (RB.velocity.y < 0)
+            if (RB.velocity.y < -yFallMin)
             {
                 Anim.SetTrigger("Fall");
                 Anim.ResetTrigger("Move");

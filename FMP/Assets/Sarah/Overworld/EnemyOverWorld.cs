@@ -63,7 +63,8 @@ public class EnemyOverWorld : MonoBehaviour
         {
             if (new Vector3(CurrentNode.position.x, transform.position.y, CurrentNode.position.z) == new Vector3(transform.position.x, transform.position.y, transform.position.z))
             {
-                if (NodeNum++ >= PatrolLocations.Count)
+                NodeNum += 1;
+                if (NodeNum >= PatrolLocations.Count)
                 {
                     NodeNum = 0;
                 }
