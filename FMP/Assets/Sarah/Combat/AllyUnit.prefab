@@ -1029,6 +1029,8 @@ MonoBehaviour:
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
+  MoveableTiles: []
+  AttackTiles: []
   EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   Inventory: []
   Strength: 2
@@ -1040,6 +1042,7 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
+  InRangeTargets: []
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
   m_ObjectHideFlags: 0

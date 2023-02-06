@@ -9,6 +9,18 @@ public class UnitAI : UnitBase
     override public void Update()
     {
         base.Update();
+        
+        if(!Moving)
+        {
+            if(UnitManager.Instance.EnemyMoving == this)
+            {
+                UnitManager.Instance.EnemyMoving = null;
+            }
+        }
+        else
+        {
+            CameraMove.Instance.FollowTarget = transform;
+        }
     }
 
     public void MoveUnit()

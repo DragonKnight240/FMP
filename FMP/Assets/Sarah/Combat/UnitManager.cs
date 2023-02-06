@@ -29,7 +29,7 @@ public class UnitManager : MonoBehaviour
     public string OverWorldScene;
     internal bool SetupFinished = false;
     internal UnityEvent UnitUpdate;
-
+    internal GameObject EnemyMoving;
 
     // Start is called before the first frame update
     void Start()
@@ -84,9 +84,15 @@ public class UnitManager : MonoBehaviour
     {
         foreach (GameObject Enemy in EnemyUnits)
         {
+            if(Enemy.GetComponent<UnitAI>().Moving)
+            {
+                break;
+            }
+
             if (!Enemy.GetComponent<UnitAI>().MovedForTurn && Enemy.GetComponent<UnitAI>().isAlive)
             {
                 Enemy.GetComponent<UnitAI>().MoveUnit();
+                EnemyMoving = Enemy;
                 break;
             }
         }
@@ -154,7 +160,8 @@ public class UnitManager : MonoBehaviour
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
         }
 
-        SetupFinished = true;
+       TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
+       SetupFinished = true;
     }
 
     internal void RestartCombat()

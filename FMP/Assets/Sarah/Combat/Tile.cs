@@ -159,7 +159,6 @@ public class Tile : MonoBehaviour
             }
 
             Show(false, true);
-            CameraMove.Instance.FollowTarget = transform;
         }
     }
 

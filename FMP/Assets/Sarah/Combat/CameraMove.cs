@@ -48,7 +48,7 @@ public class CameraMove : MonoBehaviour
     {
         if(ButtonMovement)
         {
-            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy)
+            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving)
             {
                 LerpTo();
             }

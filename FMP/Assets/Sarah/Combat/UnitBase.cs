@@ -91,7 +91,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (Moving)
                 {
-                    if(Path.Count <= 0)
+                    if (Path.Count <= 0)
                     {
                         return;
                     }

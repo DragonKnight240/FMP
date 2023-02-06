@@ -46,6 +46,7 @@ public class UnitControlled : UnitBase
             if (tile.GetComponent<Tile>().Special)
             {
                 tile.GetComponent<Tile>().Special.Special(this);
+                UnitManager.Instance.UnitUpdate.Invoke();
                 EndTurn = true;
             }
         }

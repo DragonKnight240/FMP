@@ -158,6 +158,7 @@ public class Interact : MonoBehaviour
                     SelectedUnit = null;
                     print("Attack Enemy");
                     UnitManager.Instance.UnitUpdate.Invoke();
+                    CameraMove.Instance.FollowTarget = null;
                     CombatMenu.AttackMenuObject.SetActive(false);
                 }
             }
@@ -192,11 +193,23 @@ public class Interact : MonoBehaviour
 
             CameraMove.Instance.ShouldFollow = false;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+
+            CameraMove.Instance.FollowTarget = SelectedUnit.transform;
         }
         else
         {
             CameraMove.Instance.ShouldFollow = true;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+            CameraMove.Instance.FollowTarget = null;
         }
+    }
+
+    internal void ResetTargets()
+    {
+        SelectedUnit = null;
+        CameraMove.Instance.FollowTarget = null;
+
+        print("Targets Reset");
     }
 }
