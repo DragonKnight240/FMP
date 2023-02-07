@@ -81,17 +81,17 @@ public class UnitBase : MonoBehaviour
         {
             if (CurrentHealth <= 0)
             {
+                GetComponent<Fading>().FadeOut = true;
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
-                //Destroy(this.gameObject);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
             else
             {
                 if (Moving)
                 {
-                    if(Path.Count <= 0)
+                    if (Path.Count <= 0)
                     {
                         return;
                     }
@@ -122,13 +122,13 @@ public class UnitBase : MonoBehaviour
             return false;
         }
 
-        if (MoveableTiles.Contains(NewTile) || Attacking)
+        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking)
         {
             MovedForTurn = true;
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
             Path = new List<Tile>(FindRouteTo(NewTile));
             Moving = true;
-            //transform.position = NewTile.CentrePoint.transform.position;
+
             if (Path.Count > 0)
             {
                 Position[0] = Path[Path.Count - 1].GridPosition[0];
@@ -430,6 +430,7 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.SelectedUnit = null;
         HideAllChangedTiles();
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        CameraMove.Instance.FollowTarget = null;
     }
 
     //A* Pathfinding
@@ -465,7 +466,7 @@ public class UnitBase : MonoBehaviour
             if(CurrentNode.Tile == End.Tile)
             {
                 Path = FindPath(CurrentNode);
-                print("Success");
+                //print("Success");
                 return Path;
             }
 

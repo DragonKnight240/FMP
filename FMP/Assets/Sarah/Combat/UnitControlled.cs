@@ -46,9 +46,15 @@ public class UnitControlled : UnitBase
             if (tile.GetComponent<Tile>().Special)
             {
                 tile.GetComponent<Tile>().Special.Special(this);
+                UnitManager.Instance.UnitUpdate.Invoke();
+                Interact.Instance.SelectedUnit = null;
+                CameraMove.Instance.FollowTarget = null;
+                HideAllChangedTiles();
                 EndTurn = true;
             }
         }
+
+        CameraMove.Instance.FollowTarget = null;
     }
 
     internal void FindInRangeTargets()

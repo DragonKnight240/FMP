@@ -9,14 +9,31 @@ public class UnitAI : UnitBase
     override public void Update()
     {
         base.Update();
+        
+        if(!Moving)
+        {
+            if(UnitManager.Instance.EnemyMoving == this)
+            {
+                UnitManager.Instance.EnemyMoving = null;
+            }
+        }
+        else
+        {
+            CameraMove.Instance.FollowTarget = transform;
+        }
     }
 
     public void MoveUnit()
     {
         if (!CanAttack())
         {
-            int RandLocation = Random.Range(0, MoveableTiles.Count - 1);
-            Move(MoveableTiles[RandLocation]);
+            int RandLocation;
+            do
+            {
+              RandLocation = Random.Range(0, MoveableTiles.Count - 1);
+            } while (Move(MoveableTiles[RandLocation]));
+            
+           ;
         }
         else
         {

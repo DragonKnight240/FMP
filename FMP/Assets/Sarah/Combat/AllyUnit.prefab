@@ -939,6 +939,7 @@ GameObject:
   - component: {fileID: 1696317298173679000}
   - component: {fileID: 1696317298173679001}
   - component: {fileID: -2159630872647823261}
+  - component: {fileID: -6417792440367428823}
   m_Layer: 0
   m_Name: AllyUnit
   m_TagString: Ally
@@ -1029,6 +1030,8 @@ MonoBehaviour:
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
+  MoveableTiles: []
+  AttackTiles: []
   EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   Inventory: []
   Strength: 2
@@ -1040,6 +1043,7 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
+  InRangeTargets: []
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,6 +1056,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b015236050b3a6f42bbf9ac543569dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6417792440367428823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696317298173679006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeSpeed: 10
 --- !u!1 &1721271865113218592
 GameObject:
   m_ObjectHideFlags: 0

@@ -123,6 +123,12 @@ public class Tile : MonoBehaviour
                 }
             }
         }
+
+        if (Special)
+        {
+            Special.GetComponent<InteractOnGrid>().TileSetter(transform.GetComponentInParent<Tile>().AdjacentTiles);
+        }
+
     }
 
     private void OnMouseEnter()
@@ -159,7 +165,6 @@ public class Tile : MonoBehaviour
             }
 
             Show(false, true);
-            CameraMove.Instance.FollowTarget = transform;
         }
     }
 

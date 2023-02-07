@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2782864998359480250}
   - component: {fileID: 6842314290299493770}
   - component: {fileID: -5451165715722164602}
+  - component: {fileID: -7295948164236061629}
   m_Layer: 0
   m_Name: UnitEnemy
   m_TagString: Enemy
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 314932d5649526345b51b325b853b042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,9 +110,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af9d9b1683a4b114199f5c02126be21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitName: 
   HealthMax: 50
   CurrentHealth: 0
   Movement: 2
+  MoveSpeed: 10
+  MoveableTiles: []
+  AttackTiles: []
   EquipedWeapon: {fileID: 0}
-  Strength: 2
   Inventory: []
+  Strength: 2
+  BowProficiency: 0
+  BowLevel: 0
+  SwordProficiency: 0
+  SwordLevel: 0
+  MagicProficiency: 0
+  MagicLevel: 0
+  FistProficiency: 0
+  FistLevel: 0
+  InRangeTargets: []
+--- !u!114 &-7295948164236061629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478534406159762325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeSpeed: 1
