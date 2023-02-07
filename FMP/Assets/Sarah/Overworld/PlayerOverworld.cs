@@ -8,7 +8,6 @@ public class PlayerOverworld : MonoBehaviour
     public float MoveSpeed;
     public Transform Cam;
     public float SmoothRate;
-    public float yBarrier = 5;
     float RotationSmooth;
     AoEDisappear AoEDisappear;
 
@@ -37,8 +36,9 @@ public class PlayerOverworld : MonoBehaviour
 
         Vector3 Dir = new Vector3(x, 0, z).normalized;
 
-        if(Dir.magnitude >= 0.01)
+        if(Dir.magnitude >= 0.1)
         {
+            float TempVelocity = RB.velocity.y;
             //Turns off auto kill on nearby enemies
             if(AoEDisappear)
             {
@@ -56,14 +56,12 @@ public class PlayerOverworld : MonoBehaviour
 
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
-            if (RB.velocity.y < yBarrier)
-            {
-                RB.velocity = (new Vector3(MoveDir.x, RB.velocity.y, MoveDir.z).normalized * MoveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
-            }
+            RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
+            RB.velocity = new Vector3(RB.velocity.x, TempVelocity, RB.velocity.z);
+        }
+        else
+        {
+            RB.velocity = new Vector3(0, RB.velocity.y, 0);
         }
     }
 }

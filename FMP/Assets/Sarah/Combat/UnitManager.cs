@@ -178,7 +178,6 @@ public class UnitManager : MonoBehaviour
                         //Attack
                         NewUnit.GetComponent<UnitBase>().UnlockedAttacks = data.UnlockedAttacks;
                     }
-
                 }
                 else
                 {
