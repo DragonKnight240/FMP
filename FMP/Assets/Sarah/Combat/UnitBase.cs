@@ -430,6 +430,7 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.SelectedUnit = null;
         HideAllChangedTiles();
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        CameraMove.Instance.FollowTarget = null;
     }
 
     //A* Pathfinding
@@ -465,7 +466,7 @@ public class UnitBase : MonoBehaviour
             if(CurrentNode.Tile == End.Tile)
             {
                 Path = FindPath(CurrentNode);
-                print("Success");
+                //print("Success");
                 return Path;
             }
 

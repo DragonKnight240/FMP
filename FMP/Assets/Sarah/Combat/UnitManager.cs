@@ -48,7 +48,6 @@ public class UnitManager : MonoBehaviour
         DeadEnemyUnits = new List<UnitBase>();
         DeadAllyUnits = new List<UnitBase>();
         UnitUpdate = new UnityEvent();
-        UnitUpdate.AddListener(print);
     }
 
     void print()

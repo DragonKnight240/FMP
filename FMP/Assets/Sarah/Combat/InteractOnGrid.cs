@@ -15,13 +15,18 @@ public class InteractOnGrid : MonoBehaviour
     internal int[] Position;
     internal List<GameObject> AoETiles;
     internal List<GameObject> ActiveTiles;
-    public Direction DirectionInteraction;
     public int HitAmountWidth;
     public int HitAmountHeight;
+    internal Dictionary<Tile, Direction> InteractLocations;
 
     private void Start()
     {
         Position = new int[2];
+        InteractLocations = new Dictionary<Tile, Direction>();
+    }
+    private void Update()
+    {
+        
     }
 
     public virtual void Special(UnitBase Unit)
@@ -29,8 +34,32 @@ public class InteractOnGrid : MonoBehaviour
 
     }
 
-    internal virtual void CalculateAoE()
+    internal virtual void CalculateAoE(Direction DirectionInteraction)
     {
         
+    }
+
+    internal void TileSetter(List<GameObject> tiles)
+    {
+        InteractLocations = new Dictionary<Tile, Direction>();
+        foreach(GameObject tile in tiles)
+        {
+            if(tile.GetComponent<Tile>().GridPosition[0] > Position[0])
+            {
+                InteractLocations.Add(tile.GetComponent<Tile>(), Direction.Right);
+            }
+            else if(tile.GetComponent<Tile>().GridPosition[0] < Position[0])
+            {
+                InteractLocations.Add(tile.GetComponent<Tile>(), Direction.Left);
+            }
+            else if (tile.GetComponent<Tile>().GridPosition[1] < Position[1])
+            {
+                InteractLocations.Add(tile.GetComponent<Tile>(), Direction.Down);
+            }
+            else if (tile.GetComponent<Tile>().GridPosition[1] > Position[1])
+            {
+                InteractLocations.Add(tile.GetComponent<Tile>(), Direction.Up);
+            }
+        }
     }
 }

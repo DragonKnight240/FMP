@@ -15,6 +15,7 @@ public class Checker : MonoBehaviour
             {
                 other.GetComponent<InteractOnGrid>().Position = transform.GetComponentInParent<Tile>().GridPosition;
                 transform.GetComponentInParent<Tile>().Special = other.GetComponent<InteractOnGrid>();
+                other.GetComponent<InteractOnGrid>().TileSetter(transform.GetComponentInParent<Tile>().AdjacentTiles);
             }
         }
     }
