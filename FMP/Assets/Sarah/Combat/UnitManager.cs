@@ -138,6 +138,47 @@ public class UnitManager : MonoBehaviour
                     AllyUnits.Add(NewUnit);
                     TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
 
+                    if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
+                    {
+                        CharacterData data = GameManager.Instance.UnitData[Index];
+
+                        NewUnit.GetComponent<UnitBase>().UnitName = data.UnitName;
+                        NewUnit.GetComponent<UnitBase>().HealthMax = data.HealthMax;
+                        NewUnit.GetComponent<UnitBase>().CurrentHealth = data.CurrentHealth;
+                        NewUnit.GetComponent<UnitBase>().Movement = data.Movement;
+
+                        //Inventory
+                        NewUnit.GetComponent<UnitBase>().Inventory = data.Inventory;
+
+                        //Stats
+                        NewUnit.GetComponent<UnitBase>().Strength = data.Strength;
+                        NewUnit.GetComponent<UnitBase>().Dexterity = data.Dexterity;
+                        NewUnit.GetComponent<UnitBase>().Magic = data.Magic;
+                        NewUnit.GetComponent<UnitBase>().Defence = data.Defence;
+                        NewUnit.GetComponent<UnitBase>().Resistance = data.Resistance;
+                        NewUnit.GetComponent<UnitBase>().Speed = data.Speed;
+                        NewUnit.GetComponent<UnitBase>().Luck = data.Luck;
+
+                        //Weapon Proficientcy
+                        NewUnit.GetComponent<UnitBase>().BowProficiency = data.BowProficiency;
+                        NewUnit.GetComponent<UnitBase>().BowLevel = data.BowLevel;
+
+                        NewUnit.GetComponent<UnitBase>().SwordProficiency = data.SwordProficiency;
+                        NewUnit.GetComponent<UnitBase>().SwordLevel = data.SwordLevel;
+
+                        NewUnit.GetComponent<UnitBase>().MagicProficiency = data.MagicProficiency;
+                        NewUnit.GetComponent<UnitBase>().MagicLevel = data.MagicLevel;
+
+                        NewUnit.GetComponent<UnitBase>().FistProficiency = data.FistProficiency;
+                        NewUnit.GetComponent<UnitBase>().FistLevel = data.FistLevel;
+
+                        //Class
+                        NewUnit.GetComponent<UnitBase>().Class = data.Class;
+
+                        //Attack
+                        NewUnit.GetComponent<UnitBase>().UnlockedAttacks = data.UnlockedAttacks;
+                    }
+
                 }
                 else
                 {
@@ -170,7 +211,53 @@ public class UnitManager : MonoBehaviour
 
     internal void EndingCombat()
     {
-        //GameManager.Instance.ControlledUnits = AllyUnits;
+        GameManager.Instance.UnitData.Clear();
+
+        CharacterData data = new CharacterData();
+
+        for (int i = 0; i < AllyUnits.Count; i++)
+        {
+            UnitBase Ally = AllyUnits[i].GetComponent<UnitBase>();
+
+            data.UnitName = Ally.UnitName;
+            data.HealthMax = Ally. HealthMax;
+            data.CurrentHealth = Ally.CurrentHealth;
+            data.Movement = Ally.Movement;
+
+            //Inventory
+            data.Inventory = Ally.Inventory;
+
+            //Stats
+            data.Strength = Ally.Strength;
+            data.Dexterity = Ally.Dexterity;
+            data.Magic = Ally.Magic;
+            data.Defence = Ally.Defence;
+            data.Resistance = Ally.Resistance;
+            data.Speed = Ally.Speed;
+            data.Luck = Ally.Luck;
+
+            //Weapon Proficientcy
+            data.BowProficiency = Ally.BowProficiency;
+            data.BowLevel = Ally.BowLevel;
+
+            data.SwordProficiency = Ally.SwordProficiency;
+            data.SwordLevel = Ally.SwordLevel;
+
+            data.MagicProficiency = Ally.MagicProficiency;
+            data.MagicLevel = Ally.MagicLevel;
+
+            data.FistProficiency = Ally.FistProficiency;
+            data.FistLevel = Ally.FistLevel;
+
+            //Class
+            data.Class = Ally.Class;
+
+            //Attack
+            data.UnlockedAttacks = Ally.UnlockedAttacks;
+
+            GameManager.Instance.UnitData.Add(data);
+        }
+
         SceneLoader.Instance.LoadNewScene(OverWorldScene);
     }
 }

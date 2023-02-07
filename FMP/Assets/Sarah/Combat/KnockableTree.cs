@@ -27,7 +27,7 @@ public class KnockableTree : InteractOnGrid
             if(transform.rotation == RotateTo)
             {
                 isFalling = false;
-                Destroy(this.gameObject, 5);
+                GetComponent<Fading>().FadeOut = true;
             }
         }
     }

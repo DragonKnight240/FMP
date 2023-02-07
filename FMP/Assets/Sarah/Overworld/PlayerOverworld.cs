@@ -8,6 +8,7 @@ public class PlayerOverworld : MonoBehaviour
     public float MoveSpeed;
     public Transform Cam;
     public float SmoothRate;
+    public float yBarrier = 5;
     float RotationSmooth;
     AoEDisappear AoEDisappear;
 
@@ -55,7 +56,7 @@ public class PlayerOverworld : MonoBehaviour
 
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
-            if (RB.velocity.y < 0)
+            if (RB.velocity.y < yBarrier)
             {
                 RB.velocity = (new Vector3(MoveDir.x, RB.velocity.y, MoveDir.z).normalized * MoveSpeed * Time.deltaTime);
             }
@@ -64,8 +65,5 @@ public class PlayerOverworld : MonoBehaviour
                 RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
             }
         }
-
-        //RB.velocity = ((transform.forward * z) * MoveSpeed) + ((transform.right * x) * MoveSpeed) + (new Vector3(0, RB.velocity.y, 0));
-        //RB.velocity = new Vector3(x * MoveSpeed * Time.timeScale, RB.velocity.y, z * MoveSpeed * Time.timeScale);
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Special Attacks")]
 public class SpecialAttacks : ScriptableObject
 {
+    public string Name;
     public int DamageMultiplier;
     public int HitRateMultiplier;
     public int CritRateMultiplier;
     public int ProficiencyIncreaseMultiplier;
+    public int DurabilityMultiplier;
 }

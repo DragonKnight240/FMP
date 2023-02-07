@@ -40,6 +40,12 @@ public class UnitBase : MonoBehaviour
 
     //Stats
     public int Strength = 2;
+    public int Dexterity;
+    public int Magic;
+    public int Defence;
+    public int Resistance;
+    public int Speed;
+    public int Luck;
 
     //Weapon Proficientcy
     public float BowProficiency;
@@ -55,7 +61,11 @@ public class UnitBase : MonoBehaviour
     public int FistLevel;
 
     //Class
+    public Class Class;
 
+    //Attack
+    public SpecialAttacks CurrentAttack;
+    public List<SpecialAttacks> UnlockedAttacks;
 
     public List<UnitBase> InRangeTargets; 
 
@@ -85,7 +95,6 @@ public class UnitBase : MonoBehaviour
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
-                //gameObject.SetActive(false);
             }
             else
             {

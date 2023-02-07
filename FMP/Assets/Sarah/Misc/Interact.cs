@@ -28,7 +28,7 @@ public class Interact : MonoBehaviour
     void Update()
     {
         //With Combat Options up checks against selected unit so deselection is possible
-        if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (CombatMenu.CombatMenuObject.activeInHierarchy || CombatMenu.AttackMenuObject.activeInHierarchy)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -42,6 +42,10 @@ public class Interact : MonoBehaviour
                         {
                             SelectionUnit(Hit.transform.GetComponent<UnitBase>());
                         }
+                        else if (Hit.transform.CompareTag("Enemy"))
+                        {
+                            AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                        }
                     }
                     else if (Hit.transform.GetComponent<Tile>())
                     {
@@ -50,6 +54,10 @@ public class Interact : MonoBehaviour
                             if (Hit.transform.GetComponent<Tile>().Unit == SelectedUnit)
                             {
                                 SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
+                            }
+                            else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
+                            {
+                                AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
                             }
                         }
                     }
@@ -71,10 +79,6 @@ public class Interact : MonoBehaviour
                         {
                             SelectionUnit(Hit.transform.GetComponent<UnitBase>());
                         }
-                        else if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Enemy"))
-                        {
-                            AttackUnit(Hit.transform.GetComponent<UnitBase>());
-                        }
                         else if (Hit.transform.GetComponent<Tile>())
                         {
                             if (Hit.transform.GetComponent<Tile>().Unit)
@@ -82,10 +86,6 @@ public class Interact : MonoBehaviour
                                 if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Ally"))
                                 {
                                     SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
-                                }
-                                else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
-                                {
-                                    AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
                                 }
                             }
                             else if (SelectedUnit)

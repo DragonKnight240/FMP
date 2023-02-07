@@ -79,6 +79,39 @@ public class UnitControlled : UnitBase
 
     internal void AttackDisplay()
     {
+        if(Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
+        {
+            Interact.Instance.CombatMenu.NextWeapon.SetActive(false);
+            Interact.Instance.CombatMenu.PreviousWeapon.SetActive(false);
+        }
+        else
+        {
+            Interact.Instance.CombatMenu.NextWeapon.SetActive(true);
+            Interact.Instance.CombatMenu.PreviousWeapon.SetActive(true);
+        }
+
+        if(Interact.Instance.SelectedUnit.UnlockedAttacks.Count == 0)
+        {
+            Interact.Instance.CombatMenu.NextAttack.SetActive(false);
+            Interact.Instance.CombatMenu.PreviousAttack.SetActive(false);
+        }
+        else
+        {
+            Interact.Instance.CombatMenu.NextAttack.SetActive(true);
+            Interact.Instance.CombatMenu.PreviousAttack.SetActive(true);
+        }
+
+        if(Interact.Instance.SelectedUnit.InRangeTargets.Count == 1)
+        {
+            Interact.Instance.CombatMenu.NextTarget.SetActive(false);
+            Interact.Instance.CombatMenu.PreviousTarget.SetActive(false);
+        }
+        else
+        {
+            Interact.Instance.CombatMenu.NextTarget.SetActive(true);
+            Interact.Instance.CombatMenu.PreviousTarget.SetActive(true);
+        }
+
         Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - AttackTarget.CalculateReturnDamage()) / HealthMax;
         Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name;
         Interact.Instance.CombatMenu.Attack.text = "Normal";

@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> ControlledUnits;
-    internal List<GameObject> EnemyCombatStarter;
+    internal List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
     public int MaxUnits = 6;
     internal int NumRecruited = 0;
@@ -30,14 +30,6 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        List<GameObject> EnemyCombatStarter = new List<GameObject>();
-    }
-
-    private void Update()
-    {
-        if(!inCombat)
-        {
-
-        }
+        UnitData = new List<CharacterData>();
     }
 }

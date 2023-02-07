@@ -30,6 +30,15 @@ public class CombatMenu : MonoBehaviour
     public TMP_Text HitEnemy;
     public TMP_Text CritEnemy;
 
+    public GameObject NextTarget;
+    public GameObject PreviousTarget;
+
+    public GameObject NextAttack;
+    public GameObject PreviousAttack;
+
+    public GameObject NextWeapon;
+    public GameObject PreviousWeapon;
+
     //Inventory
     public GameObject InventoryObject;
 
@@ -59,13 +68,14 @@ public class CombatMenu : MonoBehaviour
         else
         {
             NewIndex = Interact.Instance.SelectedUnit.InRangeTargets.IndexOf(Interact.Instance.SelectedUnit.AttackTarget) - 1;
-            if (NewIndex <= 0)
+            if (NewIndex < 0)
             {
                 NewIndex = Interact.Instance.SelectedUnit.InRangeTargets.Count - 1;
             }
         }
 
         Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[NewIndex];
+        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
         CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.AttackTarget.transform;
     }
 
@@ -90,21 +100,31 @@ public class CombatMenu : MonoBehaviour
         }
 
         Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.WeaponsIninventory[NewIndex];
+        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
         Interact.Instance.SelectedUnit.MoveableArea();
     }
 
     public void ChangeAttack(bool Next)
     {
-        int NewIndex = 0;
+        int NewIndex;
         if (Next)
         {
-
+            NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.IndexOf(Interact.Instance.SelectedUnit.CurrentAttack) + 1;
+            if (NewIndex >= Interact.Instance.SelectedUnit.UnlockedAttacks.Count)
+            {
+                NewIndex = 0;
+            }
         }
         else
         {
+            NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.IndexOf(Interact.Instance.SelectedUnit.CurrentAttack) - 1;
             if (NewIndex <= 0)
             {
+                NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.Count - 1;
             }
         }
+
+        Interact.Instance.SelectedUnit.CurrentAttack = Interact.Instance.SelectedUnit.UnlockedAttacks[NewIndex];
+        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
     }
 }

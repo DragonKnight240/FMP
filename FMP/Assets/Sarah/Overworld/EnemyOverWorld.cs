@@ -90,6 +90,7 @@ public class EnemyOverWorld : MonoBehaviour
     {
         if(collision.transform.CompareTag("Player"))
         {
+            //if(collision)
             Time.timeScale = 0;
             ReachedPlayer = true;
             if (GameManager.Instance)
