@@ -122,13 +122,13 @@ public class UnitBase : MonoBehaviour
             return false;
         }
 
-        if (MoveableTiles.Contains(NewTile) || Attacking)
+        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking)
         {
             MovedForTurn = true;
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
             Path = new List<Tile>(FindRouteTo(NewTile));
             Moving = true;
-            //transform.position = NewTile.CentrePoint.transform.position;
+
             if (Path.Count > 0)
             {
                 Position[0] = Path[Path.Count - 1].GridPosition[0];

@@ -27,8 +27,13 @@ public class UnitAI : UnitBase
     {
         if (!CanAttack())
         {
-            int RandLocation = Random.Range(0, MoveableTiles.Count - 1);
-            Move(MoveableTiles[RandLocation]);
+            int RandLocation;
+            do
+            {
+              RandLocation = Random.Range(0, MoveableTiles.Count - 1);
+            } while (Move(MoveableTiles[RandLocation]));
+            
+           ;
         }
         else
         {
