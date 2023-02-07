@@ -81,11 +81,11 @@ public class UnitBase : MonoBehaviour
         {
             if (CurrentHealth <= 0)
             {
+                GetComponent<Fading>().FadeOut = true;
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
-                //Destroy(this.gameObject);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
             else
             {
