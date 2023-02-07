@@ -15,6 +15,14 @@ public class PlayerOverworld : MonoBehaviour
         RB = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        if(GameManager.Instance)
+        {
+            if(GameManager.Instance.PlayerReturnToOverworld != null)
+            {
+                transform.position = GameManager.Instance.PlayerReturnToOverworld;
+            }
+        }
     }
 
     private void Update()

@@ -37,7 +37,7 @@ public class EnemyOverWorld : MonoBehaviour
         }
 
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
-        print(Player);
+        GetComponentInChildren<AoEDisappear>().gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,9 +45,9 @@ public class EnemyOverWorld : MonoBehaviour
     {
         if (GameManager.Instance)
         {
-            if (GameManager.Instance.EnemyCombatStarter)
+            foreach (GameObject Enemy in GameManager.Instance.EnemyCombatStarter)
             {
-                if (GameManager.Instance.EnemyCombatStarter == this.gameObject)
+                if (Enemy == this.gameObject)
                 {
                     gameObject.SetActive(false);
                 }
@@ -104,7 +104,8 @@ public class EnemyOverWorld : MonoBehaviour
         {
             Time.timeScale = 0;
             ReachedPlayer = true;
-            GameManager.Instance.EnemyCombatStarter = gameObject;
+            GameManager.Instance.EnemyCombatStarter.Clear();
+            GameManager.Instance.EnemyCombatStarter.Add(gameObject);
             GameManager.Instance.PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
             SceneLoader.Instance.LoadNewScene(CombatMapName);
         }
@@ -118,7 +119,9 @@ public class EnemyOverWorld : MonoBehaviour
             ReachedPlayer = true;
             if (GameManager.Instance)
             {
-                GameManager.Instance.EnemyCombatStarter = gameObject;
+                GameManager.Instance.EnemyCombatStarter.Clear();
+                GameManager.Instance.EnemyCombatStarter.Add(gameObject);
+                GetComponentInChildren<AoEDisappear>().gameObject.SetActive(true);
 
                 if (Player)
                 {

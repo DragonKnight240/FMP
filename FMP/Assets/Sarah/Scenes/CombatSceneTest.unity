@@ -659,7 +659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
@@ -970,7 +970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
@@ -2151,7 +2151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
@@ -2224,7 +2224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
@@ -3621,6 +3621,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Special
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: f604c7bd6d117344494b1a8311098201, type: 3}
+      propertyPath: Speed
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f604c7bd6d117344494b1a8311098201, type: 3}
 --- !u!1 &1099906859
@@ -4335,7 +4339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6825903001297011129, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5068,6 +5072,7 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   MaxUnits: 6
   MaxRecruitable: 2
+  inCombat: 0
 --- !u!4 &1569221630
 Transform:
   m_ObjectHideFlags: 0
@@ -5233,7 +5238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: Speed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}

@@ -6,11 +6,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> ControlledUnits;
-    internal GameObject EnemyCombatStarter;
+    internal List<GameObject> EnemyCombatStarter;
     internal Vector3 PlayerReturnToOverworld;
     public int MaxUnits = 6;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
+
+    //Timer
+    public bool inCombat = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +29,15 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        List<GameObject> EnemyCombatStarter = new List<GameObject>();
     }
 
-    internal void OnLoadLevel()
+    private void Update()
     {
+        if(!inCombat)
+        {
 
+        }
     }
 }
