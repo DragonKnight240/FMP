@@ -37,23 +37,11 @@ public class EnemyOverWorld : MonoBehaviour
         }
 
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
-        GetComponentInChildren<AoEDisappear>().gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance)
-        {
-            foreach (GameObject Enemy in GameManager.Instance.EnemyCombatStarter)
-            {
-                if (Enemy == this.gameObject)
-                {
-                    gameObject.SetActive(false);
-                }
-            }
-        }
-
         if (ReachedPlayer)
         {
             return;
@@ -98,19 +86,6 @@ public class EnemyOverWorld : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-        {
-            Time.timeScale = 0;
-            ReachedPlayer = true;
-            GameManager.Instance.EnemyCombatStarter.Clear();
-            GameManager.Instance.EnemyCombatStarter.Add(gameObject);
-            GameManager.Instance.PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
-            SceneLoader.Instance.LoadNewScene(CombatMapName);
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.CompareTag("Player"))
@@ -119,10 +94,6 @@ public class EnemyOverWorld : MonoBehaviour
             ReachedPlayer = true;
             if (GameManager.Instance)
             {
-                GameManager.Instance.EnemyCombatStarter.Clear();
-                GameManager.Instance.EnemyCombatStarter.Add(gameObject);
-                GetComponentInChildren<AoEDisappear>().gameObject.SetActive(true);
-
                 if (Player)
                 {
                     GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;

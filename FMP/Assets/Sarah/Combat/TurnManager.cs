@@ -33,7 +33,12 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isPlayerTurn)
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UnitManager.Instance.EndingCombat();
+        }
+
+        if (isPlayerTurn)
         {
             foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
             {

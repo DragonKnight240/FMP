@@ -9,18 +9,22 @@ public class PlayerOverworld : MonoBehaviour
     public Transform Cam;
     public float SmoothRate;
     float RotationSmooth;
+    AoEDisappear AoEDisappear;
 
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+        AoEDisappear = GetComponentInChildren<AoEDisappear>(true);
+        AoEDisappear.gameObject.SetActive(false);
 
-        if(GameManager.Instance)
+        if (GameManager.Instance)
         {
             if(GameManager.Instance.PlayerReturnToOverworld != null)
             {
                 transform.position = GameManager.Instance.PlayerReturnToOverworld;
+                AoEDisappear.gameObject.SetActive(true);
             }
         }
     }
@@ -34,6 +38,14 @@ public class PlayerOverworld : MonoBehaviour
 
         if(Dir.magnitude >= 0.01)
         {
+            if(AoEDisappear)
+            {
+                if(AoEDisappear.gameObject.activeInHierarchy)
+                {
+                    AoEDisappear.gameObject.SetActive(false);
+                }
+            }
+
             float targetAngle = Mathf.Atan2(Dir.x, Dir.z) * Mathf.Rad2Deg + Cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref RotationSmooth, SmoothRate * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);

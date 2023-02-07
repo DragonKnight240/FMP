@@ -8,10 +8,7 @@ public class AoEDisappear : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (GameManager.Instance.EnemyCombatStarter.Contains(other.gameObject))
-            {
-                GameManager.Instance.EnemyCombatStarter.Add(other.gameObject);
-            }
+            other.gameObject.SetActive(false);
         }
     }
 }
