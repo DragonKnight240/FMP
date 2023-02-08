@@ -44,7 +44,10 @@ public class Interact : MonoBehaviour
                         }
                         else if (Hit.transform.CompareTag("Enemy"))
                         {
-                            AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                            if (Hit.transform == SelectedUnit.AttackTarget.transform)
+                            {
+                                AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                            }
                         }
                     }
                     else if (Hit.transform.GetComponent<Tile>())
@@ -193,6 +196,7 @@ public class Interact : MonoBehaviour
 
             CameraMove.Instance.ShouldFollow = false;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            CombatMenu.AttackMenuObject.SetActive(false);
 
             CameraMove.Instance.FollowTarget = SelectedUnit.transform;
         }

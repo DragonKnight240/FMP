@@ -30,7 +30,7 @@ public class UnitBase : MonoBehaviour
     //Inventory
     public Weapon EquipedWeapon;
     public List<Item> Inventory;
-    internal List<Weapon> WeaponsIninventory;
+    public List<Weapon> WeaponsIninventory;
     internal UnitBase AttackTarget;
 
     //Turn Checks
@@ -75,13 +75,11 @@ public class UnitBase : MonoBehaviour
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();
         CurrentHealth = HealthMax;
+        InRangeTargets = new List<UnitBase>();
+        //WeaponsIninventory = new List<Weapon>();
+        Path = new List<Tile>();
 
         MoveableArea(false);
-
-        Inventory = new List<Item>();
-        InRangeTargets = new List<UnitBase>();
-        WeaponsIninventory = new List<Weapon>();
-        Path = new List<Tile>();
     }
 
     // Update is called once per frame

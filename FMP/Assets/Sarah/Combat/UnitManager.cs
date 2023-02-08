@@ -192,6 +192,11 @@ public class UnitManager : MonoBehaviour
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
             }
 
+            foreach (Item item in NewUnit.GetComponent<UnitBase>().WeaponsIninventory)
+            {
+                NewUnit.GetComponent<UnitBase>().Inventory.Add((Weapon)item);
+            }
+
             UnitUpdate.AddListener(() => { NewUnit.GetComponent<UnitBase>().MoveableArea(false); });
             NewUnit.GetComponent<UnitBase>().Position = new int[2];
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
@@ -200,6 +205,7 @@ public class UnitManager : MonoBehaviour
         }
 
        TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
+
        SetupFinished = true;
     }
 

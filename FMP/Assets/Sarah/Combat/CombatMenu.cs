@@ -93,7 +93,7 @@ public class CombatMenu : MonoBehaviour
         else
         {
             NewIndex = Interact.Instance.SelectedUnit.WeaponsIninventory.IndexOf(Interact.Instance.SelectedUnit.EquipedWeapon) - 1;
-            if (NewIndex <= 0)
+            if (NewIndex < 0)
             {
                 NewIndex = Interact.Instance.SelectedUnit.WeaponsIninventory.Count -1;
             }
@@ -102,6 +102,23 @@ public class CombatMenu : MonoBehaviour
         Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.WeaponsIninventory[NewIndex];
         Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
         Interact.Instance.SelectedUnit.MoveableArea();
+        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().FindInRangeTargets();
+
+        if (Interact.Instance.SelectedUnit.InRangeTargets.Count > 0)
+        {
+            if (!Interact.Instance.SelectedUnit.InRangeTargets.Contains(Interact.Instance.SelectedUnit.AttackTarget))
+            {
+                Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[0];
+                CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.InRangeTargets[0].transform;
+            }
+
+            Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
+        }
+        else
+        {
+            CameraMove.Instance.FollowTarget = null;
+            Interact.Instance.CombatMenu.AttackMenuObject.SetActive(false);
+        }
     }
 
     public void ChangeAttack(bool Next)
@@ -118,7 +135,7 @@ public class CombatMenu : MonoBehaviour
         else
         {
             NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.IndexOf(Interact.Instance.SelectedUnit.CurrentAttack) - 1;
-            if (NewIndex <= 0)
+            if (NewIndex < 0)
             {
                 NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.Count - 1;
             }

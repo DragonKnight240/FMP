@@ -19,6 +19,7 @@ public class UnitControlled : UnitBase
         {
             CameraMove.Instance.FollowTarget = InRangeTargets[0].transform;
             AttackTarget = InRangeTargets[0];
+            FindWeapons();
             AttackDisplay();
             Interact.Instance.CombatMenu.AttackMenuObject.SetActive(true);
             Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
@@ -57,8 +58,21 @@ public class UnitControlled : UnitBase
         CameraMove.Instance.FollowTarget = null;
     }
 
+    internal void FindWeapons()
+    {
+        foreach(Item item in Inventory)
+        {
+            if((Weapon)item)
+            {
+                WeaponsIninventory.Add((Weapon)item);
+            }
+        }
+    }
+
     internal void FindInRangeTargets()
     {
+        InRangeTargets.Clear();
+
         foreach (Tile tile in AttackTiles)
         {
             if (tile.Unit)
@@ -101,7 +115,7 @@ public class UnitControlled : UnitBase
             Interact.Instance.CombatMenu.PreviousAttack.SetActive(true);
         }
 
-        if(Interact.Instance.SelectedUnit.InRangeTargets.Count == 1)
+        if(Interact.Instance.SelectedUnit.InRangeTargets.Count <= 1)
         {
             Interact.Instance.CombatMenu.NextTarget.SetActive(false);
             Interact.Instance.CombatMenu.PreviousTarget.SetActive(false);

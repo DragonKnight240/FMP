@@ -9,7 +9,7 @@ public class PlayerOverworld : MonoBehaviour
     public Transform Cam;
     public float SmoothRate;
     float RotationSmooth;
-    AoEDisappear AoEDisappear;
+    internal AoEDisappear AoEDisappear;
 
     private void Start()
     {
@@ -27,6 +27,8 @@ public class PlayerOverworld : MonoBehaviour
                 AoEDisappear.gameObject.SetActive(true);
             }
         }
+
+        RB.velocity = Vector3.zero;
     }
 
     private void Update()

@@ -119,7 +119,16 @@ MonoBehaviour:
   AttackTiles: []
   EquipedWeapon: {fileID: 0}
   Inventory: []
+  WeaponsIninventory:
+  - {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
+  - {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   Strength: 2
+  Dexterity: 0
+  Magic: 0
+  Defence: 0
+  Resistance: 0
+  Speed: 0
+  Luck: 0
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -128,6 +137,9 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
+  Class: {fileID: 0}
+  CurrentAttack: {fileID: 0}
+  UnlockedAttacks: []
   InRangeTargets: []
 --- !u!114 &-7295948164236061629
 MonoBehaviour:
@@ -141,4 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SingleTarget: 1
+  Parents: []
   FadeSpeed: 1
