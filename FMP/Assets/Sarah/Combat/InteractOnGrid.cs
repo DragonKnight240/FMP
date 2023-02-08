@@ -13,10 +13,7 @@ public class InteractOnGrid : MonoBehaviour
     }
 
     internal int[] Position;
-    internal List<GameObject> AoETiles;
     internal List<GameObject> ActiveTiles;
-    public int HitAmountWidth;
-    public int HitAmountHeight;
     internal Dictionary<Tile, Direction> InteractLocations;
 
     private void Start()

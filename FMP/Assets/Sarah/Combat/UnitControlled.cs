@@ -6,13 +6,11 @@ public class UnitControlled : UnitBase
 {
     internal void MoveButton()
     {
-
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
     }
 
     internal void AttackButton()
     {
-        InRangeTargets.Clear();
         FindInRangeTargets();
 
         if (InRangeTargets.Count > 0)
@@ -26,7 +24,6 @@ public class UnitControlled : UnitBase
         }
         else
         {
-            print("No in range targets");
             Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
         }
     }
@@ -62,7 +59,7 @@ public class UnitControlled : UnitBase
     {
         foreach(Item item in Inventory)
         {
-            if((Weapon)item)
+            if(item.Type == ItemTypes.Weapon)
             {
                 WeaponsIninventory.Add((Weapon)item);
             }
@@ -72,6 +69,18 @@ public class UnitControlled : UnitBase
     internal void FindInRangeTargets()
     {
         InRangeTargets.Clear();
+
+        if(MovedForTurn)
+        {
+            List<GameObject> Tiles = new List<GameObject>();
+            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+            AttackTiles.Clear();
+
+            for (int i = 0; i < EquipedWeapon.Range; i++)
+            {
+                Tiles = WeaponRangeAttack(Tiles, true);
+            }
+        }
 
         foreach (Tile tile in AttackTiles)
         {

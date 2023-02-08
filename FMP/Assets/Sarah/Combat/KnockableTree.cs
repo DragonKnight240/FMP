@@ -9,6 +9,9 @@ public class KnockableTree : InteractOnGrid
     internal bool isFalling = false;
     internal Quaternion RotateTo;
     public float Speed = 50;
+    public int HitAmountWidth;
+    public int HitAmountHeight;
+    internal List<GameObject> AoETiles;
 
 
     // Start is called before the first frame update

@@ -282,7 +282,6 @@ public class UnitBase : MonoBehaviour
             if(MoveEnd)
             {
                 OuterMostMove.Add(tile);
-                print(tile.name);
             }
         }
 
@@ -576,7 +575,7 @@ public class UnitBase : MonoBehaviour
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
-            if (Node.Tile.Unit == null && MoveableTiles.Contains(Node.PreviousTile.Tile))
+            if (Node.PreviousTile.Tile.Unit == null && MoveableTiles.Contains(Node.PreviousTile.Tile))
             {
                 Path.Add(Node.PreviousTile.Tile);
             }

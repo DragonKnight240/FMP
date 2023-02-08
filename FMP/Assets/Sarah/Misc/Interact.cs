@@ -180,6 +180,8 @@ public class Interact : MonoBehaviour
     {
         if (!CombatMenu.gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
         {
+            CombatMenu.CheckButtons();
+
             UnitControlled Unit = (UnitControlled)SelectedUnit;
 
             CombatMenu.AttackButton.onClick.RemoveAllListeners();
