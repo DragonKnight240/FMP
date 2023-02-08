@@ -66,6 +66,7 @@ public class UnitBase : MonoBehaviour
     //Attack
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
+    internal List<GameObject> OuterMostMove;
 
     public List<UnitBase> InRangeTargets; 
 
@@ -76,6 +77,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles = new List<Tile>();
         CurrentHealth = HealthMax;
         InRangeTargets = new List<UnitBase>();
+        OuterMostMove = new List<GameObject>();
         //WeaponsIninventory = new List<Weapon>();
         Path = new List<Tile>();
 
@@ -172,12 +174,12 @@ public class UnitBase : MonoBehaviour
         {
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
-                CheckingTiles = CheckTiles(CheckingTiles, true, ShowTiles);
+                CheckingTiles = WeaponRangeAttack(CheckingTiles, ShowTiles);
             }
         }
         else
         {
-            CheckingTiles = CheckTiles(CheckingTiles, true, ShowTiles);
+            CheckingTiles = WeaponRangeAttack(CheckingTiles, ShowTiles);
         }
 
         //Checks if an enemy unit is in the attack range
@@ -203,6 +205,7 @@ public class UnitBase : MonoBehaviour
         HideAllChangedTiles();
         MoveableTiles.Clear();
         AttackTiles.Clear();
+        OuterMostMove.Clear();
         List<GameObject> CheckingTiles = new List<GameObject>();
         CheckingTiles.Add(TileManager.Instance.Grid[Position[0],Position[1]]);
 
@@ -211,16 +214,33 @@ public class UnitBase : MonoBehaviour
             CheckingTiles = CheckTiles(CheckingTiles, false, ShowTiles);
         }
 
-        AttackableArea(CheckingTiles, ShowTiles);
+        foreach(GameObject tile in CheckingTiles)
+        {
+            if (!OuterMostMove.Contains(tile))
+            {
+                OuterMostMove.Add(tile);
+            }
+        }
+
+        if (OuterMostMove.Count > 0)
+        {
+            AttackableArea(OuterMostMove, ShowTiles);
+        }
+        else
+        {
+            AttackableArea(CheckingTiles, ShowTiles);
+        }
     }
 
     //Adds the adjacent tiles to moveable/attack tiles list and shows the tiles in the correct colour
     internal List<GameObject> CheckTiles(List<GameObject> tiles, bool WeaponRange = false, bool ShowTile = true)
     {
         List<GameObject> NextLayer = new List<GameObject>();
+        bool MoveEnd = false;
 
         foreach (GameObject tile in tiles)
         {
+            MoveEnd = false;
             foreach (GameObject AdjacentTile in tile.GetComponent<Tile>().AdjacentTiles)
             {
                 if (!MoveableTiles.Contains(AdjacentTile.GetComponent<Tile>()))
@@ -232,8 +252,19 @@ public class UnitBase : MonoBehaviour
                             MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
                         }
 
-                        NextLayer.Add(AdjacentTile);
+                        if(AdjacentTile.GetComponent<Tile>().Unit)
+                        {
+                            if (AdjacentTile.GetComponent<Tile>().Unit != this)
+                            {
+                                MoveEnd = true;
+                            }
+                        }
+                        else
+                        {
+                            NextLayer.Add(AdjacentTile);
+                        }
 
+                        
                     }
 
                     if (!AttackTiles.Contains(AdjacentTile.GetComponent<Tile>()))
@@ -246,7 +277,43 @@ public class UnitBase : MonoBehaviour
                         AdjacentTile.GetComponent<Tile>().Show(WeaponRange);
                     }
                 }
+            }
 
+            if(MoveEnd)
+            {
+                OuterMostMove.Add(tile);
+                print(tile.name);
+            }
+        }
+
+        return NextLayer;
+    }
+
+    internal List<GameObject> WeaponRangeAttack(List<GameObject> tiles, bool ShowTiles)
+    {
+        List<GameObject> NextLayer = new List<GameObject>();
+
+        foreach (GameObject tile in tiles)
+        {
+            foreach (GameObject AdjacentTile in tile.GetComponent<Tile>().AdjacentTiles)
+            {
+                if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit)
+                {
+                    if (!NextLayer.Contains(AdjacentTile))
+                    {
+                        NextLayer.Add(AdjacentTile);
+                    }
+
+                    if (!AttackTiles.Contains(AdjacentTile.GetComponent<Tile>()))
+                    {
+                        AttackTiles.Add(AdjacentTile.GetComponent<Tile>());
+                    }
+
+                    if (ShowTiles)
+                    {
+                        AdjacentTile.GetComponent<Tile>().Show(true);
+                    }
+                }
             }
         }
 
@@ -296,16 +363,9 @@ public class UnitBase : MonoBehaviour
 
         //Change later to proper logic
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
-        //Damage and hit rate to be calculated and implemented later
-
-        if (EquipedWeapon)
-        {
-            Enemy.CurrentHealth -= EquipedWeapon.Damage * 2;
-        }
-        else
-        {
-            Enemy.CurrentHealth -= 2;
-        }
+        
+        //Will calculate crit change later
+        Enemy.CurrentHealth -= CalculateDamage();
 
         ResetMoveableTiles();
         MovedForTurn = true;

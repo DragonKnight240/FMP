@@ -100,25 +100,7 @@ public class CombatMenu : MonoBehaviour
         }
 
         Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.WeaponsIninventory[NewIndex];
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
-        Interact.Instance.SelectedUnit.MoveableArea();
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().FindInRangeTargets();
-
-        if (Interact.Instance.SelectedUnit.InRangeTargets.Count > 0)
-        {
-            if (!Interact.Instance.SelectedUnit.InRangeTargets.Contains(Interact.Instance.SelectedUnit.AttackTarget))
-            {
-                Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[0];
-                CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.InRangeTargets[0].transform;
-            }
-
-            Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
-        }
-        else
-        {
-            CameraMove.Instance.FollowTarget = null;
-            Interact.Instance.CombatMenu.AttackMenuObject.SetActive(false);
-        }
+        CheckTargetStatus();
     }
 
     public void ChangeAttack(bool Next)
@@ -142,6 +124,29 @@ public class CombatMenu : MonoBehaviour
         }
 
         Interact.Instance.SelectedUnit.CurrentAttack = Interact.Instance.SelectedUnit.UnlockedAttacks[NewIndex];
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
+
+        CheckTargetStatus();
+    }
+
+    internal void CheckTargetStatus()
+    {
+        Interact.Instance.SelectedUnit.MoveableArea();
+        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().FindInRangeTargets();
+
+        if (Interact.Instance.SelectedUnit.InRangeTargets.Count > 0)
+        {
+            if (!Interact.Instance.SelectedUnit.InRangeTargets.Contains(Interact.Instance.SelectedUnit.AttackTarget))
+            {
+                Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[0];
+                CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.InRangeTargets[0].transform;
+            }
+
+            Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
+        }
+        else
+        {
+            CameraMove.Instance.FollowTarget = null;
+            Interact.Instance.CombatMenu.AttackMenuObject.SetActive(false);
+        }
     }
 }
