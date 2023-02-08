@@ -48,6 +48,10 @@ public class CombatMenu : MonoBehaviour
     public float ItemStayTime = 5.0f;
     float ItemStayTimer = 0;
 
+    //Selected
+    public GameObject SelectedUnitTab;
+    public TMP_Text UnitText;
+
     private void Start()
     {
         CombatMenuObject.SetActive(false);
@@ -156,6 +160,7 @@ public class CombatMenu : MonoBehaviour
         CameraMove.Instance.FollowTarget = null;
         Interact.Instance.SelectedUnit.HideAllChangedTiles();
         Interact.Instance.SelectedUnit = null;
+        Interact.Instance.UISelectedUnit();
     }
 
     internal void CheckTargetStatus()
@@ -205,7 +210,6 @@ public class CombatMenu : MonoBehaviour
         else
         {
             AttackButton.gameObject.SetActive(false);
-            print("None in Range");
         }
 
         if(Interact.Instance.SelectedUnit.MovedForTurn)

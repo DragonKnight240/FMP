@@ -119,7 +119,7 @@ public class Interact : MonoBehaviour
             }
 
             SelectedUnit = Unit;
-            print("Selected Unit");
+            UISelectedUnit();
 
             if (Unit.MovedForTurn)
             {
@@ -136,7 +136,7 @@ public class Interact : MonoBehaviour
             if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
             {
                 SelectedUnit = null;
-                print("Deselect Unit");
+                UISelectedUnit();
             }
             
             ChangeMenuButtons();
@@ -148,6 +148,7 @@ public class Interact : MonoBehaviour
         if (SelectedUnit.Move(Tile))
         {
             SelectedUnit = null;
+            UISelectedUnit();
             print("Move Unit");
         }
     }
@@ -162,6 +163,7 @@ public class Interact : MonoBehaviour
                 {
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
+                    UISelectedUnit();
                     print("Attack Enemy");
                     UnitManager.Instance.UnitUpdate.Invoke();
                     CameraMove.Instance.FollowTarget = null;
@@ -217,8 +219,22 @@ public class Interact : MonoBehaviour
     internal void ResetTargets()
     {
         SelectedUnit = null;
+        UISelectedUnit();
         CameraMove.Instance.FollowTarget = null;
 
         print("Targets Reset");
+    }
+
+    internal void UISelectedUnit()
+    {
+        if (SelectedUnit)
+        {
+            CombatMenu.UnitText.text = SelectedUnit.UnitName;
+            CombatMenu.SelectedUnitTab.SetActive(true);
+        }
+        else
+        {
+            CombatMenu.SelectedUnitTab.SetActive(false);
+        }
     }
 }

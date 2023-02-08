@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: -2159630872647823261}
   - component: {fileID: -6417792440367428823}
   m_Layer: 0
-  m_Name: AllyUnit
+  m_Name: AllyUnitSword
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1025,7 +1025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3747188df2d4fbe4c963cb70101f768b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: 
+  UnitName: Sword User
   HealthMax: 20
   CurrentHealth: 0
   Movement: 2

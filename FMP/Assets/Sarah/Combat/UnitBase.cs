@@ -13,6 +13,7 @@ public class UnitBase : MonoBehaviour
         public int GCost;
     }
 
+    [Header("General")]
     public string UnitName;
     public int HealthMax = 50;
     public int CurrentHealth;
@@ -27,7 +28,7 @@ public class UnitBase : MonoBehaviour
     internal bool Moving = false;
     List<Tile> Path;
 
-    //Inventory
+    [Header("Inventory")]
     public Weapon EquipedWeapon;
     public List<Item> Inventory;
     public List<Weapon> WeaponsIninventory;
@@ -38,7 +39,7 @@ public class UnitBase : MonoBehaviour
     internal bool AttackedForTurn = false;
     internal bool EndTurn = false;
 
-    //Stats
+    [Header("Stats")]
     public int Strength = 2;
     public int Dexterity;
     public int Magic;
@@ -47,7 +48,7 @@ public class UnitBase : MonoBehaviour
     public int Speed;
     public int Luck;
 
-    //Weapon Proficientcy
+    [Header("Weapon Proficiencies")]
     public float BowProficiency;
     public int BowLevel;
 
@@ -60,10 +61,10 @@ public class UnitBase : MonoBehaviour
     public float FistProficiency;
     public int FistLevel;
 
-    //Class
+    [Header("Class")]
     public Class Class;
 
-    //Attack
+    [Header("Attack")]
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
     internal List<GameObject> OuterMostMove;
@@ -494,6 +495,7 @@ public class UnitBase : MonoBehaviour
         EndTurn = true;
 
         Interact.Instance.SelectedUnit = null;
+        Interact.Instance.UISelectedUnit();
         HideAllChangedTiles();
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
         CameraMove.Instance.FollowTarget = null;

@@ -46,6 +46,7 @@ public class UnitControlled : UnitBase
                 tile.GetComponent<Tile>().Special.Special(this);
                 UnitManager.Instance.UnitUpdate.Invoke();
                 Interact.Instance.SelectedUnit = null;
+                Interact.Instance.UISelectedUnit();
                 CameraMove.Instance.FollowTarget = null;
                 HideAllChangedTiles();
                 EndTurn = true;

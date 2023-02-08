@@ -63,6 +63,7 @@ public class TurnManager : MonoBehaviour
             isPlayerTurn = false;
             TurnChange.Invoke();
             Interact.Instance.SelectedUnit = null;
+            Interact.Instance.UISelectedUnit();
             TurnText.text = "Enemy Turn";
         }
         else
@@ -86,6 +87,7 @@ public class TurnManager : MonoBehaviour
             isPlayerTurn = true;
             TurnChange.Invoke();
             Interact.Instance.SelectedUnit = null;
+            Interact.Instance.UISelectedUnit();
             TurnText.text = "Player Turn";
         }
     }
