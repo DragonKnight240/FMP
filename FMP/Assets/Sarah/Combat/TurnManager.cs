@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance;
+    public TMP_Text TurnText;
     internal bool isPlayerTurn = true;
     internal UnityEvent TurnChange;
 
@@ -28,6 +30,8 @@ public class TurnManager : MonoBehaviour
 
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Confined;
+
+        TurnText.text = "Player Turn";
     }
 
     // Update is called once per frame
@@ -59,7 +63,8 @@ public class TurnManager : MonoBehaviour
             isPlayerTurn = false;
             TurnChange.Invoke();
             Interact.Instance.SelectedUnit = null;
-            print("Turn Change Enemy");
+            Interact.Instance.UISelectedUnit();
+            TurnText.text = "Enemy Turn";
         }
         else
         {
@@ -82,7 +87,8 @@ public class TurnManager : MonoBehaviour
             isPlayerTurn = true;
             TurnChange.Invoke();
             Interact.Instance.SelectedUnit = null;
-            print("Turn Change Player");
+            Interact.Instance.UISelectedUnit();
+            TurnText.text = "Player Turn";
         }
     }
 }

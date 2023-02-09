@@ -88,18 +88,22 @@ public class EnemyOverWorld : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("Player"))
         {
-            Time.timeScale = 0;
-            ReachedPlayer = true;
-            if (GameManager.Instance)
+            if (!collision.transform.GetComponent<PlayerOverworld>().AoEDisappear.gameObject.activeInHierarchy)
             {
-                if (Player)
+                Time.timeScale = 0;
+                ReachedPlayer = true;
+                if (GameManager.Instance)
                 {
-                    GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
+                    if (Player)
+                    {
+                        GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
+                        GameManager.Instance.PlayerReturnToOverworld.y += 1;
+                    }
                 }
+                SceneLoader.Instance.LoadNewScene(CombatMapName);
             }
-            SceneLoader.Instance.LoadNewScene(CombatMapName);
         }
     }
 }
