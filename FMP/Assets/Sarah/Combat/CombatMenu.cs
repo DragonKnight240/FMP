@@ -58,6 +58,7 @@ public class CombatMenu : MonoBehaviour
         InventoryObject.SetActive(false);
         AttackMenuObject.SetActive(false);
         ItemNotification.SetActive(false);
+        SelectedUnitTab.SetActive(false);
     }
 
     private void Update()

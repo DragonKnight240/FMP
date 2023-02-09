@@ -33,6 +33,7 @@ public class UnitBase : MonoBehaviour
     public List<Item> Inventory;
     public List<Weapon> WeaponsIninventory;
     internal UnitBase AttackTarget;
+    public Weapon BareHands;
 
     //Turn Checks
     internal bool MovedForTurn = false;

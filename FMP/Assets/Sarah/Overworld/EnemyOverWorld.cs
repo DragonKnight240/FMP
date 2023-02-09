@@ -88,7 +88,7 @@ public class EnemyOverWorld : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("Player"))
         {
             if (!collision.transform.GetComponent<PlayerOverworld>().AoEDisappear.gameObject.activeInHierarchy)
             {
