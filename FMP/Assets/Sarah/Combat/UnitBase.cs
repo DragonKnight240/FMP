@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitBase : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class UnitBase : MonoBehaviour
         public int HCost;
         public int GCost;
     }
+
+    public Slider UIHealth;
+    public float HealthLerpSpeed = 10;
 
     [Header("General")]
     public string UnitName;
@@ -121,6 +125,14 @@ public class UnitBase : MonoBehaviour
                     transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
                 }
+            }
+        }
+
+        if (UIHealth)
+        {
+            if (UIHealth.value != CurrentHealth)
+            {
+                UIHealth.value = Mathf.Lerp(UIHealth.value, CurrentHealth, Time.deltaTime * HealthLerpSpeed);
             }
         }
     }

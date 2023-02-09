@@ -202,6 +202,9 @@ public class UnitManager : MonoBehaviour
             NewUnit.GetComponent<UnitBase>().Position[0] = X;
             NewUnit.GetComponent<UnitBase>().Position[1] = Y;
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
+
+            NewUnit.GetComponent<UnitBase>().UIHealth.maxValue = NewUnit.GetComponent<UnitBase>().HealthMax;
+            NewUnit.GetComponent<UnitBase>().UIHealth.value = NewUnit.GetComponent<UnitBase>().CurrentHealth;
         }
 
        TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);

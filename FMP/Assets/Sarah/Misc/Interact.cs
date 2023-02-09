@@ -36,17 +36,17 @@ public class Interact : MonoBehaviour
 
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
                 {
-                    if (Hit.transform.GetComponent<UnitBase>())
+                    if (Hit.transform.GetComponentInChildren<UnitBase>())
                     {
                         if (Hit.transform.gameObject == SelectedUnit.gameObject)
                         {
-                            SelectionUnit(Hit.transform.GetComponent<UnitBase>());
+                            SelectionUnit(Hit.transform.GetComponentInChildren<UnitBase>());
                         }
                         else if (Hit.transform.CompareTag("Enemy"))
                         {
                             if (Hit.transform == SelectedUnit.AttackTarget.transform)
                             {
-                                AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                                AttackUnit(Hit.transform.GetComponentInChildren<UnitBase>());
                             }
                         }
                     }
@@ -81,9 +81,9 @@ public class Interact : MonoBehaviour
                 {
                     if (TurnManager.Instance.isPlayerTurn)
                     {
-                        if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Ally"))
+                        if (Hit.transform.GetComponentInChildren<UnitBase>() && Hit.transform.CompareTag("Ally"))
                         {
-                            SelectionUnit(Hit.transform.GetComponent<UnitBase>());
+                            SelectionUnit(Hit.transform.GetComponentInChildren<UnitBase>());
                         }
                         else if (Hit.transform.GetComponent<Tile>())
                         {

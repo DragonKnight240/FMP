@@ -5221,12 +5221,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ControlledUnits:
-  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-  - {fileID: 1696317298173679006, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
-  - {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
-  - {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+  - {fileID: 4796522385036899766, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  - {fileID: 3125713603831292692, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+  - {fileID: 6245451408666926229, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
+  - {fileID: 1487821822958251886, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
+  UnitData: []
   MaxUnits: 6
   MaxRecruitable: 2
+  Convoy: []
+  Money: 0
   inCombat: 0
 --- !u!4 &1569221630
 Transform:
@@ -5672,19 +5675,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitPositions:
   - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+    Unit: {fileID: 4796522385036899766, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 2
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
+    Unit: {fileID: 1487821822958251886, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
     X: 4
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
+    Unit: {fileID: 6245451408666926229, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
     X: 6
     Y: 2
   - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+    Unit: {fileID: 3125713603831292692, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
     X: 8
     Y: 2
   - UnitType: 1
