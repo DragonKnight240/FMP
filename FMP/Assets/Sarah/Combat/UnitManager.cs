@@ -187,7 +187,7 @@ public class UnitManager : MonoBehaviour
             }
             else
             {
-                NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.Euler(0,180,0), transform);
                 EnemyUnits.Add(NewUnit);
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
             }
