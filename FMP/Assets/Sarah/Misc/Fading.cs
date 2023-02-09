@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Fading : MonoBehaviour
 {
+    public bool SingleTarget = true;
+    public List<GameObject> Parents;
     internal Renderer FadingObject;
     public float FadeSpeed = 10;
     internal bool FadeIn = false;
@@ -20,30 +22,86 @@ public class Fading : MonoBehaviour
     {
         if(FadeIn)
         {
-            print("fading in");
-            Color Colour = FadingObject.material.color;
-            Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a + (FadeSpeed * Time.deltaTime));
-
-            FadingObject.material.color = Colour;
-
-            if(Colour.a > 1)
+            if (SingleTarget)
             {
-                FadeIn = false;
+                print("fading in");
+                Color Colour = FadingObject.material.color;
+                Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a + (FadeSpeed * Time.deltaTime));
+
+                FadingObject.material.color = Colour;
+
+                if (Colour.a > 1)
+                {
+                    FadeIn = false;
+                }
+            }
+            else
+            {
+                multipleRenders(true);
             }
         }
         else if(FadeOut)
         {
-            print("fading out");
-            Color Colour = FadingObject.material.color;
-            Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a - (FadeSpeed * Time.deltaTime));
-
-            FadingObject.material.color = Colour;
-
-            if (Colour.a < 0)
+            if (SingleTarget)
             {
-                FadeOut = false;
-                gameObject.SetActive(false);
+                print("fading out");
+                Color Colour = FadingObject.material.color;
+                Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a - (FadeSpeed * Time.deltaTime));
+
+                FadingObject.material.color = Colour;
+
+                if (Colour.a < 0)
+                {
+                    FadeOut = false;
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                multipleRenders(false);
             }
         }
     }
+
+    void multipleRenders(bool increase)
+    {
+        foreach (GameObject Parent in Parents)
+        {
+            foreach (Transform Child in Parent.transform)
+            {
+                if (Child.GetComponent<Renderer>())
+                {
+                    Color Colour = Child.GetComponent<Renderer>().material.color;
+
+                    if (increase)
+                    {
+                        Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a + (FadeSpeed * Time.deltaTime));
+                    }
+                    else
+                    {
+                        Colour = new Color(Colour.r, Colour.g, Colour.r, Colour.a - (FadeSpeed * Time.deltaTime));
+                    }
+
+                    Child.GetComponent<Renderer>().material.color = Colour;
+
+                    if (increase)
+                    {
+                        if (Colour.a > 1)
+                        {
+                            FadeIn = false;
+                        }
+                    }
+                    else
+                    {
+                        if (Colour.a < 0)
+                        {
+                            FadeOut = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
+

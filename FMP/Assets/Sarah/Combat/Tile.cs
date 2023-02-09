@@ -15,6 +15,7 @@ public class Tile : MonoBehaviour
     public Material InRangeMaterial; //Temp
     public Material WeaponRangeMaterial; //Temp
     public Material OverlayMaterial; //Temp
+    public Material SpecialMaterial;
     Material OGMaterial; 
 
     // Start is called before the first frame update
@@ -42,17 +43,22 @@ public class Tile : MonoBehaviour
 
     public void Show(bool WeaponRange = false, bool Overlay = false, bool Reset = false)
     {
-        if (WeaponRange && !Reset)
+        if (WeaponRange && !Reset && !Special)
         {
             GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
         }
-        else if(!Overlay && !Reset)
+        else if(!Overlay && !Reset && !Special)
         {
             GetComponent<MeshRenderer>().material = InRangeMaterial;
         }
-        else if(Overlay && !Reset)
+        else if(Overlay && !Reset && !Special)
         {
             GetComponent<MeshRenderer>().material = OverlayMaterial;
+        }
+        else if(Special && !Reset)
+        {
+            print("Special");
+            GetComponent<MeshRenderer>().material = SpecialMaterial;
         }
         else
         {

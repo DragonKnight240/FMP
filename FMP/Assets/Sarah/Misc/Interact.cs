@@ -28,7 +28,7 @@ public class Interact : MonoBehaviour
     void Update()
     {
         //With Combat Options up checks against selected unit so deselection is possible
-        if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (CombatMenu.CombatMenuObject.activeInHierarchy || CombatMenu.AttackMenuObject.activeInHierarchy)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -42,6 +42,13 @@ public class Interact : MonoBehaviour
                         {
                             SelectionUnit(Hit.transform.GetComponent<UnitBase>());
                         }
+                        else if (Hit.transform.CompareTag("Enemy"))
+                        {
+                            if (Hit.transform == SelectedUnit.AttackTarget.transform)
+                            {
+                                AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                            }
+                        }
                     }
                     else if (Hit.transform.GetComponent<Tile>())
                     {
@@ -50,6 +57,13 @@ public class Interact : MonoBehaviour
                             if (Hit.transform.GetComponent<Tile>().Unit == SelectedUnit)
                             {
                                 SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
+                            }
+                            else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
+                            {
+                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]])
+                                {
+                                    AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
+                                }
                             }
                         }
                     }
@@ -71,10 +85,6 @@ public class Interact : MonoBehaviour
                         {
                             SelectionUnit(Hit.transform.GetComponent<UnitBase>());
                         }
-                        else if (Hit.transform.GetComponent<UnitBase>() && Hit.transform.CompareTag("Enemy"))
-                        {
-                            AttackUnit(Hit.transform.GetComponent<UnitBase>());
-                        }
                         else if (Hit.transform.GetComponent<Tile>())
                         {
                             if (Hit.transform.GetComponent<Tile>().Unit)
@@ -82,10 +92,6 @@ public class Interact : MonoBehaviour
                                 if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Ally"))
                                 {
                                     SelectionUnit(Hit.transform.GetComponent<Tile>().Unit);
-                                }
-                                else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
-                                {
-                                    AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
                                 }
                             }
                             else if (SelectedUnit)
@@ -113,7 +119,7 @@ public class Interact : MonoBehaviour
             }
 
             SelectedUnit = Unit;
-            print("Selected Unit");
+            UISelectedUnit();
 
             if (Unit.MovedForTurn)
             {
@@ -130,7 +136,7 @@ public class Interact : MonoBehaviour
             if (CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy)
             {
                 SelectedUnit = null;
-                print("Deselect Unit");
+                UISelectedUnit();
             }
             
             ChangeMenuButtons();
@@ -142,6 +148,7 @@ public class Interact : MonoBehaviour
         if (SelectedUnit.Move(Tile))
         {
             SelectedUnit = null;
+            UISelectedUnit();
             print("Move Unit");
         }
     }
@@ -156,6 +163,7 @@ public class Interact : MonoBehaviour
                 {
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
+                    UISelectedUnit();
                     print("Attack Enemy");
                     UnitManager.Instance.UnitUpdate.Invoke();
                     CameraMove.Instance.FollowTarget = null;
@@ -174,6 +182,8 @@ public class Interact : MonoBehaviour
     {
         if (!CombatMenu.gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
         {
+            CombatMenu.CheckButtons();
+
             UnitControlled Unit = (UnitControlled)SelectedUnit;
 
             CombatMenu.AttackButton.onClick.RemoveAllListeners();
@@ -193,6 +203,7 @@ public class Interact : MonoBehaviour
 
             CameraMove.Instance.ShouldFollow = false;
             CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            CombatMenu.AttackMenuObject.SetActive(false);
 
             CameraMove.Instance.FollowTarget = SelectedUnit.transform;
         }
@@ -208,8 +219,22 @@ public class Interact : MonoBehaviour
     internal void ResetTargets()
     {
         SelectedUnit = null;
+        UISelectedUnit();
         CameraMove.Instance.FollowTarget = null;
 
         print("Targets Reset");
+    }
+
+    internal void UISelectedUnit()
+    {
+        if (SelectedUnit)
+        {
+            CombatMenu.UnitText.text = SelectedUnit.UnitName;
+            CombatMenu.SelectedUnitTab.SetActive(true);
+        }
+        else
+        {
+            CombatMenu.SelectedUnitTab.SetActive(false);
+        }
     }
 }

@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: -2159630872647823261}
   - component: {fileID: -6417792440367428823}
   m_Layer: 0
-  m_Name: AllyUnit
+  m_Name: AllyUnitFist
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -974,7 +974,7 @@ Animator:
   m_GameObject: {fileID: 1696317298173679006}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
-  m_Controller: {fileID: 9100000, guid: 66d0e7c433090dd42ba21830d0602777, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7fdc5867f3201484e875a7128d235d4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1025,16 +1025,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3747188df2d4fbe4c963cb70101f768b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: 
+  UnitName: Gauntlet User
   HealthMax: 20
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
   MoveableTiles: []
   AttackTiles: []
-  EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
+  EquipedWeapon: {fileID: 11400000, guid: 96b4cd2c3c0c3f44e943ff1865a751cd, type: 2}
   Inventory: []
+  WeaponsIninventory:
+  - {fileID: 11400000, guid: 96b4cd2c3c0c3f44e943ff1865a751cd, type: 2}
+  BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 2
+  Dexterity: 0
+  Magic: 0
+  Defence: 0
+  Resistance: 0
+  Speed: 0
+  Luck: 0
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1043,6 +1052,9 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
+  Class: {fileID: 0}
+  CurrentAttack: {fileID: 0}
+  UnlockedAttacks: []
   InRangeTargets: []
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
@@ -1068,6 +1080,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SingleTarget: 1
+  Parents: []
   FadeSpeed: 10
 --- !u!1 &1721271865113218592
 GameObject:
@@ -2030,7 +2044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3890801836958295706
 Transform:
   m_ObjectHideFlags: 0
@@ -2396,7 +2410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3522352452180328186
 Transform:
   m_ObjectHideFlags: 0
@@ -4634,7 +4648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6796269604421136689
 Transform:
   m_ObjectHideFlags: 0
@@ -4988,7 +5002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4485780358506585549
 Transform:
   m_ObjectHideFlags: 0
@@ -5227,7 +5241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4656942470822192007
 Transform:
   m_ObjectHideFlags: 0
@@ -5402,7 +5416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3874177432574136317
 Transform:
   m_ObjectHideFlags: 0
