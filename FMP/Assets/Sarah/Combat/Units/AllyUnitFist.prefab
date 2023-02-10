@@ -1083,8 +1083,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SingleTarget: 1
-  Parents: []
+  SingleTarget: 0
+  Parents:
+  - {fileID: 4056540336338519527}
+  - {fileID: 313780308984909659}
+  - {fileID: 8107816982596156578}
+  - {fileID: 294418992619848717}
+  - {fileID: 385122743989931716}
+  - {fileID: 5448417695789929620}
+  - {fileID: 1096602195429036732}
+  - {fileID: 1096602193844031116}
   FadeSpeed: 10
 --- !u!1 &1721271865113218592
 GameObject:
