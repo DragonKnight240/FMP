@@ -128,55 +128,57 @@ public class UnitManager : MonoBehaviour
             }
 
             GameObject NewUnit;
+            UnitBase UnitBase;
 
             if (Position.UnitType == UnitType.Ally)
             {
                 if (Index <= GameManager.Instance.MaxUnits + GameManager.Instance.NumRecruited)
                 {
                     NewUnit = Instantiate(GameManager.Instance.ControlledUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                    UnitBase = NewUnit.GetComponent<UnitBase>();
                     Index++;
                     AllyUnits.Add(NewUnit);
-                    TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
+                    TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
 
                     if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
                     {
                         CharacterData data = GameManager.Instance.UnitData[Index];
 
-                        NewUnit.GetComponent<UnitBase>().UnitName = data.UnitName;
-                        NewUnit.GetComponent<UnitBase>().HealthMax = data.HealthMax;
-                        NewUnit.GetComponent<UnitBase>().CurrentHealth = data.CurrentHealth;
-                        NewUnit.GetComponent<UnitBase>().Movement = data.Movement;
+                        UnitBase.UnitName = data.UnitName;
+                        UnitBase.HealthMax = data.HealthMax;
+                        UnitBase.CurrentHealth = data.CurrentHealth;
+                        UnitBase.Movement = data.Movement;
 
                         //Inventory
-                        NewUnit.GetComponent<UnitBase>().Inventory = data.Inventory;
+                        UnitBase.Inventory = data.Inventory;
 
                         //Stats
-                        NewUnit.GetComponent<UnitBase>().Strength = data.Strength;
-                        NewUnit.GetComponent<UnitBase>().Dexterity = data.Dexterity;
-                        NewUnit.GetComponent<UnitBase>().Magic = data.Magic;
-                        NewUnit.GetComponent<UnitBase>().Defence = data.Defence;
-                        NewUnit.GetComponent<UnitBase>().Resistance = data.Resistance;
-                        NewUnit.GetComponent<UnitBase>().Speed = data.Speed;
-                        NewUnit.GetComponent<UnitBase>().Luck = data.Luck;
+                        UnitBase.Strength = data.Strength;
+                        UnitBase.Dexterity = data.Dexterity;
+                        UnitBase.Magic = data.Magic;
+                        UnitBase.Defence = data.Defence;
+                        UnitBase.Resistance = data.Resistance;
+                        UnitBase.Speed = data.Speed;
+                        UnitBase.Luck = data.Luck;
 
                         //Weapon Proficientcy
-                        NewUnit.GetComponent<UnitBase>().BowProficiency = data.BowProficiency;
-                        NewUnit.GetComponent<UnitBase>().BowLevel = data.BowLevel;
+                        UnitBase.BowProficiency = data.BowProficiency;
+                        UnitBase.BowLevel = data.BowLevel;
 
-                        NewUnit.GetComponent<UnitBase>().SwordProficiency = data.SwordProficiency;
-                        NewUnit.GetComponent<UnitBase>().SwordLevel = data.SwordLevel;
+                        UnitBase.SwordProficiency = data.SwordProficiency;
+                        UnitBase.SwordLevel = data.SwordLevel;
 
-                        NewUnit.GetComponent<UnitBase>().MagicProficiency = data.MagicProficiency;
-                        NewUnit.GetComponent<UnitBase>().MagicLevel = data.MagicLevel;
+                        UnitBase.MagicProficiency = data.MagicProficiency;
+                        UnitBase.MagicLevel = data.MagicLevel;
 
-                        NewUnit.GetComponent<UnitBase>().FistProficiency = data.FistProficiency;
-                        NewUnit.GetComponent<UnitBase>().FistLevel = data.FistLevel;
+                        UnitBase.FistProficiency = data.FistProficiency;
+                        UnitBase.FistLevel = data.FistLevel;
 
                         //Class
-                        NewUnit.GetComponent<UnitBase>().Class = data.Class;
+                        UnitBase.Class = data.Class;
 
                         //Attack
-                        NewUnit.GetComponent<UnitBase>().UnlockedAttacks = data.UnlockedAttacks;
+                        UnitBase.UnlockedAttacks = data.UnlockedAttacks;
                     }
                 }
                 else
@@ -188,23 +190,26 @@ public class UnitManager : MonoBehaviour
             else
             {
                 NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.Euler(0,180,0), transform);
+                UnitBase = NewUnit.GetComponent<UnitBase>();
                 EnemyUnits.Add(NewUnit);
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
             }
 
-            foreach (Item item in NewUnit.GetComponent<UnitBase>().WeaponsIninventory)
+            foreach (Item item in UnitBase.WeaponsIninventory)
             {
-                NewUnit.GetComponent<UnitBase>().Inventory.Add((Weapon)item);
+                UnitBase.Inventory.Add((Weapon)item);
             }
 
-            UnitUpdate.AddListener(() => { NewUnit.GetComponent<UnitBase>().MoveableArea(false); });
-            NewUnit.GetComponent<UnitBase>().Position = new int[2];
-            NewUnit.GetComponent<UnitBase>().Position[0] = X;
-            NewUnit.GetComponent<UnitBase>().Position[1] = Y;
-            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(NewUnit.GetComponent<UnitBase>());
+            UnitBase.WeaponsIninventory.Add(UnitBase.BareHands);
 
-            NewUnit.GetComponent<UnitBase>().UIHealth.maxValue = NewUnit.GetComponent<UnitBase>().HealthMax;
-            NewUnit.GetComponent<UnitBase>().UIHealth.value = NewUnit.GetComponent<UnitBase>().CurrentHealth;
+            UnitUpdate.AddListener(() => { UnitBase.MoveableArea(false); });
+            UnitBase.Position = new int[2];
+            UnitBase.Position[0] = X;
+            UnitBase.Position[1] = Y;
+            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase);
+
+            UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
+            UnitBase.UIHealth.value = UnitBase.CurrentHealth;
         }
 
        TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);

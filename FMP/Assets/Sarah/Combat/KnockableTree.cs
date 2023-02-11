@@ -30,7 +30,9 @@ public class KnockableTree : InteractOnGrid
             if(transform.rotation == RotateTo)
             {
                 isFalling = false;
-                GetComponent<Fading>().FadeOut = true;
+                //GetComponent<Fading>().ChangeMaterial();
+                //GetComponent<Fading>().FadeOut = true;
+                gameObject.SetActive(false);
             }
         }
     }
@@ -41,7 +43,6 @@ public class KnockableTree : InteractOnGrid
         {
             //Tile tile = TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>();
 
-            print(InteractLocations.Count);
             CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
             DealAoEDamage();
             

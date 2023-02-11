@@ -149,7 +149,6 @@ public class Interact : MonoBehaviour
         {
             SelectedUnit = null;
             UISelectedUnit();
-            print("Move Unit");
         }
     }
 
@@ -164,7 +163,6 @@ public class Interact : MonoBehaviour
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
                     UISelectedUnit();
-                    print("Attack Enemy");
                     UnitManager.Instance.UnitUpdate.Invoke();
                     CameraMove.Instance.FollowTarget = null;
                     CombatMenu.AttackMenuObject.SetActive(false);
@@ -222,7 +220,6 @@ public class Interact : MonoBehaviour
         UISelectedUnit();
         CameraMove.Instance.FollowTarget = null;
 
-        print("Targets Reset");
     }
 
     internal void UISelectedUnit()

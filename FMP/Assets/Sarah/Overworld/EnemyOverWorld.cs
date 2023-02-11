@@ -19,7 +19,7 @@ public class EnemyOverWorld : MonoBehaviour
 
     //Reach Player
     bool ReachedPlayer = false;
-    public string CombatMapName;
+    public List<string> CombatMapNames;
 
     // Start is called before the first frame update
     void Start()
@@ -86,6 +86,11 @@ public class EnemyOverWorld : MonoBehaviour
         }
     }
 
+    internal string RandomMap()
+    {
+        return CombatMapNames[Random.Range(0, CombatMapNames.Count - 1)];
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Player"))
@@ -102,7 +107,7 @@ public class EnemyOverWorld : MonoBehaviour
                         GameManager.Instance.PlayerReturnToOverworld.y += 1;
                     }
                 }
-                SceneLoader.Instance.LoadNewScene(CombatMapName);
+                SceneLoader.Instance.LoadNewScene(RandomMap());
             }
         }
     }

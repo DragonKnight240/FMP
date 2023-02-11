@@ -88,6 +88,8 @@ public class UnitBase : MonoBehaviour
         Path = new List<Tile>();
 
         MoveableArea(false);
+
+        WeaponsIninventory.Add(BareHands);
     }
 
     // Update is called once per frame
@@ -97,6 +99,7 @@ public class UnitBase : MonoBehaviour
         {
             if (CurrentHealth <= 0)
             {
+                GetComponent<Fading>().ChangeMaterial();
                 GetComponent<Fading>().FadeOut = true;
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
