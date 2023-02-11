@@ -81,7 +81,6 @@ public class UnitBase : MonoBehaviour
     {
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();
-        CurrentHealth = HealthMax;
         InRangeTargets = new List<UnitBase>();
         OuterMostMove = new List<GameObject>();
         //WeaponsIninventory = new List<Weapon>();

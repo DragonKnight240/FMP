@@ -79,8 +79,6 @@ public class Fading : MonoBehaviour
                         int Total = Child.GetComponent<Renderer>().material.name.Length;
                         Total -= 11;
 
-                        print(Child.GetComponent<Renderer>().material.name.Remove(Total, 11));
-
                         if (TransMaterials[i].name.Contains(Child.GetComponent<Renderer>().material.name.Remove(Total, 11)))
                         {
                             Child.GetComponent<Renderer>().material = TransMaterials[i];

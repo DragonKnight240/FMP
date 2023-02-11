@@ -22,7 +22,7 @@ public class UnitManager : MonoBehaviour
 
     public static UnitManager Instance;
     public List<StartingPositions> UnitPositions;
-    internal List<GameObject> AllyUnits;
+    public List<GameObject> AllyUnits;
     internal List<GameObject> EnemyUnits;
     internal List<UnitBase> DeadEnemyUnits;
     internal List<UnitBase> DeadAllyUnits;
@@ -103,6 +103,7 @@ public class UnitManager : MonoBehaviour
         int Y;
 
         int Index = 0;
+        CharacterData data;
 
         foreach (StartingPositions Position in UnitPositions)
         {
@@ -136,20 +137,28 @@ public class UnitManager : MonoBehaviour
                 {
                     NewUnit = Instantiate(GameManager.Instance.ControlledUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
                     UnitBase = NewUnit.GetComponent<UnitBase>();
-                    Index++;
                     AllyUnits.Add(NewUnit);
                     TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
 
                     if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
                     {
-                        CharacterData data = GameManager.Instance.UnitData[Index];
+                        print("Input data");
+                        data = GameManager.Instance.UnitData[Index];
 
+                        if (data.CurrentHealth <= 0)
+                        {
+                            Destroy(NewUnit);
+                            continue;
+                        }
+
+                        NewUnit.name = data.UnitName;
                         UnitBase.UnitName = data.UnitName;
                         UnitBase.HealthMax = data.HealthMax;
                         UnitBase.CurrentHealth = data.CurrentHealth;
                         UnitBase.Movement = data.Movement;
 
                         //Inventory
+                        UnitBase.Inventory.Clear();
                         UnitBase.Inventory = data.Inventory;
 
                         //Stats
@@ -178,8 +187,17 @@ public class UnitManager : MonoBehaviour
                         UnitBase.Class = data.Class;
 
                         //Attack
+                        UnitBase.UnlockedAttacks.Clear();
                         UnitBase.UnlockedAttacks = data.UnlockedAttacks;
+
+                        data = new CharacterData();
                     }
+                    else
+                    {
+                        NewUnit.GetComponent<UnitBase>().CurrentHealth = NewUnit.GetComponent<UnitBase>().HealthMax;
+                    }
+
+                    Index++;
                 }
                 else
                 {
@@ -193,6 +211,8 @@ public class UnitManager : MonoBehaviour
                 UnitBase = NewUnit.GetComponent<UnitBase>();
                 EnemyUnits.Add(NewUnit);
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
+
+                NewUnit.GetComponent<UnitBase>().CurrentHealth = NewUnit.GetComponent<UnitBase>().HealthMax;
             }
 
             foreach (Item item in UnitBase.WeaponsIninventory)
@@ -200,7 +220,10 @@ public class UnitManager : MonoBehaviour
                 UnitBase.Inventory.Add((Weapon)item);
             }
 
-            UnitBase.WeaponsIninventory.Add(UnitBase.BareHands);
+            if (UnitBase.WeaponsIninventory.Contains(UnitBase.BareHands))
+            {
+                UnitBase.WeaponsIninventory.Add(UnitBase.BareHands);
+            }
 
             UnitUpdate.AddListener(() => { UnitBase.MoveableArea(false); });
             UnitBase.Position = new int[2];
@@ -227,13 +250,18 @@ public class UnitManager : MonoBehaviour
         GameManager.Instance.UnitData.Clear();
 
         CharacterData data = new CharacterData();
+        UnitBase Ally;
 
         for (int i = 0; i < AllyUnits.Count; i++)
         {
-            UnitBase Ally = AllyUnits[i].GetComponent<UnitBase>();
+            data = new CharacterData();
+            print("Data to Gamemanager");
+            Ally = AllyUnits[i].GetComponent<UnitBase>();
+            print(Ally.name);
 
             data.UnitName = Ally.UnitName;
             data.HealthMax = Ally. HealthMax;
+            print(Ally.CurrentHealth);
             data.CurrentHealth = Ally.CurrentHealth;
             data.Movement = Ally.Movement;
 
