@@ -57,7 +57,6 @@ public class Tile : MonoBehaviour
         }
         else if(Special && !Reset)
         {
-            print("Special");
             GetComponent<MeshRenderer>().material = SpecialMaterial;
         }
         else

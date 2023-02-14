@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitBase : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class UnitBase : MonoBehaviour
         public int HCost;
         public int GCost;
     }
+
+    public Slider UIHealth;
+    public float HealthLerpSpeed = 10;
 
     [Header("General")]
     public string UnitName;
@@ -77,13 +81,14 @@ public class UnitBase : MonoBehaviour
     {
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();
-        CurrentHealth = HealthMax;
         InRangeTargets = new List<UnitBase>();
         OuterMostMove = new List<GameObject>();
         //WeaponsIninventory = new List<Weapon>();
         Path = new List<Tile>();
 
         MoveableArea(false);
+
+        WeaponsIninventory.Add(BareHands);
     }
 
     // Update is called once per frame
@@ -93,6 +98,7 @@ public class UnitBase : MonoBehaviour
         {
             if (CurrentHealth <= 0)
             {
+                GetComponent<Fading>().ChangeMaterial();
                 GetComponent<Fading>().FadeOut = true;
                 isAlive = false;
                 TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
@@ -121,6 +127,14 @@ public class UnitBase : MonoBehaviour
                     transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
                 }
+            }
+        }
+
+        if (UIHealth)
+        {
+            if (UIHealth.value != CurrentHealth)
+            {
+                UIHealth.value = Mathf.Lerp(UIHealth.value, CurrentHealth, Time.deltaTime * HealthLerpSpeed);
             }
         }
     }

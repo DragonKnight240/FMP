@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemObtained : InteractOnGrid
 {
     public Item Item;
+    Animator Anim;
 
     private void Start()
     {
@@ -14,10 +15,17 @@ public class ItemObtained : InteractOnGrid
             Destroy(this.gameObject);
         }
 
+        Anim = GetComponent<Animator>();
+
     }
 
     public override void Special(UnitBase Unit)
     {
+        if (Anim)
+        {
+            Anim.speed = 1;
+        }
+
         Interact.Instance.CombatMenu.ItemText.text = Item.Name;
         Interact.Instance.CombatMenu.ItemNotification.SetActive(true);
 

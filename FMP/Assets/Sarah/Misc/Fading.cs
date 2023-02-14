@@ -7,6 +7,7 @@ public class Fading : MonoBehaviour
     public bool SingleTarget = true;
     public List<GameObject> Parents;
     internal Renderer FadingObject;
+    public List<Material> TransMaterials;
     public float FadeSpeed = 10;
     internal bool FadeIn = false;
     internal bool FadeOut = false;
@@ -63,6 +64,32 @@ public class Fading : MonoBehaviour
         }
     }
 
+    public void ChangeMaterial()
+    {
+        foreach (GameObject Parent in Parents)
+        {
+            foreach (Transform Child in Parent.transform)
+            {
+                if (Child.GetComponent<Renderer>())
+                {
+                    for (int i = 0; i < TransMaterials.Count; i++)
+                    {
+                        string Trans = TransMaterials[i].name;
+
+                        int Total = Child.GetComponent<Renderer>().material.name.Length;
+                        Total -= 11;
+
+                        if (TransMaterials[i].name.Contains(Child.GetComponent<Renderer>().material.name.Remove(Total, 11)))
+                        {
+                            Child.GetComponent<Renderer>().material = TransMaterials[i];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void multipleRenders(bool increase)
     {
         foreach (GameObject Parent in Parents)
@@ -96,6 +123,7 @@ public class Fading : MonoBehaviour
                         if (Colour.a < 0)
                         {
                             FadeOut = false;
+                            gameObject.SetActive(false);
                         }
                     }
                 }

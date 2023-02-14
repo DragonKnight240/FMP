@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &7747067 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 86878560002207031, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-  m_PrefabInstance: {fileID: 605156616}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9315248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,14 +1664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3626400003707386938, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-      propertyPath: UnitText
-      value: 
-      objectReference: {fileID: 1712446600}
-    - target: {fileID: 3626400003707386938, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-      propertyPath: SelectedUnitTab
-      value: 
-      objectReference: {fileID: 7747067}
+    - target: {fileID: 557002258196164524, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 487
+      objectReference: {fileID: 0}
     - target: {fileID: 3626400003729467806, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1956,6 +1947,22 @@ PrefabInstance:
     - target: {fileID: 3626400005553511495, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597492362675554962, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -681
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597492362675554962, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -464
+      objectReference: {fileID: 0}
+    - target: {fileID: 7212323883256491102, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7212323883256491102, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
@@ -5221,12 +5228,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ControlledUnits:
-  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
   - {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
   - {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  UnitData: []
   MaxUnits: 6
   MaxRecruitable: 2
+  Convoy: []
+  Money: 0
   inCombat: 0
 --- !u!4 &1569221630
 Transform:
@@ -6124,17 +6134,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691148402}
   m_Mesh: {fileID: 1424200115404124385, guid: f222748f1796b2e49a56a2fbf7563247, type: 3}
---- !u!114 &1712446600 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7484419784732574133, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-  m_PrefabInstance: {fileID: 605156616}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1721408809
 GameObject:
   m_ObjectHideFlags: 0
