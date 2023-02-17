@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CombatAnimControl : MonoBehaviour
 {
-    internal enum AnimParameters
+    public enum AnimParameters
     {
         Move,
         Idle,
-        Attack
+        Attack,
+        Hit,
+        Death
     }
 
     Animator Anim;
@@ -25,24 +27,33 @@ public class CombatAnimControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Unit.Moving)
+        if (CurrentAnimation != AnimParameters.Hit && CurrentAnimation != AnimParameters.Attack && AnimParameters.Death != CurrentAnimation)
         {
-            if (CurrentAnimation != AnimParameters.Move)
+            if (Unit.Moving)
             {
-                CurrentAnimation = AnimParameters.Move;
-                Anim.SetTrigger("Move");
-                //ResetAllTriggers("Move");
+                if (CurrentAnimation != AnimParameters.Move)
+                {
+                    CurrentAnimation = AnimParameters.Move;
+                    Anim.SetTrigger("Move");
+                    //ResetAllTriggers("Move");
+                }
+            }
+            else if (CurrentAnimation != AnimParameters.Attack)
+            {
+                if (CurrentAnimation != AnimParameters.Idle)
+                {
+                    CurrentAnimation = AnimParameters.Idle;
+                    Anim.SetTrigger("Idle");
+                    //ResetAllTriggers("Idle");
+                }
             }
         }
-        else if(CurrentAnimation != AnimParameters.Attack)
-        {
-            if (CurrentAnimation != AnimParameters.Idle)
-            {
-                CurrentAnimation = AnimParameters.Idle;
-                Anim.SetTrigger("Idle");
-                //ResetAllTriggers("Idle");
-            }
-        }
+    }
+
+    public void ChangeAnim(string AnimName, AnimParameters animParameters)
+    {
+        Anim.SetTrigger(AnimName);
+        CurrentAnimation = animParameters;
     }
 
     void ResetAllTriggers(string Exception = "")

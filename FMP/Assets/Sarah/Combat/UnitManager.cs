@@ -145,12 +145,6 @@ public class UnitManager : MonoBehaviour
                         print("Input data");
                         data = GameManager.Instance.UnitData[Index];
 
-                        if (data.CurrentHealth <= 0)
-                        {
-                            Destroy(NewUnit);
-                            continue;
-                        }
-
                         NewUnit.name = data.UnitName;
                         UnitBase.UnitName = data.UnitName;
                         UnitBase.HealthMax = data.HealthMax;
@@ -189,6 +183,12 @@ public class UnitManager : MonoBehaviour
                         //Attack
                         UnitBase.UnlockedAttacks.Clear();
                         UnitBase.UnlockedAttacks = data.UnlockedAttacks;
+
+                        if (UnitBase.CurrentHealth <= 0)
+                        {
+                            NewUnit.SetActive(false);
+                            UnitBase.isAlive = false;
+                        }
 
                         data = new CharacterData();
                     }
