@@ -536,6 +536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2024462607}
   - component: {fileID: 2024462606}
+  - component: {fileID: 1281446699372006718}
   m_Layer: 0
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -661,6 +662,36 @@ MonoBehaviour:
   - {fileID: 470671497}
   - {fileID: 1163820115}
   - {fileID: 2058247766}
+--- !u!114 &1281446699372006718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024462605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &2058247765
 GameObject:
   m_ObjectHideFlags: 3
@@ -3346,6 +3377,7 @@ MonoBehaviour:
   MoveSpeed: 1000
   Cam: {fileID: 3490531473005931772}
   SmoothRate: 10
+  YMax: 1
 --- !u!54 &3490531472840599704
 Rigidbody:
   m_ObjectHideFlags: 0

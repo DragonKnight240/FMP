@@ -32,6 +32,8 @@ public class UnitBase : MonoBehaviour
     internal bool Moving = false;
     List<Tile> Path;
 
+    CombatAnimControl AnimControl;
+
     [Header("Inventory")]
     public Weapon EquipedWeapon;
     public List<Item> Inventory;
@@ -73,6 +75,8 @@ public class UnitBase : MonoBehaviour
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
     internal List<GameObject> OuterMostMove;
+    public GameObject AttackCamera;
+    bool ToAttack = false;
 
     public List<UnitBase> InRangeTargets; 
 
@@ -89,6 +93,8 @@ public class UnitBase : MonoBehaviour
         MoveableArea(false);
 
         WeaponsIninventory.Add(BareHands);
+
+        AnimControl = GetComponent<CombatAnimControl>();
     }
 
     // Update is called once per frame
@@ -98,11 +104,9 @@ public class UnitBase : MonoBehaviour
         {
             if (CurrentHealth <= 0)
             {
-                GetComponent<Fading>().ChangeMaterial();
-                GetComponent<Fading>().FadeOut = true;
-                isAlive = false;
-                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-                UnitManager.Instance.DeadEnemyUnits.Add(this);
+                //AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
+                //TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+                //UnitManager.Instance.DeadEnemyUnits.Add(this);
             }
             else
             {
@@ -120,12 +124,26 @@ public class UnitBase : MonoBehaviour
                         if (Path.Count <= 0)
                         {
                             Moving = false;
+
+                            if(ToAttack)
+                            {
+                                ToAttack = false;
+                                AttackingZoom();
+                            }
                             return;
                         }
                     }
 
                     transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    if (ToAttack)
+                    {
+                        ToAttack = false;
+                        AttackingZoom();
+                    }
                 }
             }
         }
@@ -376,16 +394,63 @@ public class UnitBase : MonoBehaviour
         List<GameObject> tiles = new List<GameObject>();
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
+        ToAttack = true;
+
         //Change later to proper logic
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
-        
+    }
+
+    public void AttackingZoom()
+    {
+        transform.LookAt(AttackTarget.transform);
+        AttackCamera.SetActive(true);
+        Interact.Instance.GetComponent<Camera>().enabled = false;
+
+        AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
+    }
+
+    public void HitZoom()
+    {
+        AttackTarget.AttackCamera.SetActive(true);
+        AttackCamera.SetActive(false);
+
         //Will calculate crit change later
-        Enemy.CurrentHealth -= CalculateDamage();
+        AttackTarget.CurrentHealth -= CalculateDamage();
+
+        if (AttackTarget.CurrentHealth > 0)
+        {
+            AttackTarget.AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
+        }
+        else
+        {
+            AttackTarget.AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
+            AttackTarget.GetComponent<Fading>().ChangeMaterial();
+            AttackTarget.GetComponent<Fading>().FadeOut = true;
+            AttackTarget.isAlive = false;
+        }
 
         ResetMoveableTiles();
         MovedForTurn = true;
         AttackedForTurn = true;
         EndTurn = true;
+    }
+
+    public void ReturnMainCamera()
+    {
+        Interact.Instance.GetComponent<Camera>().enabled = true;
+        AttackCamera.SetActive(false);
+        //AttackTarget.AttackCamera.SetActive(false);
+    }
+
+    public void OnDeath()
+    {
+        print("End");
+        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+        UnitManager.Instance.DeadEnemyUnits.Add(this);
+        AttackCamera.SetActive(false);
+
+        Interact.Instance.GetComponent<Camera>().enabled = true;
+        gameObject.SetActive(false);
     }
 
     internal int CalculateDamage()
@@ -445,12 +510,19 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(EndTurn)
+        if (!UnitManager.Instance.SetupFinished)
         {
             return;
         }
 
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
+        if (EndTurn)
+        {
+            return;
+        }
+
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy 
+            && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+            && Interact.Instance.SelectedUnit == null)
         {
             if (!CompareTag("Enemy"))
             {
@@ -469,23 +541,27 @@ public class UnitBase : MonoBehaviour
             {
                 ShowAllInRangeTiles();
             }
+        }
 
+        if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+             && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
+        {
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Show(false, true);
         }
     }
 
     private void OnMouseExit()
     {
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
+        if (!UnitManager.Instance.SetupFinished)
         {
-            if (!Interact.Instance.SelectedUnit)
-            {
-                HideAllChangedTiles();
-            }
-            else
-            {
-                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().WhichColour();
-            }
+            return;
+        }
+
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy
+            && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+            && Interact.Instance.SelectedUnit == null)
+        {
+            HideAllChangedTiles();
         }
     }
 

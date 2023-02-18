@@ -37,6 +37,7 @@ public class UnitAI : UnitBase
         }
         else
         {
+            AttackTarget = InRangeTarget;
             Attack(InRangeTarget);
         }
 

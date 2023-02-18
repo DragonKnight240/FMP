@@ -12,21 +12,19 @@ public class Tile : MonoBehaviour
     internal int[] GridPosition;
     public InteractOnGrid Special;
 
-    public Material InRangeMaterial; //Temp
-    public Material WeaponRangeMaterial; //Temp
-    public Material OverlayMaterial; //Temp
+    public Material InRangeMaterial;
+    public Material WeaponRangeMaterial; 
+    public Material OverlayMaterial; 
     public Material SpecialMaterial;
-    Material OGMaterial; 
+    internal Material OGMaterial; 
 
     // Start is called before the first frame update
     void Start()
     {
-        if(!CanMoveOn || Unit)
+        if (!CanMoveOn || Unit)
         {
             Occupied = true;
         }
-
-        OGMaterial = GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
@@ -138,15 +136,22 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if(!UnitManager.Instance.SetupFinished)
+        {
+            return;
+        }
+
         if (Unit)
         {
-            if (Unit.EndTurn)
+            if (Unit.EndTurn || OGMaterial == null)
             {
                 return;
             }
         }
 
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy)
+        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy
+            && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy 
+            && Interact.Instance.SelectedUnit == null)
         {
             if (Unit)
             {
@@ -168,14 +173,25 @@ public class Tile : MonoBehaviour
                     Unit.ShowAllInRangeTiles();
                 }
             }
+        }
 
+        if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+            && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
+        {
             Show(false, true);
         }
     }
 
     private void OnMouseExit()
     {
-        if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
+        if (!UnitManager.Instance.SetupFinished)
+        {
+            return;
+        }
+
+        if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy 
+            && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy
+            && Interact.Instance.SelectedUnit == null)
         {
             if (Unit && !Interact.Instance.SelectedUnit)
             {
@@ -189,21 +205,37 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            WhichColour();
+            WhichColour(Interact.Instance.SelectedUnit);
+            return;
         }
+
+        WhichColour(Interact.Instance.SelectedUnit);
     }
 
     internal void WhichColour(UnitBase PassedUnit = null)
     {
         bool inRange;
 
+        if(OGMaterial == null)
+        {
+            return;
+        }
+
         if (Interact.Instance.SelectedUnit)
         {
             inRange = Interact.Instance.SelectedUnit.AttackTiles.Contains(this);
             if (inRange)
             {
-                Show(Interact.Instance.SelectedUnit.AttackTiles.Contains(this) && Interact.Instance.SelectedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
-                return;
+                if (!Interact.Instance.SelectedUnit.MovedForTurn)
+                {
+                    Show(Interact.Instance.SelectedUnit.AttackTiles.Contains(this) && Interact.Instance.SelectedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
+                    return;
+                }
+                else
+                {
+                    Show(true);
+                    return;
+                }
             }
         }
         else if(PassedUnit)
@@ -211,8 +243,16 @@ public class Tile : MonoBehaviour
             inRange = PassedUnit.AttackTiles.Contains(this);
             if (inRange)
             {
-                Show(PassedUnit.AttackTiles.Contains(this) && PassedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
-                return;
+                if (!PassedUnit.MovedForTurn)
+                {
+                    Show(PassedUnit.AttackTiles.Contains(this) && PassedUnit.MoveableTiles.Contains(this) ? false : true, !inRange);
+                    return;
+                }
+                else
+                {
+                    Show(true);
+                    return;
+                }
             }
         }
 

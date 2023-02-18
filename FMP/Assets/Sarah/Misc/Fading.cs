@@ -54,7 +54,7 @@ public class Fading : MonoBehaviour
                 if (Colour.a < 0)
                 {
                     FadeOut = false;
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 }
             }
             else
@@ -123,7 +123,7 @@ public class Fading : MonoBehaviour
                         if (Colour.a < 0)
                         {
                             FadeOut = false;
-                            gameObject.SetActive(false);
+                            //gameObject.SetActive(false);
                         }
                     }
                 }

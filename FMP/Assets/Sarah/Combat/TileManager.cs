@@ -43,11 +43,11 @@ public class TileManager : MonoBehaviour
             for (int x = 0; x < Width; x++)
             {
                 Grid[x, y] = Instantiate(TilePrefab, new Vector3(x * TileSize, 0, y * TileSize), Quaternion.identity, transform);
+                Grid[x, y].GetComponent<Tile>().OGMaterial = Grid[x, y].GetComponent<Renderer>().material;
                 Grid[x, y].name = (x + " , " + y);
                 Grid[x, y].GetComponent<Tile>().GridPosition = new int[2];
                 Grid[x, y].GetComponent<Tile>().GridPosition[0] = x;
                 Grid[x, y].GetComponent<Tile>().GridPosition[1] = y;
-
             }
         }
 
@@ -57,5 +57,6 @@ public class TileManager : MonoBehaviour
         }
 
         UnitManager.Instance.PlaceUnits();
+
     }
 }

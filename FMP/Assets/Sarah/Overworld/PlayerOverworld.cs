@@ -10,6 +10,7 @@ public class PlayerOverworld : MonoBehaviour
     public float SmoothRate;
     float RotationSmooth;
     internal AoEDisappear AoEDisappear;
+    public float YMax = 2f;
 
     private void Start()
     {
@@ -60,10 +61,22 @@ public class PlayerOverworld : MonoBehaviour
 
             RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
             RB.velocity = new Vector3(RB.velocity.x, TempVelocity, RB.velocity.z);
+
+            if (RB.velocity.y > YMax)
+            {
+                RB.velocity = new Vector3(RB.velocity.x, 0, RB.velocity.z);
+            }
         }
         else
         {
-            RB.velocity = new Vector3(0, RB.velocity.y, 0);
+            if (RB.velocity.y < YMax)
+            {
+                RB.velocity = new Vector3(0, RB.velocity.y, 0);
+            }
+            else
+            {
+                RB.velocity = new Vector3(0, 0, 0);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ public class HealUnits : MonoBehaviour
         print("Heal");
         foreach(CharacterData Unit in GameManager.Instance.UnitData)
         {
-            Unit.CurrentHealth = 1;
+            Unit.CurrentHealth = Unit.HealthMax;
                 //Unit.HealthMax;
         }
     }
