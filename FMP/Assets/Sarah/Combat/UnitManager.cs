@@ -83,7 +83,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitAI>().Moving)
+            if(Enemy.GetComponent<UnitAI>().Moving || !Interact.Instance.GetComponent<Camera>().enabled)
             {
                 break;
             }
