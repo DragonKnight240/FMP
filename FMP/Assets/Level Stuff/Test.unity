@@ -7104,15 +7104,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3153521
+      value: 0.44515103
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7186,7 +7186,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 419215195}
   ChaseSpeed: 0.06
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - DungeonScene
+  - DungeonSceneAlt
+--- !u!136 &197990348
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197990346}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0.3}
 --- !u!1001 &199072548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7738,7 +7754,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 149763099}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &207265369
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9304,7 +9321,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1034268212}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &254724902
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9510,15 +9529,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3153521
+      value: 0.44515103
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9592,7 +9611,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 959594588}
   ChaseSpeed: 0.06
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - DungeonScene
+  - DungeonSceneAlt
+--- !u!136 &261347211
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261347209}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0.3}
 --- !u!1001 &262359927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12687,7 +12722,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1060306706}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &328282364
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13261,7 +13297,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 0}
   ChaseSpeed: 0
   AggroRange: 0
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &356519224
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17500,7 +17537,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 732776990}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &485990901
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -22153,7 +22191,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1159620601}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &615528814
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -27173,7 +27213,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 791581189}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
+--- !u!136 &781085123
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781085120}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &781985178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28321,7 +28376,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1068710676}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
+--- !u!136 &824220880
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824220876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &826442588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28894,7 +28965,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 28697575}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
+--- !u!136 &841048156
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841048153}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &841375235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30466,6 +30552,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d90c349721b4e694fad80a76d87b2578, type: 3}
+--- !u!1 &892615000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1802286859466036053, guid: 1fe9b7b57f071994f8c7c91f933f3484, type: 3}
+  m_PrefabInstance: {fileID: 1979332791}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &892615001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892615000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d91e9e10dc2f0478e943604ef3687c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 0
+  PatrolLocationsParent: {fileID: 0}
+  ChaseSpeed: 0
+  AggroRange: 0
+  CombatMapNames:
+  - DungeonScene
+  - DungeonSceneAlt
+--- !u!136 &892615002
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892615000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &894781985
 GameObject:
   m_ObjectHideFlags: 0
@@ -34337,7 +34461,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 856014696}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
+--- !u!136 &996044753
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996044749}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!4 &996459793 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1164602935277360391, guid: d90c349721b4e694fad80a76d87b2578, type: 3}
@@ -35114,7 +35254,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1564455302}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &1012924526
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -38578,7 +38720,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1727338781}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
+--- !u!136 &1095790898
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095790895}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1 &1096736888 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c50c5b8bc268f7d45a45f26c91b16788, type: 3}
@@ -43485,7 +43642,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1566925691}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &1233260643
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -45108,7 +45267,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 152594568}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
 --- !u!136 &1278100684
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -45309,7 +45469,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 0}
   ChaseSpeed: 0
   AggroRange: 0
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &1280962210
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -49385,7 +49546,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 2126663107}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &1390659869
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -54589,7 +54752,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 143101637}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR3
+--- !u!136 &1533753915
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533753912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &1534526872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56270,7 +56448,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 582103177}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!4 &1584651563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7512065305920554177, guid: 7d59c6b5787e75e4dbce9c36da160cde, type: 3}
@@ -57008,7 +57188,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 967494616}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+--- !u!136 &1600131486
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600131483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1 &1602299798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1909142430303384, guid: a578ee0f8198a4d43909700c19cbf82d, type: 3}
@@ -58194,7 +58389,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 2016274278}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
+--- !u!136 &1630746847
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630746844}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &1631063706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61258,7 +61468,9 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1972481474}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
 --- !u!136 &1729440823
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -62360,7 +62572,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 435582450}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &1753863532
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -64923,7 +65136,22 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1564530674}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
+--- !u!136 &1839059688
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839059685}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!4 &1840795295 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1164602935277360391, guid: d90c349721b4e694fad80a76d87b2578, type: 3}
@@ -65325,7 +65553,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 1722293774}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR4
 --- !u!136 &1848138425
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -65401,11 +65630,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2058247767, guid: 6a2cf8ba3d55b7d4baeeb586c3831d1f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.104544535
+      value: 0.104544446
       objectReference: {fileID: 0}
     - target: {fileID: 2058247767, guid: 6a2cf8ba3d55b7d4baeeb586c3831d1f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.009852878
+      value: 0.009852885
       objectReference: {fileID: 0}
     - target: {fileID: 2058247767, guid: 6a2cf8ba3d55b7d4baeeb586c3831d1f, type: 3}
       propertyPath: m_LocalRotation.y
@@ -71385,15 +71614,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3153521
+      value: 0.44515103
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.31535202
+      value: 0.4451509
       objectReference: {fileID: 0}
     - target: {fileID: 8925892822458740837, guid: 0a002f501a6b0cf4ba2ba786e4ef3da0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -71467,7 +71696,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 649363676}
   ChaseSpeed: 0.06
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - DungeonScene
+  - DungeonSceneAlt
+--- !u!136 &1999910841
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999910839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0.3}
 --- !u!1 &2000051234
 GameObject:
   m_ObjectHideFlags: 0
@@ -74755,7 +75000,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 702723179}
   ChaseSpeed: 0.1
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
 --- !u!136 &2074728697
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -75877,7 +76123,8 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 2014204451}
   ChaseSpeed: 0.05
   AggroRange: 10
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR2
 --- !u!136 &2114893992
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -77013,7 +77260,23 @@ MonoBehaviour:
   PatrolLocationsParent: {fileID: 809776885}
   ChaseSpeed: 0.05
   AggroRange: 20
-  CombatMapNames: []
+  CombatMapNames:
+  - CombatSceneR1
+  - CombatSceneR3
+--- !u!136 &2130563633
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130563629}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.2
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0.4}
 --- !u!1001 &2130801089
 PrefabInstance:
   m_ObjectHideFlags: 0
