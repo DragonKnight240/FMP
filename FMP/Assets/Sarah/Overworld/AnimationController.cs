@@ -7,6 +7,8 @@ public class AnimationController : MonoBehaviour
     Animator Anim;
     Rigidbody RB;
     public float yFallMin = 0.5f;
+    public float LeftRightVelocityMin = 0.5f;
+    public bool isOnGround = true;
 
     // Start is called before the first frame update
     void Start()
@@ -25,24 +27,36 @@ public class AnimationController : MonoBehaviour
     {
         if(RB.velocity != new Vector3(0,0,0))
         {
-            if (RB.velocity.y < -yFallMin)
+            if (RB.velocity.y < -yFallMin && !isOnGround)
             {
-                Anim.SetTrigger("Fall");
                 Anim.ResetTrigger("Move");
                 Anim.ResetTrigger("Idle");
+                Anim.SetTrigger("Fall");
             }
             else
             {
-                Anim.SetTrigger("Move");
-                Anim.ResetTrigger("Fall");
-                Anim.ResetTrigger("Idle");
+                print(RB.velocity);
+
+                if (!(RB.velocity.x < LeftRightVelocityMin && -LeftRightVelocityMin < RB.velocity.x) ||
+                    !(RB.velocity.y < LeftRightVelocityMin && -LeftRightVelocityMin < RB.velocity.y))
+                {
+                    Anim.ResetTrigger("Fall");
+                    Anim.ResetTrigger("Idle");
+                    Anim.SetTrigger("Move");
+                }
+                else
+                {
+                    Anim.ResetTrigger("Fall");
+                    Anim.ResetTrigger("Move");
+                    Anim.SetTrigger("Idle");
+                }
             }
         }
         else
         {
-            Anim.SetTrigger("Idle");
             Anim.ResetTrigger("Fall");
             Anim.ResetTrigger("Move");
+            Anim.SetTrigger("Idle");
         }
     }
 }

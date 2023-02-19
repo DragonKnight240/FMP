@@ -21,6 +21,9 @@ public class EnemyOverWorld : MonoBehaviour
     bool ReachedPlayer = false;
     public List<string> CombatMapNames;
 
+    //public float StartVel;
+    Rigidbody RB;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,12 @@ public class EnemyOverWorld : MonoBehaviour
         }
 
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
+        RB = GetComponent<Rigidbody>();
+
+        if(RB == null)
+        {
+            gameObject.AddComponent<Rigidbody>();
+        }
     }
 
     // Update is called once per frame
@@ -46,6 +55,8 @@ public class EnemyOverWorld : MonoBehaviour
         {
             return;
         }
+
+        //StartVel = RB.velocity.y;
 
         if (!PlayerInRange)
         {
@@ -84,6 +95,8 @@ public class EnemyOverWorld : MonoBehaviour
                 PlayerInRange = false;
             }
         }
+
+        //RB.velocity = new Vector3(RB.velocity.x, StartVel, RB.velocity.z);
     }
 
     internal string RandomMap()

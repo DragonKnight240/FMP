@@ -6,15 +6,20 @@ using Cinemachine;
 public class MainMenu : MonoBehaviour
 {
     public GameObject MainMenuCanvas;
-    public GameObject DollyCartObject;
-    CinemachineDollyCart DollyCart;
+    public GameObject OptionsMenu;
+    float DollyCartSpeed;
+    public CinemachineDollyCart DollyCart;
     internal float PreviousPos;
     public GameObject MainCamera;
-
+    public Options options;
+    public CinemachineVirtualCamera VirtualCamera;
 
     void Start()
     {
-        DollyCart = DollyCartObject.GetComponent<CinemachineDollyCart>();
+        options = GetComponent<Options>();
+        DollyCartSpeed = DollyCart.m_Speed;
+        DollyCart.m_Speed = 0;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Update()
@@ -23,7 +28,8 @@ public class MainMenu : MonoBehaviour
         {
             if(DollyCart.m_Position <= PreviousPos)
             {
-                DollyCartObject.SetActive(false);
+                MainCamera.SetActive(true);
+                options.InGame = true;
             }
 
             PreviousPos = DollyCart.m_Position;
@@ -32,7 +38,24 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        DollyCartObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        DollyCart.m_Speed = DollyCartSpeed;
+        VirtualCamera.LookAt = FindObjectOfType<PlayerOverworld>().transform;
         MainMenuCanvas.SetActive(false);
+    }
+
+    public void Options()
+    {
+        OptionsMenu.SetActive(true);
+    }
+
+    public void CloseOptions()
+    {
+        OptionsMenu.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

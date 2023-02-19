@@ -16,7 +16,10 @@ public class PlayerOverworld : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
 
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!FindObjectOfType<MainMenu>().isActiveAndEnabled)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         AoEDisappear = GetComponentInChildren<AoEDisappear>(true);
         AoEDisappear.gameObject.SetActive(false);
 
