@@ -173,11 +173,6 @@ public class Options : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void Exit()
-    {
-        Application.Quit();
-    }
-
     public void fullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;

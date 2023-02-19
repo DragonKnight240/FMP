@@ -78,7 +78,12 @@ public class UnitBase : MonoBehaviour
     public GameObject AttackCamera;
     bool ToAttack = false;
 
-    public List<UnitBase> InRangeTargets; 
+    public List<UnitBase> InRangeTargets;
+
+    //Sounds
+    public AudioClip AttackSound;
+    public AudioClip HitSound;
+    public AudioClip DeathSound;
 
     // Start is called before the first frame update
     void Start()
@@ -407,6 +412,7 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.GetComponent<Camera>().enabled = false;
 
         AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
+        SoundManager.Instance.PlaySFX(AttackSound);
     }
 
     public void HitZoom()
@@ -420,10 +426,12 @@ public class UnitBase : MonoBehaviour
         if (AttackTarget.CurrentHealth > 0)
         {
             AttackTarget.AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
+            SoundManager.Instance.PlaySFX(HitSound);
         }
         else
         {
             AttackTarget.AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
+            SoundManager.Instance.PlaySFX(DeathSound);
             AttackTarget.GetComponent<Fading>().ChangeMaterial();
             AttackTarget.GetComponent<Fading>().FadeOut = true;
             AttackTarget.isAlive = false;
@@ -435,8 +443,14 @@ public class UnitBase : MonoBehaviour
         EndTurn = true;
     }
 
+    public void ResetAnimation()
+    {
+        AnimControl.ChangeAnim("Idle", CombatAnimControl.AnimParameters.Idle);
+    }
+
     public void ReturnMainCamera()
     {
+        ResetAnimation();
         Interact.Instance.GetComponent<Camera>().enabled = true;
         AttackCamera.SetActive(false);
         //AttackTarget.AttackCamera.SetActive(false);
@@ -444,11 +458,14 @@ public class UnitBase : MonoBehaviour
 
     public void OnDeath()
     {
-        print("End");
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-        UnitManager.Instance.DeadEnemyUnits.Add(this);
-        AttackCamera.SetActive(false);
 
+        if (!UnitManager.Instance.DeadEnemyUnits.Contains(this))
+        {
+            UnitManager.Instance.DeadEnemyUnits.Add(this);
+        }
+
+        AttackCamera.SetActive(false);
         Interact.Instance.GetComponent<Camera>().enabled = true;
         gameObject.SetActive(false);
     }
@@ -458,11 +475,39 @@ public class UnitBase : MonoBehaviour
         int Damage;
         if (EquipedWeapon)
         {
+            switch(EquipedWeapon.WeaponType)
+            {
+                case WeaponType.Sword:
+                    {
+                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - SwordLevel)));
+                        break;
+                    }
+                case WeaponType.Bow:
+                    {
+                        Damage = Mathf.RoundToInt(Dexterity + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - SwordLevel)));
+                        break;
+                    }
+                case WeaponType.Gauntlets:
+                    {
+                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - FistLevel)));
+                        break;
+                    }
+                case WeaponType.Staff:
+                    {
+                        Damage = Mathf.RoundToInt(Magic + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - MagicLevel)));
+                        break;
+                    }
+                default:
+                    {
+                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
+                        break;
+                    }
+            }
             Damage = EquipedWeapon.Damage;
         }
         else
         {
-            Damage = Strength;
+            Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
         }
         
         return Damage;
@@ -470,13 +515,13 @@ public class UnitBase : MonoBehaviour
 
     internal int CalcuateHitChance()
     {
-        int HitChance = 100;
+        int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2));
         return HitChance;
     }
 
     internal int CalculateCritChance()
     {
-        int CritChance = 0;
+        int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2));
         return CritChance;
     }
 
@@ -510,7 +555,7 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!UnitManager.Instance.SetupFinished)
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled)
         {
             return;
         }

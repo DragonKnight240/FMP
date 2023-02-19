@@ -11,21 +11,26 @@ public class PlayerOverworld : MonoBehaviour
     float RotationSmooth;
     internal AoEDisappear AoEDisappear;
     public float YMax = 2f;
+    internal bool CanMove;
 
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
 
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!FindObjectOfType<MainMenu>().isActiveAndEnabled)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         AoEDisappear = GetComponentInChildren<AoEDisappear>(true);
         AoEDisappear.gameObject.SetActive(false);
 
         if (GameManager.Instance)
         {
-            if(GameManager.Instance.PlayerReturnToOverworld != null)
+            if(GameManager.Instance.PlayerReturnToOverworld != null && GameManager.Instance.StartedGame)
             {
                 transform.position = GameManager.Instance.PlayerReturnToOverworld;
                 AoEDisappear.gameObject.SetActive(true);
+                print("Returned to World");
             }
         }
 
@@ -34,6 +39,11 @@ public class PlayerOverworld : MonoBehaviour
 
     private void Update()
     {
+        if(!CanMove)
+        {
+            return;
+        }
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 

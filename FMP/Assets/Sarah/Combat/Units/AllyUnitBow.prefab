@@ -1129,8 +1129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 6842069966975610096}
   HealthLerpSpeed: 10
-  UnitName: Bow User
-  HealthMax: 20
+  UnitName: Enzin
+  HealthMax: 45
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
@@ -1141,13 +1141,13 @@ MonoBehaviour:
   WeaponsIninventory:
   - {fileID: 11400000, guid: 486c44bfb4aae1e408eb6e361856810c, type: 2}
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
-  Strength: 2
-  Dexterity: 0
-  Magic: 0
-  Defence: 0
-  Resistance: 0
-  Speed: 0
-  Luck: 0
+  Strength: 3
+  Dexterity: 12
+  Magic: 7
+  Defence: 8
+  Resistance: 8
+  Speed: 10
+  Luck: 5
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1157,10 +1157,13 @@ MonoBehaviour:
   FistProficiency: 0
   FistLevel: 0
   Class: {fileID: 0}
-  CurrentAttack: {fileID: 0}
+  CurrentAttack: {fileID: 11400000, guid: 6666650a5df7d2b45826845bfe4e5baf, type: 2}
   UnlockedAttacks: []
   AttackCamera: {fileID: 8568729228212596426}
   InRangeTargets: []
+  AttackSound: {fileID: 0}
+  HitSound: {fileID: 0}
+  DeathSound: {fileID: 0}
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
   m_ObjectHideFlags: 0

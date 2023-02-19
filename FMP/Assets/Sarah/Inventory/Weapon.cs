@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WeaponType
+{
+    Sword,
+    Bow,
+    Gauntlets,
+    Staff,
+    None
+}
+
 [CreateAssetMenu(fileName = "Weapon")]
 public class Weapon : Item
 {
@@ -12,5 +21,5 @@ public class Weapon : Item
     public int CritRate;
     public SpecialAttacks Special;
     public int ProficiencyIncrease;
-    //public WeaponType Type;
+    public WeaponType WeaponType;
 }

@@ -1194,7 +1194,7 @@ MonoBehaviour:
   UIHealth: {fileID: 64454102105713050}
   HealthLerpSpeed: 10
   UnitName: Sword User
-  HealthMax: 20
+  HealthMax: 50
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
@@ -1205,13 +1205,13 @@ MonoBehaviour:
   WeaponsIninventory:
   - {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
-  Strength: 2
-  Dexterity: 0
-  Magic: 0
-  Defence: 0
-  Resistance: 0
-  Speed: 0
-  Luck: 0
+  Strength: 15
+  Dexterity: 5
+  Magic: 10
+  Defence: 6
+  Resistance: 4
+  Speed: 8
+  Luck: 12
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1221,10 +1221,13 @@ MonoBehaviour:
   FistProficiency: 0
   FistLevel: 0
   Class: {fileID: 0}
-  CurrentAttack: {fileID: 0}
+  CurrentAttack: {fileID: 11400000, guid: 63372a5edb71c154aad593cfbc35759e, type: 2}
   UnlockedAttacks: []
   AttackCamera: {fileID: 3756003959850373422}
   InRangeTargets: []
+  AttackSound: {fileID: 0}
+  HitSound: {fileID: 0}
+  DeathSound: {fileID: 0}
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3359,6 +3359,7 @@ Transform:
   m_Children:
   - {fileID: 5834375092118865870}
   - {fileID: 3212802728732352532}
+  - {fileID: 666312092036774330}
   m_Father: {fileID: 3490531473764560410}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3768,6 +3769,63 @@ Transform:
   m_Father: {fileID: 10547758475238654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4139484480993422455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 666312092036774330}
+  - component: {fileID: 7604254463069736246}
+  - component: {fileID: 6054653494183279509}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &666312092036774330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4139484480993422455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3490531472840599710}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7604254463069736246
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4139484480993422455}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7682709, y: 1, z: 0.49845427}
+  m_Center: {x: 0.00039744374, y: 0, z: -0.03762859}
+--- !u!114 &6054653494183279509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4139484480993422455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc8844343a5c644682ce91bca2b7b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4373640232456320072
 GameObject:
   m_ObjectHideFlags: 0
@@ -5002,9 +5060,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 2
+  m_Height: 1.8543763
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.97281194, z: 0}
 --- !u!114 &4828250134203230464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5018,6 +5076,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yFallMin: 0.5
+  LeftRightVelocityMin: 1
+  isOnGround: 1
 --- !u!1 &6617377387801544394
 GameObject:
   m_ObjectHideFlags: 0

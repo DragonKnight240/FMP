@@ -16,6 +16,7 @@ public class EnemyChase : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.Instance.PlaySFX(EnemyMain.SpottedPlayer);
             EnemyMain.PlayerInRange = true;
         }
     }
@@ -24,6 +25,7 @@ public class EnemyChase : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.Instance.PlaySFX(EnemyMain.LostPlayer);
             EnemyMain.PlayerInRange = false;
         }
     }
