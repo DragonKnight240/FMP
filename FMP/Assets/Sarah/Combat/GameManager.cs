@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     //Timer
     public bool inCombat = false;
+    public bool StartedGame = false;
 
 
     // Start is called before the first frame update

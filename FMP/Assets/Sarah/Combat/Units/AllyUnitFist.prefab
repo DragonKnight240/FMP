@@ -1029,8 +1029,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 4389364210218555682}
   HealthLerpSpeed: 10
-  UnitName: Gauntlet User
-  HealthMax: 20
+  UnitName: Velen
+  HealthMax: 70
   CurrentHealth: 0
   Movement: 2
   MoveSpeed: 30
@@ -1041,13 +1041,13 @@ MonoBehaviour:
   WeaponsIninventory:
   - {fileID: 11400000, guid: 96b4cd2c3c0c3f44e943ff1865a751cd, type: 2}
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
-  Strength: 2
-  Dexterity: 0
-  Magic: 0
-  Defence: 0
-  Resistance: 0
-  Speed: 0
-  Luck: 0
+  Strength: 20
+  Dexterity: 2
+  Magic: 5
+  Defence: 5
+  Resistance: 2
+  Speed: 7
+  Luck: 15
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1057,10 +1057,13 @@ MonoBehaviour:
   FistProficiency: 0
   FistLevel: 0
   Class: {fileID: 0}
-  CurrentAttack: {fileID: 0}
+  CurrentAttack: {fileID: 11400000, guid: 69103598804235846bc63c8efc44b428, type: 2}
   UnlockedAttacks: []
   AttackCamera: {fileID: 6421602495371772043}
   InRangeTargets: []
+  AttackSound: {fileID: 0}
+  HitSound: {fileID: 0}
+  DeathSound: {fileID: 0}
 --- !u!114 &-2159630872647823261
 MonoBehaviour:
   m_ObjectHideFlags: 0

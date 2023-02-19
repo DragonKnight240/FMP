@@ -26,10 +26,11 @@ public class PlayerOverworld : MonoBehaviour
 
         if (GameManager.Instance)
         {
-            if(GameManager.Instance.PlayerReturnToOverworld != null)
+            if(GameManager.Instance.PlayerReturnToOverworld != null && GameManager.Instance.StartedGame)
             {
                 transform.position = GameManager.Instance.PlayerReturnToOverworld;
                 AoEDisappear.gameObject.SetActive(true);
+                print("Returned to World");
             }
         }
 

@@ -17,6 +17,16 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         options = GetComponent<Options>();
+        if (GameManager.Instance)
+        {
+            if (GameManager.Instance.StartedGame)
+            {
+                MainMenuCanvas.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                ControlToPlayer();
+                return;
+            }
+        }
         DollyCartSpeed = DollyCart.m_Speed;
         DollyCart.m_Speed = 0;
         Cursor.lockState = CursorLockMode.Confined;
@@ -29,14 +39,20 @@ public class MainMenu : MonoBehaviour
         {
             if(DollyCart.m_Position <= PreviousPos)
             {
-                MainCamera.SetActive(true);
-                options.InGame = true;
-                FindObjectOfType<PlayerOverworld>().CanMove = true;
-                Destroy(this);
+                ControlToPlayer();
             }
 
             PreviousPos = DollyCart.m_Position;
         }
+    }
+
+    internal void ControlToPlayer()
+    {
+        MainCamera.SetActive(true);
+        options.InGame = true;
+        FindObjectOfType<PlayerOverworld>().CanMove = true;
+        GameManager.Instance.StartedGame = true;
+        Destroy(this);
     }
 
     public void PlayGame()

@@ -24,6 +24,11 @@ public class EnemyOverWorld : MonoBehaviour
     //public float StartVel;
     Rigidbody RB;
 
+    //Sound
+    public AudioClip SpottedPlayer;
+    public AudioClip LostPlayer;
+    //public AudioClip IdleSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,10 +93,19 @@ public class EnemyOverWorld : MonoBehaviour
         {
             if ((transform.position - Player.transform.position).magnitude < AggroRange)
             {
+                if(!PlayerInRange)
+                {
+                    SoundManager.Instance.PlaySFX(SpottedPlayer);
+                }
+
                 PlayerInRange = true;
             }
             else
             {
+                if (PlayerInRange)
+                {
+                    SoundManager.Instance.PlaySFX(LostPlayer);
+                }
                 PlayerInRange = false;
             }
         }
