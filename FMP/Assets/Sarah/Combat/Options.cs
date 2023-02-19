@@ -137,7 +137,7 @@ public class Options : MonoBehaviour
         if (OptionsMenuUI.activeInHierarchy)
         {
             Time.timeScale = 1;
-            if (!GameManager.Instance.inCombat)
+            if (!GameManager.Instance.inCombat && InGame)
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
@@ -191,5 +191,10 @@ public class Options : MonoBehaviour
     public void fullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

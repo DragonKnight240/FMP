@@ -49,7 +49,9 @@ public class EnemyOverWorld : MonoBehaviour
 
         if(RB == null)
         {
-            gameObject.AddComponent<Rigidbody>();
+            RB = gameObject.AddComponent<Rigidbody>();
+            RB.freezeRotation = true;
+
         }
     }
 
