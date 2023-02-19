@@ -35,8 +35,6 @@ public class AnimationController : MonoBehaviour
             }
             else
             {
-                print(RB.velocity);
-
                 if (!(RB.velocity.x < LeftRightVelocityMin && -LeftRightVelocityMin < RB.velocity.x) ||
                     !(RB.velocity.y < LeftRightVelocityMin && -LeftRightVelocityMin < RB.velocity.y))
                 {

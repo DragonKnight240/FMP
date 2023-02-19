@@ -11,6 +11,7 @@ public class PlayerOverworld : MonoBehaviour
     float RotationSmooth;
     internal AoEDisappear AoEDisappear;
     public float YMax = 2f;
+    internal bool CanMove;
 
     private void Start()
     {
@@ -37,6 +38,11 @@ public class PlayerOverworld : MonoBehaviour
 
     private void Update()
     {
+        if(!CanMove)
+        {
+            return;
+        }
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 

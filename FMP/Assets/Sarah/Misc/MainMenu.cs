@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
         DollyCartSpeed = DollyCart.m_Speed;
         DollyCart.m_Speed = 0;
         Cursor.lockState = CursorLockMode.Confined;
+        FindObjectOfType<PlayerOverworld>().CanMove = false;
     }
 
     private void Update()
@@ -30,6 +31,8 @@ public class MainMenu : MonoBehaviour
             {
                 MainCamera.SetActive(true);
                 options.InGame = true;
+                FindObjectOfType<PlayerOverworld>().CanMove = true;
+                Destroy(this);
             }
 
             PreviousPos = DollyCart.m_Position;
