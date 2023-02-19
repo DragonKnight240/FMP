@@ -133,6 +133,8 @@ public class EnemyOverWorld : MonoBehaviour
                         GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
                         GameManager.Instance.PlayerReturnToOverworld.y += 1;
                     }
+
+                    GameManager.Instance.inCombat = true;
                 }
                 SceneLoader.Instance.LoadNewScene(RandomMap());
             }

@@ -84,7 +84,8 @@ public class Tile : MonoBehaviour
         {
             if (GridPosition[1] < TileManager.Instance.Height && GridPosition[1] >= 0)
             {
-                if (TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn)
+                if (TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn 
+                    || TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().Unit)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]]);
                 }
@@ -96,7 +97,8 @@ public class Tile : MonoBehaviour
         {
             if (GridPosition[1] - 1 < TileManager.Instance.Height && GridPosition[1] - 1 >= 0)
             {
-                if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1].GetComponent<Tile>().CanMoveOn)
+                if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1].GetComponent<Tile>().CanMoveOn
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] -1].GetComponent<Tile>().Unit)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1]);
                 }
@@ -108,7 +110,8 @@ public class Tile : MonoBehaviour
         {
             if (GridPosition[1] + 1 < TileManager.Instance.Height && GridPosition[1] + 1 >= 0)
             {
-                if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().CanMoveOn)
+                if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().CanMoveOn
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().Unit)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1]);
                 }
@@ -120,7 +123,8 @@ public class Tile : MonoBehaviour
         {
             if (GridPosition[1] < TileManager.Instance.Height && GridPosition[1] >= 0)
             {
-                if (TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn)
+                if (TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn
+                    || TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().Unit)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]]);
                 }
@@ -136,7 +140,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled)
+        if(!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled || Options.Instance.OptionsMenuUI.activeInHierarchy)
         {
             return;
         }

@@ -27,6 +27,11 @@ public class Interact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Options.Instance.OptionsMenuUI.activeInHierarchy)
+        {
+            return;
+        }
+
         //With Combat Options up checks against selected unit so deselection is possible
         if (CombatMenu.CombatMenuObject.activeInHierarchy || CombatMenu.AttackMenuObject.activeInHierarchy)
         {

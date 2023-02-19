@@ -8,6 +8,7 @@ using TMPro;
 
 public class Options : MonoBehaviour
 {
+    public static Options Instance;
     public AudioMixer audioMixer;
     Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
@@ -26,6 +27,15 @@ public class Options : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
 
@@ -127,11 +137,16 @@ public class Options : MonoBehaviour
         if (OptionsMenuUI.activeInHierarchy)
         {
             Time.timeScale = 1;
+            if (!GameManager.Instance.inCombat)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
             OptionsMenuUI.SetActive(false);
         }
         else
         {
             Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
             OptionsMenuUI.SetActive(true);
         }
     }

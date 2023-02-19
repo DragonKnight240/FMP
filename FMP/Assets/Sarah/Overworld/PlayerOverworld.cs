@@ -76,6 +76,14 @@ public class PlayerOverworld : MonoBehaviour
             {
                 RB.velocity = new Vector3(RB.velocity.x, 0, RB.velocity.z);
             }
+
+            Vector3 FlatVel = new Vector3(RB.velocity.x, 0f, RB.velocity.z);
+
+            if(FlatVel.magnitude > MoveSpeed)
+            {
+                Vector3 LimitedVel = FlatVel.normalized * MoveSpeed * Time.deltaTime;
+                RB.velocity = new Vector3(LimitedVel.x, RB.velocity.y, LimitedVel.z);
+            }
         }
         else
         {

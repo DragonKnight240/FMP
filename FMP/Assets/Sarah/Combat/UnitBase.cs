@@ -555,7 +555,7 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled)
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled || Options.Instance.OptionsMenuUI.activeInHierarchy)
         {
             return;
         }

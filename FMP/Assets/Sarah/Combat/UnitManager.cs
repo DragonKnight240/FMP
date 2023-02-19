@@ -299,6 +299,8 @@ public class UnitManager : MonoBehaviour
             GameManager.Instance.UnitData.Add(data);
         }
 
+        GameManager.Instance.inCombat = false;
+
         SceneLoader.Instance.LoadNewScene(OverWorldScene);
     }
 }

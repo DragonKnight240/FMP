@@ -41,11 +41,19 @@ public class KnockableTree : InteractOnGrid
     {
         if(Unit.SwordLevel >= SwordLevelMin)
         {
-            //Tile tile = TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>();
+            //TileSetter(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles);
+
+            //print(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
+
+            //foreach (Tile i in InteractLocations.Keys)
+            //{
+            //    print(i);
+            //    print(InteractLocations[i]);
+            //}
 
             CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
             DealAoEDamage();
-            
+
         }
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;

@@ -69339,8 +69339,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.0666667
+  - time: 1.0333333
     functionName: HitZoom
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 9c62df0853585604dabb17cf5736e1ea, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.0666667
+    functionName: ResetAnimation
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 9c62df0853585604dabb17cf5736e1ea, type: 3}
     floatParameter: 0

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 4aabffab90972974db636ee3f3b3f9be, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 4abbd146eabd3b14692d2fba2ec452c0, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -3746,6 +3746,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+--- !u!114 &605156617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7212323883256491102, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+  m_PrefabInstance: {fileID: 605156616}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &611095316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4265,7 +4276,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.1523066e+22, y: 6.0320155e+22, z: 1.8179886e+31, w: 7.144074e+31}
+  m_BoundingSphereOverride: {x: 4e-43, y: -0.00000011787114, z: 4.5904e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -5452,7 +5463,7 @@ AudioSource:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2922311185904739308, guid: cda9b3411215ac043a4847ddbbdefab8, type: 2}
   m_audioClip: {fileID: 8300000, guid: 337eddf09f8aa49a69452cd33bf98e55, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -6983,7 +6994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dccf25f6f6f79a4d96745c564785d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurnText: {fileID: 0}
+  TurnText: {fileID: 605156617}
 --- !u!4 &1355222236
 Transform:
   m_ObjectHideFlags: 0
@@ -8280,6 +8291,7 @@ MonoBehaviour:
   Convoy: []
   Money: 0
   inCombat: 0
+  StartedGame: 0
 --- !u!4 &1569221630
 Transform:
   m_ObjectHideFlags: 0
