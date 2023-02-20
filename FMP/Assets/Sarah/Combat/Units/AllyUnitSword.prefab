@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 64454102105713050}
   HealthLerpSpeed: 10
-  UnitName: Sword User
+  UnitName: Zoom
   HealthMax: 50
   CurrentHealth: 0
   Movement: 2
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
-  Class: {fileID: 0}
+  Class: {fileID: 11400000, guid: a2b98c723dddab04a9f11b1e437c1b76, type: 2}
   CurrentAttack: {fileID: 11400000, guid: 63372a5edb71c154aad593cfbc35759e, type: 2}
   UnlockedAttacks: []
   AttackCamera: {fileID: 3756003959850373422}

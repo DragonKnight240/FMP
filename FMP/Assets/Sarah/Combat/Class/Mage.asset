@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f15f24a577d634f9e191df4631b002, type: 3}
-  m_Name: Punch
+  m_Script: {fileID: 11500000, guid: 08dfd787f9bbec04bac792b7559b9c99, type: 3}
+  m_Name: Mage
   m_EditorClassIdentifier: 
-  Name: Punch
-  DamageMultiplier: 8
-  HitRateMultiplier: 95
-  CritRateMultiplier: 5
-  ProficiencyIncreaseMultiplier: 2
-  DurabilityMultiplier: -2
+  Name: Soldier
+  Abilties: []
+  LevelRequirement: 
+  Strength: 0
+  Dexterity: 0
+  Magic: 0
+  Defence: 0
+  Resistance: 0
+  Speed: 0
+  Luck: 0

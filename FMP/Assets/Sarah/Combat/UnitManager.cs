@@ -195,6 +195,11 @@ public class UnitManager : MonoBehaviour
                     else
                     {
                         NewUnit.GetComponent<UnitBase>().CurrentHealth = NewUnit.GetComponent<UnitBase>().HealthMax;
+
+                        NewUnit.GetComponent<UnitBase>().Class = Instantiate(NewUnit.GetComponent<UnitBase>().Class);
+
+                        NewUnit.GetComponent<UnitBase>().Class.FindLevel();
+                        NewUnit.GetComponent<UnitBase>().Class.AbilityUnlock(NewUnit.GetComponent<UnitBase>());
                     }
 
                     Index++;
@@ -207,18 +212,56 @@ public class UnitManager : MonoBehaviour
             }
             else
             {
-                NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.Euler(0,180,0), transform);
+                NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.Euler(0, 180, 0), transform);
                 UnitBase = NewUnit.GetComponent<UnitBase>();
                 EnemyUnits.Add(NewUnit);
                 TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
 
                 NewUnit.GetComponent<UnitBase>().CurrentHealth = NewUnit.GetComponent<UnitBase>().HealthMax;
+
+                if (NewUnit.GetComponent<UnitBase>().Class != null)
+                {
+                    NewUnit.GetComponent<UnitBase>().Class = Instantiate(NewUnit.GetComponent<UnitBase>().Class);
+
+                    NewUnit.GetComponent<UnitBase>().Class.FindLevel();
+                    NewUnit.GetComponent<UnitBase>().Class.AbilityUnlock(NewUnit.GetComponent<UnitBase>());
+                }
             }
+
+            UnitBase.AvailableAttacks = new List<SpecialAttacks>();
 
             foreach (Item item in UnitBase.WeaponsIninventory)
             {
-                UnitBase.Inventory.Add((Weapon)item);
+                Weapon weapon = (Weapon)item;
+                UnitBase.Inventory.Add(weapon);
+                if(weapon.Special)
+                {
+                    if(!UnitBase.UnlockedAttacks.Contains(weapon.Special))
+                    {
+                        UnitBase.UnlockedAttacks.Add(weapon.Special);
+
+                        if(UnitBase.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                        {
+                            UnitBase.AvailableAttacks.Add(weapon.Special);
+                        }
+                    }
+                }
             }
+
+            foreach (SpecialAttacks Attack in UnitBase.UnlockedAttacks)
+            {
+                if(UnitBase.AvailableAttacks.Contains(Attack))
+                {
+                    continue;
+                }
+
+                if (UnitBase.EquipedWeapon.WeaponType == Attack.WeaponType)
+                {
+                    UnitBase.AvailableAttacks.Add(Attack);
+                }
+            }
+
+            UnitBase.CurrentAttack = UnitBase.AvailableAttacks[0];
 
             if (UnitBase.WeaponsIninventory.Contains(UnitBase.BareHands))
             {
@@ -255,13 +298,10 @@ public class UnitManager : MonoBehaviour
         for (int i = 0; i < AllyUnits.Count; i++)
         {
             data = new CharacterData();
-            print("Data to Gamemanager");
             Ally = AllyUnits[i].GetComponent<UnitBase>();
-            print(Ally.name);
 
             data.UnitName = Ally.UnitName;
             data.HealthMax = Ally. HealthMax;
-            print(Ally.CurrentHealth);
             data.CurrentHealth = Ally.CurrentHealth;
             data.Movement = Ally.Movement;
 

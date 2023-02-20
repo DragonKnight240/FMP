@@ -37,19 +37,27 @@ public class Tile : MonoBehaviour
                 ChangeOccupant(null);
             }
         }
+
+        if(Special)
+        {
+            if(!Special.isActiveAndEnabled)
+            {
+                Special = null;
+            }
+        }
     }
 
     public void Show(bool WeaponRange = false, bool Overlay = false, bool Reset = false)
     {
-        if (WeaponRange && !Reset && !Special)
+        if (WeaponRange && !Reset && Special == null)
         {
             GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
         }
-        else if(!Overlay && !Reset && !Special)
+        else if(!Overlay && !Reset && Special == null)
         {
             GetComponent<MeshRenderer>().material = InRangeMaterial;
         }
-        else if(Overlay && !Reset && !Special)
+        else if(Overlay && !Reset)
         {
             GetComponent<MeshRenderer>().material = OverlayMaterial;
         }

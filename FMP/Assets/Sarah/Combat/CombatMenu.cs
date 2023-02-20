@@ -83,102 +83,133 @@ public class CombatMenu : MonoBehaviour
 
     public void ChangeAttackTarget(bool Next)
     {
+        UnitBase Unit = Interact.Instance.SelectedUnit;
         int NewIndex;
         if (Next)
         {
-            NewIndex = Interact.Instance.SelectedUnit.InRangeTargets.IndexOf(Interact.Instance.SelectedUnit.AttackTarget) + 1;
-            if (NewIndex >= Interact.Instance.SelectedUnit.InRangeTargets.Count)
+            NewIndex = Unit.InRangeTargets.IndexOf(Unit.AttackTarget) + 1;
+            if (NewIndex >= Unit.InRangeTargets.Count)
             {
                 NewIndex = 0;
             }
         }
         else
         {
-            NewIndex = Interact.Instance.SelectedUnit.InRangeTargets.IndexOf(Interact.Instance.SelectedUnit.AttackTarget) - 1;
+            NewIndex = Unit.InRangeTargets.IndexOf(Unit.AttackTarget) - 1;
             if (NewIndex < 0)
             {
-                NewIndex = Interact.Instance.SelectedUnit.InRangeTargets.Count - 1;
+                NewIndex = Unit.InRangeTargets.Count - 1;
             }
         }
 
-        Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[NewIndex];
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
-        CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.AttackTarget.transform;
+        Unit.AttackTarget = Unit.InRangeTargets[NewIndex];
+        Unit.GetComponent<UnitControlled>().AttackDisplay();
+        CameraMove.Instance.FollowTarget = Unit.AttackTarget.transform;
     }
 
     public void ChangeWeapon(bool Next)
     {
+        UnitBase Unit = Interact.Instance.SelectedUnit;
+        List<Weapon> Weapons = Unit.WeaponsIninventory;
+
         int NewIndex;
         if(Next)
         {
-            NewIndex = Interact.Instance.SelectedUnit.WeaponsIninventory.IndexOf(Interact.Instance.SelectedUnit.EquipedWeapon) + 1;
-            if(NewIndex >= Interact.Instance.SelectedUnit.WeaponsIninventory.Count)
+            NewIndex = Weapons.IndexOf(Unit.EquipedWeapon) + 1;
+            if(NewIndex >= Weapons.Count)
             {
                 NewIndex = 0;
             }
         }
         else
         {
-            NewIndex = Interact.Instance.SelectedUnit.WeaponsIninventory.IndexOf(Interact.Instance.SelectedUnit.EquipedWeapon) - 1;
+            NewIndex = Weapons.IndexOf(Unit.EquipedWeapon) - 1;
             if (NewIndex < 0)
             {
-                NewIndex = Interact.Instance.SelectedUnit.WeaponsIninventory.Count -1;
+                NewIndex = Unit.WeaponsIninventory.Count -1;
             }
         }
 
-        Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.WeaponsIninventory[NewIndex];
+        Unit.EquipedWeapon = Weapons[NewIndex];
+        ChangeAvailableAttacks();
         CheckTargetStatus();
     }
 
     public void ChangeAttack(bool Next)
     {
+        UnitBase Unit = Interact.Instance.SelectedUnit;
+        List<SpecialAttacks> AttackList = Unit.AvailableAttacks;
+
         int NewIndex;
         if (Next)
         {
-            NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.IndexOf(Interact.Instance.SelectedUnit.CurrentAttack) + 1;
-            if (NewIndex >= Interact.Instance.SelectedUnit.UnlockedAttacks.Count)
+            NewIndex = AttackList.IndexOf(Unit.CurrentAttack) + 1;
+            if (NewIndex >= AttackList.Count)
             {
                 NewIndex = 0;
             }
         }
         else
         {
-            NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.IndexOf(Interact.Instance.SelectedUnit.CurrentAttack) - 1;
+            NewIndex = AttackList.IndexOf(Unit.CurrentAttack) - 1;
             if (NewIndex < 0)
             {
-                NewIndex = Interact.Instance.SelectedUnit.UnlockedAttacks.Count - 1;
+                NewIndex = AttackList.Count - 1;
             }
         }
 
-        Interact.Instance.SelectedUnit.CurrentAttack = Interact.Instance.SelectedUnit.UnlockedAttacks[NewIndex];
+        Unit.CurrentAttack = AttackList[NewIndex];
 
         CheckTargetStatus();
     }
 
+    internal void ChangeAvailableAttacks()
+    {
+        UnitBase Unit = Interact.Instance.SelectedUnit;
+
+        Unit.AvailableAttacks = new List<SpecialAttacks>();
+
+        foreach (SpecialAttacks Attack in Unit.UnlockedAttacks)
+        {
+            if (Attack.WeaponType == Unit.EquipedWeapon.WeaponType)
+            {
+                Unit.AvailableAttacks.Add(Attack);
+            }
+        }
+
+        Unit.AvailableAttacks.Add(Unit.EquipedWeapon.Special);
+
+        Unit.CurrentAttack = Unit.AvailableAttacks[0];
+    }
+
     public void CancelAttack()
     {
+        UnitBase Unit = Interact.Instance.SelectedUnit;
+
         AttackMenuObject.SetActive(false);
         CameraMove.Instance.FollowTarget = null;
-        Interact.Instance.SelectedUnit.HideAllChangedTiles();
-        Interact.Instance.SelectedUnit = null;
+        Unit.HideAllChangedTiles();
+        Unit = null;
         Interact.Instance.UISelectedUnit();
     }
 
     internal void CheckTargetStatus()
     {
-        Interact.Instance.SelectedUnit.HideAllChangedTiles();
-        Interact.Instance.SelectedUnit.MoveableArea();
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().FindInRangeTargets();
+        UnitBase Unit = Interact.Instance.SelectedUnit;
 
-        if (Interact.Instance.SelectedUnit.InRangeTargets.Count > 0)
+        Unit.HideAllChangedTiles();
+        Unit.MoveableArea();
+        Unit.GetComponent<UnitControlled>().FindInRangeTargets();
+
+        if (Unit.InRangeTargets.Count > 0)
         {
-            if (!Interact.Instance.SelectedUnit.InRangeTargets.Contains(Interact.Instance.SelectedUnit.AttackTarget))
+            if (!Unit.InRangeTargets.Contains(Unit.AttackTarget))
             {
-                Interact.Instance.SelectedUnit.AttackTarget = Interact.Instance.SelectedUnit.InRangeTargets[0];
-                CameraMove.Instance.FollowTarget = Interact.Instance.SelectedUnit.InRangeTargets[0].transform;
+                Unit.AttackTarget = Unit.InRangeTargets[0];
+                CameraMove.Instance.FollowTarget = Unit.InRangeTargets[0].transform;
             }
 
-            Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().AttackDisplay();
+            Unit.GetComponent<UnitControlled>().AttackDisplay();
         }
         else
         {
@@ -189,7 +220,9 @@ public class CombatMenu : MonoBehaviour
 
     internal void CheckButtons()
     {
-        foreach (GameObject tile in TileManager.Instance.Grid[Interact.Instance.SelectedUnit.Position[0], Interact.Instance.SelectedUnit.Position[1]].GetComponent<Tile>().AdjacentTiles)
+        UnitBase Unit = Interact.Instance.SelectedUnit;
+
+        foreach (GameObject tile in TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>().AdjacentTiles)
         {
             if (tile.GetComponent<Tile>().Special)
             {
@@ -202,9 +235,9 @@ public class CombatMenu : MonoBehaviour
             }
         }
 
-        Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().FindInRangeTargets();
+        Unit.GetComponent<UnitControlled>().FindInRangeTargets();
 
-        if (Interact.Instance.SelectedUnit.GetComponent<UnitControlled>().InRangeTargets.Count > 0)
+        if (Unit.GetComponent<UnitControlled>().InRangeTargets.Count > 0)
         {
             AttackButton.gameObject.SetActive(true);
         }
@@ -213,7 +246,7 @@ public class CombatMenu : MonoBehaviour
             AttackButton.gameObject.SetActive(false);
         }
 
-        if(Interact.Instance.SelectedUnit.MovedForTurn)
+        if(Unit.MovedForTurn)
         {
             MoveButton.gameObject.SetActive(false);
         }

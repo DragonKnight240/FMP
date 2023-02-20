@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class UnitBase : MonoBehaviour
 {
+    public struct StatusEffect
+    {
+        public Effects Effects;
+        public int Length;
+        public int Amount;
+    }
+
     class Node
     {
         public Node PreviousTile;
@@ -74,11 +81,15 @@ public class UnitBase : MonoBehaviour
     [Header("Attack")]
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
+    internal List<SpecialAttacks> AvailableAttacks;
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
     bool ToAttack = false;
 
     public List<UnitBase> InRangeTargets;
+
+    [Header("Status Effects")]
+    internal List<StatusEffect> CurrentStatusEffects;
 
     //Sounds
     public AudioClip AttackSound;
@@ -479,35 +490,34 @@ public class UnitBase : MonoBehaviour
             {
                 case WeaponType.Sword:
                     {
-                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
                         break;
                     }
                 case WeaponType.Bow:
                     {
-                        Damage = Mathf.RoundToInt(Dexterity + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalDexterity() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
                         break;
                     }
                 case WeaponType.Gauntlets:
                     {
-                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - FistLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - FistLevel)));
                         break;
                     }
                 case WeaponType.Staff:
                     {
-                        Damage = Mathf.RoundToInt(Magic + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5 - MagicLevel)));
+                        Damage = Mathf.RoundToInt(TotalMagic() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - MagicLevel)));
                         break;
                     }
                 default:
                     {
-                        Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6)));
                         break;
                     }
             }
-            Damage = EquipedWeapon.Damage;
         }
         else
         {
-            Damage = Mathf.RoundToInt(Strength + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
+            Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
         }
         
         return Damage;
@@ -516,12 +526,21 @@ public class UnitBase : MonoBehaviour
     internal int CalcuateHitChance()
     {
         int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2));
+
+        if(HitChance > 100)
+        {
+            HitChance = 100;
+        }
         return HitChance;
     }
 
     internal int CalculateCritChance()
     {
         int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2));
+        if (CritChance > 100)
+        {
+            CritChance = 100;
+        }
         return CritChance;
     }
 
@@ -541,6 +560,90 @@ public class UnitBase : MonoBehaviour
     {
         int ReturnCritChance = 0;
         return ReturnCritChance;
+    }
+
+    internal int TotalStrength()
+    {
+        if (Class)
+        {
+            return Strength + Class.Strength;
+        }
+        else
+        {
+            return Strength;
+        }
+    }
+
+    internal int TotalDexterity()
+    {
+        if (Class)
+        {
+            return Dexterity + Class.Dexterity;
+        }
+        else
+        {
+            return Dexterity;
+        }
+    }
+
+    internal int TotalMagic()
+    {
+        if (Class)
+        {
+            return Magic + Class.Magic;
+        }
+        else
+        {
+            return Magic;
+        }
+    }
+
+    internal int TotalDefence()
+    {
+        if (Class)
+        {
+            return Defence + Class.Defence;
+        }
+        else
+        {
+            return Defence;
+        }
+    }
+
+    internal int TotalResistance()
+    {
+        if (Class)
+        {
+            return Resistance + Class.Resistance;
+        }
+        else
+        {
+            return Resistance;
+        }
+    }
+
+    internal int TotalSpeed()
+    {
+        if (Class)
+        {
+            return Speed + Class.Speed;
+        }
+        else
+        {
+            return Speed;
+        }
+    }
+
+    internal int TotalLuck()
+    {
+        if (Class)
+        {
+            return Luck + Class.Luck;
+        }
+        else
+        {
+            return Luck;
+        }
     }
 
     internal void DecreaseHealth(int Attack)

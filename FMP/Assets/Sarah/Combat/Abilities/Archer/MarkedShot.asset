@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00f15f24a577d634f9e191df4631b002, type: 3}
-  m_Name: LongShot
+  m_Name: MarkedShot
   m_EditorClassIdentifier: 
-  Name: Long Shot
-  DamageMultiplier: 6
-  HitRateMultiplier: 80
-  CritRateMultiplier: 10
-  ProficiencyIncreaseMultiplier: 2
-  DurabilityMultiplier: -2
+  Name: Marked Shot
+  WeaponType: 1
+  DamageMultiplier: 0
+  HitRateMultiplier: 0
+  CritRateMultiplier: 0
+  ProficiencyIncreaseMultiplier: 0
+  DurabilityMultiplier: 0

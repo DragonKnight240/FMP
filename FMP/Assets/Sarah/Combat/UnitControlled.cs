@@ -114,7 +114,7 @@ public class UnitControlled : UnitBase
             Interact.Instance.CombatMenu.PreviousWeapon.SetActive(true);
         }
 
-        if(Interact.Instance.SelectedUnit.UnlockedAttacks.Count == 0)
+        if(Interact.Instance.SelectedUnit.AvailableAttacks.Count <= 1 )
         {
             Interact.Instance.CombatMenu.NextAttack.SetActive(false);
             Interact.Instance.CombatMenu.PreviousAttack.SetActive(false);
@@ -138,7 +138,7 @@ public class UnitControlled : UnitBase
 
         Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - AttackTarget.CalculateReturnDamage()) / HealthMax;
         Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name;
-        Interact.Instance.CombatMenu.Attack.text = "Normal";
+        Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name;
         Interact.Instance.CombatMenu.DamageAlly.text = CalculateDamage().ToString();
         Interact.Instance.CombatMenu.HitAlly.text = CalcuateHitChance().ToString();
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();
