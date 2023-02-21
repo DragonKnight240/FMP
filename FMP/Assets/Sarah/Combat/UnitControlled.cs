@@ -6,7 +6,8 @@ public class UnitControlled : UnitBase
 {
     internal void MoveButton()
     {
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
     }
 
     internal void AttackButton(UnitBase Unit = null)
@@ -35,11 +36,15 @@ public class UnitControlled : UnitBase
             FindWeapons();
             AttackDisplay();
             Interact.Instance.CombatMenu.AttackMenuObject.SetActive(true);
-            Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+            Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeIn();
+
+            //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+            Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
         }
         else
         {
-            Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+            //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+            Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
         }
     }
 
@@ -47,12 +52,14 @@ public class UnitControlled : UnitBase
     {
         FindObjectOfType<Inventory>().ButtonText(Inventory);
         Interact.Instance.CombatMenu.InventoryObject.SetActive(true);
+        Interact.Instance.CombatMenu.InventoryObject.GetComponent<UIFade>().ToFadeIn();
 
     }
 
     internal void SpecialButton()
     {
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+        Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
 
         foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
         {

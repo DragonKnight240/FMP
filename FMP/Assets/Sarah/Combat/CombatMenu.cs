@@ -52,13 +52,24 @@ public class CombatMenu : MonoBehaviour
     public GameObject SelectedUnitTab;
     public TMP_Text UnitText;
 
+    //End Turn
+    public GameObject EndTurnButton;
+    internal MoveToScreenLocation EndButtonMover;
+
     private void Start()
     {
+        CombatMenuObject.GetComponent<CanvasGroup>().alpha = 0;
         CombatMenuObject.SetActive(false);
+
+        InventoryObject.GetComponent<CanvasGroup>().alpha = 0;
         InventoryObject.SetActive(false);
+
+        AttackMenuObject.GetComponent<CanvasGroup>().alpha = 0;
         AttackMenuObject.SetActive(false);
+
         ItemNotification.SetActive(false);
-        SelectedUnitTab.SetActive(false);
+
+        EndButtonMover = EndTurnButton.GetComponent<MoveToScreenLocation>();
     }
 
     private void Update()
@@ -72,13 +83,22 @@ public class CombatMenu : MonoBehaviour
                 ItemNotification.SetActive(false);
                 ItemStayTimer = 0;
             }
+        }
 
+        if(TurnManager.Instance.isPlayerTurn)
+        {
+            EndButtonMover.Display = true;
+        }
+        else
+        {
+            EndButtonMover.Display = false;
         }
     }
 
     public void CloseInventory()
     {
-        InventoryObject.SetActive(false);
+        //InventoryObject.SetActive(false);
+        InventoryObject.GetComponent<UIFade>().ToFadeOut();
     }
 
     public void ChangeAttackTarget(bool Next)
@@ -184,7 +204,7 @@ public class CombatMenu : MonoBehaviour
 
     public void CancelAttack()
     {
-        AttackMenuObject.SetActive(false);
+        AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
         CameraMove.Instance.FollowTarget = null;
         Interact.Instance.SelectedUnit.HideAllChangedTiles();
         Interact.Instance.SelectedUnit = null;
@@ -196,8 +216,9 @@ public class CombatMenu : MonoBehaviour
         UnitBase Unit = Interact.Instance.SelectedUnit;
 
         Unit.HideAllChangedTiles();
-        Unit.MoveableArea();
+        Unit.MoveableArea(false);
         Unit.GetComponent<UnitControlled>().FindInRangeTargets();
+        Unit.ShowAllInRangeTiles();
 
         if (Unit.InRangeTargets.Count > 0)
         {
@@ -252,5 +273,15 @@ public class CombatMenu : MonoBehaviour
         {
             MoveButton.gameObject.SetActive(true);
         }
+    }
+
+    public void EndPlayerTurn()
+    {
+        foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
+        {
+            Unit.GetComponent<UnitBase>().WaitUnit();
+        }
+
+        EndButtonMover.Display = false;
     }
 }

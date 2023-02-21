@@ -148,7 +148,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled || Options.Instance.OptionsMenuUI.activeInHierarchy)
+        if(!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy  || Options.Instance.OptionsMenuUI.activeInHierarchy)
         {
             return;
         }

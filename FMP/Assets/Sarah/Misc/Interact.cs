@@ -8,6 +8,7 @@ public class Interact : MonoBehaviour
     internal UnitBase SelectedUnit;
     internal UnitBase TempSelectedUnit;
     internal CombatMenu CombatMenu;
+    internal GameObject VirtualCam;
 
     // Start is called before the first frame update
     void Start()
@@ -22,12 +23,15 @@ public class Interact : MonoBehaviour
         }
 
         CombatMenu = FindObjectOfType<CombatMenu>();
+        VirtualCam = FindObjectOfType<CameraMove>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Options.Instance.OptionsMenuUI.activeInHierarchy)
+        bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+
+        if (Options.Instance.OptionsMenuUI.activeInHierarchy || isOverUI)
         {
             return;
         }
@@ -185,7 +189,8 @@ public class Interact : MonoBehaviour
                     UISelectedUnit();
                     UnitManager.Instance.UnitUpdate.Invoke();
                     CameraMove.Instance.FollowTarget = null;
-                    CombatMenu.AttackMenuObject.SetActive(false);
+                    //CombatMenu.AttackMenuObject.SetActive(false);
+                    CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
                 }
             }
             else
@@ -198,7 +203,7 @@ public class Interact : MonoBehaviour
 
     public void ChangeMenuButtons()
     {
-        if (!CombatMenu.gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!CombatMenu.CombatMenuObject.activeInHierarchy)
         {
             CombatMenu.CheckButtons();
 
@@ -220,15 +225,18 @@ public class Interact : MonoBehaviour
             CombatMenu.SpecialButton.onClick.AddListener(Unit.SpecialButton);
 
             CameraMove.Instance.ShouldFollow = false;
-            CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            CombatMenu.AttackMenuObject.SetActive(false);
+
+            CombatMenu.CombatMenuObject.SetActive(true);
+            CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeIn();
+
+            CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
 
             CameraMove.Instance.FollowTarget = SelectedUnit.transform;
         }
         else
         {
             CameraMove.Instance.ShouldFollow = true;
-            CombatMenu.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
 
             CameraMove.Instance.FollowTarget = null;
         }
@@ -247,11 +255,11 @@ public class Interact : MonoBehaviour
         if (SelectedUnit)
         {
             CombatMenu.UnitText.text = SelectedUnit.UnitName;
-            CombatMenu.SelectedUnitTab.SetActive(true);
+            CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = true;
         }
         else
         {
-            CombatMenu.SelectedUnitTab.SetActive(false);
+            CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = false;
         }
     }
 }

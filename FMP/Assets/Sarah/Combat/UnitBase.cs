@@ -85,6 +85,9 @@ public class UnitBase : MonoBehaviour
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
     bool ToAttack = false;
+    bool AttackZoomIn = false;
+    bool HitZoomIn = false;
+    bool DeathZoomIn = false;
 
     public List<UnitBase> InRangeTargets;
 
@@ -118,15 +121,25 @@ public class UnitBase : MonoBehaviour
     {
         if (isAlive)
         {
-            if (CurrentHealth <= 0)
+            if (AttackCamera.transform.position == Interact.Instance.transform.position)
             {
-                //AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
-                //TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-                //UnitManager.Instance.DeadEnemyUnits.Add(this);
+                if (HitZoomIn)
+                {
+                    PlayHitAnim();
+                }
+                else if (DeathZoomIn)
+                {
+                    PlayDeathAnim();
+                }
+                else if (AttackZoomIn)
+                {
+                    PlayAttackAnim();
+                }
             }
-            else
+
+            if (CurrentHealth > 0)
             {
-                if (Moving)
+                if (Moving && Interact.Instance.VirtualCam.transform.position == Interact.Instance.transform.position)
                 {
                     if (Path.Count <= 0)
                     {
@@ -256,6 +269,7 @@ public class UnitBase : MonoBehaviour
         MoveableTiles.Clear();
         AttackTiles.Clear();
         OuterMostMove.Clear();
+
         List<GameObject> CheckingTiles = new List<GameObject>();
         CheckingTiles.Add(TileManager.Instance.Grid[Position[0],Position[1]]);
 
@@ -386,6 +400,7 @@ public class UnitBase : MonoBehaviour
                 tile.Hide();
             }
         }
+
     }
 
     internal void ShowAllInRangeTiles()
@@ -420,10 +435,10 @@ public class UnitBase : MonoBehaviour
     {
         transform.LookAt(AttackTarget.transform);
         AttackCamera.SetActive(true);
-        Interact.Instance.GetComponent<Camera>().enabled = false;
+        Interact.Instance.VirtualCam.SetActive(false);
 
-        AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
-        SoundManager.Instance.PlaySFX(AttackSound);
+        AttackZoomIn = true;
+
     }
 
     public void HitZoom()
@@ -436,22 +451,45 @@ public class UnitBase : MonoBehaviour
 
         if (AttackTarget.CurrentHealth > 0)
         {
-            AttackTarget.AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
-            SoundManager.Instance.PlaySFX(HitSound);
+            AttackTarget.HitZoomIn = true;
+
         }
         else
         {
-            AttackTarget.AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
-            SoundManager.Instance.PlaySFX(DeathSound);
-            AttackTarget.GetComponent<Fading>().ChangeMaterial();
-            AttackTarget.GetComponent<Fading>().FadeOut = true;
-            AttackTarget.isAlive = false;
+            AttackTarget.DeathZoomIn = true;
         }
+    }
+
+    void PlayAttackAnim()
+    {
+        AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
+        SoundManager.Instance.PlaySFX(AttackSound);
 
         ResetMoveableTiles();
         MovedForTurn = true;
         AttackedForTurn = true;
         EndTurn = true;
+
+        AttackZoomIn = false;
+    }
+
+    void PlayHitAnim()
+    {
+        AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
+        SoundManager.Instance.PlaySFX(HitSound);
+
+        HitZoomIn = false;
+    }
+
+    void PlayDeathAnim()
+    {
+        AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
+        SoundManager.Instance.PlaySFX(DeathSound);
+        GetComponent<Fading>().ChangeMaterial();
+        GetComponent<Fading>().FadeOut = true;
+        isAlive = false;
+
+        DeathZoomIn = false;
     }
 
     public void ResetAnimation()
@@ -462,7 +500,7 @@ public class UnitBase : MonoBehaviour
     public void ReturnMainCamera()
     {
         ResetAnimation();
-        Interact.Instance.GetComponent<Camera>().enabled = true;
+        Interact.Instance.VirtualCam.SetActive(true);
         AttackCamera.SetActive(false);
         //AttackTarget.AttackCamera.SetActive(false);
     }
@@ -477,7 +515,7 @@ public class UnitBase : MonoBehaviour
         }
 
         AttackCamera.SetActive(false);
-        Interact.Instance.GetComponent<Camera>().enabled = true;
+        Interact.Instance.VirtualCam.SetActive(true);
         gameObject.SetActive(false);
     }
 
@@ -658,7 +696,7 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.GetComponent<Camera>().isActiveAndEnabled || Options.Instance.OptionsMenuUI.activeInHierarchy)
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy)
         {
             return;
         }
