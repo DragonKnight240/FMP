@@ -45,6 +45,7 @@ public class Options : MonoBehaviour
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
+
             options.Add(option);
 
             if (resolutions[i].height == Screen.currentResolution.height && resolutions[i].width == Screen.currentResolution.width)
@@ -177,7 +178,6 @@ public class Options : MonoBehaviour
 
     public void resolution(int index)
     {
-        print("Change Resolution " + index);
         Resolution resolution = resolutions[index];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 

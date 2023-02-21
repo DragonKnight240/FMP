@@ -184,12 +184,10 @@ public class CombatMenu : MonoBehaviour
 
     public void CancelAttack()
     {
-        UnitBase Unit = Interact.Instance.SelectedUnit;
-
         AttackMenuObject.SetActive(false);
         CameraMove.Instance.FollowTarget = null;
-        Unit.HideAllChangedTiles();
-        Unit = null;
+        Interact.Instance.SelectedUnit.HideAllChangedTiles();
+        Interact.Instance.SelectedUnit = null;
         Interact.Instance.UISelectedUnit();
     }
 

@@ -9,7 +9,32 @@ public class Inventory : MonoBehaviour
     public List<Button> Items;
 
     internal Dictionary<Button, Item> ButtonDictionary;
-    public Item item;
+
+    public TMP_Text WeaponText;
+    public GameObject NextWeapon;
+    public GameObject PreviousWeapon;
+
+    private void Update()
+    {
+        if (Interact.Instance.SelectedUnit)
+        {
+            if (Interact.Instance.SelectedUnit.EquipedWeapon.Name != WeaponText.text)
+            {
+                WeaponText.text = Interact.Instance.SelectedUnit.EquipedWeapon.Name;
+
+                if (Interact.Instance.SelectedUnit.WeaponsIninventory.Count > 1)
+                {
+                    NextWeapon.SetActive(true);
+                    PreviousWeapon.SetActive(true);
+                }
+                else
+                {
+                    NextWeapon.SetActive(false);
+                    PreviousWeapon.SetActive(false);
+                }
+            }
+        }
+    }
 
     internal void ButtonText(List<Item> UnitInventory)
     {

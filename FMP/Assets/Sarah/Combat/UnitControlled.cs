@@ -9,14 +9,29 @@ public class UnitControlled : UnitBase
         Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
     }
 
-    internal void AttackButton()
+    internal void AttackButton(UnitBase Unit = null)
     {
         FindInRangeTargets();
 
         if (InRangeTargets.Count > 0)
         {
-            CameraMove.Instance.FollowTarget = InRangeTargets[0].transform;
-            AttackTarget = InRangeTargets[0];
+            if (Unit)
+            {
+                if (InRangeTargets.Contains(Unit))
+                {
+                    CameraMove.Instance.FollowTarget = Unit.transform;
+                    AttackTarget = Unit;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                CameraMove.Instance.FollowTarget = InRangeTargets[0].transform;
+                AttackTarget = InRangeTargets[0];
+            }
             FindWeapons();
             AttackDisplay();
             Interact.Instance.CombatMenu.AttackMenuObject.SetActive(true);
