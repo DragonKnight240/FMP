@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 7306089511351967139}
   - component: {fileID: 5693498991065597340}
   - component: {fileID: 8358199394932759806}
+  - component: {fileID: 5833548794545982573}
   m_Layer: 5
   m_Name: DialogueMain
   m_TagString: Untagged
@@ -248,6 +249,21 @@ MonoBehaviour:
   SpeakerName: {fileID: 4188848718426083735}
   DialoguePrompt: {fileID: 6618375245135043075}
   LetterDiplayTime: 0.05
+--- !u!114 &5833548794545982573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530085534725187312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f810e4b0377fb4794ca429ad609049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lines:
+  - {fileID: 11400000, guid: 785bfe33b1020974cb3852c434d3ba6f, type: 2}
+  - {fileID: 11400000, guid: 38b16dcf606f24a438c0a66e320531d4, type: 2}
 --- !u!1 &1542223645317419795
 GameObject:
   m_ObjectHideFlags: 0
