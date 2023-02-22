@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     public List<Item> Convoy;
     public int Money;
 
+    //Tutorial
+    internal bool CombatTutorialComplete = false;
+    internal bool OverworldTutorialComplete = false;
+
+    //Sound
     internal float MasterSlider = 0;
     internal float SFXSlider = 0;
     internal float MusicSlider = 0;
