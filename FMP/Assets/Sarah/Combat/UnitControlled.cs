@@ -71,7 +71,7 @@ public class UnitControlled : UnitBase
                 Interact.Instance.UISelectedUnit();
                 CameraMove.Instance.FollowTarget = null;
                 HideAllChangedTiles();
-                EndTurn = true;
+                WaitUnit();
             }
         }
 

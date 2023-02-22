@@ -56,6 +56,12 @@ public class CombatMenu : MonoBehaviour
     public GameObject EndTurnButton;
     internal MoveToScreenLocation EndButtonMover;
 
+    //Top Bar Text
+    public TMP_Text LivingEnemyText;
+    public TMP_Text LivingAlliesText;
+    public TMP_Text UnitsToActText;
+
+
     private void Start()
     {
         CombatMenuObject.GetComponent<CanvasGroup>().alpha = 0;
@@ -92,6 +98,21 @@ public class CombatMenu : MonoBehaviour
         else
         {
             EndButtonMover.Display = false;
+        }
+
+        if(LivingAlliesText.text != (UnitManager.Instance.AllyUnits.Count - UnitManager.Instance.DeadAllyUnits.Count).ToString())
+        {
+            LivingAlliesText.text = (UnitManager.Instance.AllyUnits.Count - UnitManager.Instance.DeadAllyUnits.Count).ToString();
+        }
+
+        if(LivingEnemyText.text != (UnitManager.Instance.EnemyUnits.Count - UnitManager.Instance.DeadEnemyUnits.Count).ToString())
+        {
+            LivingEnemyText.text = (UnitManager.Instance.EnemyUnits.Count - UnitManager.Instance.DeadEnemyUnits.Count).ToString();
+        }
+
+        if (UnitsToActText.text != TurnManager.Instance.UnitsToMove.ToString())
+        {
+            UnitsToActText.text = TurnManager.Instance.UnitsToMove.ToString();
         }
     }
 

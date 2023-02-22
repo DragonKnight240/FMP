@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     public List<Item> Convoy;
     public int Money;
 
-    internal float MasterSlider;
-    internal float SFXSlider;
-    internal float MusicSlider;
-    internal float AmbianceSlider;
+    internal float MasterSlider = 0;
+    internal float SFXSlider = 0;
+    internal float MusicSlider = 0;
+    internal float AmbianceSlider = 0;
 
     //Timer
     public bool inCombat = false;

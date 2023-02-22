@@ -41,7 +41,7 @@ public class UnitAI : UnitBase
             Attack(InRangeTarget);
         }
 
-        EndTurn = true;
+        WaitUnit();
     }
 
     bool CanAttack()

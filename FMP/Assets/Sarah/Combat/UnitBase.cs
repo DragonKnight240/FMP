@@ -166,7 +166,7 @@ public class UnitBase : MonoBehaviour
                     transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
                 }
-                else
+                else if(!Moving)
                 {
                     if (ToAttack)
                     {
@@ -466,9 +466,8 @@ public class UnitBase : MonoBehaviour
         SoundManager.Instance.PlaySFX(AttackSound);
 
         ResetMoveableTiles();
-        MovedForTurn = true;
-        AttackedForTurn = true;
-        EndTurn = true;
+
+        WaitUnit();
 
         AttackZoomIn = false;
     }
@@ -509,9 +508,19 @@ public class UnitBase : MonoBehaviour
     {
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
 
-        if (!UnitManager.Instance.DeadEnemyUnits.Contains(this))
+        if (CompareTag("Enemy"))
         {
-            UnitManager.Instance.DeadEnemyUnits.Add(this);
+            if (!UnitManager.Instance.DeadEnemyUnits.Contains(this))
+            {
+                UnitManager.Instance.DeadEnemyUnits.Add(this);
+            }
+        }
+        else
+        {
+            if (!UnitManager.Instance.DeadAllyUnits.Contains(this))
+            {
+                UnitManager.Instance.DeadAllyUnits.Add(this);
+            }
         }
 
         AttackCamera.SetActive(false);
@@ -774,8 +783,17 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.SelectedUnit = null;
         Interact.Instance.UISelectedUnit();
         HideAllChangedTiles();
-        Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+
+        Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
+        Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
+        Interact.Instance.CombatMenu.InventoryObject.GetComponent<UIFade>().ToFadeOut();
+
         CameraMove.Instance.FollowTarget = null;
+
+        if(GetComponent<UnitControlled>())
+        {
+            TurnManager.Instance.UnitsToMove -= 1;
+        }
     }
 
     //A* Pathfinding

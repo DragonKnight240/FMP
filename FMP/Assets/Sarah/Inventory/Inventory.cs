@@ -85,9 +85,10 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Interact.Instance.SelectedUnit.EquipedWeapon = null;
+            Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.BareHands;
         }
 
         Interact.Instance.SelectedUnit.MoveableArea();
+        Interact.Instance.SelectedUnit.ShowAllInRangeTiles();
     }
 }

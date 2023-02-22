@@ -278,9 +278,10 @@ public class UnitManager : MonoBehaviour
             UnitBase.UIHealth.value = UnitBase.CurrentHealth;
         }
 
-       TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
+        TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
+        TurnManager.Instance.UnitsToMove = AllyUnits.Count;
 
-       SetupFinished = true;
+        SetupFinished = true;
     }
 
     internal void RestartCombat()

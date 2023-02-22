@@ -10,6 +10,7 @@ public class TurnManager : MonoBehaviour
     public TMP_Text TurnText;
     internal bool isPlayerTurn = true;
     internal UnityEvent TurnChange;
+    internal int UnitsToMove = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -44,27 +45,18 @@ public class TurnManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
+            if (UnitsToMove <= 0)
             {
-                if(Unit.GetComponent<UnitBase>().Moving)
-                {
-                    return;
-                }
+                isPlayerTurn = false;
+                TurnChange.Invoke();
+                Interact.Instance.SelectedUnit = null;
+                Interact.Instance.UISelectedUnit();
+                TurnText.text = "Enemy Turn";
 
-                if (!Unit.GetComponent<UnitBase>().EndTurn)
-                {
-                    if (Unit.GetComponent<UnitBase>().isAlive)
-                    {
-                        return;
-                    }
-                }
+                TurnText.GetComponentInParent<MoveToScreenLocation>().Override = true;
+                TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTime = TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTimeMax;
+                TurnText.GetComponentInParent<MoveToScreenLocation>().Display = true;
             }
-
-            isPlayerTurn = false;
-            TurnChange.Invoke();
-            Interact.Instance.SelectedUnit = null;
-            Interact.Instance.UISelectedUnit();
-            TurnText.text = "Enemy Turn";
         }
         else
         {
@@ -84,11 +76,20 @@ public class TurnManager : MonoBehaviour
                 }
             }
 
+            if(Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position)
+            {
+                return;
+            }
+
             isPlayerTurn = true;
             TurnChange.Invoke();
             Interact.Instance.SelectedUnit = null;
             Interact.Instance.UISelectedUnit();
+            UnitsToMove = UnitManager.Instance.AllyUnits.Count;
             TurnText.text = "Player Turn";
+            TurnText.GetComponentInParent<MoveToScreenLocation>().Override = true;
+            TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTime = TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTimeMax;
+            TurnText.GetComponentInParent<MoveToScreenLocation>().Display = true;
         }
     }
 }

@@ -12,6 +12,9 @@ public class MoveToScreenLocation : MonoBehaviour
     public float Speed = 3;
     public float DivideShowHeight = 5.0f;
     public bool Override = false;
+    public float OverrideTimeMax = 5;
+    internal float OverrideTime = 0;
+    internal float OverrideTimer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +50,17 @@ public class MoveToScreenLocation : MonoBehaviour
             else
             {
                 Display = false;
+            }
+        }
+        else if(OverrideTime != 0)
+        {
+            OverrideTimer += Time.deltaTime;
+
+            if(OverrideTimer >= OverrideTime)
+            {
+                OverrideTimer = 0;
+                OverrideTime = 0;
+                Override = false;
             }
         }
 

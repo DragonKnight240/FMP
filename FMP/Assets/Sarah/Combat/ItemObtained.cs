@@ -38,7 +38,7 @@ public class ItemObtained : InteractOnGrid
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
-        Unit.EndTurn = true;
+        Unit.WaitUnit();
         Destroy(this.gameObject);
     }
 }
