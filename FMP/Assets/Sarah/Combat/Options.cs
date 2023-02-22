@@ -23,6 +23,7 @@ public class Options : MonoBehaviour
     public Slider AmbianceSlider;
     public Slider MasterSlider;
     public bool MainMenu = false;
+    float TimeScale = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -137,7 +138,7 @@ public class Options : MonoBehaviour
     {
         if (OptionsMenuUI.activeInHierarchy)
         {
-            Time.timeScale = 1;
+            Time.timeScale = TimeScale;
             if (!GameManager.Instance.inCombat && InGame)
             {
                 Cursor.lockState = CursorLockMode.Locked;
@@ -146,6 +147,7 @@ public class Options : MonoBehaviour
         }
         else
         {
+            TimeScale = Time.timeScale;
             Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.Confined;
             OptionsMenuUI.SetActive(true);

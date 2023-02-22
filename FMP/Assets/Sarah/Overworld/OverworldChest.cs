@@ -5,7 +5,9 @@ using UnityEngine;
 public class OverworldChest : MonoBehaviour
 {
     public Item Item;
+    internal bool InRange = false;
     Animator Anim;
+    public GameObject ButtonPrompt;
 
     private void Start()
     {
@@ -18,10 +20,23 @@ public class OverworldChest : MonoBehaviour
 
     private void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    OpenChest();
-        //}
+        if (Input.GetButtonDown("Interact") && InRange)
+        {
+            OpenChest();
+        }
+
+        if (ButtonPrompt)
+        {
+            if (InRange)
+            {
+                ButtonPrompt.SetActive(true);
+                ButtonPrompt.GetComponent<UIFade>().ToFadeIn();
+            }
+            else
+            {
+                ButtonPrompt.GetComponent<UIFade>().ToFadeOut();
+            }
+        }
     }
 
     internal void OpenChest()
@@ -31,13 +46,8 @@ public class OverworldChest : MonoBehaviour
             Anim.speed = 1;
         }
         GameManager.Instance.Convoy.Add(Item);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-        {
-            OpenChest();
-        }
+        InRange = false;
+        ButtonPrompt.GetComponent<UIFade>().ToFadeOut();
+        Destroy(this);
     }
 }

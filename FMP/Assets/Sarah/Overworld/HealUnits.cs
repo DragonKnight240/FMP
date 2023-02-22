@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealUnits : MonoBehaviour
 {
+    internal bool InRange = false;
 
     internal void Heal()
     {
@@ -11,15 +12,6 @@ public class HealUnits : MonoBehaviour
         foreach(CharacterData Unit in GameManager.Instance.UnitData)
         {
             Unit.CurrentHealth = Unit.HealthMax;
-                //Unit.HealthMax;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-        {
-            Heal();
         }
     }
 }

@@ -21,8 +21,7 @@ public class UIFade : MonoBehaviour
     {
         if (FadeIn)
         {
-            print("fading in");
-            FadingObject.alpha = (FadingObject.alpha + (FadeSpeed * Time.deltaTime));
+            FadingObject.alpha = (FadingObject.alpha + (FadeSpeed * Time.unscaledDeltaTime));
 
             if (FadingObject.alpha >= 1)
             {
@@ -31,8 +30,7 @@ public class UIFade : MonoBehaviour
         }
         else if(FadeOut)
         {
-            print("fading out");
-            FadingObject.alpha = (FadingObject.alpha - (FadeSpeed * Time.deltaTime));
+            FadingObject.alpha = (FadingObject.alpha - (FadeSpeed * Time.unscaledDeltaTime));
 
             if (FadingObject.alpha <= 0)
             {
