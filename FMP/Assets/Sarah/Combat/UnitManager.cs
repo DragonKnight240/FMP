@@ -340,6 +340,12 @@ public class UnitManager : MonoBehaviour
             GameManager.Instance.UnitData.Add(data);
         }
 
+        OnCombatEndDialogue CombatScript = FindObjectOfType<OnCombatEndDialogue>();
+        if(CombatScript)
+        {
+            CombatScript.SetDialogue();
+        }
+
         GameManager.Instance.inCombat = false;
 
         SceneLoader.Instance.LoadNewScene(OverWorldScene);

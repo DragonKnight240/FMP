@@ -44,6 +44,16 @@ public class MainMenu : MonoBehaviour
 
             PreviousPos = DollyCart.m_Position;
         }
+
+        if(GameManager.Instance)
+        {
+            if(GameManager.Instance.StartedGame)
+            {
+                MainMenuCanvas.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                ControlToPlayer();
+            }
+        }
     }
 
     internal void ControlToPlayer()

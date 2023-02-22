@@ -14,9 +14,16 @@ public class GameManager : MonoBehaviour
     public List<Item> Convoy;
     public int Money;
 
-    //Tutorial
+    //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
+    internal bool ArcherRecruitComplete = false;
+    internal bool GauntletRecruitComplete = false;
+    internal bool PostDungeon1Complete = false;
+    internal bool PostDungeon2Complete = false;
+
+    //DialogueToShow
+    internal PlayAfter DialogueToPlay = PlayAfter.None;
 
     //Sound
     internal float MasterSlider = 0;

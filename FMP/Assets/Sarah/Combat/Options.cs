@@ -143,7 +143,8 @@ public class Options : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
-            OptionsMenuUI.SetActive(false);
+            //OptionsMenuUI.SetActive(false);
+            OptionsMenuUI.GetComponent<UIFade>().ToFadeOut();
         }
         else
         {
@@ -151,6 +152,7 @@ public class Options : MonoBehaviour
             Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.Confined;
             OptionsMenuUI.SetActive(true);
+            OptionsMenuUI.GetComponent<UIFade>().ToFadeIn();
         }
     }
 
