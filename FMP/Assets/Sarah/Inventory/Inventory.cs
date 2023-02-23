@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(Item item)
     {
-        switch(item.Type)
+        switch (item.Type)
         {
             case ItemTypes.Heal:
                 {
@@ -75,6 +75,8 @@ public class Inventory : MonoBehaviour
                     break;
                 }
         }
+
+        GameManager.Instance.ToolTipCheck(Tutorial.CUseItem);
     }
 
     public void ChangeWeapon(Item item)
@@ -88,7 +90,6 @@ public class Inventory : MonoBehaviour
             Interact.Instance.SelectedUnit.EquipedWeapon = Interact.Instance.SelectedUnit.BareHands;
         }
 
-        Interact.Instance.SelectedUnit.MoveableArea();
-        Interact.Instance.SelectedUnit.ShowAllInRangeTiles();
+        Interact.Instance.CombatMenu.ChangeAvailableAttacks();
     }
 }

@@ -61,6 +61,10 @@ public class CombatMenu : MonoBehaviour
     public TMP_Text LivingAlliesText;
     public TMP_Text UnitsToActText;
 
+    //Ending Scences
+    public GameObject VictoryScreen;
+    public GameObject DefeatScreen;
+
 
     private void Start()
     {
@@ -74,6 +78,12 @@ public class CombatMenu : MonoBehaviour
         AttackMenuObject.SetActive(false);
 
         ItemNotification.SetActive(false);
+
+        VictoryScreen.GetComponent<CanvasGroup>().alpha = 0;
+        VictoryScreen.SetActive(false);
+
+        DefeatScreen.GetComponent<CanvasGroup>().alpha = 0;
+        DefeatScreen.SetActive(false);
 
         EndButtonMover = EndTurnButton.GetComponent<MoveToScreenLocation>();
     }
@@ -171,6 +181,8 @@ public class CombatMenu : MonoBehaviour
             }
         }
 
+        GameManager.Instance.ToolTipCheck(Tutorial.CChangeWeapon);
+
         Unit.EquipedWeapon = Weapons[NewIndex];
         ChangeAvailableAttacks();
         CheckTargetStatus();
@@ -208,17 +220,26 @@ public class CombatMenu : MonoBehaviour
     {
         UnitBase Unit = Interact.Instance.SelectedUnit;
 
+        Unit.AvailableAttacks.Clear();
         Unit.AvailableAttacks = new List<SpecialAttacks>();
+
+        print("Empty?");
 
         foreach (SpecialAttacks Attack in Unit.UnlockedAttacks)
         {
             if (Attack.WeaponType == Unit.EquipedWeapon.WeaponType)
             {
-                Unit.AvailableAttacks.Add(Attack);
+                if (!Unit.AvailableAttacks.Contains(Attack))
+                {
+                    Unit.AvailableAttacks.Add(Attack);
+                }
             }
         }
 
-        Unit.AvailableAttacks.Add(Unit.EquipedWeapon.Special);
+        if (!Unit.AvailableAttacks.Contains(Unit.EquipedWeapon.Special))
+        {
+            Unit.AvailableAttacks.Add(Unit.EquipedWeapon.Special);
+        }
 
         Unit.CurrentAttack = Unit.AvailableAttacks[0];
     }
@@ -304,5 +325,32 @@ public class CombatMenu : MonoBehaviour
         }
 
         EndButtonMover.Display = false;
+    }
+
+    public void DisplayVictoryScreen()
+    {
+        VictoryScreen.SetActive(true);
+        VictoryScreen.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void DisplayDefeatScreen()
+    {
+        DefeatScreen.SetActive(true);
+        DefeatScreen.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void RestartCombat()
+    {
+        SceneLoader.Instance.ReloadScene();
+    }
+
+    public void ReturnToOverworld()
+    {
+        UnitManager.Instance.EndingCombat();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GameManager.Instance.ReturnToDefault();
     }
 }

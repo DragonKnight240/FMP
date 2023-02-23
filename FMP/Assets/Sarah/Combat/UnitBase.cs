@@ -81,7 +81,7 @@ public class UnitBase : MonoBehaviour
     [Header("Attack")]
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
-    internal List<SpecialAttacks> AvailableAttacks;
+    public List<SpecialAttacks> AvailableAttacks;
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
     bool ToAttack = false;
@@ -196,6 +196,8 @@ public class UnitBase : MonoBehaviour
 
         if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking)
         {
+            GameManager.Instance.ToolTipCheck(Tutorial.CMove);
+
             MovedForTurn = true;
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
             Path = new List<Tile>(FindRouteTo(NewTile));
@@ -426,6 +428,8 @@ public class UnitBase : MonoBehaviour
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
         ToAttack = true;
+        AttackTarget = Enemy;
+        GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
 
         //Change later to proper logic
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
@@ -700,7 +704,14 @@ public class UnitBase : MonoBehaviour
 
     internal void IncreaseHealth(int Health)
     {
-        CurrentHealth += Health;
+        if (Health + CurrentHealth < HealthMax)
+        {
+            CurrentHealth += Health;
+        }
+        else
+        {
+            CurrentHealth = HealthMax;
+        }
     }
 
     private void OnMouseEnter()
@@ -790,7 +801,9 @@ public class UnitBase : MonoBehaviour
 
         CameraMove.Instance.FollowTarget = null;
 
-        if(GetComponent<UnitControlled>())
+        GameManager.Instance.ToolTipCheck(Tutorial.CWait);
+
+        if (GetComponent<UnitControlled>())
         {
             TurnManager.Instance.UnitsToMove -= 1;
         }

@@ -256,10 +256,13 @@ public class Interact : MonoBehaviour
         {
             CombatMenu.UnitText.text = SelectedUnit.UnitName;
             CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = true;
+            GameManager.Instance.ToolTipCheck(Tutorial.CUnitSelect);
         }
         else
         {
             CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = false;
         }
+
+
     }
 }
