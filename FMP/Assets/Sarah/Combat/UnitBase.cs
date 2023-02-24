@@ -716,7 +716,8 @@ public class UnitBase : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy)
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy
+            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy)
         {
             return;
         }
@@ -803,7 +804,7 @@ public class UnitBase : MonoBehaviour
 
         GameManager.Instance.ToolTipCheck(Tutorial.CWait);
 
-        if (GetComponent<UnitControlled>())
+        if (gameObject.CompareTag("Ally"))
         {
             TurnManager.Instance.UnitsToMove -= 1;
         }

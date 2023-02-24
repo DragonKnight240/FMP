@@ -223,8 +223,6 @@ public class CombatMenu : MonoBehaviour
         Unit.AvailableAttacks.Clear();
         Unit.AvailableAttacks = new List<SpecialAttacks>();
 
-        print("Empty?");
-
         foreach (SpecialAttacks Attack in Unit.UnlockedAttacks)
         {
             if (Attack.WeaponType == Unit.EquipedWeapon.WeaponType)
@@ -329,12 +327,14 @@ public class CombatMenu : MonoBehaviour
 
     public void DisplayVictoryScreen()
     {
+        Destroy(CameraMove.Instance);
         VictoryScreen.SetActive(true);
         VictoryScreen.GetComponent<UIFade>().ToFadeIn();
     }
 
     public void DisplayDefeatScreen()
     {
+        Destroy(CameraMove.Instance);
         DefeatScreen.SetActive(true);
         DefeatScreen.GetComponent<UIFade>().ToFadeIn();
     }
@@ -352,5 +352,6 @@ public class CombatMenu : MonoBehaviour
     public void ReturnToMainMenu()
     {
         GameManager.Instance.ReturnToDefault();
+        SceneLoader.Instance.LoadNewScene(UnitManager.Instance.OverWorldScene);
     }
 }

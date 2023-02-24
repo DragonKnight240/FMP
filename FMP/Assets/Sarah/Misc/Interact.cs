@@ -69,7 +69,7 @@ public class Interact : MonoBehaviour
                             }
                             else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
                             {
-                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]])
+                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]].transform)
                                 {
                                     AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
                                 }
