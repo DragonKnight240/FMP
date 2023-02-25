@@ -6,9 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> ControlledUnits;
+    public  List<GameObject> AvailableUnits;
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
-    public int MaxUnits = 6;
+    internal int CurrentUnitNum = 1;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
     public List<Item> Convoy;
@@ -65,6 +66,19 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    internal void RecruitUnit(string RecruitName)
+    {
+        foreach (GameObject Unit in ControlledUnits)
+        {
+            if (Unit.name.Contains(RecruitName))
+            {
+                print("Recruited");
+                AvailableUnits.Add(Unit);
+                break;
+            }
+        }
+    }
+
     internal void ToolTipCheck(Tutorial Type)
     {
         if (ToolTipManager.Instance)
@@ -91,6 +105,12 @@ public class GameManager : MonoBehaviour
 
     internal void ReturnToDefault()
     {
+        CurrentUnitNum = 1;
+        if (AvailableUnits.Count > 1)
+        {
+            AvailableUnits.RemoveRange(1, AvailableUnits.Count - 1);
+        }
+
         CombatTutorialComplete = false;
         OverworldTutorialComplete = false;
         ArcherRecruitComplete = false;

@@ -51,6 +51,7 @@ public class CombatMenu : MonoBehaviour
     //Selected
     public GameObject SelectedUnitTab;
     public TMP_Text UnitText;
+    public Image WeaponImage;
 
     //End Turn
     public GameObject EndTurnButton;
@@ -184,6 +185,8 @@ public class CombatMenu : MonoBehaviour
         GameManager.Instance.ToolTipCheck(Tutorial.CChangeWeapon);
 
         Unit.EquipedWeapon = Weapons[NewIndex];
+        Interact.Instance.UIWeaponImage();
+        Unit.ChangeWeaponImage();
         ChangeAvailableAttacks();
         CheckTargetStatus();
     }

@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            if (UnitsToMove <= 0)
+            if (UnitsToMove <= 0 && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 isPlayerTurn = false;
                 TurnChange.Invoke();

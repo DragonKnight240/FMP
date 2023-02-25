@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum WeaponType
 {
@@ -22,4 +23,5 @@ public class Weapon : Item
     public SpecialAttacks Special;
     public int ProficiencyIncrease;
     public WeaponType WeaponType;
+    public Sprite WeaponImage;
 }

@@ -147,9 +147,9 @@ public class UnitManager : MonoBehaviour
 
             if (Position.UnitType == UnitType.Ally)
             {
-                if (Index <= GameManager.Instance.MaxUnits + GameManager.Instance.NumRecruited)
+                if (Index < GameManager.Instance.CurrentUnitNum + GameManager.Instance.NumRecruited)
                 {
-                    NewUnit = Instantiate(GameManager.Instance.ControlledUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                    NewUnit = Instantiate(GameManager.Instance.AvailableUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
                     UnitBase = NewUnit.GetComponent<UnitBase>();
                     AllyUnits.Add(NewUnit);
                     TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
@@ -221,6 +221,7 @@ public class UnitManager : MonoBehaviour
                 else
                 {
                     print("Skip Unit");
+                    Index++;
                     continue;
                 }
             }
@@ -357,7 +358,12 @@ public class UnitManager : MonoBehaviour
             CombatScript.SetDialogue();
         }
 
-        GameManager.Instance.CombatTutorialComplete = true;
+        if(!GameManager.Instance.CombatTutorialComplete)
+        {
+            GameManager.Instance.CurrentUnitNum = 2;
+            GameManager.Instance.RecruitUnit("Magic");
+            GameManager.Instance.CombatTutorialComplete = true;
+        }
 
         GameManager.Instance.inCombat = false;
 

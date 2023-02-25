@@ -1033,7 +1033,7 @@ MonoBehaviour:
   UnitName: Nemmor
   HealthMax: 50
   CurrentHealth: 0
-  Movement: 2
+  Movement: 3
   MoveSpeed: 30
   MoveableTiles: []
   AttackTiles: []
@@ -1063,6 +1063,7 @@ MonoBehaviour:
   AvailableAttacks: []
   AttackCamera: {fileID: 3672165853206809106}
   InRangeTargets: []
+  WeaponImage: {fileID: 3613148627002316795}
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}

@@ -49,6 +49,7 @@ public class UnitBase : MonoBehaviour
     public Weapon BareHands;
 
     //Turn Checks
+    [Header("Turn Checks")]
     internal bool MovedForTurn = false;
     internal bool AttackedForTurn = false;
     internal bool EndTurn = false;
@@ -94,7 +95,11 @@ public class UnitBase : MonoBehaviour
     [Header("Status Effects")]
     internal List<StatusEffect> CurrentStatusEffects;
 
+    [Header("UI Stuff")]
+    public Image WeaponImage; 
+
     //Sounds
+    [Header("Sound Effects")]
     public AudioClip AttackSound;
     public AudioClip HitSound;
     public AudioClip DeathSound;
@@ -431,7 +436,19 @@ public class UnitBase : MonoBehaviour
         AttackTarget = Enemy;
         GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
 
-        //Change later to proper logic
+        AttackTiles.Clear();
+        AttackTiles = new List<Tile>();
+
+        if (AttackableArea(tiles))
+        {
+            if(InRangeTargets.Contains(Enemy))
+            {
+                MoveableArea(false);
+                return;
+            }
+        }
+
+        MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
     }
 
@@ -770,6 +787,11 @@ public class UnitBase : MonoBehaviour
         {
             HideAllChangedTiles();
         }
+    }
+
+    internal void ChangeWeaponImage()
+    {
+         WeaponImage.sprite = EquipedWeapon.WeaponImage;
     }
 
     public void TurnChange()
