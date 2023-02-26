@@ -33,7 +33,6 @@ public class UnitAI : UnitBase
               RandLocation = Random.Range(0, MoveableTiles.Count - 1);
             } while (Move(MoveableTiles[RandLocation]));
             
-           ;
         }
         else
         {
@@ -44,7 +43,13 @@ public class UnitAI : UnitBase
         WaitUnit();
     }
 
-    bool CanAttack()
+    internal void MoveAnywhere(Tile Target)
+    {
+        Move(Target, false, true);
+        UnitManager.Instance.EnemyMoving = gameObject;
+    }
+
+    internal bool CanAttack()
     {
         foreach(Tile tile in AttackTiles)
         {

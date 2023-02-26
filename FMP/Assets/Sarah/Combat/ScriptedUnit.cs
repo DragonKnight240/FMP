@@ -11,18 +11,30 @@ public enum Actions
     Stationary
 }
 
+public enum Triggers
+{
+    Health,
+    EnemyUnitPosition,
+    InRange,
+    None
+}
+
 [System.Serializable]
-public struct ScritpedActions
+public struct Commands
 {
     public Actions Action;
+    public Triggers Trigger;
     public List<int> Location;
+    public float Amount;
 }
 
 public class ScriptedUnit : MonoBehaviour
 {
-    public List<ScritpedActions> ScriptedActions;
+    public List<Commands> ScriptedActions;
     int CurrentIndex = 0;
     UnitBase Unit;
+    internal Commands NextAction;
+    bool NoMove = false;
 
     private void Start()
     {
@@ -31,51 +43,105 @@ public class ScriptedUnit : MonoBehaviour
 
     private void Update()
     {
-        if(CurrentIndex >= ScriptedActions.Count)
-        {
-            Destroy(this);
-        }
+
     }
 
     internal void FollowScript()
     {
-        switch(ScriptedActions[CurrentIndex].Action)
+
+        NoMove = true;
+
+        foreach(Commands Command in ScriptedActions)
+        {
+            switch(Command.Trigger)
+            {
+                case Triggers.EnemyUnitPosition:
+                    {
+                        if(UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().Position[0] == Command.Location[0] ||
+                            UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().Position[1] == Command.Location[1])
+                        {
+                            NextAction = Command;
+                            NoMove = false;
+                        }
+
+                        break;
+                    }
+                case Triggers.Health:
+                    {
+                        if (GetComponent<UnitBase>().CurrentHealth <= GetComponent<UnitBase>().HealthMax * Command.Amount)
+                        {
+                            NextAction = Command;
+                            NoMove = false;
+                        }
+                        break;
+                    }
+                case Triggers.InRange:
+                    {
+                        if(GetComponent<UnitAI>().CanAttack())
+                        {
+                            NextAction = Command;
+                            NoMove = false;
+                        }
+
+                        break;
+                    }
+                case Triggers.None:
+                    {
+                        NextAction = Command;
+                        NoMove = false;
+                        break;
+                    }
+                default:
+                    {
+                        NoMove = true;
+                        break;
+                    }
+            }
+
+            if(!NoMove)
+            {
+                print(Command.Action);
+                break;
+            }
+        }
+
+        if(NoMove)
+        {
+            return;
+        }
+
+        switch(NextAction.Action)
         {
             case Actions.Move:
                 {
-                    Unit.Move(TileManager.Instance.Grid[ScriptedActions[CurrentIndex].Location[0], ScriptedActions[CurrentIndex].Location[1]].GetComponent<Tile>());
+                    Unit.GetComponent<UnitAI>().MoveAnywhere(TileManager.Instance.Grid[NextAction.Location[0], NextAction.Location[1]].GetComponent<Tile>());
                     Unit.WaitUnit();
-                    CurrentIndex++;
                     break;
                 }
             case Actions.Attack:
                 {
                     Unit.Attack(UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>());
-                    CurrentIndex++;
+                    UnitManager.Instance.EnemyMoving = gameObject;
                     break;
                 }
             case Actions.Item:
                 {
                     Unit.WaitUnit();
-                    CurrentIndex++;
                     break;
                 }
             case Actions.Special:
                 {
                     Unit.GetComponent<UnitControlled>().SpecialButton();
-                    CurrentIndex++;
                     break;
                 }
             case Actions.Stationary:
                 {
                     Unit.WaitUnit();
-                    CurrentIndex++;
                     break;
                 }
             default:
                 {
                     Unit.WaitUnit();
-                    CurrentIndex++;
                     break;
                 }
         }

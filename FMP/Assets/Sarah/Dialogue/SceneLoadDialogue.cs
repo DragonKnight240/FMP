@@ -42,6 +42,20 @@ public class SceneLoadDialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch(GameManager.Instance.DialogueToPlay)
+        {
+            case PlayAfter.GauntletRecruit:
+                {
+                    GameManager.Instance.RecruitUnit("Fist");
+                    break;
+                }
+            case PlayAfter.ArcherRecruit:
+                {
+                    GameManager.Instance.RecruitUnit("Bow");
+                    break;
+                }
+        }
+
         if(GameManager.Instance)
         {
             if(GameManager.Instance.DialogueToPlay != PlayAfter.None)

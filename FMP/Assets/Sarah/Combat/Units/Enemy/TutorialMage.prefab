@@ -1537,7 +1537,7 @@ GameObject:
   - component: {fileID: 875417050962263725}
   m_Layer: 0
   m_Name: Armature
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1571,7 +1571,7 @@ GameObject:
   - component: {fileID: 3454030186924475622}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3601,7 +3601,7 @@ GameObject:
   - component: {fileID: 4834806007237331212}
   m_Layer: 0
   m_Name: Mesh
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4944,7 +4944,7 @@ GameObject:
   - component: {fileID: 9094830398302856900}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5291,7 +5291,7 @@ GameObject:
   - component: {fileID: 317711406127654146}
   m_Layer: 0
   m_Name: CM vcam4
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5598,7 +5598,7 @@ GameObject:
   - component: {fileID: 7160847307225412229}
   m_Layer: 0
   m_Name: Armors
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6430,7 +6430,7 @@ GameObject:
   - component: {fileID: 6656974009961826134}
   - component: {fileID: 8925323937181037708}
   - component: {fileID: 8925323937181037711}
-  - component: {fileID: 8925323937181037710}
+  - component: {fileID: 8884604643397150302}
   - component: {fileID: 1031582032550261108}
   - component: {fileID: 5384320029154028094}
   - component: {fileID: 7867835930485633532}
@@ -6510,7 +6510,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8925323937181037710
+--- !u!114 &8884604643397150302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6519,7 +6519,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8925323937181037705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3747188df2d4fbe4c963cb70101f768b, type: 3}
+  m_Script: {fileID: 11500000, guid: af9d9b1683a4b114199f5c02126be21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 7676649766640047108}
@@ -6527,18 +6527,18 @@ MonoBehaviour:
   UnitName: Nemmor
   HealthMax: 50
   CurrentHealth: 0
-  Movement: 2
-  MoveSpeed: 30
+  Movement: 3
+  MoveSpeed: 20
   MoveableTiles: []
   AttackTiles: []
-  EquipedWeapon: {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
+  EquipedWeapon: {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
   Inventory: []
   WeaponsIninventory:
-  - {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
+  - {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 5
   Dexterity: 6
-  Magic: 20
+  Magic: 5
   Defence: 6
   Resistance: 8
   Speed: 10
@@ -6552,7 +6552,7 @@ MonoBehaviour:
   FistProficiency: 0
   FistLevel: 0
   Class: {fileID: 11400000, guid: bbb63b9d9f37c4648834708513c6506a, type: 2}
-  CurrentAttack: {fileID: 11400000, guid: 7f144a5b2523c77459dc1aa48d8f4e11, type: 2}
+  CurrentAttack: {fileID: 0}
   UnlockedAttacks: []
   AvailableAttacks: []
   AttackCamera: {fileID: 6818940417602448133}
@@ -6615,16 +6615,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScriptedActions:
-  - Action: 4
-    Location: 
-  - Action: 1
-    Location: 
   - Action: 0
-    Location: 0700000005000000
-  - Action: 3
-    Location: 0000000000000000
+    Trigger: 0
+    Location: 0600000008000000
+    Amount: 0.5
+  - Action: 1
+    Trigger: 2
+    Location: 0500000008000000
+    Amount: 0
   - Action: 4
+    Trigger: 3
     Location: 
+    Amount: 0
 --- !u!1 &9036062870960206473
 GameObject:
   m_ObjectHideFlags: 0

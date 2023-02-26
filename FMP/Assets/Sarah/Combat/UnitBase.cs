@@ -192,20 +192,20 @@ public class UnitBase : MonoBehaviour
     }
 
     //Moves the character from the current location to the wanted location
-    internal bool Move(Tile NewTile, bool Attacking = false)
+    internal bool Move(Tile NewTile, bool Attacking = false, bool Ignore = false)
     {
         if (MovedForTurn)
         {
             return false;
         }
 
-        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking)
+        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking || Ignore)
         {
             GameManager.Instance.ToolTipCheck(Tutorial.CMove);
 
             MovedForTurn = true;
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile));
+            Path = new List<Tile>(FindRouteTo(NewTile, Ignore));
             Moving = true;
 
             if (Path.Count > 0)
@@ -258,8 +258,17 @@ public class UnitBase : MonoBehaviour
             if(tile.Unit)
             {
                 //Makes sure it's not a unit on the same team
-                if (!tile.Unit.CompareTag(tag))
+                if (!tile.Unit.CompareTag(tag) && tile.Unit != this.gameObject)
                 {
+                    if (ToolTipManager.Instance && CompareTag("Ally"))
+                    {
+                        ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
+                        if (!ToolTipManager.Instance.Seen[Tip])
+                        {
+                            GameManager.Instance.NextToolTip(Tip);
+                        }
+                    }
+                    
                     return true;
                 }
             }
@@ -833,7 +842,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //A* Pathfinding
-    List<Tile> FindRouteTo(Tile TargetTile)
+    List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
@@ -864,7 +873,7 @@ public class UnitBase : MonoBehaviour
 
             if(CurrentNode.Tile == End.Tile)
             {
-                Path = FindPath(CurrentNode);
+                Path = FindPath(CurrentNode, Ignore);
                 //print("Success");
                 return Path;
             }
@@ -896,19 +905,19 @@ public class UnitBase : MonoBehaviour
         return Path;
     }
 
-    List<Tile> FindPath(Node EndNode)
+    List<Tile> FindPath(Node EndNode, bool Ignore)
     {
         List<Tile> Path = new List<Tile>();
         Node Node = EndNode;
 
-        if (Node.Tile.Unit == null && MoveableTiles.Contains(Node.Tile))
+        if (Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile) || Ignore))
         {
             Path.Add(EndNode.Tile);
         }
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
-            if (Node.PreviousTile.Tile.Unit == null && MoveableTiles.Contains(Node.PreviousTile.Tile))
+            if (Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile) || Ignore))
             {
                 Path.Add(Node.PreviousTile.Tile);
             }

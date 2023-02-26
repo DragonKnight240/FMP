@@ -289,6 +289,11 @@ public class CombatMenu : MonoBehaviour
             if (tile.GetComponent<Tile>().Special)
             {
                 SpecialButton.gameObject.SetActive(true);
+                ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CWeaponAbility);
+                if (!ToolTipManager.Instance.Seen[Tip])
+                {
+                    GameManager.Instance.NextToolTip(Tip);
+                }
                 break;
             }
             else

@@ -1866,6 +1866,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a64e3d964401f14fb70295b403f1b28, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b9e03adc73c30942882adc904faefe3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
 --- !u!1 &609484269
@@ -5692,11 +5704,10 @@ MonoBehaviour:
     X: 5
     Y: 2
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 8925323937181037705, guid: 08c885f3fc73c36489be5ee0dde0dfd6, type: 3}
     X: 5
     Y: 7
-  AllyUnits:
-  - {fileID: 0}
+  AllyUnits: []
   OverWorldScene: Test
 --- !u!4 &1653266685
 Transform:

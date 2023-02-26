@@ -83,7 +83,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitBase>().Moving || ! Interact.Instance.GetComponent<Camera>().enabled)
+            if(Enemy.GetComponent<UnitBase>().Moving || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position)
             {
                 break;
             }

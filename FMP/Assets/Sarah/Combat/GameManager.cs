@@ -36,11 +36,9 @@ public class GameManager : MonoBehaviour
     public bool inCombat = false;
     public bool StartedGame = false;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -55,11 +53,18 @@ public class GameManager : MonoBehaviour
     }
 
 
-    internal bool NextToolTip()
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+
+    internal bool NextToolTip(ToolTip Tip = null)
     {
         if(ToolTipManager.Instance)
         {
-            ToolTipManager.Instance.NewToolTip();
+            ToolTipManager.Instance.NewToolTip(Tip);
             return true;
         }
 
@@ -89,14 +94,14 @@ public class GameManager : MonoBehaviour
                 {
                     if (Type == ToolTipManager.Instance.PendingToolTip.tutorial || Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
-                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CUseItem ? true : false);
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }
                 else
                 {
                     if (Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
-                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CUseItem ? true : false);
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }
             }
