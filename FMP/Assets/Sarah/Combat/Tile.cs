@@ -45,6 +45,11 @@ public class Tile : MonoBehaviour
                 Special = null;
             }
         }
+
+        if(!Interact.Instance.VirtualCam.activeInHierarchy)
+        {
+            Hide();
+        }
     }
 
     public void Show(bool WeaponRange = false, bool Overlay = false, bool Reset = false)
@@ -158,6 +163,7 @@ public class Tile : MonoBehaviour
         {
             if (Unit.EndTurn || OGMaterial == null)
             {
+                Hide();
                 return;
             }
         }

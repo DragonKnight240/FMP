@@ -138,18 +138,22 @@ public class UnitBase : MonoBehaviour
             {
                 if (HitZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayHitAnim();
                 }
                 else if (DeathZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayDeathAnim();
                 }
                 else if (AttackZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayAttackAnim();
                 }
                 else if(NoDamageZoomIn)
                 {
+                    HideAllChangedTiles();
                     NoDamage();
                 }
             }
@@ -448,6 +452,40 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
+    internal void FindInRangeTargets(bool IgnoreMovement = false)
+    {
+        InRangeTargets.Clear();
+
+        if (MovedForTurn || IgnoreMovement)
+        {
+            List<GameObject> Tiles = new List<GameObject>();
+            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+            AttackTiles.Clear();
+
+            for (int i = 0; i < EquipedWeapon.Range; i++)
+            {
+                Tiles = WeaponRangeAttack(Tiles, true);
+            }
+        }
+
+        foreach (Tile tile in AttackTiles)
+        {
+            if (tile.Unit)
+            {
+                if (!InRangeTargets.Contains(tile.Unit))
+                {
+                    if (!tile.Unit.CompareTag(tag))
+                    {
+                        if (tile.Unit.isAlive)
+                        {
+                            InRangeTargets.Add(tile.Unit);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     internal void Attack(UnitBase Enemy)
     {
         List<GameObject> tiles = new List<GameObject>();
@@ -455,16 +493,19 @@ public class UnitBase : MonoBehaviour
 
         ToAttack = true;
         AttackTarget = Enemy;
+        AttackTarget.AttackTarget = this;
         GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
 
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
+        FindInRangeTargets(true);
 
-        if (AttackableArea(tiles, false))
+        if (InRangeTargets.Count != 0)
         {
-            if(InRangeTargets.Contains(Enemy))
+            if (InRangeTargets.Contains(Enemy))
             {
                 MoveableArea(false);
+                CalculateReturnAttack();
                 return;
             }
         }
@@ -472,7 +513,21 @@ public class UnitBase : MonoBehaviour
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
 
-        ReturnAttack = CanReturnAttack(AttackTarget);
+        CalculateReturnAttack();
+    }
+
+    void CalculateReturnAttack()
+    {
+        if (!ReturnAttack)
+        {
+            print("Return Attack false");
+            AttackTarget.ReturnAttack = AttackTarget.CanReturnAttack(this);
+        }
+        else
+        {
+            print("Return Attack true");
+            ReturnAttack = false;
+        }
     }
 
     public void AttackingZoom()
@@ -499,7 +554,7 @@ public class UnitBase : MonoBehaviour
         {
             NoDamageTimer = 0.0f;
             NoDamageZoomIn = false;
-            ReturnMainCamera();
+            ReturnTo();
         }
     }
 
@@ -507,8 +562,6 @@ public class UnitBase : MonoBehaviour
     {
         AttackTarget.AttackCamera.SetActive(true);
         AttackCamera.SetActive(false);
-
-        //Will calculate crit change later
 
         if (CalcuateHitChance() - AttackTarget.CalculateDodge(this) >= Random.Range(0, 101))
         {
@@ -546,6 +599,7 @@ public class UnitBase : MonoBehaviour
     {
         if(ReturnAttack)
         {
+            print("Return Attack");
             AttackingZoom();
         }
         else
@@ -688,11 +742,15 @@ public class UnitBase : MonoBehaviour
         List<GameObject> Tile = new List<GameObject>();
         Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        AttackableArea(Tile, false);
+        FindInRangeTargets(true);
+
+
         if (InRangeTargets.Contains(OtherUnit))
         {
+            print("Return Attack" + this.gameObject.name);
             return true;
         }
+        print("Too Far " + this.gameObject.name);
         return false;
     }
 
@@ -905,6 +963,8 @@ public class UnitBase : MonoBehaviour
 
     public void TurnChange()
     {
+        HideAllChangedTiles();
+
         MovedForTurn = false;
         AttackedForTurn = false;
         EndTurn = false;
@@ -914,10 +974,7 @@ public class UnitBase : MonoBehaviour
 
     internal void WaitUnit()
     {
-        foreach(Tile tile in AttackTiles)
-        {
-            tile.Hide();
-        }
+        HideAllChangedTiles();
 
         MovedForTurn = true;
         AttackedForTurn = true;
@@ -925,7 +982,6 @@ public class UnitBase : MonoBehaviour
 
         Interact.Instance.SelectedUnit = null;
         Interact.Instance.UISelectedUnit();
-        HideAllChangedTiles();
 
         Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
         Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();

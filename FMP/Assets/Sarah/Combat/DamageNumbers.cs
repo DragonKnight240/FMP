@@ -30,6 +30,9 @@ public class DamageNumbers : MonoBehaviour
             {
                 Canvas.transform.position = Vector3.MoveTowards(Canvas.transform.position, UpLocation.transform.position, Speed * Time.deltaTime);
             }
+            else
+            {
+            }
         }
     }
 
@@ -44,6 +47,8 @@ public class DamageNumbers : MonoBehaviour
 
     internal void PlayDamage(int AttackID, int Damage)
     {
+        StartLocation = DamageCanvas[AttackID].transform.position;
+
         if(Damage <= 0)
         {
             DamageCanvas[AttackID].GetComponentInChildren<TMP_Text>().text = "Miss";
