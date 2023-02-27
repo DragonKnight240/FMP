@@ -4,14 +4,20 @@ using UnityEngine;
 
 public enum Tutorial
 {
+    CUnitSelect,
     CMove,
     CAttack,
     CChangeWeapon,
     CUseItem,
+    CWeaponAbility,
+    CGridInteraction,
+    CWait,
     OMove,
     OEnterCombat,
     OInventory
 }
+
+[CreateAssetMenu(fileName = "Tutorial")]
 
 public class ToolTip : ScriptableObject
 {

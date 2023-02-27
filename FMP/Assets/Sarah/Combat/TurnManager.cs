@@ -45,13 +45,21 @@ public class TurnManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            if (UnitsToMove <= 0)
+            if (UnitsToMove <= 0 && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 isPlayerTurn = false;
                 TurnChange.Invoke();
                 Interact.Instance.SelectedUnit = null;
                 Interact.Instance.UISelectedUnit();
                 TurnText.text = "Enemy Turn";
+
+                if (ToolTipManager.Instance)
+                {
+                    if (!ToolTipManager.Instance.CompletedTurn1)
+                    {
+                        ToolTipManager.Instance.CompletedTurn1 = true;
+                    }
+                }
 
                 TurnText.GetComponentInParent<MoveToScreenLocation>().Override = true;
                 TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTime = TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTimeMax;
@@ -87,6 +95,7 @@ public class TurnManager : MonoBehaviour
             Interact.Instance.UISelectedUnit();
             UnitsToMove = UnitManager.Instance.AllyUnits.Count;
             TurnText.text = "Player Turn";
+
             TurnText.GetComponentInParent<MoveToScreenLocation>().Override = true;
             TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTime = TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTimeMax;
             TurnText.GetComponentInParent<MoveToScreenLocation>().Display = true;

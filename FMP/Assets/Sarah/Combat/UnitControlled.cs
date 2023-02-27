@@ -44,6 +44,7 @@ public class UnitControlled : UnitBase
         else
         {
             //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
+
             Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
         }
     }
@@ -65,6 +66,7 @@ public class UnitControlled : UnitBase
         {
             if (tile.GetComponent<Tile>().Special)
             {
+                GameManager.Instance.ToolTipCheck(Tutorial.CWeaponAbility);
                 tile.GetComponent<Tile>().Special.Special(this);
                 UnitManager.Instance.UnitUpdate.Invoke();
                 Interact.Instance.SelectedUnit = null;

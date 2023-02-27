@@ -6,13 +6,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public List<GameObject> ControlledUnits;
+    public  List<GameObject> AvailableUnits;
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
-    public int MaxUnits = 6;
+    internal int CurrentUnitNum = 1;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
     public List<Item> Convoy;
-    public int Money;
+    public int Money = 0;
 
     //Progress
     internal bool CombatTutorialComplete = false;
@@ -35,11 +36,9 @@ public class GameManager : MonoBehaviour
     public bool inCombat = false;
     public bool StartedGame = false;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -51,5 +50,92 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         UnitData = new List<CharacterData>();
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+
+    internal bool NextToolTip(ToolTip Tip = null)
+    {
+        if(ToolTipManager.Instance)
+        {
+            ToolTipManager.Instance.NewToolTip(Tip);
+            return true;
+        }
+
+        return false;
+    }
+
+    internal void RecruitUnit(string RecruitName)
+    {
+        foreach (GameObject Unit in ControlledUnits)
+        {
+            if (Unit.name.Contains(RecruitName))
+            {
+                print("Recruited");
+                AvailableUnits.Add(Unit);
+                break;
+            }
+        }
+    }
+
+    internal void ToolTipCheck(Tutorial Type)
+    {
+        if (ToolTipManager.Instance)
+        {
+            if (!CombatTutorialComplete && ToolTipManager.Instance.ToolTipObject.activeInHierarchy)
+            {
+                if (ToolTipManager.Instance.PendingToolTip)
+                {
+                    if (Type == ToolTipManager.Instance.PendingToolTip.tutorial || Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
+                    {
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
+                    }
+                }
+                else
+                {
+                    if (Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
+                    {
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
+                    }
+                }
+            }
+        }
+    }
+
+    internal void ReturnToDefault()
+    {
+        CurrentUnitNum = 1;
+        if (AvailableUnits.Count > 1)
+        {
+            AvailableUnits.RemoveRange(1, AvailableUnits.Count - 1);
+        }
+
+        CombatTutorialComplete = false;
+        OverworldTutorialComplete = false;
+        ArcherRecruitComplete = false;
+        GauntletRecruitComplete = false;
+        PostDungeon1Complete = false;
+        PostDungeon2Complete = false;
+
+        DialogueToPlay = PlayAfter.None;
+
+        Convoy.Clear();
+        Convoy = new List<Item>();
+
+        Money = 0;
+
+        NumRecruited = 0;
+
+        UnitData.Clear();
+        UnitData = new List<CharacterData>();
+
+        inCombat = false;
+        StartedGame = false;
     }
 }

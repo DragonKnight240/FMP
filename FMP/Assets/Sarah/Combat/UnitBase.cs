@@ -49,6 +49,7 @@ public class UnitBase : MonoBehaviour
     public Weapon BareHands;
 
     //Turn Checks
+    [Header("Turn Checks")]
     internal bool MovedForTurn = false;
     internal bool AttackedForTurn = false;
     internal bool EndTurn = false;
@@ -81,7 +82,7 @@ public class UnitBase : MonoBehaviour
     [Header("Attack")]
     public SpecialAttacks CurrentAttack;
     public List<SpecialAttacks> UnlockedAttacks;
-    internal List<SpecialAttacks> AvailableAttacks;
+    public List<SpecialAttacks> AvailableAttacks;
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
     bool ToAttack = false;
@@ -94,7 +95,11 @@ public class UnitBase : MonoBehaviour
     [Header("Status Effects")]
     internal List<StatusEffect> CurrentStatusEffects;
 
+    [Header("UI Stuff")]
+    public Image WeaponImage; 
+
     //Sounds
+    [Header("Sound Effects")]
     public AudioClip AttackSound;
     public AudioClip HitSound;
     public AudioClip DeathSound;
@@ -187,18 +192,20 @@ public class UnitBase : MonoBehaviour
     }
 
     //Moves the character from the current location to the wanted location
-    internal bool Move(Tile NewTile, bool Attacking = false)
+    internal bool Move(Tile NewTile, bool Attacking = false, bool Ignore = false)
     {
         if (MovedForTurn)
         {
             return false;
         }
 
-        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking)
+        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking || Ignore)
         {
+            GameManager.Instance.ToolTipCheck(Tutorial.CMove);
+
             MovedForTurn = true;
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile));
+            Path = new List<Tile>(FindRouteTo(NewTile, Ignore));
             Moving = true;
 
             if (Path.Count > 0)
@@ -251,8 +258,17 @@ public class UnitBase : MonoBehaviour
             if(tile.Unit)
             {
                 //Makes sure it's not a unit on the same team
-                if (!tile.Unit.CompareTag(tag))
+                if (!tile.Unit.CompareTag(tag) && tile.Unit != this.gameObject)
                 {
+                    if (ToolTipManager.Instance && CompareTag("Ally"))
+                    {
+                        ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
+                        if (!ToolTipManager.Instance.Seen[Tip])
+                        {
+                            GameManager.Instance.NextToolTip(Tip);
+                        }
+                    }
+                    
                     return true;
                 }
             }
@@ -426,14 +442,29 @@ public class UnitBase : MonoBehaviour
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
         ToAttack = true;
+        AttackTarget = Enemy;
+        GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
 
-        //Change later to proper logic
+        AttackTiles.Clear();
+        AttackTiles = new List<Tile>();
+
+        if (AttackableArea(tiles))
+        {
+            if(InRangeTargets.Contains(Enemy))
+            {
+                MoveableArea(false);
+                return;
+            }
+        }
+
+        MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
     }
 
     public void AttackingZoom()
     {
         transform.LookAt(AttackTarget.transform);
+        AttackTarget.transform.LookAt(transform);
         AttackCamera.SetActive(true);
         Interact.Instance.VirtualCam.SetActive(false);
 
@@ -457,6 +488,14 @@ public class UnitBase : MonoBehaviour
         else
         {
             AttackTarget.DeathZoomIn = true;
+        }
+    }
+
+    public void ReturnTo()
+    {
+        if(CanReturnAttack(AttackTarget))
+        {
+            AttackingZoom();
         }
     }
 
@@ -568,6 +607,31 @@ public class UnitBase : MonoBehaviour
         }
         
         return Damage;
+    }
+
+    internal int MultiAttack(UnitBase OtherUnit)
+    {
+        int MultiAttack = Mathf.RoundToInt((TotalSpeed() + TotalLuck() / (OtherUnit.TotalSpeed() * 3)));
+
+        if(MultiAttack < 1)
+        {
+            MultiAttack = 1;
+        }
+
+        return MultiAttack;
+    }
+
+    internal bool CanReturnAttack(UnitBase OtherUnit)
+    {
+        List<GameObject> Tile = new List<GameObject>();
+        Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+
+        AttackableArea(Tile);
+        if (InRangeTargets.Contains(OtherUnit))
+        {
+            return true;
+        }
+        return false;
     }
 
     internal int CalcuateHitChance()
@@ -700,12 +764,20 @@ public class UnitBase : MonoBehaviour
 
     internal void IncreaseHealth(int Health)
     {
-        CurrentHealth += Health;
+        if (Health + CurrentHealth < HealthMax)
+        {
+            CurrentHealth += Health;
+        }
+        else
+        {
+            CurrentHealth = HealthMax;
+        }
     }
 
     private void OnMouseEnter()
     {
-        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy)
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy
+            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy)
         {
             return;
         }
@@ -760,6 +832,11 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    internal void ChangeWeaponImage()
+    {
+         WeaponImage.sprite = EquipedWeapon.WeaponImage;
+    }
+
     public void TurnChange()
     {
         MovedForTurn = false;
@@ -790,14 +867,16 @@ public class UnitBase : MonoBehaviour
 
         CameraMove.Instance.FollowTarget = null;
 
-        if(GetComponent<UnitControlled>())
+        GameManager.Instance.ToolTipCheck(Tutorial.CWait);
+
+        if (gameObject.CompareTag("Ally"))
         {
             TurnManager.Instance.UnitsToMove -= 1;
         }
     }
 
     //A* Pathfinding
-    List<Tile> FindRouteTo(Tile TargetTile)
+    List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
@@ -828,7 +907,7 @@ public class UnitBase : MonoBehaviour
 
             if(CurrentNode.Tile == End.Tile)
             {
-                Path = FindPath(CurrentNode);
+                Path = FindPath(CurrentNode, Ignore);
                 //print("Success");
                 return Path;
             }
@@ -860,19 +939,19 @@ public class UnitBase : MonoBehaviour
         return Path;
     }
 
-    List<Tile> FindPath(Node EndNode)
+    List<Tile> FindPath(Node EndNode, bool Ignore)
     {
         List<Tile> Path = new List<Tile>();
         Node Node = EndNode;
 
-        if (Node.Tile.Unit == null && MoveableTiles.Contains(Node.Tile))
+        if (Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile) || Ignore))
         {
             Path.Add(EndNode.Tile);
         }
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
-            if (Node.PreviousTile.Tile.Unit == null && MoveableTiles.Contains(Node.PreviousTile.Tile))
+            if (Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile) || Ignore))
             {
                 Path.Add(Node.PreviousTile.Tile);
             }

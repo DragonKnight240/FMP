@@ -69,7 +69,7 @@ public class Interact : MonoBehaviour
                             }
                             else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
                             {
-                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]])
+                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]].transform)
                                 {
                                     AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
                                 }
@@ -255,11 +255,18 @@ public class Interact : MonoBehaviour
         if (SelectedUnit)
         {
             CombatMenu.UnitText.text = SelectedUnit.UnitName;
+            UIWeaponImage();
             CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = true;
+            GameManager.Instance.ToolTipCheck(Tutorial.CUnitSelect);
         }
         else
         {
             CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = false;
         }
+    }
+
+    internal void UIWeaponImage()
+    {
+        CombatMenu.WeaponImage.sprite = SelectedUnit.EquipedWeapon.WeaponImage;
     }
 }

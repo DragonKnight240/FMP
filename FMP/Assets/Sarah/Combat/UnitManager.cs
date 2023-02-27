@@ -68,13 +68,13 @@ public class UnitManager : MonoBehaviour
             {
                 //win
                 print("Win");
-                EndingCombat();
+                Interact.Instance.CombatMenu.DisplayVictoryScreen();
             }
             else if (DeadAllyUnits.Count == AllyUnits.Count)
             {
                 //lose
                 print("Lose");
-                RestartCombat();
+                Interact.Instance.CombatMenu.DisplayDefeatScreen();
             }
         }
     }
@@ -83,16 +83,30 @@ public class UnitManager : MonoBehaviour
     {
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitAI>().Moving || ! Interact.Instance.GetComponent<Camera>().enabled)
+            if(Enemy.GetComponent<UnitBase>().Moving || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position)
             {
                 break;
             }
 
-            if (!Enemy.GetComponent<UnitAI>().MovedForTurn && Enemy.GetComponent<UnitAI>().isAlive)
+            if (!Enemy.GetComponent<UnitBase>().MovedForTurn && Enemy.GetComponent<UnitBase>().isAlive)
             {
-                Enemy.GetComponent<UnitAI>().MoveUnit();
-                EnemyMoving = Enemy;
-                break;
+                if (Enemy.GetComponent<ScriptedUnit>())
+                {
+                    Enemy.GetComponent<ScriptedUnit>().FollowScript();
+                }
+                else
+                {
+                    if (Enemy.GetComponent<UnitAI>())
+                    {
+                        Enemy.GetComponent<UnitAI>().MoveUnit();
+                        EnemyMoving = Enemy;
+                    }
+                    else
+                    {
+                        Enemy.GetComponent<UnitBase>().WaitUnit();
+                    }
+                    break;
+                }
             }
         }
     }
@@ -133,9 +147,9 @@ public class UnitManager : MonoBehaviour
 
             if (Position.UnitType == UnitType.Ally)
             {
-                if (Index <= GameManager.Instance.MaxUnits + GameManager.Instance.NumRecruited)
+                if (Index < GameManager.Instance.CurrentUnitNum + GameManager.Instance.NumRecruited)
                 {
-                    NewUnit = Instantiate(GameManager.Instance.ControlledUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
+                    NewUnit = Instantiate(GameManager.Instance.AvailableUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
                     UnitBase = NewUnit.GetComponent<UnitBase>();
                     AllyUnits.Add(NewUnit);
                     TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
@@ -207,6 +221,7 @@ public class UnitManager : MonoBehaviour
                 else
                 {
                     print("Skip Unit");
+                    Index++;
                     continue;
                 }
             }
@@ -215,7 +230,7 @@ public class UnitManager : MonoBehaviour
                 NewUnit = Instantiate(Position.Unit, TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.Euler(0, 180, 0), transform);
                 UnitBase = NewUnit.GetComponent<UnitBase>();
                 EnemyUnits.Add(NewUnit);
-                TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitAI>().TurnChange);
+                TurnManager.Instance.TurnChange.AddListener(NewUnit.GetComponent<UnitBase>().TurnChange);
 
                 NewUnit.GetComponent<UnitBase>().CurrentHealth = NewUnit.GetComponent<UnitBase>().HealthMax;
 
@@ -282,14 +297,11 @@ public class UnitManager : MonoBehaviour
         TurnManager.Instance.UnitsToMove = AllyUnits.Count;
 
         SetupFinished = true;
+
+        GameManager.Instance.NextToolTip();
     }
 
-    internal void RestartCombat()
-    {
-        SceneLoader.Instance.ReloadScene();
-    }
-
-    internal void EndingCombat()
+    public void EndingCombat()
     {
         GameManager.Instance.UnitData.Clear();
 
@@ -344,6 +356,13 @@ public class UnitManager : MonoBehaviour
         if(CombatScript)
         {
             CombatScript.SetDialogue();
+        }
+
+        if(!GameManager.Instance.CombatTutorialComplete)
+        {
+            GameManager.Instance.CurrentUnitNum = 2;
+            GameManager.Instance.RecruitUnit("Magic");
+            GameManager.Instance.CombatTutorialComplete = true;
         }
 
         GameManager.Instance.inCombat = false;

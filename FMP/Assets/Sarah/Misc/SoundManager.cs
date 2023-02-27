@@ -26,17 +26,20 @@ public class SoundManager : MonoBehaviour
     {
         GameObject SFX = Instantiate(SFXPrefab);
         SFX.GetComponent<AudioSource>().clip = Audio;
+        SFX.GetComponent<AudioSource>().Play();
     }
 
     public void PlayAmbiance(AudioClip Audio)
     {
         GameObject Ambiance = Instantiate(AmbiancePrefab);
         Ambiance.GetComponent<AudioSource>().clip = Audio;
+        Ambiance.GetComponent<AudioSource>().Play();
     }
 
     public void PlayMusic(AudioClip Audio)
     {
         GameObject Music = Instantiate(MusicPrefab);
         Music.GetComponent<AudioSource>().clip = Audio;
+        Music.GetComponent<AudioSource>().Play();
     }
 }

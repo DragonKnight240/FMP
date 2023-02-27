@@ -1,22 +1,144 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ToolTipManager : MonoBehaviour
 {
     public static ToolTipManager Instance;
     public List<ToolTip> Tooltips;
     public bool InCombat;
+    public GameObject ToolTipObject;
+    public TMP_Text Text;
+    internal int CurrentToolTipIndex = -1;
+    internal bool NextTutorialOnReturn = false;
+    internal ToolTip PendingToolTip = null;
+    bool ShownAllToolTips = false;
+    bool DontShow = false;
+
+    //Shown
+    internal bool CompletedTurn1 = false;
+    internal Dictionary<ToolTip, bool> Seen;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(GameManager.Instance)
+        {
+            if(GameManager.Instance.CombatTutorialComplete)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+        Seen = new Dictionary<ToolTip, bool>();
+
+        foreach(ToolTip Tip in Tooltips)
+        {
+            Seen.Add(Tip, false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (NextTutorialOnReturn)
+        {
+            if (ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position == ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation
+                && TurnManager.Instance.isPlayerTurn)
+            {
+                NextTutorialOnReturn = false;
+                NewToolTip(PendingToolTip);
+                PendingToolTip = null;
+            }
+        }
+
+        if(UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().CurrentHealth < UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().HealthMax * 0.4)
+        {
+            NewToolTip(FindToolTip(Tutorial.CUseItem));
+        }
+    }
+
+    internal ToolTip FindToolTip(Tutorial tutorial)
+    {
+        ToolTip WantedTip = null;
+        int Index = 0;
+
+        foreach(ToolTip Tip in Tooltips)
+        {
+            if(Tip.tutorial == tutorial)
+            {
+                WantedTip = Tip;
+                CurrentToolTipIndex = Index;
+                break;
+            }
+
+            Index += 1;
+        }
+
+        return WantedTip;
+    }
+
+    internal void NewToolTip(ToolTip NewToolTip = null)
+    {
+        if(!CompletedTurn1 && NewToolTip)
+        {
+            if (NewToolTip.tutorial != Tutorial.CWait && NewToolTip.tutorial != Tutorial.CUnitSelect && NewToolTip.tutorial != Tutorial.CMove)
+            {
+                print("Rejected " + Tooltips[CurrentToolTipIndex].name);
+                return;
+            }
+        }
+
+        if(ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position != ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation 
+            && TurnManager.Instance.isPlayerTurn)
+        {
+            NextTutorialOnReturn = true;
+            if (NewToolTip)
+            {
+                PendingToolTip = NewToolTip;
+            }
+            else
+            {
+                CurrentToolTipIndex += 1;
+                PendingToolTip = Tooltips[CurrentToolTipIndex];
+            }
+
+            return;
+        }
+
+        if (NewToolTip)
+        {
+            Text.text = NewToolTip.Text;
+        }
+        else
+        {
+            CurrentToolTipIndex += 1;
+            Text.text = Tooltips[CurrentToolTipIndex].Text;
+        }
+
+        Seen[Tooltips[CurrentToolTipIndex]] = true;
+
+        ToolTipObject.GetComponent<MoveToScreenLocation>().Display = true;
+    }
+
+    internal void CompleteToolTip(bool DisplayNextTutorial = false)
+    {
+        ToolTipObject.GetComponent<MoveToScreenLocation>().Display = false;
+        NextTutorialOnReturn = DisplayNextTutorial;
+
+        if (NextTutorialOnReturn)
+        {
+            NewToolTip();
+        }
     }
 }
