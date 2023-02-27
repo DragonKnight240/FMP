@@ -464,6 +464,7 @@ public class UnitBase : MonoBehaviour
     public void AttackingZoom()
     {
         transform.LookAt(AttackTarget.transform);
+        AttackTarget.transform.LookAt(transform);
         AttackCamera.SetActive(true);
         Interact.Instance.VirtualCam.SetActive(false);
 
@@ -487,6 +488,14 @@ public class UnitBase : MonoBehaviour
         else
         {
             AttackTarget.DeathZoomIn = true;
+        }
+    }
+
+    public void ReturnTo()
+    {
+        if(CanReturnAttack(AttackTarget))
+        {
+            AttackingZoom();
         }
     }
 
@@ -598,6 +607,31 @@ public class UnitBase : MonoBehaviour
         }
         
         return Damage;
+    }
+
+    internal int MultiAttack(UnitBase OtherUnit)
+    {
+        int MultiAttack = Mathf.RoundToInt((TotalSpeed() + TotalLuck() / (OtherUnit.TotalSpeed() * 3)));
+
+        if(MultiAttack < 1)
+        {
+            MultiAttack = 1;
+        }
+
+        return MultiAttack;
+    }
+
+    internal bool CanReturnAttack(UnitBase OtherUnit)
+    {
+        List<GameObject> Tile = new List<GameObject>();
+        Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+
+        AttackableArea(Tile);
+        if (InRangeTargets.Contains(OtherUnit))
+        {
+            return true;
+        }
+        return false;
     }
 
     internal int CalcuateHitChance()
