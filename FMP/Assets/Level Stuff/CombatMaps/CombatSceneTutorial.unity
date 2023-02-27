@@ -2239,8 +2239,8 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  AvailableUnits: []
   UnitData: []
-  MaxUnits: 6
   MaxRecruitable: 2
   Convoy: []
   Money: 0
@@ -2381,6 +2381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1653266685}
   - component: {fileID: 1653266684}
+  - component: {fileID: 1653266686}
   m_Layer: 0
   m_Name: UnitManager
   m_TagString: Untagged
@@ -2405,30 +2406,10 @@ MonoBehaviour:
     Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
     X: 2
     Y: 2
-  - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    X: 4
-    Y: 2
-  - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    X: 6
-    Y: 2
-  - UnitType: 0
-    Unit: {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    X: 8
-    Y: 2
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 8925323937181037705, guid: 08c885f3fc73c36489be5ee0dde0dfd6, type: 3}
     X: 5
     Y: 7
-  - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
-    X: 3
-    Y: 7
-  - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
-    X: 4
-    Y: 8
   AllyUnits: []
   OverWorldScene: Test
 --- !u!4 &1653266685
@@ -2445,6 +2426,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1653266686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653266683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b139aaf47c66e2940b418413b540eecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueToPlayAfter: 0
 --- !u!1 &1680292277 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9b8d085cd6395c244947baa0340b300e, type: 3}

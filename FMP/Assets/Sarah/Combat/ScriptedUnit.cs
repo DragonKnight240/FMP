@@ -43,7 +43,10 @@ public class ScriptedUnit : MonoBehaviour
 
     private void Update()
     {
-
+        if(Unit == null)
+        {
+            Unit = GetComponent<UnitBase>();
+        }
     }
 
     internal void FollowScript()

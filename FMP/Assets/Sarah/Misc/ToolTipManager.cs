@@ -94,7 +94,7 @@ public class ToolTipManager : MonoBehaviour
         {
             if (NewToolTip.tutorial != Tutorial.CWait && NewToolTip.tutorial != Tutorial.CUnitSelect && NewToolTip.tutorial != Tutorial.CMove)
             {
-                print("Rejected " + Tooltips[CurrentToolTipIndex].name);
+                //print("Rejected " + Tooltips[CurrentToolTipIndex].name);
                 return;
             }
         }

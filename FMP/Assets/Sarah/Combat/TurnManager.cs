@@ -12,10 +12,9 @@ public class TurnManager : MonoBehaviour
     internal UnityEvent TurnChange;
     internal int UnitsToMove = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -28,7 +27,11 @@ public class TurnManager : MonoBehaviour
         {
             TurnChange = new UnityEvent();
         }
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Confined;
 

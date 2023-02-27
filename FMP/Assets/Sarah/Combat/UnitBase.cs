@@ -89,6 +89,12 @@ public class UnitBase : MonoBehaviour
     bool AttackZoomIn = false;
     bool HitZoomIn = false;
     bool DeathZoomIn = false;
+    bool ReturnAttack = false;
+    bool NoDamageZoomIn = false;
+    public float NoDamageTime = 3.0f;
+    float NoDamageTimer = 0.0f;
+    DamageNumbers DamageNumbersController;
+    int DamageToTake;
 
     public List<UnitBase> InRangeTargets;
 
@@ -119,6 +125,8 @@ public class UnitBase : MonoBehaviour
         WeaponsIninventory.Add(BareHands);
 
         AnimControl = GetComponent<CombatAnimControl>();
+
+        DamageNumbersController = GetComponentInChildren<DamageNumbers>();
     }
 
     // Update is called once per frame
@@ -139,6 +147,10 @@ public class UnitBase : MonoBehaviour
                 else if (AttackZoomIn)
                 {
                     PlayAttackAnim();
+                }
+                else if(NoDamageZoomIn)
+                {
+                    NoDamage();
                 }
             }
 
@@ -448,7 +460,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
 
-        if (AttackableArea(tiles))
+        if (AttackableArea(tiles, false))
         {
             if(InRangeTargets.Contains(Enemy))
             {
@@ -459,6 +471,8 @@ public class UnitBase : MonoBehaviour
 
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
+
+        ReturnAttack = CanReturnAttack(AttackTarget);
     }
 
     public void AttackingZoom()
@@ -472,30 +486,71 @@ public class UnitBase : MonoBehaviour
 
     }
 
+    public void NoDamage()
+    {
+        if(NoDamageTimer == 0)
+        {
+            ShowDamageNumbers();
+        }
+
+        NoDamageTimer += Time.deltaTime;
+
+        if(NoDamageTimer >= NoDamageTime)
+        {
+            NoDamageTimer = 0.0f;
+            NoDamageZoomIn = false;
+            ReturnMainCamera();
+        }
+    }
+
     public void HitZoom()
     {
         AttackTarget.AttackCamera.SetActive(true);
         AttackCamera.SetActive(false);
 
         //Will calculate crit change later
-        AttackTarget.CurrentHealth -= CalculateDamage();
 
-        if (AttackTarget.CurrentHealth > 0)
+        if (CalcuateHitChance() - AttackTarget.CalculateDodge(this) >= Random.Range(0, 101))
         {
-            AttackTarget.HitZoomIn = true;
+            AttackTarget.DamageToTake = CalculateDamage();
 
+            if (CalculateCritChance() >= Random.Range(0, 101))
+            {
+                AttackTarget.DamageToTake *= 3;
+            }
+
+            if (AttackTarget.CurrentHealth - AttackTarget.DamageToTake > 0)
+            {
+                AttackTarget.HitZoomIn = true;
+
+            }
+            else
+            {
+                AttackTarget.DeathZoomIn = true;
+            }
         }
         else
         {
-            AttackTarget.DeathZoomIn = true;
+            AttackTarget.DamageToTake = 0;
+            AttackTarget.NoDamageZoomIn = true;
         }
+    }
+
+    public void ShowDamageNumbers()
+    {
+        CurrentHealth -= DamageToTake;
+        DamageNumbersController.PlayDamage(0, DamageToTake);
     }
 
     public void ReturnTo()
     {
-        if(CanReturnAttack(AttackTarget))
+        if(ReturnAttack)
         {
             AttackingZoom();
+        }
+        else
+        {
+            ReturnMainCamera();
         }
     }
 
@@ -567,6 +622,13 @@ public class UnitBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    internal int CalculateDodge(UnitBase OtherUnit)
+    {
+        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
+
+        return Dodge;
+    }
+
     internal int CalculateDamage()
     {
         int Damage;
@@ -626,7 +688,7 @@ public class UnitBase : MonoBehaviour
         List<GameObject> Tile = new List<GameObject>();
         Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        AttackableArea(Tile);
+        AttackableArea(Tile, false);
         if (InRangeTargets.Contains(OtherUnit))
         {
             return true;
@@ -641,6 +703,10 @@ public class UnitBase : MonoBehaviour
         if(HitChance > 100)
         {
             HitChance = 100;
+        }
+        else if(HitChance < 1)
+        {
+            HitChance = 1;
         }
         return HitChance;
     }

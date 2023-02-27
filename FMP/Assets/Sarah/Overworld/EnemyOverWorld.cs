@@ -43,6 +43,10 @@ public class EnemyOverWorld : MonoBehaviour
 
             CurrentNode = PatrolLocations[0];
         }
+        else
+        {
+            Destroy(this);
+        }
 
         Player = FindObjectOfType<PlayerOverworld>().gameObject;
         RB = GetComponent<Rigidbody>();

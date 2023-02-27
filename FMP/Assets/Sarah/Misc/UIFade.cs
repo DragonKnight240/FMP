@@ -8,7 +8,8 @@ public class UIFade : MonoBehaviour
     internal bool FadeIn = false;
     internal bool FadeOut = false;
     public float FadeSpeed = 10;
-    CanvasGroup FadingObject;
+    internal CanvasGroup FadingObject;
+    internal bool Both = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,13 @@ public class UIFade : MonoBehaviour
             if (FadingObject.alpha >= 1)
             {
                 FadeIn = false;
+
+                if(Both)
+                {
+                    Both = false;
+                    ToFadeOut();
+                }
+
             }
         }
         else if(FadeOut)
@@ -35,7 +43,16 @@ public class UIFade : MonoBehaviour
             if (FadingObject.alpha <= 0)
             {
                 FadeOut = false;
-                gameObject.SetActive(false);
+
+                if (Both)
+                {
+                    Both = false;
+                    ToFadeOut();
+                }
+                else
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
 
