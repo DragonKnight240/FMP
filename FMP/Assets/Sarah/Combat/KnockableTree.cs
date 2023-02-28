@@ -135,4 +135,30 @@ public class KnockableTree : InteractOnGrid
             }
         }
     }
+
+    private void OnMouseEnter()
+    {
+        if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy
+    || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy)
+        {
+            return;
+        }
+
+        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Show(false, true);
+    }
+
+    private void OnMouseExit()
+    {
+        if (!UnitManager.Instance.SetupFinished)
+        {
+            return;
+        }
+
+        if (!Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy
+            && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+            && Interact.Instance.SelectedUnit == null)
+        {
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Hide();
+        }
+    }
 }

@@ -89,12 +89,15 @@ public class GameManager : MonoBehaviour
 
     internal void ToolTipCheck(Tutorial Type)
     {
+        //print("Checking");
         if (ToolTipManager.Instance)
         {
             if (!CombatTutorialComplete && ToolTipManager.Instance.ToolTipObject.activeInHierarchy)
             {
                 if (ToolTipManager.Instance.PendingToolTip)
                 {
+                    //print("Pending: Checking " + Type + " - Current: " + ToolTipManager.Instance.PendingToolTip.tutorial);
+                    //print("Active: Checking " + Type + " - Current: " + ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial);
                     if (Type == ToolTipManager.Instance.PendingToolTip.tutorial || Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
                         ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
@@ -102,8 +105,10 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    //print("Active: Checking " + Type + " - Current: " + ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial);
                     if (Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
+                        //print("Complete");
                         ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }

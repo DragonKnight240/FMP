@@ -278,10 +278,14 @@ public class UnitBase : MonoBehaviour
                 {
                     if (ToolTipManager.Instance && CompareTag("Ally"))
                     {
-                        ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
-                        if (!ToolTipManager.Instance.Seen[Tip])
+                        if (ToolTipManager.Instance.CompletedTurn1)
                         {
-                            GameManager.Instance.NextToolTip(Tip);
+                            ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
+                            if (!ToolTipManager.Instance.Seen[Tip])
+                            {
+                                print("CAttack Tooltip");
+                                GameManager.Instance.NextToolTip(Tip);
+                            }
                         }
                     }
                     
@@ -494,7 +498,10 @@ public class UnitBase : MonoBehaviour
         ToAttack = true;
         AttackTarget = Enemy;
         AttackTarget.AttackTarget = this;
-        GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
+        if (CompareTag("Ally"))
+        {
+            GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
+        }
 
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
@@ -591,16 +598,25 @@ public class UnitBase : MonoBehaviour
 
     public void ShowDamageNumbers()
     {
-        print(DamageToTake);
-        CurrentHealth -= DamageToTake;
+        DamageNumbersController.ResetDamageNumber();
+        //print(DamageToTake);
+        DecreaseHealth(DamageToTake);
         DamageNumbersController.PlayDamage(0, DamageToTake);
+        
+    }
+
+    internal void ShowLongDistanceDamageNumbers(int Damage)
+    {
+        DamageNumbersController.ResetFarDamageNumber();
+        DecreaseHealth(Damage);
+        DamageNumbersController.PlayFarDamage(Damage);
     }
 
     public void ReturnTo()
     {
         if(ReturnAttack)
         {
-            print("Return Attack");
+            //print("Return Attack");
             AttackingZoom();
         }
         else
@@ -680,7 +696,7 @@ public class UnitBase : MonoBehaviour
     internal int CalculateDodge(UnitBase OtherUnit)
     {
         int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
-        print("Dodge " + Dodge);
+        //print("Dodge " + Dodge);
 
         return Dodge;
     }
@@ -991,10 +1007,9 @@ public class UnitBase : MonoBehaviour
 
         CameraMove.Instance.FollowTarget = null;
 
-        GameManager.Instance.ToolTipCheck(Tutorial.CWait);
-
         if (gameObject.CompareTag("Ally"))
         {
+            GameManager.Instance.ToolTipCheck(Tutorial.CWait);
             TurnManager.Instance.UnitsToMove -= 1;
         }
     }

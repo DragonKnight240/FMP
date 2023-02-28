@@ -31,8 +31,7 @@ public class UnitManager : MonoBehaviour
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -48,6 +47,12 @@ public class UnitManager : MonoBehaviour
         DeadEnemyUnits = new List<UnitBase>();
         DeadAllyUnits = new List<UnitBase>();
         UnitUpdate = new UnityEvent();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     void print()
@@ -295,6 +300,8 @@ public class UnitManager : MonoBehaviour
 
         TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
         TurnManager.Instance.UnitsToMove = AllyUnits.Count;
+
+        TurnManager.Instance.Orbs = FindObjectsOfType<MagicOrb>();
 
         SetupFinished = true;
 

@@ -103,7 +103,7 @@ public class ScriptedUnit : MonoBehaviour
 
             if(!NoMove)
             {
-                print(Command.Action);
+                //print(Command.Action);
                 break;
             }
         }
