@@ -4045,8 +4045,8 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  AvailableUnits: []
   UnitData: []
-  MaxUnits: 6
   MaxRecruitable: 2
   Convoy: []
   Money: 0
@@ -4767,8 +4767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6f1cb1cc67333469f58ac2e1e971ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Height: 11
-  Width: 11
+  Height: 10
+  Width: 10
   GridParent: {fileID: 0}
   TilePrefab: {fileID: 8189690832267535239, guid: 89abe01dac76ada4e98c13c2a4f8f227, type: 3}
   TileSize: 15
