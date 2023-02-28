@@ -89,6 +89,12 @@ public class UnitBase : MonoBehaviour
     bool AttackZoomIn = false;
     bool HitZoomIn = false;
     bool DeathZoomIn = false;
+    bool ReturnAttack = false;
+    bool NoDamageZoomIn = false;
+    public float NoDamageTime = 3.0f;
+    float NoDamageTimer = 0.0f;
+    DamageNumbers DamageNumbersController;
+    int DamageToTake;
 
     public List<UnitBase> InRangeTargets;
 
@@ -119,6 +125,8 @@ public class UnitBase : MonoBehaviour
         WeaponsIninventory.Add(BareHands);
 
         AnimControl = GetComponent<CombatAnimControl>();
+
+        DamageNumbersController = GetComponentInChildren<DamageNumbers>();
     }
 
     // Update is called once per frame
@@ -130,15 +138,23 @@ public class UnitBase : MonoBehaviour
             {
                 if (HitZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayHitAnim();
                 }
                 else if (DeathZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayDeathAnim();
                 }
                 else if (AttackZoomIn)
                 {
+                    HideAllChangedTiles();
                     PlayAttackAnim();
+                }
+                else if(NoDamageZoomIn)
+                {
+                    HideAllChangedTiles();
+                    NoDamage();
                 }
             }
 
@@ -436,6 +452,40 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
+    internal void FindInRangeTargets(bool IgnoreMovement = false)
+    {
+        InRangeTargets.Clear();
+
+        if (MovedForTurn || IgnoreMovement)
+        {
+            List<GameObject> Tiles = new List<GameObject>();
+            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+            AttackTiles.Clear();
+
+            for (int i = 0; i < EquipedWeapon.Range; i++)
+            {
+                Tiles = WeaponRangeAttack(Tiles, true);
+            }
+        }
+
+        foreach (Tile tile in AttackTiles)
+        {
+            if (tile.Unit)
+            {
+                if (!InRangeTargets.Contains(tile.Unit))
+                {
+                    if (!tile.Unit.CompareTag(tag))
+                    {
+                        if (tile.Unit.isAlive)
+                        {
+                            InRangeTargets.Add(tile.Unit);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     internal void Attack(UnitBase Enemy)
     {
         List<GameObject> tiles = new List<GameObject>();
@@ -443,22 +493,41 @@ public class UnitBase : MonoBehaviour
 
         ToAttack = true;
         AttackTarget = Enemy;
+        AttackTarget.AttackTarget = this;
         GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
 
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
+        FindInRangeTargets(true);
 
-        if (AttackableArea(tiles))
+        if (InRangeTargets.Count != 0)
         {
-            if(InRangeTargets.Contains(Enemy))
+            if (InRangeTargets.Contains(Enemy))
             {
                 MoveableArea(false);
+                CalculateReturnAttack();
                 return;
             }
         }
 
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
+
+        CalculateReturnAttack();
+    }
+
+    void CalculateReturnAttack()
+    {
+        if (!ReturnAttack)
+        {
+            print("Return Attack false");
+            AttackTarget.ReturnAttack = AttackTarget.CanReturnAttack(this);
+        }
+        else
+        {
+            print("Return Attack true");
+            ReturnAttack = false;
+        }
     }
 
     public void AttackingZoom()
@@ -472,30 +541,70 @@ public class UnitBase : MonoBehaviour
 
     }
 
+    public void NoDamage()
+    {
+        if(NoDamageTimer == 0)
+        {
+            ShowDamageNumbers();
+        }
+
+        NoDamageTimer += Time.deltaTime;
+
+        if(NoDamageTimer >= NoDamageTime)
+        {
+            NoDamageTimer = 0.0f;
+            NoDamageZoomIn = false;
+            ReturnTo();
+        }
+    }
+
     public void HitZoom()
     {
         AttackTarget.AttackCamera.SetActive(true);
         AttackCamera.SetActive(false);
 
-        //Will calculate crit change later
-        AttackTarget.CurrentHealth -= CalculateDamage();
-
-        if (AttackTarget.CurrentHealth > 0)
+        if (CalcuateHitChance() - AttackTarget.CalculateDodge(this) >= Random.Range(0, 101))
         {
-            AttackTarget.HitZoomIn = true;
+            AttackTarget.DamageToTake = CalculateDamage();
 
+            if (CalculateCritChance() >= Random.Range(0, 101))
+            {
+                AttackTarget.DamageToTake *= 3;
+            }
+
+            if (AttackTarget.CurrentHealth - AttackTarget.DamageToTake > 0)
+            {
+                AttackTarget.HitZoomIn = true;
+
+            }
+            else
+            {
+                AttackTarget.DeathZoomIn = true;
+            }
         }
         else
         {
-            AttackTarget.DeathZoomIn = true;
+            AttackTarget.DamageToTake = 0;
+            AttackTarget.NoDamageZoomIn = true;
         }
+    }
+
+    public void ShowDamageNumbers()
+    {
+        CurrentHealth -= DamageToTake;
+        DamageNumbersController.PlayDamage(0, DamageToTake);
     }
 
     public void ReturnTo()
     {
-        if(CanReturnAttack(AttackTarget))
+        if(ReturnAttack)
         {
+            print("Return Attack");
             AttackingZoom();
+        }
+        else
+        {
+            ReturnMainCamera();
         }
     }
 
@@ -567,6 +676,13 @@ public class UnitBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    internal int CalculateDodge(UnitBase OtherUnit)
+    {
+        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
+
+        return Dodge;
+    }
+
     internal int CalculateDamage()
     {
         int Damage;
@@ -626,11 +742,15 @@ public class UnitBase : MonoBehaviour
         List<GameObject> Tile = new List<GameObject>();
         Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        AttackableArea(Tile);
+        FindInRangeTargets(true);
+
+
         if (InRangeTargets.Contains(OtherUnit))
         {
+            print("Return Attack" + this.gameObject.name);
             return true;
         }
+        print("Too Far " + this.gameObject.name);
         return false;
     }
 
@@ -641,6 +761,10 @@ public class UnitBase : MonoBehaviour
         if(HitChance > 100)
         {
             HitChance = 100;
+        }
+        else if(HitChance < 1)
+        {
+            HitChance = 1;
         }
         return HitChance;
     }
@@ -839,6 +963,8 @@ public class UnitBase : MonoBehaviour
 
     public void TurnChange()
     {
+        HideAllChangedTiles();
+
         MovedForTurn = false;
         AttackedForTurn = false;
         EndTurn = false;
@@ -848,10 +974,7 @@ public class UnitBase : MonoBehaviour
 
     internal void WaitUnit()
     {
-        foreach(Tile tile in AttackTiles)
-        {
-            tile.Hide();
-        }
+        HideAllChangedTiles();
 
         MovedForTurn = true;
         AttackedForTurn = true;
@@ -859,7 +982,6 @@ public class UnitBase : MonoBehaviour
 
         Interact.Instance.SelectedUnit = null;
         Interact.Instance.UISelectedUnit();
-        HideAllChangedTiles();
 
         Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
         Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();

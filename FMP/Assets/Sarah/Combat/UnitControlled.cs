@@ -91,40 +91,6 @@ public class UnitControlled : UnitBase
         }
     }
 
-    internal void FindInRangeTargets()
-    {
-        InRangeTargets.Clear();
-
-        if(MovedForTurn)
-        {
-            List<GameObject> Tiles = new List<GameObject>();
-            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
-            AttackTiles.Clear();
-
-            for (int i = 0; i < EquipedWeapon.Range; i++)
-            {
-                Tiles = WeaponRangeAttack(Tiles, true);
-            }
-        }
-
-        foreach (Tile tile in AttackTiles)
-        {
-            if (tile.Unit)
-            {
-                if (!InRangeTargets.Contains(tile.Unit))
-                {
-                    if (tile.Unit.CompareTag("Enemy"))
-                    {
-                        if (tile.Unit.isAlive)
-                        {
-                            InRangeTargets.Add(tile.Unit);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     internal void AttackDisplay()
     {
         if(Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)

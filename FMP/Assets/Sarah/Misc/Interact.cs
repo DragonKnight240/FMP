@@ -10,10 +10,9 @@ public class Interact : MonoBehaviour
     internal CombatMenu CombatMenu;
     internal GameObject VirtualCam;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -21,7 +20,11 @@ public class Interact : MonoBehaviour
         {
             Destroy(this);
         }
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         CombatMenu = FindObjectOfType<CombatMenu>();
         VirtualCam = FindObjectOfType<CameraMove>().gameObject;
     }

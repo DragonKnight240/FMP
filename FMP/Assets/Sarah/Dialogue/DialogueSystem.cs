@@ -17,7 +17,8 @@ public class DialogueSystem : MonoBehaviour
     internal float LetterDiplayTimer = 0;
     public float LetterDiplayTime = 0.2f;
     int CurrentIndex = 0;
-    bool PlayingDialogue = false;
+    internal bool PlayingDialogue = false;
+    internal Dialogue CurrentLine;
 
     private void Start()
     {
@@ -105,9 +106,9 @@ public class DialogueSystem : MonoBehaviour
         {
             Text.text = "";
             CurrentIndex = 0;
-            Dialogue Dialogue = CurrentDialogue.Dequeue();
-            SpeakerName.text = Dialogue.Speaker;
-            ToDisplayText = Dialogue.Text;
+            CurrentLine = CurrentDialogue.Dequeue();
+            SpeakerName.text = CurrentLine.Speaker;
+            ToDisplayText = CurrentLine.Text;
         }
     }
 
