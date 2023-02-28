@@ -520,12 +520,12 @@ public class UnitBase : MonoBehaviour
     {
         if (!ReturnAttack)
         {
-            print("Return Attack false");
+            //print("Return Attack false");
             AttackTarget.ReturnAttack = AttackTarget.CanReturnAttack(this);
         }
         else
         {
-            print("Return Attack true");
+            //print("Return Attack true");
             ReturnAttack = false;
         }
     }
@@ -591,6 +591,7 @@ public class UnitBase : MonoBehaviour
 
     public void ShowDamageNumbers()
     {
+        print(DamageToTake);
         CurrentHealth -= DamageToTake;
         DamageNumbersController.PlayDamage(0, DamageToTake);
     }
@@ -679,6 +680,7 @@ public class UnitBase : MonoBehaviour
     internal int CalculateDodge(UnitBase OtherUnit)
     {
         int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
+        print("Dodge " + Dodge);
 
         return Dodge;
     }
@@ -747,10 +749,10 @@ public class UnitBase : MonoBehaviour
 
         if (InRangeTargets.Contains(OtherUnit))
         {
-            print("Return Attack" + this.gameObject.name);
+            //print("Return Attack" + this.gameObject.name);
             return true;
         }
-        print("Too Far " + this.gameObject.name);
+        //print("Too Far " + this.gameObject.name);
         return false;
     }
 
