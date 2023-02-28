@@ -69,6 +69,8 @@ public class SceneLoadDialogue : MonoBehaviour
                     }
                 }
 
+                GameManager.Instance.DialogueToPlay = PlayAfter.None;
+
                 Destroy(this);
             }
         }

@@ -6,7 +6,7 @@ using TMPro;
 public class DamageNumbers : MonoBehaviour
 {
     public GameObject UpLocation;
-    internal Vector3 StartLocation;
+    public GameObject StartLocation;
     public float Speed = 5;
     public List<GameObject> DamageCanvas;
 
@@ -32,6 +32,7 @@ public class DamageNumbers : MonoBehaviour
             }
             else
             {
+                ResetDamageNumber();
             }
         }
     }
@@ -40,15 +41,13 @@ public class DamageNumbers : MonoBehaviour
     {
         foreach (GameObject Canvas in DamageCanvas)
         {
-            Canvas.transform.position = StartLocation;
-            Canvas.GetComponentInChildren<TMP_Text>().text = "Miss";
+            Canvas.transform.position = StartLocation.transform.position;
+            //Canvas.GetComponentInChildren<TMP_Text>().text = "Miss";
         }
     }
 
     internal void PlayDamage(int AttackID, int Damage)
     {
-        StartLocation = DamageCanvas[AttackID].transform.position;
-
         if(Damage <= 0)
         {
             DamageCanvas[AttackID].GetComponentInChildren<TMP_Text>().text = "Miss";

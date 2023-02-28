@@ -46,7 +46,7 @@ public class Tile : MonoBehaviour
             }
         }
 
-        if(!Interact.Instance.VirtualCam.activeInHierarchy)
+        if(!Interact.Instance.VirtualCam.activeInHierarchy || (!TurnManager.Instance.isPlayerTurn && !Interact.Instance.VirtualCam.activeInHierarchy))
         {
             Hide();
         }
