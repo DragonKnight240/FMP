@@ -262,8 +262,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lines:
-  - {fileID: 11400000, guid: 785bfe33b1020974cb3852c434d3ba6f, type: 2}
-  - {fileID: 11400000, guid: 38b16dcf606f24a438c0a66e320531d4, type: 2}
+  - {fileID: 11400000, guid: c7098c3a6067b754596967491c8a8899, type: 2}
+  - {fileID: 11400000, guid: 2e0acb5bef7ee614f9fd43805303e68e, type: 2}
+  - {fileID: 11400000, guid: 7acda07d111cdcf449749e88c73d9750, type: 2}
+  - {fileID: 11400000, guid: 7ac29e929768ed341a6a9e4adb10b656, type: 2}
+  - {fileID: 11400000, guid: 2b566964627fa4a449881dc321bfa88e, type: 2}
+  - {fileID: 11400000, guid: 3bbf0ddfa3402294a80478439e8b7598, type: 2}
+  - {fileID: 11400000, guid: bab8937c4b6790a4f8ee2c8ab14af24c, type: 2}
 --- !u!1 &1542223645317419795
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,8 +362,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -701,8 +706,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5936,6 +5941,7 @@ GameObject:
   - component: {fileID: 8578700664455334415}
   - component: {fileID: 8578700664455334400}
   - component: {fileID: 8578700664455334411}
+  - component: {fileID: 1032127443}
   m_Layer: 5
   m_Name: OverworldMenu
   m_TagString: Untagged
@@ -6070,6 +6076,23 @@ MonoBehaviour:
   AmbianceSlider: {fileID: 8578700663283429193}
   MasterSlider: {fileID: 8578700663963104941}
   MainMenu: 1
+--- !u!114 &1032127443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8578700664455334401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7e251bf70668f4695099574ad79860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AfterEventDialogue:
+  - DialogueAfter: 0
+    Lines:
+    - {fileID: 11400000, guid: 785bfe33b1020974cb3852c434d3ba6f, type: 2}
+    - {fileID: 11400000, guid: 38b16dcf606f24a438c0a66e320531d4, type: 2}
 --- !u!1 &8578700664519244490
 GameObject:
   m_ObjectHideFlags: 0

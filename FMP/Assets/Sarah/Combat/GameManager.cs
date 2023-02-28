@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public List<Item> Convoy;
     public int Money = 0;
 
+    internal int OverworldLevelID;
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
@@ -50,13 +52,14 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         UnitData = new List<CharacterData>();
+        PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
 
