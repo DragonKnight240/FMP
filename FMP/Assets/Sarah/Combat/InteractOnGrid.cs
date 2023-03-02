@@ -15,6 +15,7 @@ public class InteractOnGrid : MonoBehaviour
     internal int[] Position;
     internal List<GameObject> ActiveTiles;
     internal Dictionary<Tile, Direction> InteractLocations;
+    internal UnitBase UnitToActiveIt;
 
     private void Start()
     {

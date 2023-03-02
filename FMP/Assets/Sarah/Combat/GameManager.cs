@@ -52,6 +52,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         UnitData = new List<CharacterData>();
+
+        CurrentUnitNum = AvailableUnits.Count;
+
         PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
     }
 

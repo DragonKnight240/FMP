@@ -30,6 +30,7 @@ public class UnitManager : MonoBehaviour
     internal bool SetupFinished = false;
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
+    internal List<UnitAI> PendingEnemies;
 
     private void Awake()
     {
@@ -47,6 +48,7 @@ public class UnitManager : MonoBehaviour
         DeadEnemyUnits = new List<UnitBase>();
         DeadAllyUnits = new List<UnitBase>();
         UnitUpdate = new UnityEvent();
+        PendingEnemies = new List<UnitAI>();
     }
 
     // Start is called before the first frame update
@@ -86,6 +88,9 @@ public class UnitManager : MonoBehaviour
 
     void AIUnitMove()
     {
+        PendingEnemies.Clear();
+        PendingEnemies = new List<UnitAI>();
+
         foreach (GameObject Enemy in EnemyUnits)
         {
             if(Enemy.GetComponent<UnitBase>().Moving || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position)
@@ -103,7 +108,7 @@ public class UnitManager : MonoBehaviour
                 {
                     if (Enemy.GetComponent<UnitAI>())
                     {
-                        Enemy.GetComponent<UnitAI>().MoveUnit();
+                        Enemy.GetComponent<UnitAI>().PerformAction();
                         EnemyMoving = Enemy;
                     }
                     else
@@ -114,6 +119,38 @@ public class UnitManager : MonoBehaviour
                 }
             }
         }
+
+        if(PendingEnemies.Count > 0)
+        {
+            PendingEnemies[0].NOKAV();
+
+            foreach(UnitAI Unit in PendingEnemies)
+            {
+                if (Unit.CanAttack())
+                {
+                    if (Unit.InRangeTargets.Contains(Unit))
+                    {
+                        Unit.Attack(Unit.AttackTarget);
+                    }
+                    else
+                    {
+                        Unit.MoveAsCloseTo(TileManager.Instance.Grid[Unit.AttackTarget.Position[0], Unit.AttackTarget.Position[1]].GetComponent<Tile>());
+                    }
+                }
+                else
+                {
+                    Unit.MoveAsCloseTo(TileManager.Instance.Grid[Unit.AttackTarget.Position[0], Unit.AttackTarget.Position[1]].GetComponent<Tile>());
+                }
+
+                Unit.WaitUnit();
+                EnemyMoving = Unit.gameObject;
+            }
+        }
+    }
+
+    public void NoOverKill()
+    {
+
     }
 
     public void PlaceUnits()

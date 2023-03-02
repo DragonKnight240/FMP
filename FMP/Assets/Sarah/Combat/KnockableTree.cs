@@ -5,7 +5,7 @@ using UnityEngine;
 public class KnockableTree : InteractOnGrid
 {
     public int SwordLevelMin;
-    internal int damage = 2;
+    public int Damage = 2;
     internal bool isFalling = false;
     internal Quaternion RotateTo;
     public float Speed = 50;
@@ -39,11 +39,9 @@ public class KnockableTree : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        if(Unit.SwordLevel >= SwordLevelMin)
-        {
-            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-            DealAoEDamage();
-        }
+        UnitToActiveIt = Unit;
+        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        DealAoEDamage();
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
@@ -131,7 +129,7 @@ public class KnockableTree : InteractOnGrid
         {
             if(tile.GetComponent<Tile>().Unit)
             {
-                tile.GetComponent<Tile>().Unit.DecreaseHealth(damage);
+                tile.GetComponent<Tile>().Unit.ShowLongDistanceDamageNumbers(Damage);
             }
         }
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MovableBoulder : InteractOnGrid
 {
-    public int GauntletLevelMin;
     public int Damage = 2;
     public float MoveSpeed = 50;
     public float RotateSpeed = 100;
@@ -39,7 +38,7 @@ public class MovableBoulder : InteractOnGrid
                     GetComponent<Fading>().FadeOut = false;
                     if(LastTile.Unit)
                     {
-                        LastTile.Unit.ShowLongDistanceDamageNumbers(Damage);
+                        LastTile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
                     }
                     return;
                 }
@@ -53,11 +52,8 @@ public class MovableBoulder : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        if (Unit.FistLevel >= GauntletLevelMin)
-        {
-            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-            //CalculateMoveTo();
-        }
+        UnitToActiveIt = Unit;
+        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
     }
 
     internal override void CalculateAoE(Direction DirectionInteraction)
@@ -67,13 +63,10 @@ public class MovableBoulder : InteractOnGrid
         CurrentTilePosition[0] = Position[0];
         CurrentTilePosition[1] = Position[1];
 
-        print("Calculate AOE");
-
         switch (DirectionInteraction)
         {
             case Direction.Up:
                 {
-                    print("Moving Down");
                     do
                     {
                         if(Position[0] == CurrentTilePosition[0] && Position[1] == CurrentTilePosition[1])
@@ -103,6 +96,25 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
+                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            {
+                                if (UnitToActiveIt.FistLevel == 5)
+                                {
+                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    {
+                                        if (CurrentTilePosition[1] > 0)
+                                        {
+                                            CurrentTilePosition[1] -= 1;
+                                        }
+                                        else
+                                        {
+                                            Next = false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+
                             Next = false;
                         }
                     } while (Next);
@@ -110,8 +122,6 @@ public class MovableBoulder : InteractOnGrid
                 }
             case Direction.Down:
                 {
-                    print("Move UP");
-
                     do
                     {
                         if (Position[0] == CurrentTilePosition[0] && Position[1] == CurrentTilePosition[1])
@@ -141,6 +151,25 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
+                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            {
+                                if (UnitToActiveIt.FistLevel == 5)
+                                {
+                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    {
+                                        if (CurrentTilePosition[1] < TileManager.Instance.Height - 1)
+                                        {
+                                            CurrentTilePosition[1] += 1;
+                                        }
+                                        else
+                                        {
+                                            Next = false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+
                             Next = false;
                         }
                     } while (Next);
@@ -149,7 +178,6 @@ public class MovableBoulder : InteractOnGrid
                 }
             case Direction.Right:
                 {
-                    print("Move Left");
                     do
                     {
                         if (Position[0] == CurrentTilePosition[0] && Position[1] == CurrentTilePosition[1])
@@ -179,6 +207,25 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
+                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            {
+                                if (UnitToActiveIt.FistLevel == 5)
+                                {
+                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    {
+                                        if (CurrentTilePosition[0] > 0)
+                                        {
+                                            CurrentTilePosition[0] -= 1;
+                                        }
+                                        else
+                                        {
+                                            Next = false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+
                             Next = false;
                         }
                     } while (Next);
@@ -186,8 +233,6 @@ public class MovableBoulder : InteractOnGrid
                 }
             case Direction.Left:
                 {
-                    print("Moving Right");
-
                     do
                     {
                         if (Position[0] == CurrentTilePosition[0] && Position[1] == CurrentTilePosition[1])
@@ -217,6 +262,24 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
+                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            {
+                                if (UnitToActiveIt.FistLevel == 5)
+                                {
+                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    {
+                                        if (CurrentTilePosition[0] < TileManager.Instance.Width - 1)
+                                        {
+                                            CurrentTilePosition[0] += 1;
+                                        }
+                                        else
+                                        {
+                                            Next = false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
                             Next = false;
                         }
                     } while (Next);

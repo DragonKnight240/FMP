@@ -12,10 +12,9 @@ public class TileManager : MonoBehaviour
     public float TileSize;
     internal GameObject[,] Grid;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -23,7 +22,11 @@ public class TileManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         GridParent = gameObject;
         CreateGrid();
     }

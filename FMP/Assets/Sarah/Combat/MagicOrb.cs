@@ -29,11 +29,9 @@ public class MagicOrb : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        if (MagicLevelMin <= Unit.MagicLevel)
-        {
-            Active = true;
-            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-        }
+        UnitToActiveIt = Unit;
+        Active = true;
+        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
     }
 
     internal void DealDamage()
@@ -44,7 +42,14 @@ public class MagicOrb : InteractOnGrid
             {
                 if (tile.Unit)
                 {
-                    tile.Unit.ShowLongDistanceDamageNumbers(Damage);
+                    if(UnitToActiveIt.MagicLevel == 5)
+                    {
+                        if(tile.Unit.CompareTag(UnitToActiveIt.tag))
+                        {
+                            continue;
+                        }
+                    }
+                    tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
                 }
             }
         }
@@ -104,7 +109,7 @@ public class MagicOrb : InteractOnGrid
     private void OnMouseEnter()
     {
         if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy
-            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy)
+            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy || Interact.Instance.SelectedUnit)
         {
             return;
         }

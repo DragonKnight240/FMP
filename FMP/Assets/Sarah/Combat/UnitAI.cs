@@ -2,9 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct AttackStats
+{
+    public UnitBase AttackingUnit;
+    public Dictionary<UnitBase, int> TargetUnit;
+    public int AttackValue;
+}
+
+
 public class UnitAI : UnitBase
 {
+    public enum BehaviourTypes
+    {
+        NOKAV,
+        AttackValue,
+        Patient,
+        Inpatient
+    }
+
     UnitBase InRangeTarget;
+    public BehaviourTypes Behaviour;
+    internal List<AttackStats> AttackProfiles;
+    internal AttackStats CurrentAttackStats;
+
+    private void Start()
+    {
+        AttackProfiles = new List<AttackStats>();
+    }
+
 
     override public void Update()
     {
@@ -23,46 +48,263 @@ public class UnitAI : UnitBase
         }
     }
 
-    public void MoveUnit()
+    internal void MoveAsCloseTo(Tile TargetTile)
     {
-        if (!CanAttack())
+        MovedForTurn = true;
+
+        Path = new List<Tile>(FindRouteTo(TargetTile));
+
+        int Index = 0;
+
+        foreach(Tile tile in Path)
         {
-            int RandLocation;
-            do
+            if(MoveableTiles.Contains(tile))
             {
-              RandLocation = Random.Range(0, MoveableTiles.Count - 1);
-            } while (Move(MoveableTiles[RandLocation]));
-            
-        }
-        else
-        {
-            AttackTarget = InRangeTarget;
-            Attack(InRangeTarget);
+                Index++;
+                continue;
+            }
+
+            break;
         }
 
-        WaitUnit();
+        Path.RemoveRange(Index, Path.Count - Index);
+
+        Moving = true;
+
+        if (Path.Count > 0)
+        {
+            Position[0] = Path[Path.Count - 1].GridPosition[0];
+            Position[1] = Path[Path.Count - 1].GridPosition[1];
+        }
+
+        if (Path.Count > 0)
+        {
+            Path[Path.Count - 1].ChangeOccupant(this);
+        }
+
+        ResetMoveableTiles();
+        UnitManager.Instance.UnitUpdate.Invoke();
+        List<GameObject> Tile = new List<GameObject>();
+        Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
     }
 
+    public void PerformAction()
+    {
+        switch(Behaviour)
+        {
+            case BehaviourTypes.NOKAV:
+                {
+                    AttackValue();
+                    UnitManager.Instance.PendingEnemies.Add(this);
+                    break;
+                }
+            case BehaviourTypes.AttackValue:
+                {
+                    AttackValue();
+                    UnitManager.Instance.PendingEnemies.Add(this);
+                    break;
+                }
+            case BehaviourTypes.Patient:
+                {
+                    Patient();
+                    WaitUnit();
+                    break;
+                }
+            case BehaviourTypes.Inpatient:
+                {
+                    Inpatient();
+                    WaitUnit();
+                    break;
+                }
+
+        }
+    }
+
+    //Ignores possible move locations
     internal void MoveAnywhere(Tile Target)
     {
         Move(Target, false, true);
         UnitManager.Instance.EnemyMoving = gameObject;
     }
 
+    //Finds a random location to move to
+    internal void RandomMovement()
+    {
+        int RandLocation;
+        do
+        {
+            RandLocation = Random.Range(0, MoveableTiles.Count - 1);
+        } while (Move(MoveableTiles[RandLocation]));
+    }
+
     internal bool CanAttack()
     {
+        InRangeTargets.Clear();
+        InRangeTargets = new List<UnitBase>();
+
         foreach(Tile tile in AttackTiles)
         {
             if(tile.Unit)
             {
                 if(tile.Unit.CompareTag("Ally"))
                 {
-                    InRangeTarget = tile.Unit;
-                    return true;
+                    InRangeTargets.Add(tile.Unit);
                 }
             }
         }
 
+        if(InRangeTargets.Count > 0)
+        {
+            return true;
+        }
+
         return false;
+    }
+
+    //Compares current attack target to next unit
+    public void FindLowestDefence(UnitBase Unit)
+    {
+        if (Unit.isAlive)
+        {
+            if (AttackTarget == null)
+            {
+                AttackTarget = Unit;
+            }
+
+            if (EquipedWeapon.WeaponType == WeaponType.Staff)
+            {
+                if (AttackTarget.CalculateMagicDefence(WeaponType.Staff) > Unit.CalculateMagicDefence(WeaponType.Staff))
+                {
+                    AttackTarget = Unit;
+                }
+            }
+            else
+            {
+                if (AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType) > Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType))
+                {
+                    AttackTarget = Unit;
+                }
+            }
+        }
+    }
+
+    //Attacks lowest defence target if in range otherwise does nothing
+    internal void Patient()
+    {
+        if(CanAttack())
+        {
+            print("Can Attack");
+            foreach(UnitBase Target in InRangeTargets)
+            {
+                FindLowestDefence(Target);
+            }
+        }
+
+        if(AttackTarget != null)
+        {
+            Attack(AttackTarget);
+        }
+    }
+
+    //Attacks lowest defence (to equiped weapon)  and sets that as the target
+    internal void Inpatient()
+    {
+        UnitBase Unit;
+        foreach (GameObject UnitObject in UnitManager.Instance.AllyUnits)
+        {
+            Unit = UnitObject.GetComponent<UnitBase>();
+            FindLowestDefence(Unit);
+        }
+
+        if (AttackTarget != null)
+        {
+            FindInRangeTargets();
+            if (InRangeTargets.Contains(AttackTarget))
+            {
+                Attack(AttackTarget);
+            }
+            else
+            {
+                MoveAsCloseTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
+            }
+
+        }
+        else
+        {
+            RandomMovement();
+        }
+    }
+
+    //Attack Value 
+    internal void AttackValue()
+    {
+        UnitBase Unit;
+        AttackStats Stats;
+        int TopAttackValue = 0;
+
+        AttackProfiles.Clear();
+        AttackProfiles = new List<AttackStats>();
+
+        foreach (GameObject UnitObject in UnitManager.Instance.AllyUnits)
+        {
+            Stats = new AttackStats();
+            Stats.TargetUnit = new Dictionary<UnitBase, int>();
+
+            Unit = UnitObject.GetComponent<UnitBase>();
+            if (Unit.isAlive)
+            {
+                Stats.TargetUnit.Add(Unit, CalculateDamage(Unit));
+                Stats.AttackingUnit = this;
+                Stats.AttackValue = CalculateDamage(Unit) / Unit.CurrentHealth;
+
+                if (Stats.TargetUnit[Unit] > TopAttackValue)
+                {
+                    TopAttackValue = Stats.TargetUnit[Unit];
+                    AttackTarget = Unit;
+                    CurrentAttackStats = Stats;
+                }
+
+                AttackProfiles.Add(Stats);
+            }
+        }
+
+        AttackProfiles.Sort((x, y) => x.AttackValue - y.AttackValue);
+    }
+
+    //No over kill - Attack Value
+    internal void NOKAV()
+    {
+        UnitAI Unit;
+        bool NoChanges = true;
+
+        if(UnitManager.Instance.DeadAllyUnits.Count == UnitManager.Instance.AllyUnits.Count -1)
+        {
+            return;
+        }
+
+        do
+        {
+            NoChanges = false;
+            foreach (GameObject UnitObject in UnitManager.Instance.EnemyUnits)
+            {
+                Unit = GetComponent<UnitAI>();
+
+                if (Unit.AttackTarget == AttackTarget)
+                {
+                    if ((AttackTarget.CurrentHealth - CurrentAttackStats.TargetUnit[AttackTarget] - Unit.CurrentAttackStats.TargetUnit[AttackTarget]) > 0)
+                    {
+                        if (CurrentAttackStats.AttackValue > Unit.CurrentAttackStats.AttackValue)
+                        {
+                            if (AttackProfiles.Count > 1)
+                            {
+                                AttackProfiles.RemoveAt(0);
+                                CurrentAttackStats = AttackProfiles[0];
+                                NoChanges = true;
+                            }
+                        }
+                    }
+                }
+            }
+        } while (NoChanges);
     }
 }

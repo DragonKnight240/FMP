@@ -37,7 +37,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool isAlive = true;
     internal bool Moving = false;
-    List<Tile> Path;
+    internal List<Tile> Path;
 
     CombatAnimControl AnimControl;
 
@@ -75,6 +75,9 @@ public class UnitBase : MonoBehaviour
 
     public float FistProficiency;
     public int FistLevel;
+
+    public List<int> RankBonus;
+    public List<int> RankEXP;
 
     [Header("Class")]
     public Class Class;
@@ -304,6 +307,7 @@ public class UnitBase : MonoBehaviour
         HideAllChangedTiles();
         MoveableTiles.Clear();
         AttackTiles.Clear();
+        OuterMostMove = new List<GameObject>();
         OuterMostMove.Clear();
 
         List<GameObject> CheckingTiles = new List<GameObject>();
@@ -599,14 +603,17 @@ public class UnitBase : MonoBehaviour
     public void ShowDamageNumbers()
     {
         DamageNumbersController.ResetDamageNumber();
-        //print(DamageToTake);
         DecreaseHealth(DamageToTake);
-        DamageNumbersController.PlayDamage(0, DamageToTake);
-        
+        DamageNumbersController.PlayDamage(0, DamageToTake); 
     }
 
     internal void ShowLongDistanceDamageNumbers(int Damage)
     {
+        if(Damage < 1)
+        {
+            Damage = 1;
+        }
+
         DamageNumbersController.ResetFarDamageNumber();
         DecreaseHealth(Damage);
         DamageNumbersController.PlayFarDamage(Damage);
@@ -701,7 +708,7 @@ public class UnitBase : MonoBehaviour
         return Dodge;
     }
 
-    internal int CalculateDamage()
+    internal int CalculateDamage(UnitBase Unit = null)
     {
         int Damage;
         if (EquipedWeapon)
@@ -710,34 +717,34 @@ public class UnitBase : MonoBehaviour
             {
                 case WeaponType.Sword:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel))) - (Unit?Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType): AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Bow:
                     {
-                        Damage = Mathf.RoundToInt(TotalDexterity() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalDexterity() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - BowLevel))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Gauntlets:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - FistLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - FistLevel))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Staff:
                     {
-                        Damage = Mathf.RoundToInt(TotalMagic() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - MagicLevel)));
+                        Damage = Mathf.RoundToInt(TotalMagic() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - MagicLevel))) - (Unit ? Unit.CalculateMagicDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculateMagicDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 default:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
             }
         }
         else
         {
-            Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
+            Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
         }
         
         return Damage;
@@ -753,6 +760,73 @@ public class UnitBase : MonoBehaviour
         }
 
         return MultiAttack;
+    }
+
+    internal int CalculateMagicDefence(WeaponType Weapon)
+    {
+        int MDefence = TotalDefence() + (TotalResistance() / 3);
+
+        switch (Weapon)
+        {
+            case WeaponType.Bow:
+                {
+                    MDefence += RankBonus[BowLevel];
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    MDefence += RankBonus[FistLevel];
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    MDefence += RankBonus[MagicLevel];
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    MDefence += RankBonus[SwordLevel];
+                    break;
+                }
+        }
+
+        return MDefence;
+    }
+
+    internal int CalculatePhysicalDefence(WeaponType Weapon)
+    {
+        int PDefence = TotalDefence() + (TotalResistance()/3);
+
+        switch(Weapon)
+        {
+            case WeaponType.Bow:
+                {
+                    PDefence += RankBonus[BowLevel];
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    PDefence += RankBonus[FistLevel];
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    PDefence += RankBonus[MagicLevel];
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    PDefence += RankBonus[SwordLevel];
+                    break;
+                }
+            default:
+                {
+                    print("No Weapon");
+                    break;
+                }
+        }
+
+        return PDefence;
     }
 
     internal bool CanReturnAttack(UnitBase OtherUnit)
@@ -1015,7 +1089,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //A* Pathfinding
-    List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
+    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();

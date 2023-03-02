@@ -7868,6 +7868,8 @@ MonoBehaviour:
   MagicLevel: 0
   FistProficiency: 0
   FistLevel: 0
+  RankBonus: 0200000005000000080000000a0000000f000000
+  RankEXP: 
   Class: {fileID: 11400000, guid: bbb63b9d9f37c4648834708513c6506a, type: 2}
   CurrentAttack: {fileID: 0}
   UnlockedAttacks: []
@@ -7879,6 +7881,7 @@ MonoBehaviour:
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  Behaviour: 0
 --- !u!114 &1031582032550261108
 MonoBehaviour:
   m_ObjectHideFlags: 0
