@@ -393,6 +393,7 @@ GameObject:
   - component: {fileID: 3954283709504320081}
   - component: {fileID: 6252980535736566495}
   - component: {fileID: 4650787667727912950}
+  - component: {fileID: 4669475020456384910}
   m_Layer: 0
   m_Name: Villager_Woman 1
   m_TagString: Untagged
@@ -434,148 +435,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: '
-
-    Transform ''PT_Medieval_Male_LeftToe'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftFoot'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftLeg''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftUpLeg'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightToe'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightFoot''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightLeg'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightUpLeg'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandIndex3''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandIndex2'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_LeftHandIndex1'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftHandMiddle3'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandMiddle2''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandMiddle1'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_LeftHandPinky3'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftHandPinky2'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandPinky1''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandRing3'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftHandRing2'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandRing1''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHandThumb3'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_LeftHandThumb2'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftHandThumb1'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftHand''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_LeftForeArm'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_LeftArm'' has been deleted
-
-    Transform ''PT_Medieval_Male_LeftShoulder''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_Head'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_Neck'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandIndex3''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandIndex2'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_RightHandIndex1'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightHandMiddle3'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandMiddle2''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandMiddle1'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_RightHandPinky3'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightHandPinky2'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandPinky1''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandRing3'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_RightHandRing2'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightHandRing1'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandThumb3''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightHandThumb2'' has been
-    deleted
-
-    Transform ''PT_Medieval_Male_RightHandThumb1'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightHand'' has been deleted
-
-    Transform ''PT_Medieval_Male_RightForeArm''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_RightArm'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_RightShoulder'' has been deleted
-
-    Transform ''PT_Medieval_Male_Spine3''
-    has been deleted
-
-    Transform ''PT_Medieval_Male_Spine2'' has been deleted
-
-    Transform
-    ''PT_Medieval_Male_Spine'' has been deleted
-
-    Transform ''PT_Medieval_Male_Hips''
-    has been deleted'
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -609,6 +469,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   ButtonPrompt: {fileID: 1010893564799529850}
+--- !u!205 &4669475020456384910
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3954283709511696857}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0.8402323, z: 0.003193289}
+  m_Size: 1.9133013
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.10011868
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 962110224050517542}
+    - renderer: {fileID: 962110224050517540}
+    - renderer: {fileID: 962110224050517536}
+  m_Enabled: 1
 --- !u!1 &3954283709511696859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,10 +989,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Medieval_Female_Peasant_01_b
       objectReference: {fileID: 0}
+    - target: {fileID: 4173928640638388097, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
 --- !u!4 &962110224055560020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4173928640638294945, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
+  m_PrefabInstance: {fileID: 3798469477298437365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &962110224050517542 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4173928640649890515, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
+  m_PrefabInstance: {fileID: 3798469477298437365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &962110224050517540 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4173928640649890513, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
+  m_PrefabInstance: {fileID: 3798469477298437365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &962110224050517536 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4173928640649890517, guid: bc29bbb29749f824285ece7b3ecb5362, type: 3}
   m_PrefabInstance: {fileID: 3798469477298437365}
   m_PrefabAsset: {fileID: 0}
