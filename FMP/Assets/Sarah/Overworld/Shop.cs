@@ -86,18 +86,10 @@ public class Shop : MonoBehaviour
 
     void UpdateShop()
     {
-        bool firstFalse = true;
-        int LastIndexWithItem = 0;
         for(int i = 0; i < Items.Count; i++)
         {
             if (ItemsForSale.Count <= i)
             {
-                if(firstFalse)
-                {
-                    LastIndexWithItem = i;
-                    firstFalse = false;
-                    print(Items[LastIndexWithItem].MainObject.GetComponent<RectTransform>().position.y);
-                }
                 Items[i].MainObject.SetActive(false);
                 continue;
             }
@@ -117,16 +109,6 @@ public class Shop : MonoBehaviour
             Items[i].MainObject.SetActive(true);
             Items[i].MainObject.GetComponent<ItemButton>().LinkedItem = Items[i].Item.item;
         }
-
-        if(LastIndexWithItem < 3)
-        {
-            LastIndexWithItem = 3;
-        }
-
-        print(LastIndexWithItem);
-
-        //ShopItem.GetComponent<RectTransform>().offsetMax = new Vector2(ShopItem.GetComponent<RectTransform>().offsetMax.x, Items[LastIndexWithItem].MainObject.GetComponent<RectTransform>().position.y);
-        //print(Items[LastIndexWithItem].MainObject.GetComponent<RectTransform>().position.y);
 
         MoneyAmount.text = GameManager.Instance.Money.ToString();
     }

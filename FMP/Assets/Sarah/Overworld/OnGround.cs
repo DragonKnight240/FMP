@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OnGround : MonoBehaviour
 {
+    //PlayerOverworld Controller;
     AnimationController Controller;
 
     private void Start()
@@ -15,7 +16,7 @@ public class OnGround : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            print("Is on Ground");
+            //print("Is on Ground");
             Controller.isOnGround = true;
         }
     }
@@ -24,7 +25,7 @@ public class OnGround : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            print("Not On Ground");
+            //print("Not On Ground");
             Controller.isOnGround = false;
         }
     }
