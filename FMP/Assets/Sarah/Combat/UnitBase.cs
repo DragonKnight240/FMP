@@ -114,7 +114,7 @@ public class UnitBase : MonoBehaviour
     public AudioClip DeathSound;
 
     // Start is called before the first frame update
-    void Start()
+    virtual internal void Start()
     {
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();

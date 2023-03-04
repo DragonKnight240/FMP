@@ -25,8 +25,9 @@ public class AnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(RB.velocity != new Vector3(0,0,0))
+        if(RB.velocity != Vector3.zero)
         {
+            print(RB.velocity);
             if (RB.velocity.y < -yFallMin && !isOnGround)
             {
                 Anim.ResetTrigger("Move");
@@ -41,6 +42,7 @@ public class AnimationController : MonoBehaviour
                     Anim.ResetTrigger("Fall");
                     Anim.ResetTrigger("Idle");
                     Anim.SetTrigger("Move");
+                    print("Move");
                 }
                 else
                 {
@@ -55,6 +57,7 @@ public class AnimationController : MonoBehaviour
             Anim.ResetTrigger("Fall");
             Anim.ResetTrigger("Move");
             Anim.SetTrigger("Idle");
+            print("Set Idle");
         }
     }
 }

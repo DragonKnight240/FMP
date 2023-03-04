@@ -24,6 +24,7 @@ public class Options : MonoBehaviour
     public Slider MasterSlider;
     public bool MainMenu = false;
     float TimeScale = 1;
+    CursorLockMode CursorMode;
 
     // Start is called before the first frame update
     void Start()
@@ -139,10 +140,11 @@ public class Options : MonoBehaviour
         if (OptionsMenuUI.activeInHierarchy)
         {
             Time.timeScale = TimeScale;
-            if (!GameManager.Instance.inCombat && InGame)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = CursorMode;
+            //if (!GameManager.Instance.inCombat && InGame)
+            //{
+            //    Cursor.lockState = CursorLockMode.Locked;
+            //}
             //OptionsMenuUI.SetActive(false);
             OptionsMenuUI.GetComponent<UIFade>().ToFadeOut();
         }
@@ -150,6 +152,7 @@ public class Options : MonoBehaviour
         {
             TimeScale = Time.timeScale;
             Time.timeScale = 0;
+            CursorMode = Cursor.lockState;
             Cursor.lockState = CursorLockMode.Confined;
             OptionsMenuUI.SetActive(true);
             OptionsMenuUI.GetComponent<UIFade>().ToFadeIn();

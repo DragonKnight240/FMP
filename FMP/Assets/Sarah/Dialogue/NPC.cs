@@ -25,6 +25,12 @@ public class NPC : MonoBehaviour
             {
                 GetComponent<HealUnits>().Heal();
             }
+            else if (GetComponent<Vendor>())
+            {
+                Shop.Instance.ItemsForSale = GetComponent<Vendor>().CurrentStock;
+                GetComponent<Vendor>().Pending = true;
+            }
+
         }
 
         if (ButtonPrompt)

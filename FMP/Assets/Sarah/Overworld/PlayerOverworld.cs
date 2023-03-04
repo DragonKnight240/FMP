@@ -69,7 +69,7 @@ public class PlayerOverworld : MonoBehaviour
 
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
-            RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
+            RB.velocity = (MoveDir.normalized * MoveSpeed * Time.timeScale);
             RB.velocity = new Vector3(RB.velocity.x, TempVelocity, RB.velocity.z);
 
             if (RB.velocity.y > YMax)
@@ -81,7 +81,7 @@ public class PlayerOverworld : MonoBehaviour
 
             if(FlatVel.magnitude > MoveSpeed)
             {
-                Vector3 LimitedVel = FlatVel.normalized * MoveSpeed * Time.deltaTime;
+                Vector3 LimitedVel = FlatVel.normalized * MoveSpeed * Time.timeScale;
                 RB.velocity = new Vector3(LimitedVel.x, RB.velocity.y, LimitedVel.z);
             }
         }

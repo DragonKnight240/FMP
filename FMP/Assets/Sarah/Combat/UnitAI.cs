@@ -25,7 +25,7 @@ public class UnitAI : UnitBase
     internal List<AttackStats> AttackProfiles;
     internal AttackStats CurrentAttackStats;
 
-    private void Start()
+    override internal void Start()
     {
         AttackProfiles = new List<AttackStats>();
     }
