@@ -286,7 +286,7 @@ public class UnitBase : MonoBehaviour
                             ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
                             if (!ToolTipManager.Instance.Seen[Tip])
                             {
-                                print("CAttack Tooltip");
+                                //print("CAttack Tooltip");
                                 GameManager.Instance.NextToolTip(Tip);
                             }
                         }

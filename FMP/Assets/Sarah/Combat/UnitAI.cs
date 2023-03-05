@@ -6,7 +6,7 @@ public struct AttackStats
 {
     public UnitBase AttackingUnit;
     public Dictionary<UnitBase, int> TargetUnit;
-    public int AttackValue;
+    public float AttackValue;
 }
 
 
@@ -256,7 +256,7 @@ public class UnitAI : UnitBase
             {
                 Stats.TargetUnit.Add(Unit, CalculateDamage(Unit));
                 Stats.AttackingUnit = this;
-                Stats.AttackValue = CalculateDamage(Unit) / Unit.CurrentHealth;
+                Stats.AttackValue = (float)CalculateDamage(Unit) / (float)Unit.CurrentHealth;
 
                 if (Stats.TargetUnit[Unit] > TopAttackValue)
                 {
@@ -265,11 +265,18 @@ public class UnitAI : UnitBase
                     CurrentAttackStats = Stats;
                 }
 
+                print(Unit + " - " + Stats.AttackValue);
+
                 AttackProfiles.Add(Stats);
             }
         }
 
-        AttackProfiles.Sort((x, y) => x.AttackValue - y.AttackValue);
+        AttackProfiles.Sort((x, y) => x.AttackValue.CompareTo(y.AttackValue));
+
+        foreach(AttackStats Stat in AttackProfiles)
+        {
+            print(Stat.AttackValue);
+        }
     }
 
     //No over kill - Attack Value
