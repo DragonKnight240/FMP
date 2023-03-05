@@ -77,7 +77,7 @@ public class Shop : MonoBehaviour
             }
             else
             {
-                Items[Index].ItemText.text = Items[Index].Item.AmountInStock.ToString();
+                Items[Index].ItemText.text = "x" + ItemsForSale[Index].AmountInStock.ToString();
             }
         }
 

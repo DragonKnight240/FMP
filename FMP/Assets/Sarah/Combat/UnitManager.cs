@@ -128,7 +128,7 @@ public class UnitManager : MonoBehaviour
             {
                 if (Unit.CanAttack())
                 {
-                    if (Unit.InRangeTargets.Contains(Unit))
+                    if (Unit.InRangeTargets.Contains(Unit.AttackTarget))
                     {
                         Unit.Attack(Unit.AttackTarget);
                     }

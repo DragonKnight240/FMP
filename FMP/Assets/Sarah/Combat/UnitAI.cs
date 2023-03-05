@@ -27,6 +27,7 @@ public class UnitAI : UnitBase
 
     override internal void Start()
     {
+        base.Start();
         AttackProfiles = new List<AttackStats>();
     }
 
