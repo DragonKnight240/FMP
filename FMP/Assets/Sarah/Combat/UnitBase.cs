@@ -460,7 +460,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
-    internal void FindInRangeTargets(bool IgnoreMovement = false)
+    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true)
     {
         InRangeTargets.Clear();
 
@@ -472,7 +472,7 @@ public class UnitBase : MonoBehaviour
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
-                Tiles = WeaponRangeAttack(Tiles, true);
+                Tiles = WeaponRangeAttack(Tiles, ShowTiles);
             }
         }
 
@@ -516,6 +516,7 @@ public class UnitBase : MonoBehaviour
             if (InRangeTargets.Contains(Enemy))
             {
                 MoveableArea(false);
+                HideAllChangedTiles();
                 CalculateReturnAttack();
                 return;
             }
@@ -834,7 +835,7 @@ public class UnitBase : MonoBehaviour
         List<GameObject> Tile = new List<GameObject>();
         Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        FindInRangeTargets(true);
+        FindInRangeTargets(true, false);
 
 
         if (InRangeTargets.Contains(OtherUnit))

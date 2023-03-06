@@ -219,7 +219,7 @@ public class UnitAI : UnitBase
 
         if (AttackTarget != null)
         {
-            FindInRangeTargets();
+            FindInRangeTargets(false, false);
             if (InRangeTargets.Contains(AttackTarget))
             {
                 Attack(AttackTarget);

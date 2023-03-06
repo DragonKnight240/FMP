@@ -67,7 +67,7 @@ public class MagicOrb : InteractOnGrid
     {
         foreach (Tile Tile in AoEArea)
         {
-            Tile.Show(false, false, true);
+            Tile.WhichColour();
         }
     }
 
@@ -109,12 +109,12 @@ public class MagicOrb : InteractOnGrid
     private void OnMouseEnter()
     {
         if (!UnitManager.Instance.SetupFinished || !Interact.Instance.VirtualCam.activeInHierarchy || Options.Instance.OptionsMenuUI.activeInHierarchy
-            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy || Interact.Instance.SelectedUnit)
+            || Interact.Instance.CombatMenu.VictoryScreen.activeInHierarchy || Interact.Instance.CombatMenu.DefeatScreen.activeInHierarchy)
         {
             return;
         }
 
-        if (Active)
+        if (Active && Interact.Instance.SelectedUnit == null)
         {
             ShowRange();
         }

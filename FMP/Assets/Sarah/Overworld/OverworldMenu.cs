@@ -20,6 +20,7 @@ public class OverworldMenu : MonoBehaviour
     public TMP_Text Strength;
     public TMP_Text Dex;
     public TMP_Text Magic;
+    public TMP_Text Defence;
     public TMP_Text Resistance;
     public TMP_Text Speed;
     public TMP_Text Luck;
@@ -40,7 +41,7 @@ public class OverworldMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ConvoyPrefabItems = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -50,13 +51,30 @@ public class OverworldMenu : MonoBehaviour
         {
             if(Input.GetButtonDown("OpenInventory"))
             {
-                OpenInventory();
+                ToggleInventory();
             }
+        }
+    }
+
+    public void ToggleInventory()
+    {
+        if(InventoryMenu.activeInHierarchy)
+        {
+            CloseInventory();
+        }
+        else
+        {
+            OpenInventory();
         }
     }
 
     public void SwitchToConvoy()
     {
+        foreach(GameObject gameObject in ConvoyPrefabItems)
+        {
+            Destroy(gameObject);
+        }
+
         foreach(Item item in GameManager.Instance.Convoy)
         {
             ConvoyPrefabItems.Add(Instantiate(ConvoyPrefab, ConvoyItems.transform));
@@ -76,23 +94,31 @@ public class OverworldMenu : MonoBehaviour
             if(Data.UnitName.Contains(UnitName))
             {
                 Character = Data;
+                break;
             }
+        }
+
+        if(Character == null)
+        {
+            print("No Character with Name");
+            return;
         }
 
         Health.text = Character.CurrentHealth.ToString() + " / " + Character.HealthMax.ToString(); ;
         Strength.text = Character.Strength.ToString();
         Dex.text = Character.Dexterity.ToString();
         Magic.text = Character.Magic.ToString();
+        Defence.text = Character.Defence.ToString();
         Resistance.text = Character.Resistance.ToString();
         Speed.text = Character.Speed.ToString();
         Luck.text = Character.Luck.ToString();
         Class.text = Character.Class.Name.ToString();
         Name.text = Character.UnitName.ToString();
 
-        LevelBow.text = Character.Strength.ToString();
-        LevelGauntlet.text = Character.Strength.ToString();
-        LevelMagic.text = Character.Strength.ToString();
-        LevelSword.text = Character.Strength.ToString();
+        LevelBow.text = Character.BowLevel.ToString();
+        LevelGauntlet.text = Character.FistLevel.ToString();
+        LevelMagic.text = Character.MagicLevel.ToString();
+        LevelSword.text = Character.SwordLevel.ToString();
 
         int Index = 0;
         foreach(Item item in Character.Inventory)
