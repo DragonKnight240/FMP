@@ -5,6 +5,8 @@ using UnityEngine;
 public class HealUnits : MonoBehaviour
 {
     internal bool InRange = false;
+    public AudioClip HealSound;
+    public ParticleSystem PlayerParticles;
 
     internal void Heal()
     {
@@ -13,5 +15,8 @@ public class HealUnits : MonoBehaviour
         {
             Unit.CurrentHealth = Unit.HealthMax;
         }
+
+        SoundManager.Instance.PlaySFX(HealSound);
+        PlayerParticles.Play();
     }
 }
