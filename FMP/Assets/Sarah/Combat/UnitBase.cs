@@ -1080,7 +1080,13 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
         Interact.Instance.CombatMenu.InventoryObject.GetComponent<UIFade>().ToFadeOut();
 
-        CameraMove.Instance.FollowTarget = null;
+        if (CameraMove.Instance.FollowTarget)
+        {
+            if (!CameraMove.Instance.Override)
+            {
+                CameraMove.Instance.FollowTarget = null;
+            }
+        }
 
         if (gameObject.CompareTag("Ally"))
         {

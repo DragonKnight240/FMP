@@ -9,9 +9,12 @@ public class CameraMove : MonoBehaviour
     public Transform FollowTarget;
     public Vector3 offSet;
     public float SmoothSpeed;
+    public float GridSmoothSpeed = 1;
     internal bool ShouldFollow = true;
     internal Rigidbody RB;
     public bool ButtonMovement = true;
+    internal float BaseSmoothSpeed;
+    internal bool Override = false;
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +87,7 @@ public class CameraMove : MonoBehaviour
     {
         if(ButtonMovement)
         {
-            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving)
+            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving || FollowTarget)
             {
                 LerpTo();
             }
@@ -99,8 +102,17 @@ public class CameraMove : MonoBehaviour
         if (FollowTarget)
         {
             Vector3 DesiredPosition = FollowTarget.position + offSet;
-            Vector3 SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed * Time.deltaTime);
-            
+            Vector3 SmoothPosition;
+
+            if (!FollowTarget.GetComponent<InteractOnGrid>())
+            {
+                SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed * Time.deltaTime);
+            }
+            else
+            {
+                SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, GridSmoothSpeed * Time.deltaTime);
+            }
+
             transform.position = SmoothPosition;
         }
     }

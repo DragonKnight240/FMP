@@ -11,6 +11,8 @@ public class MovableBoulder : InteractOnGrid
     List<Tile> Path;
     bool Moving = false;
     Tile LastTile;
+    UnitBase Target;
+    Direction RollDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -35,19 +37,51 @@ public class MovableBoulder : InteractOnGrid
                 if (Path.Count <= 0)
                 {
                     Moving = false;
-                    GetComponent<Fading>().FadeOut = false;
-                    if(LastTile.Unit)
+                    if(Target)
                     {
-                        LastTile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
+                        Target.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
+                        Target = null;
                     }
+
+                    print(CameraMove.Instance.FollowTarget);
+                    CameraMove.Instance.FollowTarget = null;
+                    CameraMove.Instance.Override = false;
+                    ResetSpecial();
                     return;
                 }
             }
 
-            transform.Rotate(new Vector3(0, 0, RotateSpeed * Time.deltaTime));
+            switch(RollDirection)
+            {
+                case Direction.Down:
+                    {
+                        transform.Rotate(new Vector3(-RotateSpeed * Time.deltaTime, 0, 0));
+                        break;
+                    }
+                case Direction.Up:
+                    {
+                        transform.Rotate(new Vector3(RotateSpeed * Time.deltaTime, 0, 0));
+                        break;
+                    }
+                case Direction.Right:
+                    {
+                        transform.Rotate(new Vector3(0, 0, -RotateSpeed * Time.deltaTime));
+                        break;
+                    }
+                case Direction.Left:
+                    {
+                        transform.Rotate(new Vector3(0, 0, RotateSpeed * Time.deltaTime));
+                        break;
+                    }
+            }
 
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
         }
+    }
+
+    public void ResetSpecial()
+    {
+        TileSetter(TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().AdjacentTiles);
     }
 
     public override void Special(UnitBase Unit)
@@ -82,9 +116,9 @@ public class MovableBoulder : InteractOnGrid
                             continue;
                         }
 
-                        if(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn)
+                        if(TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().CanMoveOn)
                         {
-                            Path.Add(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>());
+                            Path.Add(TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>());
                             if (CurrentTilePosition[1] > 0)
                             {
                                 CurrentTilePosition[1] -= 1;
@@ -96,11 +130,11 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
-                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit)
                             {
                                 if (UnitToActiveIt.FistLevel == 5)
                                 {
-                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
                                     {
                                         if (CurrentTilePosition[1] > 0)
                                         {
@@ -108,16 +142,23 @@ public class MovableBoulder : InteractOnGrid
                                         }
                                         else
                                         {
+                                            Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                             Next = false;
                                         }
                                         continue;
                                     }
+                                }
+                                else
+                                {
+                                    Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                 }
                             }
 
                             Next = false;
                         }
                     } while (Next);
+
+                    RollDirection = Direction.Down;
                     break;
                 }
             case Direction.Down:
@@ -151,11 +192,11 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
-                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit)
                             {
                                 if (UnitToActiveIt.FistLevel == 5)
                                 {
-                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
                                     {
                                         if (CurrentTilePosition[1] < TileManager.Instance.Height - 1)
                                         {
@@ -163,16 +204,22 @@ public class MovableBoulder : InteractOnGrid
                                         }
                                         else
                                         {
+                                            Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                             Next = false;
                                         }
                                         continue;
                                     }
+                                }
+                                else
+                                {
+                                    Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                 }
                             }
 
                             Next = false;
                         }
                     } while (Next);
+                    RollDirection = Direction.Up;
 
                     break;
                 }
@@ -207,11 +254,11 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
-                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit)
                             {
                                 if (UnitToActiveIt.FistLevel == 5)
                                 {
-                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
                                     {
                                         if (CurrentTilePosition[0] > 0)
                                         {
@@ -219,16 +266,23 @@ public class MovableBoulder : InteractOnGrid
                                         }
                                         else
                                         {
+                                            Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                             Next = false;
                                         }
                                         continue;
                                     }
+                                }
+                                else
+                                {
+                                    Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                 }
                             }
 
                             Next = false;
                         }
                     } while (Next);
+
+                    RollDirection = Direction.Left;
                     break;
                 }
             case Direction.Left:
@@ -262,11 +316,11 @@ public class MovableBoulder : InteractOnGrid
                         }
                         else
                         {
-                            if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit)
+                            if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit)
                             {
                                 if (UnitToActiveIt.FistLevel == 5)
                                 {
-                                    if (TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
+                                    if (TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit.CompareTag(UnitToActiveIt.tag))
                                     {
                                         if (CurrentTilePosition[0] < TileManager.Instance.Width - 1)
                                         {
@@ -274,19 +328,35 @@ public class MovableBoulder : InteractOnGrid
                                         }
                                         else
                                         {
+                                            Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
                                             Next = false;
                                         }
                                         continue;
                                     }
                                 }
+                                else
+                                {
+                                    Target = TileManager.Instance.Grid[CurrentTilePosition[0], CurrentTilePosition[1]].GetComponent<Tile>().Unit;
+                                }
                             }
                             Next = false;
                         }
                     } while (Next);
+                    RollDirection = Direction.Right;
                     break;
                 }
         }
 
+        if (Target)
+        {
+            CameraMove.Instance.FollowTarget = TileManager.Instance.Grid[Target.Position[0], Target.Position[1]].transform;
+        }
+        else
+        {
+            CameraMove.Instance.FollowTarget = transform;
+        }
+
+        CameraMove.Instance.Override = true;
         Moving = true;
         LastTile = Path[Path.Count - 1];
     }
