@@ -58,6 +58,7 @@ public class MainMenu : MonoBehaviour
 
     internal void ControlToPlayer()
     {
+        VirtualCamera.gameObject.SetActive(false);
         MainCamera.SetActive(true);
         options.InGame = true;
         FindObjectOfType<PlayerOverworld>().CanMove = true;
