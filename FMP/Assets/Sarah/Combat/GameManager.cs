@@ -52,14 +52,20 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         UnitData = new List<CharacterData>();
-        PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+
+        CurrentUnitNum = AvailableUnits.Count;
+
+        if (FindObjectOfType<PlayerOverworld>())
+        {
+            PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+        }
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
 
@@ -81,20 +87,85 @@ public class GameManager : MonoBehaviour
             if (Unit.name.Contains(RecruitName))
             {
                 print("Recruited");
+                GameObject TempUnit = Instantiate(Unit, new Vector3(0, 0, 0), Quaternion.identity);
+                TempUnit.SetActive(false);
+                SetUpUnit(TempUnit.GetComponent<UnitBase>());
+                AddCharacterData(TempUnit.GetComponent<UnitBase>());
                 AvailableUnits.Add(Unit);
+
+                Destroy(TempUnit);
                 break;
             }
         }
     }
 
+    internal void AddCharacterData(UnitBase Unit)
+    {
+        CharacterData data = new CharacterData();
+
+        data.UnitName = Unit.UnitName;
+        data.HealthMax = Unit.HealthMax;
+        data.CurrentHealth = Unit.CurrentHealth;
+        data.Movement = Unit.Movement;
+
+        //Inventory
+        data.Inventory = Unit.Inventory;
+
+        //Stats
+        data.Strength = Unit.Strength;
+        data.Dexterity = Unit.Dexterity;
+        data.Magic = Unit.Magic;
+        data.Defence = Unit.Defence;
+        data.Resistance = Unit.Resistance;
+        data.Speed = Unit.Speed;
+        data.Luck = Unit.Luck;
+
+        //Weapon Proficientcy
+        data.BowProficiency = Unit.BowProficiency;
+        data.BowLevel = Unit.BowLevel;
+
+        data.SwordProficiency = Unit.SwordProficiency;
+        data.SwordLevel = Unit.SwordLevel;
+
+        data.MagicProficiency = Unit.MagicProficiency;
+        data.MagicLevel = Unit.MagicLevel;
+
+        data.FistProficiency = Unit.FistProficiency;
+        data.FistLevel = Unit.FistLevel;
+
+        //Class
+        data.Class = Unit.Class;
+
+        //Attack
+        data.UnlockedAttacks = Unit.UnlockedAttacks;
+
+        GameManager.Instance.UnitData.Add(data);
+    }
+
+    void SetUpUnit(UnitBase Unit)
+    {
+        Unit.CurrentHealth = Unit.HealthMax;
+
+        if (Unit.Class != null)
+        {
+            Unit.Class = Instantiate(Unit.Class);
+
+            Unit.Class.FindLevel();
+            Unit.Class.AbilityUnlock(Unit);
+        }
+    }
+
     internal void ToolTipCheck(Tutorial Type)
     {
+        //print("Checking");
         if (ToolTipManager.Instance)
         {
             if (!CombatTutorialComplete && ToolTipManager.Instance.ToolTipObject.activeInHierarchy)
             {
                 if (ToolTipManager.Instance.PendingToolTip)
                 {
+                    //print("Pending: Checking " + Type + " - Current: " + ToolTipManager.Instance.PendingToolTip.tutorial);
+                    //print("Active: Checking " + Type + " - Current: " + ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial);
                     if (Type == ToolTipManager.Instance.PendingToolTip.tutorial || Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
                         ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
@@ -102,8 +173,10 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    //print("Active: Checking " + Type + " - Current: " + ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial);
                     if (Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
+                        //print("Complete");
                         ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }

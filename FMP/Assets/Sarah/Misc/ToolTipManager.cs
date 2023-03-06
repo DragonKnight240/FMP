@@ -62,9 +62,12 @@ public class ToolTipManager : MonoBehaviour
             }
         }
 
-        if(UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().CurrentHealth < UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().HealthMax * 0.4)
+        if (CompletedTurn1)
         {
-            NewToolTip(FindToolTip(Tutorial.CUseItem));
+            if (UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().CurrentHealth < UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().HealthMax * 0.4 && !ToolTipManager.Instance.Seen[FindToolTip(Tutorial.CUseItem)])
+            {
+                NewToolTip(FindToolTip(Tutorial.CUseItem));
+            }
         }
     }
 
@@ -82,7 +85,7 @@ public class ToolTipManager : MonoBehaviour
                 break;
             }
 
-            Index += 1;
+            Index = Index + 1;
         }
 
         return WantedTip;
@@ -99,18 +102,24 @@ public class ToolTipManager : MonoBehaviour
             }
         }
 
-        if(ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position != ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation 
-            && TurnManager.Instance.isPlayerTurn)
+        if(!TurnManager.Instance.isPlayerTurn)
+        {
+            return;
+        }
+
+        if(ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position != ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation)
         {
             NextTutorialOnReturn = true;
             if (NewToolTip)
             {
                 PendingToolTip = NewToolTip;
+                //print("Pending " + NewToolTip.tutorial);
             }
             else
             {
                 CurrentToolTipIndex += 1;
                 PendingToolTip = Tooltips[CurrentToolTipIndex];
+                //print("Pending " + Tooltips[CurrentToolTipIndex].tutorial);
             }
 
             return;
@@ -119,11 +128,13 @@ public class ToolTipManager : MonoBehaviour
         if (NewToolTip)
         {
             Text.text = NewToolTip.Text;
+            //print("Active " + NewToolTip.tutorial);
         }
         else
         {
             CurrentToolTipIndex += 1;
             Text.text = Tooltips[CurrentToolTipIndex].Text;
+            //print("Active " + Tooltips[CurrentToolTipIndex]);
         }
 
         Seen[Tooltips[CurrentToolTipIndex]] = true;

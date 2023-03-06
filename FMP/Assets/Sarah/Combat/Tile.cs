@@ -168,7 +168,7 @@ public class Tile : MonoBehaviour
             }
         }
 
-        if (!Interact.Instance.CombatMenu.transform.GetChild(0).gameObject.activeInHierarchy
+        if (!Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy
             && !Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy 
             && Interact.Instance.SelectedUnit == null)
         {
@@ -192,6 +192,16 @@ public class Tile : MonoBehaviour
                     Unit.ShowAllInRangeTiles();
                 }
             }
+            else if (Special)
+            {
+                if (Special.GetComponent<MagicOrb>())
+                {
+                    if (Special.GetComponent<MagicOrb>().Active)
+                    {
+                        Special.GetComponent<MagicOrb>().ShowRange();
+                    }
+                }
+            }
         }
 
         if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
@@ -206,6 +216,16 @@ public class Tile : MonoBehaviour
         if (!UnitManager.Instance.SetupFinished)
         {
             return;
+        }
+
+        if (Special)
+        {
+            if (Special.GetComponent<MagicOrb>())
+            {
+                Special.GetComponent<MagicOrb>().HideRange();
+                WhichColour(Interact.Instance.SelectedUnit);
+                return;
+            }
         }
 
         if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy 

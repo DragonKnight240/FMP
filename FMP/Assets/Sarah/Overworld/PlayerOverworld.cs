@@ -12,6 +12,8 @@ public class PlayerOverworld : MonoBehaviour
     internal AoEDisappear AoEDisappear;
     public float YMax = 2f;
     internal bool CanMove;
+    Animator Anim;
+    internal bool isOnGround = true;
 
     private void Start()
     {
@@ -35,12 +37,27 @@ public class PlayerOverworld : MonoBehaviour
         }
 
         RB.velocity = Vector3.zero;
+
+        Anim = GetComponentInChildren<Animator>(true);
     }
 
     private void Update()
     {
         if(!CanMove)
         {
+            Anim.ResetTrigger("Fall");
+            Anim.ResetTrigger("Move");
+            Anim.SetTrigger("Idle");
+            RB.velocity = Vector3.zero;
+            return;
+        }
+
+        if(Time.timeScale == 0)
+        {
+            Anim.ResetTrigger("Fall");
+            Anim.ResetTrigger("Move");
+            Anim.SetTrigger("Idle");
+            RB.velocity = Vector3.zero;
             return;
         }
 
@@ -69,7 +86,7 @@ public class PlayerOverworld : MonoBehaviour
 
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
-            RB.velocity = (MoveDir.normalized * MoveSpeed * Time.deltaTime);
+            RB.velocity = (MoveDir.normalized * MoveSpeed * Time.timeScale);
             RB.velocity = new Vector3(RB.velocity.x, TempVelocity, RB.velocity.z);
 
             if (RB.velocity.y > YMax)
@@ -81,8 +98,21 @@ public class PlayerOverworld : MonoBehaviour
 
             if(FlatVel.magnitude > MoveSpeed)
             {
-                Vector3 LimitedVel = FlatVel.normalized * MoveSpeed * Time.deltaTime;
+                Vector3 LimitedVel = FlatVel.normalized * MoveSpeed * Time.timeScale;
                 RB.velocity = new Vector3(LimitedVel.x, RB.velocity.y, LimitedVel.z);
+            }
+
+            if (RB.velocity.y < 0 && !isOnGround)
+            {
+                Anim.ResetTrigger("Move");
+                Anim.ResetTrigger("Idle");
+                Anim.SetTrigger("Fall");
+            }
+            else
+            {
+                Anim.ResetTrigger("Fall");
+                Anim.ResetTrigger("Idle");
+                Anim.SetTrigger("Move");
             }
         }
         else
@@ -94,6 +124,19 @@ public class PlayerOverworld : MonoBehaviour
             else
             {
                 RB.velocity = new Vector3(0, 0, 0);
+            }
+
+            if (isOnGround)
+            {
+                Anim.ResetTrigger("Fall");
+                Anim.ResetTrigger("Move");
+                Anim.SetTrigger("Idle");
+            }
+            else
+            {
+                Anim.ResetTrigger("Move");
+                Anim.ResetTrigger("Idle");
+                Anim.SetTrigger("Fall");
             }
         }
     }

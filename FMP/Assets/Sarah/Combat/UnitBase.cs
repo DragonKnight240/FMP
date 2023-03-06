@@ -37,7 +37,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool isAlive = true;
     internal bool Moving = false;
-    List<Tile> Path;
+    internal List<Tile> Path;
 
     CombatAnimControl AnimControl;
 
@@ -76,6 +76,9 @@ public class UnitBase : MonoBehaviour
     public float FistProficiency;
     public int FistLevel;
 
+    public List<int> RankBonus;
+    public List<int> RankEXP;
+
     [Header("Class")]
     public Class Class;
 
@@ -111,7 +114,7 @@ public class UnitBase : MonoBehaviour
     public AudioClip DeathSound;
 
     // Start is called before the first frame update
-    void Start()
+    virtual internal void Start()
     {
         MoveableTiles = new List<Tile>();
         AttackTiles = new List<Tile>();
@@ -278,10 +281,14 @@ public class UnitBase : MonoBehaviour
                 {
                     if (ToolTipManager.Instance && CompareTag("Ally"))
                     {
-                        ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
-                        if (!ToolTipManager.Instance.Seen[Tip])
+                        if (ToolTipManager.Instance.CompletedTurn1)
                         {
-                            GameManager.Instance.NextToolTip(Tip);
+                            ToolTip Tip = ToolTipManager.Instance.FindToolTip(Tutorial.CAttack);
+                            if (!ToolTipManager.Instance.Seen[Tip])
+                            {
+                                //print("CAttack Tooltip");
+                                GameManager.Instance.NextToolTip(Tip);
+                            }
                         }
                     }
                     
@@ -300,6 +307,7 @@ public class UnitBase : MonoBehaviour
         HideAllChangedTiles();
         MoveableTiles.Clear();
         AttackTiles.Clear();
+        OuterMostMove = new List<GameObject>();
         OuterMostMove.Clear();
 
         List<GameObject> CheckingTiles = new List<GameObject>();
@@ -452,7 +460,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
-    internal void FindInRangeTargets(bool IgnoreMovement = false)
+    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true)
     {
         InRangeTargets.Clear();
 
@@ -464,7 +472,7 @@ public class UnitBase : MonoBehaviour
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
-                Tiles = WeaponRangeAttack(Tiles, true);
+                Tiles = WeaponRangeAttack(Tiles, ShowTiles);
             }
         }
 
@@ -494,7 +502,10 @@ public class UnitBase : MonoBehaviour
         ToAttack = true;
         AttackTarget = Enemy;
         AttackTarget.AttackTarget = this;
-        GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
+        if (CompareTag("Ally"))
+        {
+            GameManager.Instance.ToolTipCheck(Tutorial.CAttack);
+        }
 
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
@@ -505,6 +516,7 @@ public class UnitBase : MonoBehaviour
             if (InRangeTargets.Contains(Enemy))
             {
                 MoveableArea(false);
+                HideAllChangedTiles();
                 CalculateReturnAttack();
                 return;
             }
@@ -591,16 +603,28 @@ public class UnitBase : MonoBehaviour
 
     public void ShowDamageNumbers()
     {
-        print(DamageToTake);
-        CurrentHealth -= DamageToTake;
-        DamageNumbersController.PlayDamage(0, DamageToTake);
+        DamageNumbersController.ResetDamageNumber();
+        DecreaseHealth(DamageToTake);
+        DamageNumbersController.PlayDamage(0, DamageToTake); 
+    }
+
+    internal void ShowLongDistanceDamageNumbers(int Damage)
+    {
+        if(Damage < 1)
+        {
+            Damage = 1;
+        }
+
+        DamageNumbersController.ResetFarDamageNumber();
+        DecreaseHealth(Damage);
+        DamageNumbersController.PlayFarDamage(Damage);
     }
 
     public void ReturnTo()
     {
         if(ReturnAttack)
         {
-            print("Return Attack");
+            //print("Return Attack");
             AttackingZoom();
         }
         else
@@ -680,12 +704,12 @@ public class UnitBase : MonoBehaviour
     internal int CalculateDodge(UnitBase OtherUnit)
     {
         int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
-        print("Dodge " + Dodge);
+        //print("Dodge " + Dodge);
 
         return Dodge;
     }
 
-    internal int CalculateDamage()
+    internal int CalculateDamage(UnitBase Unit = null)
     {
         int Damage;
         if (EquipedWeapon)
@@ -694,34 +718,34 @@ public class UnitBase : MonoBehaviour
             {
                 case WeaponType.Sword:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel))) - (Unit?Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType): AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Bow:
                     {
-                        Damage = Mathf.RoundToInt(TotalDexterity() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - SwordLevel)));
+                        Damage = Mathf.RoundToInt(TotalDexterity() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - BowLevel))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Gauntlets:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - FistLevel)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - FistLevel))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 case WeaponType.Staff:
                     {
-                        Damage = Mathf.RoundToInt(TotalMagic() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - MagicLevel)));
+                        Damage = Mathf.RoundToInt(TotalMagic() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6 - MagicLevel))) - (Unit ? Unit.CalculateMagicDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculateMagicDefence(EquipedWeapon.WeaponType));
                         break;
                     }
                 default:
                     {
-                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6)));
+                        Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (6))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
                         break;
                     }
             }
         }
         else
         {
-            Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5)));
+            Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
         }
         
         return Damage;
@@ -739,12 +763,79 @@ public class UnitBase : MonoBehaviour
         return MultiAttack;
     }
 
+    internal int CalculateMagicDefence(WeaponType Weapon)
+    {
+        int MDefence = TotalDefence() + (TotalResistance() / 3);
+
+        switch (Weapon)
+        {
+            case WeaponType.Bow:
+                {
+                    MDefence += RankBonus[BowLevel];
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    MDefence += RankBonus[FistLevel];
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    MDefence += RankBonus[MagicLevel];
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    MDefence += RankBonus[SwordLevel];
+                    break;
+                }
+        }
+
+        return MDefence;
+    }
+
+    internal int CalculatePhysicalDefence(WeaponType Weapon)
+    {
+        int PDefence = TotalDefence() + (TotalResistance()/3);
+
+        switch(Weapon)
+        {
+            case WeaponType.Bow:
+                {
+                    PDefence += RankBonus[BowLevel];
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    PDefence += RankBonus[FistLevel];
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    PDefence += RankBonus[MagicLevel];
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    PDefence += RankBonus[SwordLevel];
+                    break;
+                }
+            default:
+                {
+                    print("No Weapon");
+                    break;
+                }
+        }
+
+        return PDefence;
+    }
+
     internal bool CanReturnAttack(UnitBase OtherUnit)
     {
         List<GameObject> Tile = new List<GameObject>();
         Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        FindInRangeTargets(true);
+        FindInRangeTargets(true, false);
 
 
         if (InRangeTargets.Contains(OtherUnit))
@@ -991,16 +1082,15 @@ public class UnitBase : MonoBehaviour
 
         CameraMove.Instance.FollowTarget = null;
 
-        GameManager.Instance.ToolTipCheck(Tutorial.CWait);
-
         if (gameObject.CompareTag("Ally"))
         {
+            GameManager.Instance.ToolTipCheck(Tutorial.CWait);
             TurnManager.Instance.UnitsToMove -= 1;
         }
     }
 
     //A* Pathfinding
-    List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
+    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();

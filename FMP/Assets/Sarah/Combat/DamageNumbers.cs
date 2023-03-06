@@ -9,6 +9,9 @@ public class DamageNumbers : MonoBehaviour
     public GameObject StartLocation;
     public float Speed = 5;
     public List<GameObject> DamageCanvas;
+    public GameObject FarDamageCanvas;
+    public GameObject FarDamageUpLocation;
+    public GameObject FarStartLocation;
 
 
     // Start is called before the first frame update
@@ -19,6 +22,9 @@ public class DamageNumbers : MonoBehaviour
             Canvas.GetComponent<CanvasGroup>().alpha = 0;
             Canvas.gameObject.SetActive(false);
         }
+
+        FarDamageCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        FarDamageCanvas.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,10 +36,11 @@ public class DamageNumbers : MonoBehaviour
             {
                 Canvas.transform.position = Vector3.MoveTowards(Canvas.transform.position, UpLocation.transform.position, Speed * Time.deltaTime);
             }
-            else
-            {
-                ResetDamageNumber();
-            }
+        }
+
+        if(FarDamageCanvas.activeInHierarchy)
+        {
+            FarDamageCanvas.transform.position = Vector3.MoveTowards(FarDamageCanvas.transform.position, FarDamageUpLocation.transform.position, Speed * Time.deltaTime);
         }
     }
 
@@ -44,6 +51,26 @@ public class DamageNumbers : MonoBehaviour
             Canvas.transform.position = StartLocation.transform.position;
             //Canvas.GetComponentInChildren<TMP_Text>().text = "Miss";
         }
+    }
+
+    internal void ResetFarDamageNumber()
+    {
+        FarDamageCanvas.transform.position = FarStartLocation.transform.position;
+    }
+
+    internal void PlayFarDamage(int Damage)
+    {
+        if (Damage <= 0)
+        {
+            FarDamageCanvas.GetComponentInChildren<TMP_Text>().text = "Miss";
+        }
+        else
+        {
+            FarDamageCanvas.GetComponentInChildren<TMP_Text>().text = Damage.ToString();
+        }
+        FarDamageCanvas.SetActive(true);
+        FarDamageCanvas.GetComponent<UIFade>().ToFadeIn();
+        FarDamageCanvas.GetComponent<UIFade>().Both = true;
     }
 
     internal void PlayDamage(int AttackID, int Damage)

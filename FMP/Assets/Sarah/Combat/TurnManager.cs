@@ -11,6 +11,7 @@ public class TurnManager : MonoBehaviour
     internal bool isPlayerTurn = true;
     internal UnityEvent TurnChange;
     internal int UnitsToMove = 0;
+    internal MagicOrb[] Orbs;
 
     private void Awake()
     {
@@ -102,6 +103,12 @@ public class TurnManager : MonoBehaviour
             TurnText.GetComponentInParent<MoveToScreenLocation>().Override = true;
             TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTime = TurnText.GetComponentInParent<MoveToScreenLocation>().OverrideTimeMax;
             TurnText.GetComponentInParent<MoveToScreenLocation>().Display = true;
+
+            foreach(MagicOrb Orb in Orbs)
+            {
+                Orb.DealDamage();
+                Orb.ActiveForTurns++;
+            }
         }
     }
 }
