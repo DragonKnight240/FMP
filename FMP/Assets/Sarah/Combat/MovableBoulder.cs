@@ -43,7 +43,6 @@ public class MovableBoulder : InteractOnGrid
                         Target = null;
                     }
 
-                    print(CameraMove.Instance.FollowTarget);
                     CameraMove.Instance.FollowTarget = null;
                     CameraMove.Instance.Override = false;
                     ResetSpecial();

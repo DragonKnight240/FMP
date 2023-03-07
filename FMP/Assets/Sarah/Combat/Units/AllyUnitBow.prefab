@@ -1649,6 +1649,28 @@ MonoBehaviour:
   AttackCamera: {fileID: 1547590957456904314}
   NoDamageTime: 3
   InRangeTargets: []
+  SupportStats:
+  - Stat: 0
+    Increase: 10
+  - Stat: 3
+    Increase: 5
+  - Stat: 4
+    Increase: 10
+  - Stat: 2
+    Increase: 5
+  - Stat: 1
+    Increase: 10
+  SupportUpgrade: 
+  SupportsWith:
+  - Unit: {fileID: 1696317298173679001, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
+    Level: 0
+    EXP: 0
+  - Unit: {fileID: 1696317298173679001, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+    Level: 0
+    EXP: 0
+  - Unit: {fileID: 1696317298173679001, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+    Level: 0
+    EXP: 0
   WeaponImage: {fileID: 7023822515099512498}
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}

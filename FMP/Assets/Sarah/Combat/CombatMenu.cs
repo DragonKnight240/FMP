@@ -121,7 +121,7 @@ public class CombatMenu : MonoBehaviour
             LivingEnemyText.text = (UnitManager.Instance.EnemyUnits.Count - UnitManager.Instance.DeadEnemyUnits.Count).ToString();
         }
 
-        if (UnitsToActText.text != TurnManager.Instance.UnitsToMove.ToString())
+        if (UnitsToActText.text != TurnManager.Instance.UnitsToMove.ToString() && TurnManager.Instance.UnitsToMove >= 0)
         {
             UnitsToActText.text = TurnManager.Instance.UnitsToMove.ToString();
         }

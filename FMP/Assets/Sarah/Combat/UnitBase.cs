@@ -5,6 +5,31 @@ using UnityEngine.UI;
 
 public class UnitBase : MonoBehaviour
 {
+    [System.Serializable]
+    public enum SupportIncrease
+    {
+        HitRate,
+        CritRate,
+        Damage,
+        Dodge,
+        DefRes,
+    }
+
+    [System.Serializable]
+    public struct Supports
+    {
+        public SupportIncrease Stat;
+        public int Increase;
+    }
+
+    [System.Serializable]
+    public struct UnitSupport
+    {
+        public UnitBase Unit;
+        public int Level;
+        public int EXP;
+    }
+
     public struct StatusEffect
     {
         public Effects Effects;
@@ -98,8 +123,14 @@ public class UnitBase : MonoBehaviour
     float NoDamageTimer = 0.0f;
     DamageNumbers DamageNumbersController;
     int DamageToTake;
+    internal List<UnitBase> SupportedUnits;
 
     public List<UnitBase> InRangeTargets;
+
+    [Header("Supports")]
+    public List<Supports> SupportStats;
+    public List<int> SupportUpgrade;
+    public List<UnitSupport> SupportsWith;
 
     [Header("Status Effects")]
     internal List<StatusEffect> CurrentStatusEffects;
@@ -130,6 +161,7 @@ public class UnitBase : MonoBehaviour
         AnimControl = GetComponent<CombatAnimControl>();
 
         DamageNumbersController = GetComponentInChildren<DamageNumbers>();
+        SupportedUnits = new List<UnitBase>();
     }
 
     // Update is called once per frame
@@ -674,7 +706,6 @@ public class UnitBase : MonoBehaviour
         ResetAnimation();
         Interact.Instance.VirtualCam.SetActive(true);
         AttackCamera.SetActive(false);
-        //AttackTarget.AttackCamera.SetActive(false);
     }
 
     public void OnDeath()
@@ -703,7 +734,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculateDodge(UnitBase OtherUnit)
     {
-        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
+        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck() + +AddSupport(SupportIncrease.Dodge);
         //print("Dodge " + Dodge);
 
         return Dodge;
@@ -748,7 +779,7 @@ public class UnitBase : MonoBehaviour
             Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
         }
         
-        return Damage;
+        return Damage + AddSupport(SupportIncrease.Damage);
     }
 
     internal int MultiAttack(UnitBase OtherUnit)
@@ -765,7 +796,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculateMagicDefence(WeaponType Weapon)
     {
-        int MDefence = TotalDefence() + (TotalResistance() / 3);
+        int MDefence = TotalDefence() + (TotalResistance() / 3) + AddSupport(SupportIncrease.DefRes);
 
         switch (Weapon)
         {
@@ -796,7 +827,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculatePhysicalDefence(WeaponType Weapon)
     {
-        int PDefence = TotalDefence() + (TotalResistance()/3);
+        int PDefence = TotalDefence() + (TotalResistance()/3) + AddSupport(SupportIncrease.DefRes);
 
         switch(Weapon)
         {
@@ -847,9 +878,65 @@ public class UnitBase : MonoBehaviour
         return false;
     }
 
+    int AddSupport(SupportIncrease Stat)
+    {
+        int TotalAdded = 0;
+
+        foreach (UnitBase Unit in SupportedUnits)
+        {
+            foreach (UnitSupport Supportable in SupportsWith)
+            {
+                if (Unit == Supportable.Unit)
+                {
+                    for (int i = 0; i < Supportable.Level; i++)
+                    {
+                        if (Stat == Unit.SupportStats[i].Stat)
+                        {
+                            TotalAdded += Unit.SupportStats[i].Increase;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return TotalAdded;
+    }
+
+    internal bool isSupported()
+    {
+        Tile tile;
+
+        SupportedUnits.Clear();
+        SupportedUnits = new List<UnitBase>();
+
+        foreach(GameObject Adjacent in TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().AdjacentTiles)
+        {
+            tile = Adjacent.GetComponent<Tile>();
+
+            if(tile.Unit)
+            {
+                if(tile.Unit.CompareTag(tag))
+                {
+                    SupportedUnits.Add(tile.Unit);
+                }
+            }
+        }
+
+        if (SupportedUnits.Count > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     internal int CalcuateHitChance()
     {
-        int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2));
+        int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2)) + AddSupport(SupportIncrease.HitRate);
 
         if(HitChance > 100)
         {
@@ -864,7 +951,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculateCritChance()
     {
-        int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2));
+        int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2)) + AddSupport(SupportIncrease.CritRate);
         if (CritChance > 100)
         {
             CritChance = 100;

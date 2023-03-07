@@ -93,7 +93,9 @@ public class UnitControlled : UnitBase
 
     internal void AttackDisplay()
     {
-        if(Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
+        isSupported();
+
+        if (Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
         {
             Interact.Instance.CombatMenu.NextWeapon.SetActive(false);
             Interact.Instance.CombatMenu.PreviousWeapon.SetActive(false);
@@ -134,8 +136,8 @@ public class UnitControlled : UnitBase
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();
 
         Interact.Instance.CombatMenu.HealthEnemy.value = (float)(AttackTarget.CurrentHealth - CalculateDamage()) / AttackTarget.HealthMax;
-        Interact.Instance.CombatMenu.DamageEnemy.text = AttackTarget.CalculateReturnDamage().ToString();
-        Interact.Instance.CombatMenu.HitEnemy.text = AttackTarget.CalculateReturnHitChance().ToString();
-        Interact.Instance.CombatMenu.CritEnemy.text = AttackTarget.CalculateReturnCritChance().ToString();
+        Interact.Instance.CombatMenu.DamageEnemy.text = AttackTarget.CalculateDamage(this).ToString();
+        Interact.Instance.CombatMenu.HitEnemy.text = (AttackTarget.CalcuateHitChance() - CalculateDodge(AttackTarget)).ToString();
+        Interact.Instance.CombatMenu.CritEnemy.text = AttackTarget.CalculateCritChance().ToString();
     }
 }
