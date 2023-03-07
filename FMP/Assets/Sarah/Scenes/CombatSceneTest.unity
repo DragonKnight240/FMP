@@ -5146,10 +5146,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FollowTarget: {fileID: 0}
-  offSet: {x: 0, y: 45, z: -30}
+  offSet: {x: 0, y: 50, z: -30}
   SmoothSpeed: 0.5
   GridSmoothSpeed: 1
   ButtonMovement: 1
+  ZoomOutSpeed: 10
+  MaxZoomOut: 95
 --- !u!114 &1510431594
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -254,9 +254,9 @@ public class UnitBase : MonoBehaviour
         {
             GameManager.Instance.ToolTipCheck(Tutorial.CMove);
 
+            CalculatePath(NewTile);
+
             MovedForTurn = true;
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile, Ignore));
             Moving = true;
 
             if (Path.Count > 0)
@@ -287,6 +287,18 @@ public class UnitBase : MonoBehaviour
 
         return false;
     }
+
+    //Find Path to the target sqaure
+    void CalculatePath(Tile NewTile)
+    {
+
+        if (!MovedForTurn)
+        {
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            Path = new List<Tile>(FindRouteTo(NewTile, false));
+        }
+    }
+
     public bool AttackableArea(List<GameObject> CheckingTiles, bool ShowTiles = true)
     {
         CheckingTiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
@@ -492,14 +504,14 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
-    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true)
+    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true, GameObject TileObj = null)
     {
         InRangeTargets.Clear();
 
         if (MovedForTurn || IgnoreMovement)
         {
             List<GameObject> Tiles = new List<GameObject>();
-            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+            Tiles.Add(TileObj? TileObj: TileManager.Instance.Grid[Position[0], Position[1]]);
             AttackTiles.Clear();
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
@@ -528,6 +540,7 @@ public class UnitBase : MonoBehaviour
 
     internal void Attack(UnitBase Enemy)
     {
+        isSupported();
         List<GameObject> tiles = new List<GameObject>();
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
@@ -859,6 +872,26 @@ public class UnitBase : MonoBehaviour
         }
 
         return PDefence;
+    }
+
+    internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
+    {
+        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>());
+
+        List<GameObject> tile = new List<GameObject>();
+        tile.Add(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
+
+        if(Path.Count > 0)
+        {
+            FindInRangeTargets(true, false, Path[Path.Count - 1].gameObject);
+            WeaponRangeAttack(tile, false);
+        }
+
+        if(InRangeTargets.Contains(Unit))
+        {
+            return true;
+        }
+        return false;
     }
 
     internal bool CanReturnAttack(UnitBase OtherUnit)

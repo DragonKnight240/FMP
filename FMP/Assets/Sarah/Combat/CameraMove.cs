@@ -15,6 +15,9 @@ public class CameraMove : MonoBehaviour
     public bool ButtonMovement = true;
     internal float BaseSmoothSpeed;
     internal bool Override = false;
+    public float ZoomOutSpeed;
+    public float MaxZoomOut = 95;
+    internal float MinZoomIn;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,9 @@ public class CameraMove : MonoBehaviour
 
         Cam = FindObjectOfType<Camera>();
         RB = GetComponent<Rigidbody>();
+
+        MinZoomIn = offSet.y;
+        offSet.y = CameraMove.Instance.gameObject.transform.position.y;
     }
 
     // Update is called once per frame
@@ -42,7 +48,7 @@ public class CameraMove : MonoBehaviour
                 float x = Input.GetAxis("Horizontal");
                 float z = Input.GetAxis("Vertical");
 
-                RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), 0, (z * SmoothSpeed * 100 * Time.timeScale));
+                RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), RB.velocity.y, (z * SmoothSpeed * 100 * Time.timeScale));
 
                 if (TileManager.Instance.Grid[TileManager.Instance.Width - 1, 0].transform.position.x < transform.position.x) //Bottom Right X
                 {
@@ -91,6 +97,7 @@ public class CameraMove : MonoBehaviour
             {
                 LerpTo();
             }
+            Zoom();
             return;
         }
 
@@ -115,5 +122,23 @@ public class CameraMove : MonoBehaviour
 
             transform.position = SmoothPosition;
         }
+    }
+
+    void Zoom()
+    {
+        float Scroll = Input.GetAxis("Mouse ScrollWheel") * ZoomOutSpeed;
+
+        offSet.y -= Scroll;
+
+        if (offSet.y > MaxZoomOut)
+        {
+            offSet.y = MaxZoomOut;
+        }
+        else if(offSet.y < MinZoomIn)
+        {
+            offSet.y = MinZoomIn;
+        }
+
+        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, offSet.y, transform.position.z), ZoomOutSpeed * Time.deltaTime);
     }
 }
