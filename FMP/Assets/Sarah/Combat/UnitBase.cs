@@ -2,34 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
+[System.Serializable]
+public enum SupportIncrease
+{
+    HitRate,
+    CritRate,
+    Damage,
+    Dodge,
+    DefRes,
+}
 
 public class UnitBase : MonoBehaviour
 {
-    [System.Serializable]
-    public enum SupportIncrease
-    {
-        HitRate,
-        CritRate,
-        Damage,
-        Dodge,
-        DefRes,
-    }
-
-    [System.Serializable]
-    public struct Supports
-    {
-        public SupportIncrease Stat;
-        public int Increase;
-    }
-
-    [System.Serializable]
-    public struct UnitSupport
-    {
-        public UnitBase Unit;
-        public int Level;
-        public int EXP;
-    }
-
     public struct StatusEffect
     {
         public Effects Effects;
@@ -51,6 +37,7 @@ public class UnitBase : MonoBehaviour
 
     [Header("General")]
     public string UnitName;
+    public Sprite UnitImage;
     public int HealthMax = 50;
     public int CurrentHealth;
     internal int[] Position;
@@ -87,6 +74,17 @@ public class UnitBase : MonoBehaviour
     public int Resistance;
     public int Speed;
     public int Luck;
+    public int Level;
+    public int EXP;
+    public List<int> EXPNeeded;
+
+    public int GrowthRateStrength;
+    public int GrowthRateDexterity;
+    public int GrowthRateMagic;
+    public int GrowthRateDefence;
+    public int GrowthRateResistance;
+    public int GrowthRateSpeed;
+    public int GrowthRateLuck;
 
     [Header("Weapon Proficiencies")]
     public float BowProficiency;
@@ -124,13 +122,13 @@ public class UnitBase : MonoBehaviour
     DamageNumbers DamageNumbersController;
     int DamageToTake;
     internal List<UnitBase> SupportedUnits;
+    public GameObject AttackCanvas;
+    public TMP_Text AttackText;
 
     public List<UnitBase> InRangeTargets;
 
     [Header("Supports")]
-    public List<Supports> SupportStats;
-    public List<int> SupportUpgrade;
-    public List<UnitSupport> SupportsWith;
+    public List<UnitSupports> SupportsWith;
 
     [Header("Status Effects")]
     internal List<StatusEffect> CurrentStatusEffects;
@@ -162,6 +160,10 @@ public class UnitBase : MonoBehaviour
 
         DamageNumbersController = GetComponentInChildren<DamageNumbers>();
         SupportedUnits = new List<UnitBase>();
+
+        AttackCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        AttackCanvas.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -573,6 +575,15 @@ public class UnitBase : MonoBehaviour
         CalculateReturnAttack();
     }
 
+    public void DisplayAttack()
+    {
+        AttackText.text = CurrentAttack.Name;
+
+        AttackCanvas.SetActive(true);
+        AttackCanvas.GetComponent<UIFade>().ToFadeIn();
+        AttackCanvas.GetComponent<UIFade>().Both = true;
+    }
+
     void CalculateReturnAttack()
     {
         if (!ReturnAttack)
@@ -743,6 +754,86 @@ public class UnitBase : MonoBehaviour
         AttackCamera.SetActive(false);
         Interact.Instance.VirtualCam.SetActive(true);
         gameObject.SetActive(false);
+    }
+
+    void GainSupportEXP(int Damage)
+    {
+        foreach(UnitBase Unit in SupportedUnits)
+        {
+            for(int i = 0; i < SupportsWith.Count; i ++)
+            {
+                if(Unit == SupportsWith[i].Unit)
+                {
+                    SupportsWith[i].EXP += Mathf.RoundToInt(Damage * Random.Range(0.15f, 0.25f));
+                }
+            }
+        }
+    }
+
+    void GainWeaponEXP()
+    {
+        switch(EquipedWeapon.WeaponType)
+        {
+            case WeaponType.Bow:
+                {
+                    BowProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    SwordProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    MagicProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    FistProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+        }
+    }
+
+    void GainClassEXP(int Damage)
+    {
+        Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
+    }
+
+    void GainCharacterEXP(int Damage)
+    {
+        EXP += Mathf.RoundToInt(Damage * Random.Range(0.25f, 0.35f));
+
+        LevelUp();
+    }
+
+    void LevelUp()
+    {
+        if(Level > EXPNeeded.Count)
+        {
+            return;
+        }
+
+        if(EXP >= EXPNeeded[Level - 1])
+        {
+            
+        }
+    }
+
+    float GrowthTotal(int ClassRate, int CharacterRate)
+    {
+        float TotalRate = ClassRate + CharacterRate;
+
+        TotalRate /= 100;
+
+        return TotalRate;
+    }
+
+    void AddOverflow()
+    {
+
     }
 
     internal int CalculateDodge(UnitBase OtherUnit)
@@ -917,15 +1008,15 @@ public class UnitBase : MonoBehaviour
 
         foreach (UnitBase Unit in SupportedUnits)
         {
-            foreach (UnitSupport Supportable in SupportsWith)
+            foreach (UnitSupports Supportable in SupportsWith)
             {
                 if (Unit == Supportable.Unit)
                 {
                     for (int i = 0; i < Supportable.Level; i++)
                     {
-                        if (Stat == Unit.SupportStats[i].Stat)
+                        if (Stat == Supportable.SupportStats[i].Stat)
                         {
-                            TotalAdded += Unit.SupportStats[i].Increase;
+                            TotalAdded += Supportable.SupportStats[i].Increase;
                         }
                     }
 

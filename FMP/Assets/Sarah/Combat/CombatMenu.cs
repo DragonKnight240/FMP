@@ -39,6 +39,9 @@ public class CombatMenu : MonoBehaviour
     public GameObject NextWeapon;
     public GameObject PreviousWeapon;
 
+    public GameObject SupportMainObj;
+    public List<Image> SupportImages;
+
     //Inventory
     public GameObject InventoryObject;
 
@@ -326,6 +329,39 @@ public class CombatMenu : MonoBehaviour
         else
         {
             MoveButton.gameObject.SetActive(true);
+        }
+    }
+
+    public void DisplaySupport()
+    {
+        if(Interact.Instance.SelectedUnit)
+        {
+            UnitBase Unit = Interact.Instance.SelectedUnit;
+
+            if (Unit.SupportedUnits.Count > 0)
+            {
+                for (int i = 0; i < SupportImages.Count; i++)
+                {
+                    if (Unit.SupportedUnits.Count < i)
+                    {
+                        SupportImages[i].sprite = Unit.UnitImage;
+                        SupportImages[i].gameObject.SetActive(true);
+                        continue;
+                    }
+
+                    SupportImages[i].gameObject.SetActive(false);
+                }
+
+                SupportMainObj.SetActive(true);
+            }
+            else
+            {
+                SupportMainObj.SetActive(false);
+            }
+        }
+        else
+        {
+            SupportMainObj.SetActive(false);
         }
     }
 
