@@ -20,6 +20,10 @@ public class RangeCheck : MonoBehaviour
         {
             other.GetComponent<DialogueTrigger>().InRange = true;
         }
+        else if(other.GetComponent<Runes>())
+        {
+            other.GetComponent<Runes>().InRange = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -35,6 +39,10 @@ public class RangeCheck : MonoBehaviour
         else if (GetComponent<DialogueTrigger>())
         {
             other.GetComponent<DialogueTrigger>().InRange = false;
+        }
+        else if (other.GetComponent<Runes>())
+        {
+            other.GetComponent<Runes>().InRange = false;
         }
     }
 }
