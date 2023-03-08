@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    public List<Dialogue> Dialogue;
+    public List<Dialogue> PreTutorialDialogue;
+    public List<Dialogue> PostTutorialDialogue;
     internal bool InRange = false;
     public GameObject ButtonPrompt;
 
@@ -19,7 +20,14 @@ public class NPC : MonoBehaviour
     {
         if(Input.GetButton("Interact") && InRange)
         {
-            DialogueSystem.Instance.StartDialogue(Dialogue);
+            if (GameManager.Instance.CombatTutorialComplete)
+            {
+                DialogueSystem.Instance.StartDialogue(PreTutorialDialogue);
+            }
+            else
+            {
+                DialogueSystem.Instance.StartDialogue(PostTutorialDialogue);
+            }
 
             if(GetComponent<HealUnits>())
             {

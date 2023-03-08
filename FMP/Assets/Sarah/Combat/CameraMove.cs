@@ -9,9 +9,15 @@ public class CameraMove : MonoBehaviour
     public Transform FollowTarget;
     public Vector3 offSet;
     public float SmoothSpeed;
+    public float GridSmoothSpeed = 1;
     internal bool ShouldFollow = true;
     internal Rigidbody RB;
     public bool ButtonMovement = true;
+    internal float BaseSmoothSpeed;
+    internal bool Override = false;
+    public float ZoomOutSpeed;
+    public float MaxZoomOut = 95;
+    internal float MinZoomIn;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +33,9 @@ public class CameraMove : MonoBehaviour
 
         Cam = FindObjectOfType<Camera>();
         RB = GetComponent<Rigidbody>();
+
+        MinZoomIn = offSet.y;
+        offSet.y = CameraMove.Instance.gameObject.transform.position.y;
     }
 
     // Update is called once per frame
@@ -39,7 +48,7 @@ public class CameraMove : MonoBehaviour
                 float x = Input.GetAxis("Horizontal");
                 float z = Input.GetAxis("Vertical");
 
-                RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), 0, (z * SmoothSpeed * 100 * Time.timeScale));
+                RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), RB.velocity.y, (z * SmoothSpeed * 100 * Time.timeScale));
 
                 if (TileManager.Instance.Grid[TileManager.Instance.Width - 1, 0].transform.position.x < transform.position.x) //Bottom Right X
                 {
@@ -84,10 +93,11 @@ public class CameraMove : MonoBehaviour
     {
         if(ButtonMovement)
         {
-            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving)
+            if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving || FollowTarget)
             {
                 LerpTo();
             }
+            Zoom();
             return;
         }
 
@@ -99,9 +109,36 @@ public class CameraMove : MonoBehaviour
         if (FollowTarget)
         {
             Vector3 DesiredPosition = FollowTarget.position + offSet;
-            Vector3 SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed * Time.deltaTime);
-            
+            Vector3 SmoothPosition;
+
+            if (!FollowTarget.GetComponent<InteractOnGrid>())
+            {
+                SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, SmoothSpeed * Time.deltaTime);
+            }
+            else
+            {
+                SmoothPosition = Vector3.Lerp(transform.position, DesiredPosition, GridSmoothSpeed * Time.deltaTime);
+            }
+
             transform.position = SmoothPosition;
         }
+    }
+
+    void Zoom()
+    {
+        float Scroll = Input.GetAxis("Mouse ScrollWheel") * ZoomOutSpeed;
+
+        offSet.y -= Scroll;
+
+        if (offSet.y > MaxZoomOut)
+        {
+            offSet.y = MaxZoomOut;
+        }
+        else if(offSet.y < MinZoomIn)
+        {
+            offSet.y = MinZoomIn;
+        }
+
+        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, offSet.y, transform.position.z), ZoomOutSpeed * Time.deltaTime);
     }
 }

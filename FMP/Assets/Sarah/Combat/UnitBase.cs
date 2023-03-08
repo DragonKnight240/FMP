@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
+[System.Serializable]
+public enum SupportIncrease
+{
+    HitRate,
+    CritRate,
+    Damage,
+    Dodge,
+    DefRes,
+}
 
 public class UnitBase : MonoBehaviour
 {
@@ -26,6 +37,7 @@ public class UnitBase : MonoBehaviour
 
     [Header("General")]
     public string UnitName;
+    public Sprite UnitImage;
     public int HealthMax = 50;
     public int CurrentHealth;
     internal int[] Position;
@@ -62,6 +74,17 @@ public class UnitBase : MonoBehaviour
     public int Resistance;
     public int Speed;
     public int Luck;
+    public int Level;
+    public int EXP;
+    public List<int> EXPNeeded;
+
+    public int GrowthRateStrength;
+    public int GrowthRateDexterity;
+    public int GrowthRateMagic;
+    public int GrowthRateDefence;
+    public int GrowthRateResistance;
+    public int GrowthRateSpeed;
+    public int GrowthRateLuck;
 
     [Header("Weapon Proficiencies")]
     public float BowProficiency;
@@ -98,8 +121,14 @@ public class UnitBase : MonoBehaviour
     float NoDamageTimer = 0.0f;
     DamageNumbers DamageNumbersController;
     int DamageToTake;
+    internal List<UnitBase> SupportedUnits;
+    public GameObject AttackCanvas;
+    public TMP_Text AttackText;
 
     public List<UnitBase> InRangeTargets;
+
+    [Header("Supports")]
+    public List<UnitSupports> SupportsWith;
 
     [Header("Status Effects")]
     internal List<StatusEffect> CurrentStatusEffects;
@@ -130,6 +159,11 @@ public class UnitBase : MonoBehaviour
         AnimControl = GetComponent<CombatAnimControl>();
 
         DamageNumbersController = GetComponentInChildren<DamageNumbers>();
+        SupportedUnits = new List<UnitBase>();
+
+        AttackCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        AttackCanvas.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -222,9 +256,9 @@ public class UnitBase : MonoBehaviour
         {
             GameManager.Instance.ToolTipCheck(Tutorial.CMove);
 
+            CalculatePath(NewTile);
+
             MovedForTurn = true;
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile, Ignore));
             Moving = true;
 
             if (Path.Count > 0)
@@ -255,6 +289,18 @@ public class UnitBase : MonoBehaviour
 
         return false;
     }
+
+    //Find Path to the target sqaure
+    void CalculatePath(Tile NewTile)
+    {
+
+        if (!MovedForTurn)
+        {
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            Path = new List<Tile>(FindRouteTo(NewTile, false));
+        }
+    }
+
     public bool AttackableArea(List<GameObject> CheckingTiles, bool ShowTiles = true)
     {
         CheckingTiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
@@ -460,14 +506,14 @@ public class UnitBase : MonoBehaviour
         AttackTiles.Clear();
     }
 
-    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true)
+    internal void FindInRangeTargets(bool IgnoreMovement = false, bool ShowTiles = true, GameObject TileObj = null)
     {
         InRangeTargets.Clear();
 
         if (MovedForTurn || IgnoreMovement)
         {
             List<GameObject> Tiles = new List<GameObject>();
-            Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+            Tiles.Add(TileObj? TileObj: TileManager.Instance.Grid[Position[0], Position[1]]);
             AttackTiles.Clear();
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
@@ -496,6 +542,7 @@ public class UnitBase : MonoBehaviour
 
     internal void Attack(UnitBase Enemy)
     {
+        isSupported();
         List<GameObject> tiles = new List<GameObject>();
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
@@ -526,6 +573,15 @@ public class UnitBase : MonoBehaviour
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
 
         CalculateReturnAttack();
+    }
+
+    public void DisplayAttack()
+    {
+        AttackText.text = CurrentAttack.Name;
+
+        AttackCanvas.SetActive(true);
+        AttackCanvas.GetComponent<UIFade>().ToFadeIn();
+        AttackCanvas.GetComponent<UIFade>().Both = true;
     }
 
     void CalculateReturnAttack()
@@ -674,7 +730,6 @@ public class UnitBase : MonoBehaviour
         ResetAnimation();
         Interact.Instance.VirtualCam.SetActive(true);
         AttackCamera.SetActive(false);
-        //AttackTarget.AttackCamera.SetActive(false);
     }
 
     public void OnDeath()
@@ -701,9 +756,89 @@ public class UnitBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    void GainSupportEXP(int Damage)
+    {
+        foreach(UnitBase Unit in SupportedUnits)
+        {
+            for(int i = 0; i < SupportsWith.Count; i ++)
+            {
+                if(Unit == SupportsWith[i].Unit)
+                {
+                    SupportsWith[i].EXP += Mathf.RoundToInt(Damage * Random.Range(0.15f, 0.25f));
+                }
+            }
+        }
+    }
+
+    void GainWeaponEXP()
+    {
+        switch(EquipedWeapon.WeaponType)
+        {
+            case WeaponType.Bow:
+                {
+                    BowProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Sword:
+                {
+                    SwordProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    MagicProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    FistProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    break;
+                }
+        }
+    }
+
+    void GainClassEXP(int Damage)
+    {
+        Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
+    }
+
+    void GainCharacterEXP(int Damage)
+    {
+        EXP += Mathf.RoundToInt(Damage * Random.Range(0.25f, 0.35f));
+
+        LevelUp();
+    }
+
+    void LevelUp()
+    {
+        if(Level > EXPNeeded.Count)
+        {
+            return;
+        }
+
+        if(EXP >= EXPNeeded[Level - 1])
+        {
+            
+        }
+    }
+
+    float GrowthTotal(int ClassRate, int CharacterRate)
+    {
+        float TotalRate = ClassRate + CharacterRate;
+
+        TotalRate /= 100;
+
+        return TotalRate;
+    }
+
+    void AddOverflow()
+    {
+
+    }
+
     internal int CalculateDodge(UnitBase OtherUnit)
     {
-        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck();
+        int Dodge = (TotalSpeed() * 2 - OtherUnit.TotalSpeed()) + TotalLuck() + +AddSupport(SupportIncrease.Dodge);
         //print("Dodge " + Dodge);
 
         return Dodge;
@@ -748,7 +883,7 @@ public class UnitBase : MonoBehaviour
             Damage = Mathf.RoundToInt(TotalStrength() + EquipedWeapon.Damage + (CurrentAttack.DamageMultiplier / (5))) - (Unit ? Unit.CalculatePhysicalDefence(EquipedWeapon.WeaponType) : AttackTarget.CalculatePhysicalDefence(EquipedWeapon.WeaponType));
         }
         
-        return Damage;
+        return Damage + AddSupport(SupportIncrease.Damage);
     }
 
     internal int MultiAttack(UnitBase OtherUnit)
@@ -765,7 +900,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculateMagicDefence(WeaponType Weapon)
     {
-        int MDefence = TotalDefence() + (TotalResistance() / 3);
+        int MDefence = TotalDefence() + (TotalResistance() / 3) + AddSupport(SupportIncrease.DefRes);
 
         switch (Weapon)
         {
@@ -796,7 +931,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculatePhysicalDefence(WeaponType Weapon)
     {
-        int PDefence = TotalDefence() + (TotalResistance()/3);
+        int PDefence = TotalDefence() + (TotalResistance()/3) + AddSupport(SupportIncrease.DefRes);
 
         switch(Weapon)
         {
@@ -830,6 +965,26 @@ public class UnitBase : MonoBehaviour
         return PDefence;
     }
 
+    internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
+    {
+        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>());
+
+        List<GameObject> tile = new List<GameObject>();
+        tile.Add(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
+
+        if(Path.Count > 0)
+        {
+            FindInRangeTargets(true, false, Path[Path.Count - 1].gameObject);
+            WeaponRangeAttack(tile, false);
+        }
+
+        if(InRangeTargets.Contains(Unit))
+        {
+            return true;
+        }
+        return false;
+    }
+
     internal bool CanReturnAttack(UnitBase OtherUnit)
     {
         List<GameObject> Tile = new List<GameObject>();
@@ -847,9 +1002,65 @@ public class UnitBase : MonoBehaviour
         return false;
     }
 
+    int AddSupport(SupportIncrease Stat)
+    {
+        int TotalAdded = 0;
+
+        foreach (UnitBase Unit in SupportedUnits)
+        {
+            foreach (UnitSupports Supportable in SupportsWith)
+            {
+                if (Unit == Supportable.Unit)
+                {
+                    for (int i = 0; i < Supportable.Level; i++)
+                    {
+                        if (Stat == Supportable.SupportStats[i].Stat)
+                        {
+                            TotalAdded += Supportable.SupportStats[i].Increase;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return TotalAdded;
+    }
+
+    internal bool isSupported()
+    {
+        Tile tile;
+
+        SupportedUnits.Clear();
+        SupportedUnits = new List<UnitBase>();
+
+        foreach(GameObject Adjacent in TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().AdjacentTiles)
+        {
+            tile = Adjacent.GetComponent<Tile>();
+
+            if(tile.Unit)
+            {
+                if(tile.Unit.CompareTag(tag))
+                {
+                    SupportedUnits.Add(tile.Unit);
+                }
+            }
+        }
+
+        if (SupportedUnits.Count > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     internal int CalcuateHitChance()
     {
-        int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2));
+        int HitChance = Mathf.RoundToInt((float)CurrentAttack.HitRateMultiplier + (float)(EquipedWeapon.HitRate * 0.2)) + AddSupport(SupportIncrease.HitRate);
 
         if(HitChance > 100)
         {
@@ -864,7 +1075,7 @@ public class UnitBase : MonoBehaviour
 
     internal int CalculateCritChance()
     {
-        int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2));
+        int CritChance = Mathf.RoundToInt((float)CurrentAttack.CritRateMultiplier + (float)(EquipedWeapon.CritRate * 0.2)) + AddSupport(SupportIncrease.CritRate);
         if (CritChance > 100)
         {
             CritChance = 100;
@@ -1080,7 +1291,13 @@ public class UnitBase : MonoBehaviour
         Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
         Interact.Instance.CombatMenu.InventoryObject.GetComponent<UIFade>().ToFadeOut();
 
-        CameraMove.Instance.FollowTarget = null;
+        if (CameraMove.Instance.FollowTarget)
+        {
+            if (!CameraMove.Instance.Override)
+            {
+                CameraMove.Instance.FollowTarget = null;
+            }
+        }
 
         if (gameObject.CompareTag("Ally"))
         {

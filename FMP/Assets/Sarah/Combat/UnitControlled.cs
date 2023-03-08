@@ -67,17 +67,17 @@ public class UnitControlled : UnitBase
             if (tile.GetComponent<Tile>().Special)
             {
                 GameManager.Instance.ToolTipCheck(Tutorial.CWeaponAbility);
+                CameraMove.Instance.FollowTarget = null;
                 tile.GetComponent<Tile>().Special.Special(this);
                 UnitManager.Instance.UnitUpdate.Invoke();
                 Interact.Instance.SelectedUnit = null;
                 Interact.Instance.UISelectedUnit();
-                CameraMove.Instance.FollowTarget = null;
                 HideAllChangedTiles();
                 WaitUnit();
             }
         }
 
-        CameraMove.Instance.FollowTarget = null;
+        //CameraMove.Instance.FollowTarget = null;
     }
 
     internal void FindWeapons()
@@ -93,7 +93,9 @@ public class UnitControlled : UnitBase
 
     internal void AttackDisplay()
     {
-        if(Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
+        isSupported();
+
+        if (Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
         {
             Interact.Instance.CombatMenu.NextWeapon.SetActive(false);
             Interact.Instance.CombatMenu.PreviousWeapon.SetActive(false);
@@ -126,7 +128,7 @@ public class UnitControlled : UnitBase
             Interact.Instance.CombatMenu.PreviousTarget.SetActive(true);
         }
 
-        Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - AttackTarget.CalculateReturnDamage()) / HealthMax;
+        Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - (AttackTarget.CanReturnAttackIncludeMovement(this)?AttackTarget.CalculateDamage(this): 0) ) / HealthMax;
         Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name;
         Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name;
         Interact.Instance.CombatMenu.DamageAlly.text = CalculateDamage().ToString();
@@ -134,8 +136,10 @@ public class UnitControlled : UnitBase
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();
 
         Interact.Instance.CombatMenu.HealthEnemy.value = (float)(AttackTarget.CurrentHealth - CalculateDamage()) / AttackTarget.HealthMax;
-        Interact.Instance.CombatMenu.DamageEnemy.text = AttackTarget.CalculateReturnDamage().ToString();
-        Interact.Instance.CombatMenu.HitEnemy.text = AttackTarget.CalculateReturnHitChance().ToString();
-        Interact.Instance.CombatMenu.CritEnemy.text = AttackTarget.CalculateReturnCritChance().ToString();
+        Interact.Instance.CombatMenu.DamageEnemy.text = (AttackTarget.CanReturnAttackIncludeMovement(this) ? AttackTarget.CalculateDamage(this): 0).ToString();
+        Interact.Instance.CombatMenu.HitEnemy.text = (AttackTarget.CanReturnAttackIncludeMovement(this) ? (AttackTarget.CalcuateHitChance() - CalculateDodge(AttackTarget)): 0).ToString();
+        Interact.Instance.CombatMenu.CritEnemy.text = (AttackTarget.CanReturnAttackIncludeMovement(this) ? AttackTarget.CalculateCritChance() : 0).ToString();
+
+        Interact.Instance.CombatMenu.DisplaySupport();
     }
 }
