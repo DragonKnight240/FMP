@@ -3007,6 +3007,7 @@ GameObject:
   - component: {fileID: 1223094859}
   - component: {fileID: 1223094858}
   - component: {fileID: 1223094857}
+  - component: {fileID: 1223094860}
   m_Layer: 0
   m_Name: Ocean50x50W750H750 (1)
   m_TagString: Untagged
@@ -3077,6 +3078,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1223094860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223094856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b139aaf47c66e2940b418413b540eecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueToPlayAfter: 2
 --- !u!1001 &1232971341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4273,8 +4287,8 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  AvailableUnits: []
   UnitData: []
-  MaxUnits: 6
   MaxRecruitable: 2
   Convoy: []
   Money: 0
