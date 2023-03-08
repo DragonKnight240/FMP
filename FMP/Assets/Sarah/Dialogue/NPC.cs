@@ -20,7 +20,7 @@ public class NPC : MonoBehaviour
     {
         if(Input.GetButton("Interact") && InRange)
         {
-            if (GameManager.Instance.CombatTutorialComplete)
+            if (!GameManager.Instance.CombatTutorialComplete)
             {
                 DialogueSystem.Instance.StartDialogue(PreTutorialDialogue);
             }
