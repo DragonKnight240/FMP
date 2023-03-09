@@ -46,6 +46,11 @@ public class UnitAI : UnitBase
         else
         {
             CameraMove.Instance.FollowTarget = transform;
+
+            if(Path.Count == 0)
+            {
+                Moving = false;
+            }
         }
     }
 
@@ -74,6 +79,7 @@ public class UnitAI : UnitBase
 
         if (Path.Count > 0)
         {
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
             Position[0] = Path[Path.Count - 1].GridPosition[0];
             Position[1] = Path[Path.Count - 1].GridPosition[1];
         }
@@ -189,16 +195,29 @@ public class UnitAI : UnitBase
         }
     }
 
-    //Attacks lowest defence target if in range otherwise does nothing
-    internal void Patient()
+    internal void CheckCurrentRange()
     {
-        if(CanAttack())
+        if (InRangeTargets.Count > 0)
         {
-            print("Can Attack");
-            foreach(UnitBase Target in InRangeTargets)
+            AttackTarget = InRangeTargets[0];
+
+            foreach (UnitBase Target in InRangeTargets)
             {
                 FindLowestDefence(Target);
             }
+        }
+    }
+
+    //Attacks lowest defence target if in range otherwise does nothing
+    internal void Patient()
+    {
+        AttackTarget = null;
+
+        if(CanAttack())
+        {
+            print("Can Attack");
+
+            CheckCurrentRange();
         }
 
         if(AttackTarget != null)
@@ -210,6 +229,16 @@ public class UnitAI : UnitBase
     //Attacks lowest defence (to equiped weapon)  and sets that as the target
     internal void Inpatient()
     {
+        AttackTarget = null;
+
+        if (CanAttack())
+        {
+            CheckCurrentRange();
+
+            Attack(AttackTarget);
+            return;
+        }
+
         UnitBase Unit;
         foreach (GameObject UnitObject in UnitManager.Instance.AllyUnits)
         {
@@ -287,6 +316,14 @@ public class UnitAI : UnitBase
 
         if(UnitManager.Instance.DeadAllyUnits.Count == UnitManager.Instance.AllyUnits.Count -1)
         {
+            return;
+        }
+
+        if (CanAttack())
+        {
+            CheckCurrentRange();
+
+            Attack(AttackTarget);
             return;
         }
 

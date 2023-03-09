@@ -148,11 +148,6 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void NoOverKill()
-    {
-
-    }
-
     public void PlaceUnits()
     {
         int X;

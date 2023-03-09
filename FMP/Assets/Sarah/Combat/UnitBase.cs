@@ -78,6 +78,7 @@ public class UnitBase : MonoBehaviour
     public int EXP;
     public List<int> EXPNeeded;
 
+    public int GrowthRateHP;
     public int GrowthRateStrength;
     public int GrowthRateDexterity;
     public int GrowthRateMagic;
@@ -293,12 +294,9 @@ public class UnitBase : MonoBehaviour
     //Find Path to the target sqaure
     void CalculatePath(Tile NewTile)
     {
-
-        if (!MovedForTurn)
-        {
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile, false));
-        }
+        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+        print(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit);
+        Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
 
     public bool AttackableArea(List<GameObject> CheckingTiles, bool ShowTiles = true)
@@ -515,6 +513,7 @@ public class UnitBase : MonoBehaviour
             List<GameObject> Tiles = new List<GameObject>();
             Tiles.Add(TileObj? TileObj: TileManager.Instance.Grid[Position[0], Position[1]]);
             AttackTiles.Clear();
+            AttackTiles = new List<Tile>();
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
@@ -818,17 +817,31 @@ public class UnitBase : MonoBehaviour
 
         if(EXP >= EXPNeeded[Level - 1])
         {
-            
+            Strength += Mathf.FloorToInt(GrowthTotal(Class.StrengthGrowthRate, GrowthRateStrength));
+            Dexterity += Mathf.FloorToInt(GrowthTotal(Class.DexterityGrowthRate, GrowthRateDexterity));
+            Magic += Mathf.FloorToInt(GrowthTotal(Class.MagicGrowthRate, GrowthRateMagic));
+            Defence += Mathf.FloorToInt(GrowthTotal(Class.DefenceGrowthRate, GrowthRateDefence));
+            Resistance += Mathf.FloorToInt(GrowthTotal(Class.ResistanceGrowthRate, GrowthRateResistance));
+            Speed += Mathf.FloorToInt(GrowthTotal(Class.SpeedGrowthRate, GrowthRateSpeed));
+            Luck += Mathf.FloorToInt(GrowthTotal(Class.LuckGrowthRate, GrowthRateLuck));
+            HealthMax += Mathf.FloorToInt(GrowthTotal(Class.HPGrowthRate, GrowthRateHP));
         }
     }
 
     float GrowthTotal(int ClassRate, int CharacterRate)
     {
-        float TotalRate = ClassRate + CharacterRate;
+        float Increase = ClassRate + CharacterRate;
 
-        TotalRate /= 100;
+        Increase /= 100;
 
-        return TotalRate;
+        float Rate = Increase % 1;
+
+        if(Random.Range(0, 101) <= Rate)
+        {
+            Increase++;
+        }
+
+        return Increase;
     }
 
     void AddOverflow()
