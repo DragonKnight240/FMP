@@ -539,6 +539,7 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    //Main Attack Function
     internal void Attack(UnitBase Enemy)
     {
         isSupported();
@@ -557,6 +558,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles = new List<Tile>();
         FindInRangeTargets(true);
 
+        //Checks from current Position
         if (InRangeTargets.Count != 0)
         {
             if (InRangeTargets.Contains(Enemy))
@@ -564,9 +566,12 @@ public class UnitBase : MonoBehaviour
                 MoveableArea(false);
                 HideAllChangedTiles();
                 CalculateReturnAttack();
+                print("No Move");
                 return;
             }
         }
+
+        print("Moving");
 
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
@@ -781,21 +786,45 @@ public class UnitBase : MonoBehaviour
             case WeaponType.Bow:
                 {
                     BowProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    
+                    if(BowProficiency >= RankEXP[BowLevel - 1])
+                    {
+                        BowProficiency++;
+                    }
+                    
                     break;
                 }
             case WeaponType.Sword:
                 {
                     SwordProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (SwordProficiency >= RankEXP[SwordLevel - 1])
+                    {
+                        SwordProficiency++;
+                    }
+
                     break;
                 }
             case WeaponType.Staff:
                 {
                     MagicProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (MagicProficiency >= RankEXP[MagicLevel - 1])
+                    {
+                        MagicProficiency++;
+                    }
+
                     break;
                 }
             case WeaponType.Gauntlets:
                 {
                     FistProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (FistProficiency >= RankEXP[FistLevel - 1])
+                    {
+                        FistProficiency++;
+                    }
+
                     break;
                 }
         }
@@ -804,6 +833,11 @@ public class UnitBase : MonoBehaviour
     internal void GainClassEXP(int Damage)
     {
         Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
+
+        if(Class.EXP >= Class.TotalEXPNeeded[Class.Level - 1])
+        {
+            Class.Level++;
+        }
     }
 
     internal void GainCharacterEXP(int Damage)

@@ -114,6 +114,8 @@ public class GameManager : MonoBehaviour
         data.Inventory = Unit.Inventory;
 
         //Stats
+        data.Level = Unit.Level;
+        data.EXP = Unit.EXP;
         data.Strength = Unit.Strength;
         data.Dexterity = Unit.Dexterity;
         data.Magic = Unit.Magic;
@@ -140,6 +142,9 @@ public class GameManager : MonoBehaviour
 
         //Attack
         data.UnlockedAttacks = Unit.UnlockedAttacks;
+
+        //Support
+        data.Supports = Unit.SupportsWith;
 
         GameManager.Instance.UnitData.Add(data);
     }

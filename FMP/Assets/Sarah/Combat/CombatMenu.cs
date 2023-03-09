@@ -206,6 +206,14 @@ public class CombatMenu : MonoBehaviour
         EXPBar.maxValue = Unit.EXPNeeded[Unit.Level - 1];
         EXPBar.value = Unit.EXP;
         Unit.GainCharacterEXP(Damage);
+        Unit.GainClassEXP(Damage);
+        Unit.GainWeaponEXP();
+
+        if(Unit.isSupported())
+        {
+            Unit.GainSupportEXP(Damage);
+        }
+
         TargetEXP = Unit.EXP;
 
         ShowEXP = true;

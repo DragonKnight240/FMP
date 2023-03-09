@@ -26,6 +26,7 @@ public class OverworldMenu : MonoBehaviour
     public TMP_Text Luck;
     public TMP_Text Class;
     public TMP_Text Name;
+    public TMP_Text Level;
 
     public TMP_Text LevelBow;
     public TMP_Text LevelMagic;
@@ -104,6 +105,7 @@ public class OverworldMenu : MonoBehaviour
             return;
         }
 
+        Level.text = Character.Level.ToString();
         Health.text = Character.CurrentHealth.ToString() + " / " + Character.HealthMax.ToString(); ;
         Strength.text = Character.Strength.ToString();
         Dex.text = Character.Dexterity.ToString();

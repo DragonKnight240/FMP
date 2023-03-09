@@ -6,6 +6,7 @@ public class DialogueDestroyObject : MonoBehaviour
 {
     public Dialogue Line;
     public GameObject ObjectToGo;
+    public bool DestroyAtEnd = false;
     public PlayAfter GameManagerCheck;
     bool Pending = false;
 
@@ -71,7 +72,7 @@ public class DialogueDestroyObject : MonoBehaviour
             Pending = true;
         }
 
-        if (Pending && !DialogueSystem.Instance.PlayingDialogue)
+        if ((Pending && !DialogueSystem.Instance.PlayingDialogue) || (!DestroyAtEnd && Pending))
         {
             Destroy(ObjectToGo);
             Destroy(this);

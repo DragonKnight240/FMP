@@ -344,51 +344,53 @@ public class UnitManager : MonoBehaviour
     {
         GameManager.Instance.UnitData.Clear();
 
-        CharacterData data = new CharacterData();
+        //CharacterData data = new CharacterData();
         UnitBase Ally;
 
         for (int i = 0; i < AllyUnits.Count; i++)
         {
-            data = new CharacterData();
+            //data = new CharacterData();
             Ally = AllyUnits[i].GetComponent<UnitBase>();
 
-            data.UnitName = Ally.UnitName;
-            data.HealthMax = Ally. HealthMax;
-            data.CurrentHealth = Ally.CurrentHealth;
-            data.Movement = Ally.Movement;
+            //data.UnitName = Ally.UnitName;
+            //data.HealthMax = Ally. HealthMax;
+            //data.CurrentHealth = Ally.CurrentHealth;
+            //data.Movement = Ally.Movement;
 
-            //Inventory
-            data.Inventory = Ally.Inventory;
+            ////Inventory
+            //data.Inventory = Ally.Inventory;
 
-            //Stats
-            data.Strength = Ally.Strength;
-            data.Dexterity = Ally.Dexterity;
-            data.Magic = Ally.Magic;
-            data.Defence = Ally.Defence;
-            data.Resistance = Ally.Resistance;
-            data.Speed = Ally.Speed;
-            data.Luck = Ally.Luck;
+            ////Stats
+            //data.Strength = Ally.Strength;
+            //data.Dexterity = Ally.Dexterity;
+            //data.Magic = Ally.Magic;
+            //data.Defence = Ally.Defence;
+            //data.Resistance = Ally.Resistance;
+            //data.Speed = Ally.Speed;
+            //data.Luck = Ally.Luck;
 
-            //Weapon Proficientcy
-            data.BowProficiency = Ally.BowProficiency;
-            data.BowLevel = Ally.BowLevel;
+            ////Weapon Proficientcy
+            //data.BowProficiency = Ally.BowProficiency;
+            //data.BowLevel = Ally.BowLevel;
 
-            data.SwordProficiency = Ally.SwordProficiency;
-            data.SwordLevel = Ally.SwordLevel;
+            //data.SwordProficiency = Ally.SwordProficiency;
+            //data.SwordLevel = Ally.SwordLevel;
 
-            data.MagicProficiency = Ally.MagicProficiency;
-            data.MagicLevel = Ally.MagicLevel;
+            //data.MagicProficiency = Ally.MagicProficiency;
+            //data.MagicLevel = Ally.MagicLevel;
 
-            data.FistProficiency = Ally.FistProficiency;
-            data.FistLevel = Ally.FistLevel;
+            //data.FistProficiency = Ally.FistProficiency;
+            //data.FistLevel = Ally.FistLevel;
 
-            //Class
-            data.Class = Ally.Class;
+            ////Class
+            //data.Class = Ally.Class;
 
-            //Attack
-            data.UnlockedAttacks = Ally.UnlockedAttacks;
+            ////Attack
+            //data.UnlockedAttacks = Ally.UnlockedAttacks;
 
-            GameManager.Instance.UnitData.Add(data);
+            //GameManager.Instance.UnitData.Add(data);
+
+            GameManager.Instance.AddCharacterData(Ally);
         }
 
         OnCombatEndDialogue CombatScript = FindObjectOfType<OnCombatEndDialogue>();
