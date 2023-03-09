@@ -1202,6 +1202,7 @@ MonoBehaviour:
   UIHealth: {fileID: 495229962931090707}
   HealthLerpSpeed: 10
   UnitName: Nammor
+  UnitImage: {fileID: 0}
   HealthMax: 50
   CurrentHealth: 0
   Movement: 3
@@ -1220,6 +1221,17 @@ MonoBehaviour:
   Resistance: 8
   Speed: 10
   Luck: 9
+  Level: 1
+  EXP: 0
+  EXPNeeded: 05000000140000001e00000028000000
+  GrowthRateHP: 100
+  GrowthRateStrength: 0
+  GrowthRateDexterity: 10
+  GrowthRateMagic: 100
+  GrowthRateDefence: 140
+  GrowthRateResistance: 50
+  GrowthRateSpeed: 0
+  GrowthRateLuck: 10
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1239,28 +1251,10 @@ MonoBehaviour:
   AttackCanvas: {fileID: 2475352868307355491}
   AttackText: {fileID: 7366291162124031406}
   InRangeTargets: []
-  SupportStats:
-  - Stat: 0
-    Increase: 10
-  - Stat: 3
-    Increase: 5
-  - Stat: 4
-    Increase: 10
-  - Stat: 2
-    Increase: 5
-  - Stat: 1
-    Increase: 10
-  SupportUpgrade: 
   SupportsWith:
-  - Unit: {fileID: 1696317298173679001, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    Level: 0
-    EXP: 0
+  - {fileID: 11400000, guid: bfe32d7b61a1fd54e8500868731888c8, type: 2}
+  - {fileID: 11400000, guid: f6960be7bea4e654fbc6eca7ed0d4597, type: 2}
+  - {fileID: 11400000, guid: 7a9f4098418c8384eb7542a0cd43ceed, type: 2}
   WeaponImage: {fileID: 3613148627002316795}
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}

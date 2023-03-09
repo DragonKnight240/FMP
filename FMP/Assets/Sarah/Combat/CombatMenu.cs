@@ -4,6 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum Stats
+{
+    HP,
+    Dex,
+    Str,
+    Mag,
+    Def,
+    Res,
+    Speed,
+    Luck
+}
 public class CombatMenu : MonoBehaviour
 {
     public GameObject CombatMenuObject;
@@ -65,6 +76,35 @@ public class CombatMenu : MonoBehaviour
     public TMP_Text LivingAlliesText;
     public TMP_Text UnitsToActText;
 
+    //LevelUP
+    public GameObject EXP;
+    public int TargetEXP;
+    public Slider EXPBar;
+    internal bool ShowEXP;
+    internal UnitBase ToLevel;
+
+    public GameObject LevelScreen;
+
+    public GameObject HPIncrease;
+    public TMP_Text HPText;
+    public GameObject StrIncrease;
+    public TMP_Text StrText;
+    public GameObject DexIncrease;
+    public TMP_Text DexText;
+    public GameObject MagicIncrease;
+    public TMP_Text MagicText;
+    public GameObject DefIncrease;
+    public TMP_Text DefText;
+    public GameObject ResIncrease;
+    public TMP_Text ResText;
+    public GameObject SpeedIncrease;
+    public TMP_Text SpeedText;
+    public GameObject LuckIncrease;
+    public TMP_Text LuckText;
+
+    public TMP_Text OldLevel;
+    public TMP_Text NewLevel;
+
     //Ending Scences
     public GameObject VictoryScreen;
     public GameObject DefeatScreen;
@@ -90,6 +130,12 @@ public class CombatMenu : MonoBehaviour
         DefeatScreen.SetActive(false);
 
         EndButtonMover = EndTurnButton.GetComponent<MoveToScreenLocation>();
+
+        LevelScreen.GetComponent<CanvasGroup>().alpha = 0;
+        LevelScreen.SetActive(false);
+
+        EXP.GetComponent<CanvasGroup>().alpha = 0;
+        EXP.SetActive(false);
     }
 
     private void Update()
@@ -127,6 +173,155 @@ public class CombatMenu : MonoBehaviour
         if (UnitsToActText.text != TurnManager.Instance.UnitsToMove.ToString() && TurnManager.Instance.UnitsToMove >= 0)
         {
             UnitsToActText.text = TurnManager.Instance.UnitsToMove.ToString();
+        }
+
+        if(ShowEXP && EXP.GetComponent<CanvasGroup>().alpha == 1)
+        {
+            EXPBar.value = Mathf.Lerp(EXPBar.value, TargetEXP, Time.deltaTime);
+
+            if(EXPBar.value >= TargetEXP - 1 || EXPBar.value == EXPBar.maxValue)
+            {
+                ShowEXP = false;
+                EXP.GetComponent<UIFade>().ToFadeOut();
+
+                if(ToLevel != null)
+                {
+                    LevelShow(ToLevel);
+                    ToLevel = null;
+                }
+            }
+        }
+
+        if(LevelScreen.activeInHierarchy)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                LevelScreen.GetComponent<UIFade>().ToFadeOut();
+            }
+        }
+    }
+
+    public void EXPSliderShow(UnitBase Unit, int Damage)
+    {
+        EXPBar.maxValue = Unit.EXPNeeded[Unit.Level - 1];
+        EXPBar.value = Unit.EXP;
+        Unit.GainCharacterEXP(Damage);
+        TargetEXP = Unit.EXP;
+
+        ShowEXP = true;
+        EXP.SetActive(true);
+        EXP.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void LevelShow(UnitBase Unit)
+    {
+        OldLevel.text = (Unit.Level - 1).ToString();
+        NewLevel.text = (Unit.Level).ToString();
+
+        LevelScreen.SetActive(true);
+        LevelScreen.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void StatIncrease(Stats Stat, int Amount)
+    {
+        switch(Stat)
+        {
+            case Stats.HP:
+                {
+                    if(Amount == 0)
+                    {
+                        HPIncrease.SetActive(false);
+                        break;
+                    }
+
+                    HPText.text = Amount.ToString();
+                    HPIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Def:
+                {
+                    if (Amount == 0)
+                    {
+                        DefIncrease.SetActive(false);
+                        break;
+                    }
+
+                    DefText.text = Amount.ToString();
+                    DefIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Dex:
+                {
+                    if (Amount == 0)
+                    {
+                        DexIncrease.SetActive(false);
+                        break;
+                    }
+
+                    DexText.text = Amount.ToString();
+                    DexIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Speed:
+                {
+                    if (Amount == 0)
+                    {
+                        SpeedIncrease.SetActive(false);
+                        break;
+                    }
+
+                    SpeedText.text = Amount.ToString();
+                    SpeedIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Str:
+                {
+                    if (Amount == 0)
+                    {
+                        StrIncrease.SetActive(false);
+                        break;
+                    }
+
+                    StrText.text = Amount.ToString();
+                    StrIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Mag:
+                {
+                    if (Amount == 0)
+                    {
+                        MagicIncrease.SetActive(false);
+                        break;
+                    }
+
+                    MagicText.text = Amount.ToString();
+                    MagicIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Luck:
+                {
+                    if (Amount == 0)
+                    {
+                        LuckIncrease.SetActive(false);
+                        break;
+                    }
+
+                    LuckText.text = Amount.ToString();
+                    LuckIncrease.SetActive(true);
+                    break;
+                }
+            case Stats.Res:
+                {
+                    if (Amount == 0)
+                    {
+                        ResIncrease.SetActive(false);
+                        break;
+                    }
+
+                    ResText.text = Amount.ToString();
+                    ResIncrease.SetActive(true);
+                    break;
+                }
         }
     }
 

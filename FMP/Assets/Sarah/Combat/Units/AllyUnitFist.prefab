@@ -1892,6 +1892,7 @@ MonoBehaviour:
   UIHealth: {fileID: 4389364210218555682}
   HealthLerpSpeed: 10
   UnitName: Velen
+  UnitImage: {fileID: 0}
   HealthMax: 70
   CurrentHealth: 0
   Movement: 2
@@ -1910,6 +1911,17 @@ MonoBehaviour:
   Resistance: 2
   Speed: 7
   Luck: 15
+  Level: 1
+  EXP: 0
+  EXPNeeded: 64000000c80000002c01000090010000
+  GrowthRateHP: 0
+  GrowthRateStrength: 0
+  GrowthRateDexterity: 0
+  GrowthRateMagic: 0
+  GrowthRateDefence: 0
+  GrowthRateResistance: 0
+  GrowthRateSpeed: 0
+  GrowthRateLuck: 0
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1929,28 +1941,10 @@ MonoBehaviour:
   AttackCanvas: {fileID: 4154188967731014165}
   AttackText: {fileID: 958793265245488786}
   InRangeTargets: []
-  SupportStats:
-  - Stat: 0
-    Increase: 10
-  - Stat: 3
-    Increase: 5
-  - Stat: 4
-    Increase: 10
-  - Stat: 2
-    Increase: 5
-  - Stat: 1
-    Increase: 10
-  SupportUpgrade: 
   SupportsWith:
-  - Unit: {fileID: 1696317298173679001, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    Level: 0
-    EXP: 0
+  - {fileID: 11400000, guid: bfe32d7b61a1fd54e8500868731888c8, type: 2}
+  - {fileID: 11400000, guid: c6fc2722020185341bfe898dd19a2382, type: 2}
+  - {fileID: 11400000, guid: 7a9f4098418c8384eb7542a0cd43ceed, type: 2}
   WeaponImage: {fileID: 3675228221624867366}
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}

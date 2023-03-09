@@ -215,7 +215,7 @@ public class UnitAI : UnitBase
 
         if(CanAttack())
         {
-            print("Can Attack");
+            //print("Can Attack");
 
             CheckCurrentRange();
         }
@@ -294,7 +294,7 @@ public class UnitAI : UnitBase
                     CurrentAttackStats = Stats;
                 }
 
-                print(Unit + " - " + Stats.AttackValue);
+                //print(Unit + " - " + Stats.AttackValue);
 
                 AttackProfiles.Add(Stats);
             }
@@ -302,10 +302,10 @@ public class UnitAI : UnitBase
 
         AttackProfiles.Sort((x, y) => x.AttackValue.CompareTo(y.AttackValue));
 
-        foreach(AttackStats Stat in AttackProfiles)
-        {
-            print(Stat.AttackValue);
-        }
+        //foreach(AttackStats Stat in AttackProfiles)
+        //{
+        //    print(Stat.AttackValue);
+        //}
     }
 
     //No over kill - Attack Value

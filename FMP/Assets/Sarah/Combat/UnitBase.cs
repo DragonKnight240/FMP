@@ -295,7 +295,7 @@ public class UnitBase : MonoBehaviour
     void CalculatePath(Tile NewTile)
     {
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-        print(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit);
+        //print(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit);
         Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
 
@@ -654,6 +654,11 @@ public class UnitBase : MonoBehaviour
             AttackTarget.DamageToTake = 0;
             AttackTarget.NoDamageZoomIn = true;
         }
+
+        if (CompareTag("Ally"))
+        {
+            Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
+        }
     }
 
     public void ShowDamageNumbers()
@@ -755,7 +760,7 @@ public class UnitBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void GainSupportEXP(int Damage)
+    internal void GainSupportEXP(int Damage)
     {
         foreach(UnitBase Unit in SupportedUnits)
         {
@@ -769,7 +774,7 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    void GainWeaponEXP()
+    internal void GainWeaponEXP()
     {
         switch(EquipedWeapon.WeaponType)
         {
@@ -796,18 +801,19 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    void GainClassEXP(int Damage)
+    internal void GainClassEXP(int Damage)
     {
         Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
     }
 
-    void GainCharacterEXP(int Damage)
+    internal void GainCharacterEXP(int Damage)
     {
         EXP += Mathf.RoundToInt(Damage * Random.Range(0.25f, 0.35f));
 
         LevelUp();
     }
 
+    //Main LevelUP
     void LevelUp()
     {
         if(Level > EXPNeeded.Count)
@@ -817,14 +823,40 @@ public class UnitBase : MonoBehaviour
 
         if(EXP >= EXPNeeded[Level - 1])
         {
-            Strength += Mathf.FloorToInt(GrowthTotal(Class.StrengthGrowthRate, GrowthRateStrength));
-            Dexterity += Mathf.FloorToInt(GrowthTotal(Class.DexterityGrowthRate, GrowthRateDexterity));
-            Magic += Mathf.FloorToInt(GrowthTotal(Class.MagicGrowthRate, GrowthRateMagic));
-            Defence += Mathf.FloorToInt(GrowthTotal(Class.DefenceGrowthRate, GrowthRateDefence));
-            Resistance += Mathf.FloorToInt(GrowthTotal(Class.ResistanceGrowthRate, GrowthRateResistance));
-            Speed += Mathf.FloorToInt(GrowthTotal(Class.SpeedGrowthRate, GrowthRateSpeed));
-            Luck += Mathf.FloorToInt(GrowthTotal(Class.LuckGrowthRate, GrowthRateLuck));
-            HealthMax += Mathf.FloorToInt(GrowthTotal(Class.HPGrowthRate, GrowthRateHP));
+            int NewAmount = Mathf.FloorToInt(GrowthTotal(Class.StrengthGrowthRate, GrowthRateStrength));
+            Strength += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Str, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.DexterityGrowthRate, GrowthRateDexterity));
+            Dexterity += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Dex, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.MagicGrowthRate, GrowthRateMagic));
+            Magic += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Mag, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.DefenceGrowthRate, GrowthRateDefence));
+            Defence += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Def, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.ResistanceGrowthRate, GrowthRateResistance));
+            Resistance += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Res, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.SpeedGrowthRate, GrowthRateSpeed));
+            Speed += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Speed, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.LuckGrowthRate, GrowthRateLuck));
+            Luck += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Luck, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.HPGrowthRate, GrowthRateHP));
+            HealthMax += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.HP, NewAmount);
+
+            Level++;
+            Interact.Instance.CombatMenu.ToLevel = this;
         }
     }
 

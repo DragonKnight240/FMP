@@ -1615,6 +1615,7 @@ MonoBehaviour:
   UIHealth: {fileID: 6842069966975610096}
   HealthLerpSpeed: 10
   UnitName: Enzin
+  UnitImage: {fileID: 0}
   HealthMax: 45
   CurrentHealth: 0
   Movement: 2
@@ -1633,6 +1634,17 @@ MonoBehaviour:
   Resistance: 8
   Speed: 10
   Luck: 5
+  Level: 1
+  EXP: 0
+  EXPNeeded: 64000000c80000002c01000090010000
+  GrowthRateHP: 0
+  GrowthRateStrength: 0
+  GrowthRateDexterity: 0
+  GrowthRateMagic: 0
+  GrowthRateDefence: 0
+  GrowthRateResistance: 0
+  GrowthRateSpeed: 0
+  GrowthRateLuck: 0
   BowProficiency: 0
   BowLevel: 0
   SwordProficiency: 0
@@ -1652,28 +1664,10 @@ MonoBehaviour:
   AttackCanvas: {fileID: 5755116468365130194}
   AttackText: {fileID: 4643842094980765138}
   InRangeTargets: []
-  SupportStats:
-  - Stat: 0
-    Increase: 10
-  - Stat: 3
-    Increase: 5
-  - Stat: 4
-    Increase: 10
-  - Stat: 2
-    Increase: 5
-  - Stat: 1
-    Increase: 10
-  SupportUpgrade: 
   SupportsWith:
-  - Unit: {fileID: 1696317298173679001, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
-    Level: 0
-    EXP: 0
-  - Unit: {fileID: 1696317298173679001, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-    Level: 0
-    EXP: 0
+  - {fileID: 11400000, guid: f6960be7bea4e654fbc6eca7ed0d4597, type: 2}
+  - {fileID: 11400000, guid: c6fc2722020185341bfe898dd19a2382, type: 2}
+  - {fileID: 11400000, guid: 7a9f4098418c8384eb7542a0cd43ceed, type: 2}
   WeaponImage: {fileID: 7023822515099512498}
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
