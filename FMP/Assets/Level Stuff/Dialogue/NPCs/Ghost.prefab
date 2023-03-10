@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95177ab2c190e924b824b6ab6c6cc479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Reverse: 0
 --- !u!1 &3663593244171409703
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +394,7 @@ GameObject:
   - component: {fileID: 3954283709504320081}
   - component: {fileID: 6252980535736566495}
   - component: {fileID: 4650787667727912950}
+  - component: {fileID: 3188659571144768091}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -464,10 +466,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47eae7196c02e6f4aa2bea59884f032c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dialogue:
-  - {fileID: 0}
-  - {fileID: 0}
+  PreTutorialDialogue: []
+  PostTutorialDialogue: []
   ButtonPrompt: {fileID: 1010893564799529850}
+--- !u!205 &3188659571144768091
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3954283709511696857}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.00020825863, y: 0.8889548, z: -0.06326836}
+  m_Size: 2.0514483
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.14236884
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5208743885391018156}
+  m_Enabled: 1
 --- !u!1 &3954283709511696859
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,5 +992,10 @@ PrefabInstance:
 --- !u!4 &5208743885386232102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 449332, guid: 99cdb7462838a6342bd2288456e75888, type: 3}
+  m_PrefabInstance: {fileID: 5208743885385886226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5208743885391018156 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13750974, guid: 99cdb7462838a6342bd2288456e75888, type: 3}
   m_PrefabInstance: {fileID: 5208743885385886226}
   m_PrefabAsset: {fileID: 0}
