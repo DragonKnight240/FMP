@@ -6,10 +6,13 @@ using TMPro;
 
 public class OverworldMenu : MonoBehaviour
 {
+    static public OverworldMenu Instance;
+
     public GameObject InventoryMenu;
     public GameObject ButtonsMenu;
     public GameObject UnitSection;
     public GameObject ConveySection;
+    public GameObject AttacksMenu;
 
     public Button SwordButton;
     public Button MageButton;
@@ -35,6 +38,18 @@ public class OverworldMenu : MonoBehaviour
 
     public List<GameObject> InventoryItems;
 
+    public GameObject AttackParent;
+    internal List<GameObject> Attacks;
+
+    public GameObject ItemDetails;
+
+    public TMP_Text ItemName;
+    public TMP_Text Damage;
+    public TMP_Text Crit;
+    public TMP_Text Hit;
+    public TMP_Text Range;
+    public TMP_Text Durability;
+
     public GameObject ConvoyItems;
     public GameObject ConvoyPrefab;
     internal List<GameObject> ConvoyPrefabItems;
@@ -42,7 +57,25 @@ public class OverworldMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         ConvoyPrefabItems = new List<GameObject>();
+
+        Attacks = new List<GameObject>();
+
+        foreach(Transform Child in AttackParent.transform)
+        {
+            Attacks.Add(Child.gameObject);
+        }
+
+        ItemDetails.SetActive(false);
     }
 
     // Update is called once per frame
@@ -123,21 +156,72 @@ public class OverworldMenu : MonoBehaviour
         LevelSword.text = Character.SwordLevel.ToString();
 
         int Index = 0;
-        foreach(Item item in Character.Inventory)
+
+        foreach(GameObject InventorySlots in InventoryItems)
         {
-            if(Index > Character.Inventory.Count)
+            if (Index > Character.Inventory.Count - 1)
             {
-                InventoryItems[Index].SetActive(false);
+                InventorySlots.GetComponentInChildren<TMP_Text>().text = "None";
+                InventorySlots.GetComponent<ItemButton>().LinkedItem = null;
+                InventorySlots.SetActive(true);
+                Index++;
                 continue;
             }
-            InventoryItems[Index].GetComponentInChildren<TMP_Text>().text = item.Name;
 
-            InventoryItems[Index].SetActive(true);
+            InventorySlots.GetComponentInChildren<TMP_Text>().text = Character.Inventory[Index].Name;
+            InventorySlots.GetComponent<ItemButton>().LinkedItem = Character.Inventory[Index];
+            InventorySlots.SetActive(true);
+
+            Index++;
         }
 
         ConveySection.SetActive(false);
         UnitSection.SetActive(true);
         InventoryMenu.SetActive(true);
+
+        if(!Shop.Instance.gameObject.activeInHierarchy)
+        {
+            DisplayAttacks(Character);
+        }
+
+        AttacksMenu.SetActive(Shop.Instance.gameObject.activeInHierarchy || Character.UnlockedAttacks.Count == 0? false: true);
+    }
+
+    internal void DisplayAttacks(CharacterData Unit)
+    {
+        int Index = 0;
+
+        foreach(GameObject Attack in Attacks)
+        {
+            if(Unit.UnlockedAttacks.Count - 1 < Index)
+            {
+                Index++;
+                Attack.SetActive(false);
+                continue;
+            }
+
+            Attack.GetComponentInChildren<TMP_Text>().text = Unit.UnlockedAttacks[Index].Name;
+            Attack.SetActive(true);
+
+            Index++;
+        }
+    }
+
+    public void ItemDisplay(Weapon item)
+    {
+        ItemName.text = item.Name;
+        Damage.text = item.Damage.ToString();
+        Crit.text = item.CritRate.ToString();
+        Hit.text = item.HitRate.ToString();
+        Range.text = item.Range.ToString();
+        Durability.text = item.Durablity.ToString() + " / " + item.CurrentDurablity.ToString();
+
+        ItemDetails.SetActive(true);
+    }
+
+    public void ItemUndisplay()
+    {
+        ItemDetails.SetActive(false);
     }
 
     public void OpenInventory()
