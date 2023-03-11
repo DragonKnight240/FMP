@@ -15,6 +15,9 @@ MonoBehaviour:
   Name: Soldier
   Abilties: []
   LevelRequirement: 
+  Level: 0
+  EXP: 0
+  TotalEXPNeeded: 64000000c80000002c01000090010000
   Strength: 0
   Dexterity: 0
   Magic: 0
@@ -22,3 +25,11 @@ MonoBehaviour:
   Resistance: 0
   Speed: 0
   Luck: 0
+  HPGrowthRate: 0
+  StrengthGrowthRate: 0
+  DexterityGrowthRate: 0
+  MagicGrowthRate: 0
+  DefenceGrowthRate: 0
+  ResistanceGrowthRate: 0
+  SpeedGrowthRate: 0
+  LuckGrowthRate: 0

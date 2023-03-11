@@ -171,6 +171,15 @@ public class GameManager : MonoBehaviour
         {
             if (!CombatTutorialComplete && ToolTipManager.Instance.ToolTipObject.activeInHierarchy)
             {
+                if(ToolTipManager.Instance.CurrentToolTipIndex < 0)
+                {
+                    ToolTipManager.Instance.CurrentToolTipIndex = 0;
+                }
+                else if(ToolTipManager.Instance.CurrentToolTipIndex > ToolTipManager.Instance.Tooltips.Count - 1)
+                {
+                    ToolTipManager.Instance.CurrentToolTipIndex = ToolTipManager.Instance.Tooltips.Count - 1;
+                }
+
                 if (ToolTipManager.Instance.PendingToolTip)
                 {
                     //print("Pending: Checking " + Type + " - Current: " + ToolTipManager.Instance.PendingToolTip.tutorial);
