@@ -36,6 +36,11 @@ public class TooltipTrigger : MonoBehaviour
                 }
         }
 
+        if(Pending & GameManager.Instance.StartedGame)
+        {
+            OverworldToolTip.Instance.SetTooltip(Tooltip);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)

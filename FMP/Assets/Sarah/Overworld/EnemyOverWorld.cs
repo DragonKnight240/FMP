@@ -48,7 +48,10 @@ public class EnemyOverWorld : MonoBehaviour
             Destroy(this);
         }
 
-        Player = FindObjectOfType<PlayerOverworld>().gameObject;
+        if (FindObjectOfType<PlayerOverworld>())
+        {
+            Player = FindObjectOfType<PlayerOverworld>().gameObject;
+        }
         RB = GetComponent<Rigidbody>();
 
         if(RB == null)

@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
                 SetUpUnit(TempUnit.GetComponent<UnitBase>());
                 AddCharacterData(TempUnit.GetComponent<UnitBase>());
                 AvailableUnits.Add(Unit);
+                GameManager.Instance.CurrentUnitNum++;
 
                 Destroy(TempUnit);
                 break;

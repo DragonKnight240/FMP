@@ -401,7 +401,6 @@ public class UnitManager : MonoBehaviour
 
         if(!GameManager.Instance.CombatTutorialComplete)
         {
-            GameManager.Instance.CurrentUnitNum = 2;
             GameManager.Instance.RecruitUnit("Magic");
             GameManager.Instance.CombatTutorialComplete = true;
         }
