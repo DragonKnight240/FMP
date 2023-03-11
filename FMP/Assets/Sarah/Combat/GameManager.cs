@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public  List<GameObject> AvailableUnits;
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
+    internal Quaternion PlayerReturnRotation;
     internal int CurrentUnitNum = 1;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
         if (FindObjectOfType<PlayerOverworld>())
         {
             PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+            PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
     }
 

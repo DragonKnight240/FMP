@@ -43,6 +43,7 @@ public class UnitBase : MonoBehaviour
     internal int[] Position;
     public int Movement = 3;
     public float MoveSpeed = 10;
+    internal bool EXPPending = false;
 
     public List<Tile> MoveableTiles;
     public List<Tile> AttackTiles;
@@ -234,6 +235,12 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+
+            if(EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
+            {
+                EXPPending = false;
+                Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
+            }
         }
 
         if (UIHealth)
@@ -292,10 +299,12 @@ public class UnitBase : MonoBehaviour
     }
 
     //Find Path to the target sqaure
-    void CalculatePath(Tile NewTile)
+    void CalculatePath(Tile NewTile, bool ChangeOccupant = true)
     {
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-        //print(TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Unit);
+        if (ChangeOccupant)
+        {
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+        }
         Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
 
@@ -515,6 +524,8 @@ public class UnitBase : MonoBehaviour
             AttackTiles.Clear();
             AttackTiles = new List<Tile>();
 
+            //print(Tiles[0]);
+
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
                 Tiles = WeaponRangeAttack(Tiles, ShowTiles);
@@ -566,12 +577,9 @@ public class UnitBase : MonoBehaviour
                 MoveableArea(false);
                 HideAllChangedTiles();
                 CalculateReturnAttack();
-                print("No Move");
                 return;
             }
         }
-
-        print("Moving");
 
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
@@ -660,9 +668,9 @@ public class UnitBase : MonoBehaviour
             AttackTarget.NoDamageZoomIn = true;
         }
 
-        if (CompareTag("Ally"))
+        if (CompareTag("Ally") && !ReturnAttack)
         {
-            Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
+            EXPPending = true;
         }
     }
 
@@ -689,7 +697,6 @@ public class UnitBase : MonoBehaviour
     {
         if(ReturnAttack)
         {
-            //print("Return Attack");
             AttackingZoom();
         }
         else
@@ -1046,7 +1053,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
     {
-        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>());
+        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), false);
 
         List<GameObject> tile = new List<GameObject>();
         tile.Add(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
@@ -1454,14 +1461,14 @@ public class UnitBase : MonoBehaviour
         List<Tile> Path = new List<Tile>();
         Node Node = EndNode;
 
-        if (Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile) || Ignore))
+        if ((Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile)) || Ignore))
         {
             Path.Add(EndNode.Tile);
         }
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
-            if (Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile) || Ignore))
+            if ((Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile)) || Ignore))
             {
                 Path.Add(Node.PreviousTile.Tile);
             }
