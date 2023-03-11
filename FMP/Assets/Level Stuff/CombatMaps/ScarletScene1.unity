@@ -624,7 +624,10 @@ MonoBehaviour:
   FollowTarget: {fileID: 0}
   offSet: {x: 0, y: 45, z: -30}
   SmoothSpeed: 0.5
+  GridSmoothSpeed: 1
   ButtonMovement: 1
+  ZoomOutSpeed: 0
+  MaxZoomOut: 95
 --- !u!114 &107161044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2188,7 +2191,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.56445867, b: 0.16509432, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -5644,7 +5647,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.54732007, b: 0.2028302, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
