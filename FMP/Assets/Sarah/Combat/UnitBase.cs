@@ -121,11 +121,9 @@ public class UnitBase : MonoBehaviour
     bool NoDamageZoomIn = false;
     public float NoDamageTime = 3.0f;
     float NoDamageTimer = 0.0f;
-    DamageNumbers DamageNumbersController;
+    public DamageNumbers DamageNumbersController;
     int DamageToTake;
     internal List<UnitBase> SupportedUnits;
-    public GameObject AttackCanvas;
-    public TMP_Text AttackText;
 
     public List<UnitBase> InRangeTargets;
 
@@ -159,12 +157,7 @@ public class UnitBase : MonoBehaviour
         WeaponsIninventory.Add(BareHands);
 
         AnimControl = GetComponent<CombatAnimControl>();
-
-        DamageNumbersController = GetComponentInChildren<DamageNumbers>();
         SupportedUnits = new List<UnitBase>();
-
-        AttackCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        AttackCanvas.SetActive(false);
 
     }
 
@@ -589,11 +582,11 @@ public class UnitBase : MonoBehaviour
 
     public void DisplayAttack()
     {
-        AttackText.text = CurrentAttack.Name;
+        Interact.Instance.CombatMenu.AttackText.text = CurrentAttack.Name;
 
-        AttackCanvas.SetActive(true);
-        AttackCanvas.GetComponent<UIFade>().ToFadeIn();
-        AttackCanvas.GetComponent<UIFade>().Both = true;
+        Interact.Instance.CombatMenu.AttackText.gameObject.SetActive(true);
+        Interact.Instance.CombatMenu.AttackText.gameObject.GetComponent<UIFade>().ToFadeIn();
+        Interact.Instance.CombatMenu.AttackText.gameObject.GetComponent<UIFade>().Both = true;
     }
 
     void CalculateReturnAttack()

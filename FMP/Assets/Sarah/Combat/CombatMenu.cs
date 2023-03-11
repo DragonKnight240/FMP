@@ -76,6 +76,10 @@ public class CombatMenu : MonoBehaviour
     public TMP_Text LivingAlliesText;
     public TMP_Text UnitsToActText;
 
+
+    //Attack Name
+    public TMP_Text AttackText; 
+
     //LevelUP
     public GameObject EXP;
     public int TargetEXP;
@@ -136,6 +140,9 @@ public class CombatMenu : MonoBehaviour
 
         EXP.GetComponent<CanvasGroup>().alpha = 0;
         EXP.SetActive(false);
+
+        AttackText.GetComponent<CanvasGroup>().alpha = 0;
+        AttackText.gameObject.SetActive(false);
     }
 
     private void Update()
