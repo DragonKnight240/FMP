@@ -18,6 +18,7 @@ public class Weapon : Item
     public int Damage;
     public int Range;
     public int Durablity;
+    internal int CurrentDurablity;
     public int HitRate;
     public int CritRate;
     public SpecialAttacks Special;

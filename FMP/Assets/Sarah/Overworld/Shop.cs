@@ -142,6 +142,9 @@ public class Shop : MonoBehaviour
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
         UpdateShop();
+
+        OverworldMenu.Instance.OpenInventory();
+
         ShopMenuObject.SetActive(true);
         ShopMenuObject.GetComponent<UIFade>().ToFadeIn();
     }

@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     public GameObject MainCamera;
     public Options options;
     public CinemachineVirtualCamera VirtualCamera;
+    public GameObject CompassObj;
 
     void Start()
     {
@@ -63,6 +64,8 @@ public class MainMenu : MonoBehaviour
         options.InGame = true;
         FindObjectOfType<PlayerOverworld>().CanMove = true;
         GameManager.Instance.StartedGame = true;
+        CompassObj.SetActive(true);
+        CompassObj.GetComponent<UIFade>().ToFadeIn();
         Destroy(this);
     }
 

@@ -8,8 +8,9 @@ public class SaveSystem : MonoBehaviour
 {
     public class SaveObject
     {
-        public List<GameObject> Units;
+        public List<CharacterData> Units;
         public Vector3 PlayerLocationOverworld;
+        public Quaternion PlayerRotationOverworld;
     }
 
     public static SaveSystem Instance;
@@ -29,7 +30,7 @@ public class SaveSystem : MonoBehaviour
 
     public void Save()
     {
-        SaveObject saveObject = new SaveObject {Units = GameManager.Instance.ControlledUnits, PlayerLocationOverworld = GameManager.Instance.PlayerReturnToOverworld };
+        SaveObject saveObject = new SaveObject {Units = GameManager.Instance.UnitData, PlayerLocationOverworld = GameManager.Instance.PlayerReturnToOverworld, PlayerRotationOverworld = GameManager.Instance.PlayerReturnRotation };
         string Json = JsonUtility.ToJson(saveObject);
 
         File.WriteAllText(Application.dataPath + "/save.txt", Json);
@@ -42,7 +43,7 @@ public class SaveSystem : MonoBehaviour
             string Json = File.ReadAllText(Application.dataPath + "/save.txt");
             SaveObject LoadObject = JsonUtility.FromJson<SaveObject>(Json);
 
-            GameManager.Instance.ControlledUnits = LoadObject.Units;
+            GameManager.Instance.UnitData = LoadObject.Units;
             GameManager.Instance.PlayerReturnToOverworld = LoadObject.PlayerLocationOverworld;
 
             print("Loaded");

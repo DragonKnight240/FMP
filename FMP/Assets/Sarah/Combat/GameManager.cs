@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public  List<GameObject> AvailableUnits;
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
+    internal Quaternion PlayerReturnRotation;
     internal int CurrentUnitNum = 1;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
+    internal bool OverworldMoveTutorialComplete = false;
+    internal bool OverworldEnemyTutorialComplete = false;
     internal bool ArcherRecruitComplete = false;
     internal bool GauntletRecruitComplete = false;
     internal bool PostDungeon1Complete = false;
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
         if (FindObjectOfType<PlayerOverworld>())
         {
             PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+            PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
     }
 
@@ -112,6 +116,8 @@ public class GameManager : MonoBehaviour
         data.Inventory = Unit.Inventory;
 
         //Stats
+        data.Level = Unit.Level;
+        data.EXP = Unit.EXP;
         data.Strength = Unit.Strength;
         data.Dexterity = Unit.Dexterity;
         data.Magic = Unit.Magic;
@@ -138,6 +144,9 @@ public class GameManager : MonoBehaviour
 
         //Attack
         data.UnlockedAttacks = Unit.UnlockedAttacks;
+
+        //Support
+        data.Supports = Unit.SupportsWith;
 
         GameManager.Instance.UnitData.Add(data);
     }

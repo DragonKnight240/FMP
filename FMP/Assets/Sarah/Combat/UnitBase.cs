@@ -43,6 +43,7 @@ public class UnitBase : MonoBehaviour
     internal int[] Position;
     public int Movement = 3;
     public float MoveSpeed = 10;
+    internal bool EXPPending = false;
 
     public List<Tile> MoveableTiles;
     public List<Tile> AttackTiles;
@@ -78,6 +79,7 @@ public class UnitBase : MonoBehaviour
     public int EXP;
     public List<int> EXPNeeded;
 
+    public int GrowthRateHP;
     public int GrowthRateStrength;
     public int GrowthRateDexterity;
     public int GrowthRateMagic;
@@ -233,6 +235,12 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+
+            if(EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
+            {
+                EXPPending = false;
+                Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
+            }
         }
 
         if (UIHealth)
@@ -291,14 +299,13 @@ public class UnitBase : MonoBehaviour
     }
 
     //Find Path to the target sqaure
-    void CalculatePath(Tile NewTile)
+    void CalculatePath(Tile NewTile, bool ChangeOccupant = true)
     {
-
-        if (!MovedForTurn)
+        if (ChangeOccupant)
         {
             TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
-            Path = new List<Tile>(FindRouteTo(NewTile, false));
         }
+        Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
 
     public bool AttackableArea(List<GameObject> CheckingTiles, bool ShowTiles = true)
@@ -515,6 +522,9 @@ public class UnitBase : MonoBehaviour
             List<GameObject> Tiles = new List<GameObject>();
             Tiles.Add(TileObj? TileObj: TileManager.Instance.Grid[Position[0], Position[1]]);
             AttackTiles.Clear();
+            AttackTiles = new List<Tile>();
+
+            //print(Tiles[0]);
 
             for (int i = 0; i < EquipedWeapon.Range; i++)
             {
@@ -540,6 +550,7 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    //Main Attack Function
     internal void Attack(UnitBase Enemy)
     {
         isSupported();
@@ -558,6 +569,7 @@ public class UnitBase : MonoBehaviour
         AttackTiles = new List<Tile>();
         FindInRangeTargets(true);
 
+        //Checks from current Position
         if (InRangeTargets.Count != 0)
         {
             if (InRangeTargets.Contains(Enemy))
@@ -655,6 +667,11 @@ public class UnitBase : MonoBehaviour
             AttackTarget.DamageToTake = 0;
             AttackTarget.NoDamageZoomIn = true;
         }
+
+        if (CompareTag("Ally") && !ReturnAttack)
+        {
+            EXPPending = true;
+        }
     }
 
     public void ShowDamageNumbers()
@@ -680,7 +697,6 @@ public class UnitBase : MonoBehaviour
     {
         if(ReturnAttack)
         {
-            //print("Return Attack");
             AttackingZoom();
         }
         else
@@ -756,7 +772,7 @@ public class UnitBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void GainSupportEXP(int Damage)
+    internal void GainSupportEXP(int Damage)
     {
         foreach(UnitBase Unit in SupportedUnits)
         {
@@ -770,45 +786,75 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    void GainWeaponEXP()
+    internal void GainWeaponEXP()
     {
         switch(EquipedWeapon.WeaponType)
         {
             case WeaponType.Bow:
                 {
                     BowProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+                    
+                    if(BowProficiency >= RankEXP[BowLevel - 1])
+                    {
+                        BowProficiency++;
+                    }
+                    
                     break;
                 }
             case WeaponType.Sword:
                 {
                     SwordProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (SwordProficiency >= RankEXP[SwordLevel - 1])
+                    {
+                        SwordProficiency++;
+                    }
+
                     break;
                 }
             case WeaponType.Staff:
                 {
                     MagicProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (MagicProficiency >= RankEXP[MagicLevel - 1])
+                    {
+                        MagicProficiency++;
+                    }
+
                     break;
                 }
             case WeaponType.Gauntlets:
                 {
                     FistProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
+
+                    if (FistProficiency >= RankEXP[FistLevel - 1])
+                    {
+                        FistProficiency++;
+                    }
+
                     break;
                 }
         }
     }
 
-    void GainClassEXP(int Damage)
+    internal void GainClassEXP(int Damage)
     {
         Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
+
+        if(Class.EXP >= Class.TotalEXPNeeded[Class.Level - 1])
+        {
+            Class.Level++;
+        }
     }
 
-    void GainCharacterEXP(int Damage)
+    internal void GainCharacterEXP(int Damage)
     {
         EXP += Mathf.RoundToInt(Damage * Random.Range(0.25f, 0.35f));
 
         LevelUp();
     }
 
+    //Main LevelUP
     void LevelUp()
     {
         if(Level > EXPNeeded.Count)
@@ -818,17 +864,57 @@ public class UnitBase : MonoBehaviour
 
         if(EXP >= EXPNeeded[Level - 1])
         {
-            
+            int NewAmount = Mathf.FloorToInt(GrowthTotal(Class.StrengthGrowthRate, GrowthRateStrength));
+            Strength += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Str, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.DexterityGrowthRate, GrowthRateDexterity));
+            Dexterity += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Dex, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.MagicGrowthRate, GrowthRateMagic));
+            Magic += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Mag, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.DefenceGrowthRate, GrowthRateDefence));
+            Defence += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Def, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.ResistanceGrowthRate, GrowthRateResistance));
+            Resistance += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Res, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.SpeedGrowthRate, GrowthRateSpeed));
+            Speed += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Speed, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.LuckGrowthRate, GrowthRateLuck));
+            Luck += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.Luck, NewAmount);
+
+            NewAmount = Mathf.FloorToInt(GrowthTotal(Class.HPGrowthRate, GrowthRateHP));
+            HealthMax += NewAmount;
+            Interact.Instance.CombatMenu.StatIncrease(Stats.HP, NewAmount);
+
+            Level++;
+            Interact.Instance.CombatMenu.ToLevel = this;
         }
     }
 
     float GrowthTotal(int ClassRate, int CharacterRate)
     {
-        float TotalRate = ClassRate + CharacterRate;
+        float Increase = ClassRate + CharacterRate;
 
-        TotalRate /= 100;
+        Increase /= 100;
 
-        return TotalRate;
+        float Rate = Increase % 1;
+
+        if(Random.Range(0, 101) <= Rate)
+        {
+            Increase++;
+        }
+
+        return Increase;
     }
 
     void AddOverflow()
@@ -967,7 +1053,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
     {
-        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>());
+        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), false);
 
         List<GameObject> tile = new List<GameObject>();
         tile.Add(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
@@ -1375,14 +1461,14 @@ public class UnitBase : MonoBehaviour
         List<Tile> Path = new List<Tile>();
         Node Node = EndNode;
 
-        if (Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile) || Ignore))
+        if ((Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile)) || Ignore))
         {
             Path.Add(EndNode.Tile);
         }
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
-            if (Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile) || Ignore))
+            if ((Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile)) || Ignore))
             {
                 Path.Add(Node.PreviousTile.Tile);
             }

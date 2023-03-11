@@ -25,6 +25,7 @@ public class DialogueLoadAfter : MonoBehaviour
         if(Pending && !DialogueSystem.Instance.PlayingDialogue)
         {
             GameManager.Instance.PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+            GameManager.Instance.PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
             SceneLoader.Instance.LoadNewScene(SceneToLoad);
         }
     }

@@ -30,7 +30,7 @@ public class Class : ScriptableObject
     public int MagicGrowthRate;
     public int DefenceGrowthRate;
     public int ResistanceGrowthRate;
-    public int SpeedStrengthGrowthRate;
+    public int SpeedGrowthRate;
     public int LuckGrowthRate;
 
     internal void FindLevel()

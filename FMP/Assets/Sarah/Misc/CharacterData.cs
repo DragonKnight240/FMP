@@ -14,6 +14,8 @@ public class CharacterData
     public List<Item> Inventory;
 
     //Stats
+    public int Level;
+    public int EXP;
     public int Strength;
     public int Dexterity;
     public int Magic;
@@ -40,4 +42,7 @@ public class CharacterData
 
     //Attack
     public List<SpecialAttacks> UnlockedAttacks;
+
+    //Supports
+    public List<UnitSupports> Supports;
 }
