@@ -104,6 +104,10 @@ public class UnitManager : MonoBehaviour
                 {
                     Enemy.GetComponent<ScriptedUnit>().FollowScript();
                 }
+                else if(Enemy.GetComponent<BossAI>())
+                {
+                    Enemy.GetComponent<BossAI>().AoEPatient();
+                }
                 else
                 {
                     if (Enemy.GetComponent<UnitAI>())
@@ -328,6 +332,11 @@ public class UnitManager : MonoBehaviour
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
             UnitBase.UIHealth.value = UnitBase.CurrentHealth;
+
+            if(UnitBase.GetComponent<BossAI>())
+            {
+                UnitBase.ReturnAttackPossible = false;
+            }
         }
 
         TurnManager.Instance.TurnChange.AddListener(Interact.Instance.ResetTargets);
@@ -351,44 +360,6 @@ public class UnitManager : MonoBehaviour
         {
             //data = new CharacterData();
             Ally = AllyUnits[i].GetComponent<UnitBase>();
-
-            //data.UnitName = Ally.UnitName;
-            //data.HealthMax = Ally. HealthMax;
-            //data.CurrentHealth = Ally.CurrentHealth;
-            //data.Movement = Ally.Movement;
-
-            ////Inventory
-            //data.Inventory = Ally.Inventory;
-
-            ////Stats
-            //data.Strength = Ally.Strength;
-            //data.Dexterity = Ally.Dexterity;
-            //data.Magic = Ally.Magic;
-            //data.Defence = Ally.Defence;
-            //data.Resistance = Ally.Resistance;
-            //data.Speed = Ally.Speed;
-            //data.Luck = Ally.Luck;
-
-            ////Weapon Proficientcy
-            //data.BowProficiency = Ally.BowProficiency;
-            //data.BowLevel = Ally.BowLevel;
-
-            //data.SwordProficiency = Ally.SwordProficiency;
-            //data.SwordLevel = Ally.SwordLevel;
-
-            //data.MagicProficiency = Ally.MagicProficiency;
-            //data.MagicLevel = Ally.MagicLevel;
-
-            //data.FistProficiency = Ally.FistProficiency;
-            //data.FistLevel = Ally.FistLevel;
-
-            ////Class
-            //data.Class = Ally.Class;
-
-            ////Attack
-            //data.UnlockedAttacks = Ally.UnlockedAttacks;
-
-            //GameManager.Instance.UnitData.Add(data);
 
             GameManager.Instance.AddCharacterData(Ally);
         }

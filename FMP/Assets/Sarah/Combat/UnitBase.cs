@@ -113,7 +113,7 @@ public class UnitBase : MonoBehaviour
     public List<SpecialAttacks> AvailableAttacks;
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
-    bool ToAttack = false;
+    internal bool ToAttack = false;
     bool AttackZoomIn = false;
     bool HitZoomIn = false;
     bool DeathZoomIn = false;
@@ -124,6 +124,8 @@ public class UnitBase : MonoBehaviour
     public DamageNumbers DamageNumbersController;
     int DamageToTake;
     internal List<UnitBase> SupportedUnits;
+    internal bool CanCrit = false;
+    internal bool ReturnAttackPossible = true;
 
     public List<UnitBase> InRangeTargets;
 
@@ -605,8 +607,12 @@ public class UnitBase : MonoBehaviour
 
     public void AttackingZoom()
     {
-        transform.LookAt(AttackTarget.transform);
-        AttackTarget.transform.LookAt(transform);
+        if ((AoESpecialAttack)CurrentAttack ? false: true)
+        {
+            transform.LookAt(AttackTarget.transform);
+            AttackTarget.transform.LookAt(transform);
+        }
+
         AttackCamera.SetActive(true);
         Interact.Instance.VirtualCam.SetActive(false);
 
@@ -688,7 +694,7 @@ public class UnitBase : MonoBehaviour
 
     public void ReturnTo()
     {
-        if(ReturnAttack)
+        if(ReturnAttack && ReturnAttackPossible)
         {
             AttackingZoom();
         }
@@ -698,7 +704,7 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    void PlayAttackAnim()
+    internal void PlayAttackAnim()
     {
         AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
         SoundManager.Instance.PlaySFX(AttackSound);
@@ -1313,7 +1319,21 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                ShowAllInRangeTiles();
+                if (GetComponent<BossAI>())
+                {
+                    if (GetComponent<BossAI>().PendingAttack)
+                    {
+                        GetComponent<BossAI>().ShowDamageRange();
+                    }
+                    else
+                    {
+                        ShowAllInRangeTiles();
+                    }
+                }
+                else
+                {
+                    ShowAllInRangeTiles();
+                }
             }
         }
 

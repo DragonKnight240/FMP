@@ -166,6 +166,15 @@ public class Tile : MonoBehaviour
                 Hide();
                 return;
             }
+
+            if (Unit.GetComponent<BossAI>())
+            {
+                if (Unit.GetComponent<BossAI>().PendingAttack)
+                {
+                    Unit.GetComponent<BossAI>().ShowDamageRange();
+                    return;
+                }
+            }
         }
 
         if (!Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy
