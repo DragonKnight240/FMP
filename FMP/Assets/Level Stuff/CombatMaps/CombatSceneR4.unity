@@ -4290,7 +4290,9 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-  AvailableUnits: []
+  AvailableUnits:
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
+  - {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
   UnitData: []
   MaxRecruitable: 2
   Convoy: []
@@ -4535,6 +4537,10 @@ MonoBehaviour:
     Y: 7
   - UnitType: 1
     Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 4
+    Y: 6
+  - UnitType: 1
+    Unit: {fileID: 1478534406159762325, guid: 3a6411cc752d4214e8bbbfb0c563f46b, type: 3}
     X: 4
     Y: 8
   AllyUnits: []

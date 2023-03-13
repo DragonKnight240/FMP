@@ -5338,6 +5338,7 @@ MonoBehaviour:
   AvailableUnits:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
+  - {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
   UnitData: []
   MaxRecruitable: 2
   Convoy: []
@@ -5803,6 +5804,10 @@ MonoBehaviour:
     Unit: {fileID: 1478534406159762325, guid: 5b1dbc64869e2854b99a3c1a1e02d408, type: 3}
     X: 4
     Y: 5
+  - UnitType: 0
+    Unit: {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
+    X: 6
+    Y: 3
   AllyUnits: []
   OverWorldScene: Test
 --- !u!4 &1653266685
