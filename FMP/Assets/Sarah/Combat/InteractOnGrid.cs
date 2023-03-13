@@ -12,6 +12,7 @@ public enum Direction
 
 public class InteractOnGrid : MonoBehaviour
 {
+    public Class ClassNeeded;
     internal int[] Position;
     internal List<GameObject> ActiveTiles;
     internal Dictionary<Tile, Direction> InteractLocations;
