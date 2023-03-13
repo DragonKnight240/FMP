@@ -321,12 +321,19 @@ Animator:
   m_GameObject: {fileID: 1478534406159762325}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 60c679ff3e4a6fb4986fecae0501a87f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 862d5179be286484f8d79de8ce84ed22, type: 2}
+  m_Controller: {fileID: 9100000, guid: 548e5fa41b8db9242a42e53344cf6605, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Body'\n\tTransform 'Neck'\n\tTransform 'UpperLeg_L'\n\tTransform
+    'Spine03'\n\tTransform 'Spine01'\n\tTransform 'LowerLeg_L'\n\tTransform 'LowerLeg_R'\n\tTransform
+    'Body'\n\tTransform 'Neck'\n\tTransform 'Spine02'\n\tand more ...\n\tFrom animation
+    clip 'IdleBattle'\n\tFrom animation clip 'Die'\n\tFrom animation clip 'WalkFWD'\n\tFrom
+    animation clip 'AoEDemonAttack'\n\tFrom animation clip 'GetHit'\n\tFrom animation
+    clip 'Taunting'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -415,7 +422,7 @@ MonoBehaviour:
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 2
-  TilesTakingUp: 0
+  isMultiTile: 0
   AoELocations: []
   TauntSound: {fileID: 0}
 --- !u!114 &6387756794129780633

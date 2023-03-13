@@ -334,7 +334,7 @@ Animator:
   m_GameObject: {fileID: 1478534406159762325}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e266bf5a672dbb743a884521d2962a32, type: 3}
-  m_Controller: {fileID: 9100000, guid: aa0526a4f67c9294baf8a83182aa88a0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2a28743c483809546a1fe628b4ecccac, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 2
-  TilesTakingUp: 0
+  isMultiTile: 0
   AoELocations: []
   TauntSound: {fileID: 0}
 --- !u!114 &6387756794129780633
