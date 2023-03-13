@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class KnockableTree : InteractOnGrid
 {
-    public int SwordLevelMin;
     public int Damage = 2;
     internal bool isFalling = false;
     internal Quaternion RotateTo;

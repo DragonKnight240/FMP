@@ -501,6 +501,13 @@ public class CombatMenu : MonoBehaviour
         {
             if (tile.GetComponent<Tile>().Special)
             {
+                if(tile.GetComponent<Tile>().Special.ClassNeeded != null)
+                {
+                    if(tile.GetComponent<Tile>().Special.ClassNeeded == Unit.Class)
+                    {
+                        continue;
+                    }
+                }
                 SpecialButton.gameObject.SetActive(true);
                 if (ToolTipManager.Instance)
                 {

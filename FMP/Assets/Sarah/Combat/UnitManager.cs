@@ -284,6 +284,11 @@ public class UnitManager : MonoBehaviour
                 }
             }
 
+            if(!GameManager.Instance.CombatTutorialComplete)
+            {
+                UnitBase.CanCrit = false;
+            }
+
             UnitBase.AvailableAttacks = new List<SpecialAttacks>();
 
             foreach (Item item in UnitBase.WeaponsIninventory)

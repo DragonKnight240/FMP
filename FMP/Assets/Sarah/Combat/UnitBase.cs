@@ -124,7 +124,7 @@ public class UnitBase : MonoBehaviour
     public DamageNumbers DamageNumbersController;
     int DamageToTake;
     internal List<UnitBase> SupportedUnits;
-    internal bool CanCrit = false;
+    internal bool CanCrit = true;
     internal bool ReturnAttackPossible = true;
 
     public List<UnitBase> InRangeTargets;
@@ -650,7 +650,7 @@ public class UnitBase : MonoBehaviour
         {
             AttackTarget.DamageToTake = CalculateDamage();
 
-            if (CalculateCritChance() >= Random.Range(0, 101))
+            if (CalculateCritChance() >= Random.Range(0, 101) && CanCrit)
             {
                 AttackTarget.DamageToTake *= 3;
             }
