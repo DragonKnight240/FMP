@@ -7,6 +7,7 @@ public class TooltipTrigger : MonoBehaviour
 {
     public ToolTip Tooltip;
     public bool OnlyOnce = false;
+    bool Pending = false;
 
     private void Start()
     {
@@ -35,13 +36,25 @@ public class TooltipTrigger : MonoBehaviour
                 }
         }
 
+        if(Pending & GameManager.Instance.StartedGame)
+        {
+            OverworldToolTip.Instance.SetTooltip(Tooltip);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            OverworldToolTip.Instance.SetTooltip(Tooltip);
+            if (GameManager.Instance.StartedGame)
+            {
+                OverworldToolTip.Instance.SetTooltip(Tooltip);
+            }
+            else
+            {
+                Pending = true;
+            }
         }
     }
 

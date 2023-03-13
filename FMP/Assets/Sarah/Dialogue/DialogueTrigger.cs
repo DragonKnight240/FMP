@@ -8,6 +8,59 @@ public class DialogueTrigger : MonoBehaviour
     public List<Dialogue> Lines;
     internal bool InRange;
     public bool OnlyPlayOnce = false;
+    internal PlayAfter DestroyIf = PlayAfter.None;
+
+    private void Start()
+    {
+        switch(DestroyIf)
+        {
+            case PlayAfter.GauntletRecruit:
+                {
+                    if(GameManager.Instance.GauntletRecruitComplete)
+                    {
+                        Destroy(this);
+                    }
+
+                    break;
+                }
+            case PlayAfter.ArcherRecruit:
+                {
+                    if (GameManager.Instance.ArcherRecruitComplete)
+                    {
+                        Destroy(this);
+                    }
+
+                    break;
+                }
+            case PlayAfter.PostDungeon1:
+                {
+                    if (GameManager.Instance.PostDungeon1Complete)
+                    {
+                        Destroy(this);
+                    }
+
+                    break;
+                }
+            case PlayAfter.PostDungeon2:
+                {
+                    if (GameManager.Instance.PostDungeon2Complete)
+                    {
+                        Destroy(this);
+                    }
+
+                    break;
+                }
+            case PlayAfter.PostTutorial:
+                {
+                    if (GameManager.Instance.CombatTutorialComplete)
+                    {
+                        Destroy(this);
+                    }
+
+                    break;
+                }
+        }
+    }
 
     private void Update()
     {

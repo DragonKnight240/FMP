@@ -20,6 +20,7 @@ public class SpecialAttacks : ScriptableObject
     public int CritRateMultiplier;
     public int ProficiencyIncreaseMultiplier;
     public int DurabilityMultiplier;
+    public bool isAOE = false;
 
     [Header("Effects")]
     public UnitBase.StatusEffect StatusEffect;

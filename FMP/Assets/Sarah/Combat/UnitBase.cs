@@ -52,7 +52,7 @@ public class UnitBase : MonoBehaviour
     internal bool Moving = false;
     internal List<Tile> Path;
 
-    CombatAnimControl AnimControl;
+    internal CombatAnimControl AnimControl;
 
     [Header("Inventory")]
     public Weapon EquipedWeapon;
@@ -113,7 +113,7 @@ public class UnitBase : MonoBehaviour
     public List<SpecialAttacks> AvailableAttacks;
     internal List<GameObject> OuterMostMove;
     public GameObject AttackCamera;
-    bool ToAttack = false;
+    internal bool ToAttack = false;
     bool AttackZoomIn = false;
     bool HitZoomIn = false;
     bool DeathZoomIn = false;
@@ -121,11 +121,11 @@ public class UnitBase : MonoBehaviour
     bool NoDamageZoomIn = false;
     public float NoDamageTime = 3.0f;
     float NoDamageTimer = 0.0f;
-    DamageNumbers DamageNumbersController;
+    public DamageNumbers DamageNumbersController;
     int DamageToTake;
     internal List<UnitBase> SupportedUnits;
-    public GameObject AttackCanvas;
-    public TMP_Text AttackText;
+    internal bool CanCrit = false;
+    internal bool ReturnAttackPossible = true;
 
     public List<UnitBase> InRangeTargets;
 
@@ -144,6 +144,10 @@ public class UnitBase : MonoBehaviour
     public AudioClip HitSound;
     public AudioClip DeathSound;
 
+    [Header("Drops")]
+    public int MoneyDrop;
+    public Item ItemDrop;
+
     // Start is called before the first frame update
     virtual internal void Start()
     {
@@ -159,12 +163,7 @@ public class UnitBase : MonoBehaviour
         WeaponsIninventory.Add(BareHands);
 
         AnimControl = GetComponent<CombatAnimControl>();
-
-        DamageNumbersController = GetComponentInChildren<DamageNumbers>();
         SupportedUnits = new List<UnitBase>();
-
-        AttackCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        AttackCanvas.SetActive(false);
 
     }
 
@@ -589,11 +588,11 @@ public class UnitBase : MonoBehaviour
 
     public void DisplayAttack()
     {
-        AttackText.text = CurrentAttack.Name;
+        Interact.Instance.CombatMenu.AttackText.text = CurrentAttack.Name;
 
-        AttackCanvas.SetActive(true);
-        AttackCanvas.GetComponent<UIFade>().ToFadeIn();
-        AttackCanvas.GetComponent<UIFade>().Both = true;
+        Interact.Instance.CombatMenu.AttackText.gameObject.SetActive(true);
+        Interact.Instance.CombatMenu.AttackText.gameObject.GetComponent<UIFade>().ToFadeIn();
+        Interact.Instance.CombatMenu.AttackText.gameObject.GetComponent<UIFade>().Both = true;
     }
 
     void CalculateReturnAttack()
@@ -612,8 +611,12 @@ public class UnitBase : MonoBehaviour
 
     public void AttackingZoom()
     {
-        transform.LookAt(AttackTarget.transform);
-        AttackTarget.transform.LookAt(transform);
+        if (!CurrentAttack.isAOE)
+        {
+            transform.LookAt(AttackTarget.transform);
+            AttackTarget.transform.LookAt(transform);
+        }
+
         AttackCamera.SetActive(true);
         Interact.Instance.VirtualCam.SetActive(false);
 
@@ -695,7 +698,7 @@ public class UnitBase : MonoBehaviour
 
     public void ReturnTo()
     {
-        if(ReturnAttack)
+        if(ReturnAttack && ReturnAttackPossible)
         {
             AttackingZoom();
         }
@@ -705,7 +708,7 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    void PlayAttackAnim()
+    internal void PlayAttackAnim()
     {
         AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
         SoundManager.Instance.PlaySFX(AttackSound);
@@ -729,8 +732,8 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
-        GetComponent<Fading>().ChangeMaterial();
-        GetComponent<Fading>().FadeOut = true;
+        //GetComponent<Fading>().ChangeMaterial();
+        //GetComponent<Fading>().FadeOut = true;
         isAlive = false;
 
         DeathZoomIn = false;
@@ -758,6 +761,24 @@ public class UnitBase : MonoBehaviour
             {
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
             }
+
+            if (ItemDrop)
+            {
+                if (AttackTarget.Inventory.Count == 6)
+                {
+                    AttackTarget.Inventory.Add(ItemDrop);
+                }
+                else
+                {
+                    GameManager.Instance.Convoy.Add(ItemDrop);
+                }
+            }
+
+            if (MoneyDrop != 0)
+            {
+                GameManager.Instance.Money += MoneyDrop;
+            }
+
         }
         else
         {
@@ -1320,7 +1341,21 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                ShowAllInRangeTiles();
+                if (GetComponent<BossAI>())
+                {
+                    if (GetComponent<BossAI>().PendingAttack)
+                    {
+                        GetComponent<BossAI>().ShowDamageRange();
+                    }
+                    else
+                    {
+                        ShowAllInRangeTiles();
+                    }
+                }
+                else
+                {
+                    ShowAllInRangeTiles();
+                }
             }
         }
 
@@ -1474,6 +1509,21 @@ public class UnitBase : MonoBehaviour
             }
             
             Node = Node.PreviousTile;
+        }
+
+        if(GetComponent<BossAI>())
+        {
+            if(GetComponent<BossAI>().isMultiTile)
+            {
+                if (Path.Count > 1)
+                {
+                    Path.RemoveRange(0, 2);
+                }
+                else
+                {
+                    Moving = false;
+                }
+            }
         }
         Path.Reverse();
 

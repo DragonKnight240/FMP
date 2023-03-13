@@ -19,6 +19,7 @@ public class OverworldMenu : MonoBehaviour
     public Button GauntletButton;
     public Button BowButton;
 
+    public Image UnitImage;
     public TMP_Text Health;
     public TMP_Text Strength;
     public TMP_Text Dex;
@@ -139,6 +140,7 @@ public class OverworldMenu : MonoBehaviour
         }
 
         Level.text = Character.Level.ToString();
+        UnitImage.sprite = Character.UnitImage;
         Health.text = Character.CurrentHealth.ToString() + " / " + Character.HealthMax.ToString(); ;
         Strength.text = Character.Strength.ToString();
         Dex.text = Character.Dexterity.ToString();

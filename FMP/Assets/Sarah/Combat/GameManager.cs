@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
                 SetUpUnit(TempUnit.GetComponent<UnitBase>());
                 AddCharacterData(TempUnit.GetComponent<UnitBase>());
                 AvailableUnits.Add(Unit);
+                GameManager.Instance.CurrentUnitNum++;
 
                 Destroy(TempUnit);
                 break;
@@ -114,6 +115,8 @@ public class GameManager : MonoBehaviour
 
         //Inventory
         data.Inventory = Unit.Inventory;
+
+        data.UnitImage = Unit.UnitImage;
 
         //Stats
         data.Level = Unit.Level;
@@ -171,6 +174,15 @@ public class GameManager : MonoBehaviour
         {
             if (!CombatTutorialComplete && ToolTipManager.Instance.ToolTipObject.activeInHierarchy)
             {
+                if(ToolTipManager.Instance.CurrentToolTipIndex < 0)
+                {
+                    ToolTipManager.Instance.CurrentToolTipIndex = 0;
+                }
+                else if(ToolTipManager.Instance.CurrentToolTipIndex > ToolTipManager.Instance.Tooltips.Count - 1)
+                {
+                    ToolTipManager.Instance.CurrentToolTipIndex = ToolTipManager.Instance.Tooltips.Count - 1;
+                }
+
                 if (ToolTipManager.Instance.PendingToolTip)
                 {
                     //print("Pending: Checking " + Type + " - Current: " + ToolTipManager.Instance.PendingToolTip.tutorial);

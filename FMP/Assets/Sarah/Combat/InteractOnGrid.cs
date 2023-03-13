@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Direction
+{
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 public class InteractOnGrid : MonoBehaviour
 {
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
     internal int[] Position;
     internal List<GameObject> ActiveTiles;
     internal Dictionary<Tile, Direction> InteractLocations;

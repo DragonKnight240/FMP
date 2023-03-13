@@ -46,11 +46,13 @@ public class SceneLoadDialogue : MonoBehaviour
         {
             case PlayAfter.GauntletRecruit:
                 {
+                    GameManager.Instance.GauntletRecruitComplete = true;
                     GameManager.Instance.RecruitUnit("Fist");
                     break;
                 }
             case PlayAfter.ArcherRecruit:
                 {
+                    GameManager.Instance.ArcherRecruitComplete = true;
                     GameManager.Instance.RecruitUnit("Bow");
                     break;
                 }

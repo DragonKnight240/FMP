@@ -108,6 +108,16 @@ public class DialogueSystem : MonoBehaviour
             CurrentIndex = 0;
             CurrentLine = CurrentDialogue.Dequeue();
             SpeakerName.text = CurrentLine.Speaker;
+
+            if(SpeakerName.text == "")
+            {
+                SpeakerName.transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                SpeakerName.transform.parent.gameObject.SetActive(true);
+            }
+
             ToDisplayText = CurrentLine.Text;
         }
     }
