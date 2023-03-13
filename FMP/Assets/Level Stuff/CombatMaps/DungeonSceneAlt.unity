@@ -3615,6 +3615,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2100243045070131862, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2100243045070131862, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2100243045070131862, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2100243045070131862, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384658570754752897, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384658570754752897, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384658570754752897, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384658570754752897, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3626400003707386938, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: UnitText
       value: 
@@ -3900,6 +3932,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3626400005553511495, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -8053,7 +8101,8 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
-  AvailableUnits: []
+  AvailableUnits:
+  - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   UnitData: []
   MaxRecruitable: 2
   Convoy: []
@@ -8685,19 +8734,19 @@ MonoBehaviour:
     X: 4
     Y: 1
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
     X: 1
     Y: 9
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
     X: 2
     Y: 8
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
     X: 7
     Y: 8
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
     X: 8
     Y: 9
   AllyUnits: []
