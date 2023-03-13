@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 3072027637142288505}
   - component: {fileID: 6842314290299493770}
   - component: {fileID: -5451165715722164602}
-  - component: {fileID: -7295948164236061629}
   - component: {fileID: 6387756794129780633}
   m_Layer: 0
   m_Name: LizardEnemy
@@ -415,25 +414,9 @@ MonoBehaviour:
   AttackSound: {fileID: 8300000, guid: f88be00359c06f942bc02ac0ca7c26b1, type: 3}
   HitSound: {fileID: 8300000, guid: 1aae02a619be7de4f9d7045b1a86444a, type: 3}
   DeathSound: {fileID: 8300000, guid: 15342aa0290f62140b5d12d5dbff432c, type: 3}
+  MoneyDrop: 2
+  ItemDrop: {fileID: 0}
   Behaviour: 0
---- !u!114 &-7295948164236061629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478534406159762325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SingleTarget: 0
-  Parents:
-  - {fileID: 1478534406159762325}
-  TransMaterials:
-  - {fileID: 2100000, guid: 6ba9b05a7c15a4341aa6cb9247f57682, type: 2}
-  FadeSpeed: 0.5
 --- !u!114 &6387756794129780633
 MonoBehaviour:
   m_ObjectHideFlags: 0

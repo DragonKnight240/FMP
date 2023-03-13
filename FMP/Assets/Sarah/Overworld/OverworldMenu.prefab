@@ -5141,7 +5141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lines:
-  - {fileID: 11400000, guid: c7098c3a6067b754596967491c8a8899, type: 2}
+  - {fileID: 11400000, guid: ba8551d644e642f4eb75240de1cc4cde, type: 2}
+  - {fileID: 11400000, guid: 7c63cd3d5941c36438e5694bcc3be3a8, type: 2}
 --- !u!1 &1542223645317419795
 GameObject:
   m_ObjectHideFlags: 0
@@ -12629,7 +12630,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Zoom
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &3833445016548836601
@@ -20056,6 +20057,7 @@ MonoBehaviour:
   MageButton: {fileID: 8450029998660241545}
   GauntletButton: {fileID: 2734703508904669927}
   BowButton: {fileID: 3938387481838182873}
+  UnitImage: {fileID: 4811933917104252680}
   Health: {fileID: 7306753854217462750}
   Strength: {fileID: 554138659454176004}
   Dex: {fileID: 3132137866448750060}
@@ -30317,10 +30319,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AfterEventDialogue:
+  - DialogueAfter: 0
+    Lines:
+    - {fileID: 11400000, guid: 1f65d00c183a2e244a5fc2b996c0b61b, type: 2}
+    - {fileID: 11400000, guid: da06ef4a228fe9d4faef9f713374894d, type: 2}
+    - {fileID: 11400000, guid: 27a8d29c46c279e4f83b4aa3ec2db45c, type: 2}
+    - {fileID: 11400000, guid: d655e50d9c52357418a6f6ce8694e1d2, type: 2}
+    - {fileID: 11400000, guid: 89348f2fad2e24b4f97cf63c13248120, type: 2}
+    - {fileID: 11400000, guid: 105f1a31c8397714b9b5ace742d6f9d2, type: 2}
   - DialogueAfter: 2
     Lines:
-    - {fileID: 11400000, guid: 785bfe33b1020974cb3852c434d3ba6f, type: 2}
-    - {fileID: 11400000, guid: 38b16dcf606f24a438c0a66e320531d4, type: 2}
+    - {fileID: 11400000, guid: 0149d8bd742901846a86e04258919d6d, type: 2}
+    - {fileID: 11400000, guid: 37d3ff325c1f4854283c5a6836883d0f, type: 2}
+    - {fileID: 11400000, guid: eac4295acfeca0d49a929178a269f495, type: 2}
+    - {fileID: 11400000, guid: 60961a55036e74648b13eb137ed0fd50, type: 2}
+    - {fileID: 11400000, guid: e314e1201fd21974d9420bc20aebac4e, type: 2}
+    - {fileID: 11400000, guid: 6f2a95aac2c3daa4d8626076b3238bc6, type: 2}
+    - {fileID: 11400000, guid: 2bcbdb293f6efc244865fcb19e0c40cd, type: 2}
+    - {fileID: 11400000, guid: 10462053e68be7b438c09e1211c6af11, type: 2}
+    - {fileID: 11400000, guid: b61a845d41f870e4cb1ec1d0b7bcec94, type: 2}
+    - {fileID: 11400000, guid: 6356cebff0eb4194d9ef6995feeb94ad, type: 2}
+    - {fileID: 11400000, guid: c45d7f336e0d78d43b5660338ca23963, type: 2}
+    - {fileID: 11400000, guid: 2e9979e6fce19d348904bdf0b9c74dfb, type: 2}
+    - {fileID: 11400000, guid: c57a67855fc12b64eb369b582c2c76c8, type: 2}
+    - {fileID: 11400000, guid: 475db6c9690bdac438bb016370d24634, type: 2}
+    - {fileID: 11400000, guid: cdee2c0f3e08af346805e333af447836, type: 2}
 --- !u!1 &8578700664519244490
 GameObject:
   m_ObjectHideFlags: 0

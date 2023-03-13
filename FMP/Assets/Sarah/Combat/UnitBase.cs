@@ -52,7 +52,7 @@ public class UnitBase : MonoBehaviour
     internal bool Moving = false;
     internal List<Tile> Path;
 
-    CombatAnimControl AnimControl;
+    internal CombatAnimControl AnimControl;
 
     [Header("Inventory")]
     public Weapon EquipedWeapon;
@@ -143,6 +143,10 @@ public class UnitBase : MonoBehaviour
     public AudioClip AttackSound;
     public AudioClip HitSound;
     public AudioClip DeathSound;
+
+    [Header("Drops")]
+    public int MoneyDrop;
+    public Item ItemDrop;
 
     // Start is called before the first frame update
     virtual internal void Start()
@@ -607,7 +611,7 @@ public class UnitBase : MonoBehaviour
 
     public void AttackingZoom()
     {
-        if ((AoESpecialAttack)CurrentAttack ? false: true)
+        if (!CurrentAttack.isAOE)
         {
             transform.LookAt(AttackTarget.transform);
             AttackTarget.transform.LookAt(transform);
@@ -728,8 +732,8 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
-        GetComponent<Fading>().ChangeMaterial();
-        GetComponent<Fading>().FadeOut = true;
+        //GetComponent<Fading>().ChangeMaterial();
+        //GetComponent<Fading>().FadeOut = true;
         isAlive = false;
 
         DeathZoomIn = false;
@@ -757,6 +761,24 @@ public class UnitBase : MonoBehaviour
             {
                 UnitManager.Instance.DeadEnemyUnits.Add(this);
             }
+
+            if (ItemDrop)
+            {
+                if (AttackTarget.Inventory.Count == 6)
+                {
+                    AttackTarget.Inventory.Add(ItemDrop);
+                }
+                else
+                {
+                    GameManager.Instance.Convoy.Add(ItemDrop);
+                }
+            }
+
+            if (MoneyDrop != 0)
+            {
+                GameManager.Instance.Money += MoneyDrop;
+            }
+
         }
         else
         {
@@ -1487,6 +1509,21 @@ public class UnitBase : MonoBehaviour
             }
             
             Node = Node.PreviousTile;
+        }
+
+        if(GetComponent<BossAI>())
+        {
+            if(GetComponent<BossAI>().isMultiTile)
+            {
+                if (Path.Count > 1)
+                {
+                    Path.RemoveRange(0, 2);
+                }
+                else
+                {
+                    Moving = false;
+                }
+            }
         }
         Path.Reverse();
 

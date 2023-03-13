@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
       propertyPath: m_Name
-      value: LizardEnemyInpatient
+      value: LizardEnemyInpatient Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6238273283075082795, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
       propertyPath: m_RootOrder
@@ -67,5 +67,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}

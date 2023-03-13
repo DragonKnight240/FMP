@@ -325,6 +325,7 @@ public class UnitManager : MonoBehaviour
             }
 
             UnitUpdate.AddListener(() => { UnitBase.MoveableArea(false); });
+
             UnitBase.Position = new int[2];
             UnitBase.Position[0] = X;
             UnitBase.Position[1] = Y;

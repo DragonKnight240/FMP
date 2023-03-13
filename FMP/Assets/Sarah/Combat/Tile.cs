@@ -78,6 +78,32 @@ public class Tile : MonoBehaviour
 
     public void ChangeOccupant(UnitBase NewUnit)
     {
+        if(NewUnit)
+        {
+            if (NewUnit.GetComponent<BossAI>())
+            {
+                if (NewUnit.GetComponent<BossAI>().isMultiTile)
+                {
+                    Tile NextTile;
+                    int[] CurrentTile = new int[2];
+                    CurrentTile[0] = GridPosition[0] - 1;
+                    CurrentTile[1] = GridPosition[1] + 1;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            NextTile = TileManager.Instance.Grid[CurrentTile[0] + i, CurrentTile[1] + j].GetComponent<Tile>();
+                            NextTile.Unit = NewUnit;
+                            NextTile.Occupied = NewUnit ? true : false;
+                            NextTile.CanMoveOn = NewUnit ? false : true;
+                            //print(CurrentTile[0] + " , " + CurrentTile[1]);
+                        }
+                    }
+                }
+            }
+        }
+
         Unit = NewUnit;
         Occupied = NewUnit? true : false;
         CanMoveOn = NewUnit ? false : true;

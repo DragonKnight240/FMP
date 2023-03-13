@@ -13,6 +13,8 @@ public class CharacterData
     //Inventory
     public List<Item> Inventory;
 
+    public Sprite UnitImage;
+
     //Stats
     public int Level;
     public int EXP;

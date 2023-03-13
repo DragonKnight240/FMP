@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
         //Inventory
         data.Inventory = Unit.Inventory;
 
+        data.UnitImage = Unit.UnitImage;
+
         //Stats
         data.Level = Unit.Level;
         data.EXP = Unit.EXP;

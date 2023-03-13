@@ -7748,7 +7748,6 @@ GameObject:
   - component: {fileID: 8925323937181037711}
   - component: {fileID: 8884604643397150302}
   - component: {fileID: 1031582032550261108}
-  - component: {fileID: 5384320029154028094}
   - component: {fileID: 7867835930485633532}
   m_Layer: 0
   m_Name: TutorialMage
@@ -7895,6 +7894,8 @@ MonoBehaviour:
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  MoneyDrop: 0
+  ItemDrop: {fileID: 0}
   Behaviour: 0
 --- !u!114 &1031582032550261108
 MonoBehaviour:
@@ -7908,35 +7909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b015236050b3a6f42bbf9ac543569dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5384320029154028094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8925323937181037705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5554c7a4c1af52043ba5983417b67694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SingleTarget: 0
-  Parents:
-  - {fileID: 7160847308147765147}
-  - {fileID: 7160847307619922859}
-  - {fileID: 6060755193707439344}
-  - {fileID: 7497750977521888844}
-  - {fileID: 2077102654249278901}
-  - {fileID: 7512679067287905562}
-  - {fileID: 7570447985083477971}
-  - {fileID: 2867440882276873603}
-  TransMaterials:
-  - {fileID: 2100000, guid: ac5d946d3a147604bbeaabc8adcd2e96, type: 2}
-  - {fileID: 2100000, guid: 80b93bf75945dac4c8fd057510b623cc, type: 2}
-  - {fileID: 2100000, guid: 432ee3252af8eef4683456fa1f4b98a0, type: 2}
-  - {fileID: 2100000, guid: eea4188b077b81f4685fc68068760433, type: 2}
-  - {fileID: 2100000, guid: aa4ac72a3c5721a40bd9a450ec3fdd45, type: 2}
-  FadeSpeed: 5
 --- !u!114 &7867835930485633532
 MonoBehaviour:
   m_ObjectHideFlags: 0

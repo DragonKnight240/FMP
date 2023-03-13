@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BossAI : UnitAI
 {
+    public bool isMultiTile = false;
+    internal List<int[]> MultiPosition;
     public List<Tile> AoELocations;
     internal int TurnCount;
     internal int CurrentTurns;
     internal bool PendingAttack = false;
     internal bool PendingDamage = false;
     internal bool ToAoEAttack;
+    internal bool ToTaunt = false;
+    public AudioClip TauntSound;
 
     override public void Update()
     {
@@ -21,6 +25,35 @@ public class BossAI : UnitAI
         {
             AoEAttack();
         }
+
+        if(!Moving && ToTaunt)
+        {
+            ZoomTaunt();
+        }
+
+        if(ToTaunt && AttackCamera.transform.position == Interact.Instance.transform.position)
+        {
+            ToTaunt = false;
+            HideAllChangedTiles();
+
+            PlayTauntAnim();
+        }
+    }
+
+    public void ZoomTaunt()
+    {
+        AttackCamera.SetActive(true);
+        Interact.Instance.VirtualCam.SetActive(false);
+    }
+
+    public void PlayTauntAnim()
+    {
+        AnimControl.ChangeAnim("Taunt", CombatAnimControl.AnimParameters.Attack);
+        SoundManager.Instance.PlaySFX(TauntSound);
+
+        ResetMoveableTiles();
+
+        ToTaunt = false;
     }
 
     public void AoEAttack()
@@ -32,7 +65,7 @@ public class BossAI : UnitAI
                 if (tile.Unit != this)
                 {
                     AttackTarget = tile.Unit;
-                    tile.Unit = this;
+                    tile.Unit.AttackTarget = this;
                     tile.Unit.ShowLongDistanceDamageNumbers(CalculateDamage());
                 }
             }
@@ -60,6 +93,8 @@ public class BossAI : UnitAI
             {
                 MoveAsCloseTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
                 AoEDirection(AttackTarget);
+
+                ToTaunt = true;
             }
         }
 
@@ -76,6 +111,10 @@ public class BossAI : UnitAI
             CurrentTurns = 0;
             PendingDamage = true;
             ToAttack = true;
+        }
+        else
+        {
+            ToTaunt = true;
         }
     }
 
@@ -122,8 +161,10 @@ public class BossAI : UnitAI
 
         AoESpecialAttack AttackAoE = (AoESpecialAttack)CurrentAttack;
 
-        Centering[0] = Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
-        Centering[1] = Mathf.FloorToInt(AttackAoE.VerticalRange / 2);
+        Centering[0] = (Direction.Left == DirHori || Direction.Right == DirHori) ? Mathf.FloorToInt(AttackAoE.HorizontalRange / 2): 0;
+        Centering[1] = (Direction.Up == DirVert || Direction.Down == DirVert) && Centering[0] == 0 ? Mathf.FloorToInt(AttackAoE.VerticalRange / 2): 0;
+
+
 
         for (int i = 0; i <= AttackAoE.HorizontalRange; i++)
         {
@@ -131,12 +172,12 @@ public class BossAI : UnitAI
             {
                 case Direction.Right:
                     {
-                        CurrentPosition[0] = Position[0] + i/* - Centering[0]*/;
+                        CurrentPosition[0] = Position[0] + i - Centering[0];
                         break;
                     }
                 case Direction.Left:
                     {
-                        CurrentPosition[0] = Position[0] - i /*+ Centering[0]*/;
+                        CurrentPosition[0] = Position[0] - i + Centering[0];
                         break;
                     }
             }
@@ -146,18 +187,18 @@ public class BossAI : UnitAI
                 continue;
             }
 
-            for (int j = 0; j <= AttackAoE.VerticalRange; j++)
+            for (int j = 0; j < AttackAoE.VerticalRange; j++)
             {
                 switch (DirVert)
                 {
                     case Direction.Down:
                         {
-                            CurrentPosition[1] = Position[1] - j/* - Centering[1]*/;
+                            CurrentPosition[1] = Position[1] - j - Centering[1];
                             break;
                         }
                     case Direction.Up:
                         {
-                            CurrentPosition[1] = Position[1] + j /*+ Centering[1]*/;
+                            CurrentPosition[1] = Position[1] + j + Centering[1];
                             break;
                         }
                 }
