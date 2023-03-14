@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
     public bool inCombat = false;
     public bool StartedGame = false;
 
+    public bool GodMode = true;
+    internal string CurrentInput = "";
+
+    internal int MainObjectNum = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -74,20 +79,80 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (GodMode)
         {
-            foreach(CharacterData Data in UnitData)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                print(Data.EXP);
+                foreach (CharacterData Data in UnitData)
+                {
+                    print(Data.EXP);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                if (UnitManager.Instance)
+                {
+                    foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                    }
+                }
+            }
+            else if(Input.GetKeyDown(KeyCode.H))
+            {
+                if (UnitManager.Instance)
+                {
+                    foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = Unit.GetComponent<UnitBase>().HealthMax;
+                    }
+                }
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                CombatTutorialComplete = true;
+                OverworldMoveTutorialComplete = true;
+                OverworldEnemyTutorialComplete = true;
+                OverworldTutorialComplete = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+
             }
         }
-        else if(Input.GetKeyDown(KeyCode.L))
+        else
         {
-            if(UnitManager.Instance)
+            if (Input.anyKeyDown)
             {
-                foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
+                if (Input.GetKeyDown(KeyCode.K) && CurrentInput == "" )
                 {
-                    Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                    CurrentInput += "K";
+                }
+                else if (Input.GetKeyDown(KeyCode.O) && CurrentInput == ("K"))
+                {
+                    CurrentInput += "O";
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && CurrentInput == ("KO"))
+                {
+                    CurrentInput += "S";
+                }
+                else if (Input.GetKeyDown(KeyCode.T) && CurrentInput == ("KOS"))
+                {
+                    CurrentInput += "T";
+                }
+                else if (Input.GetKeyDown(KeyCode.A) && CurrentInput == ("KOST"))
+                {
+                    CurrentInput += "A";
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && CurrentInput == ("KOSTA"))
+                {
+                    GodMode = true;
+                    //print(GodMode);
+                }
+                else
+                {
+                    //print("RESET");
+                    CurrentInput = "";
                 }
             }
         }

@@ -9,5 +9,6 @@ public class OnCombatEndDialogue : MonoBehaviour
     internal void SetDialogue()
     {
         GameManager.Instance.DialogueToPlay = DialogueToPlayAfter;
+        GameManager.Instance.MainObjectNum++;
     }
 }
