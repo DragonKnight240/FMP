@@ -241,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127706495414892139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.46}
+  m_LocalPosition: {x: 0, y: 0, z: 3.14}
   m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_Children:
   - {fileID: 6668587798450977978}
@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1478534406159762325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.289879, y: 66.70704, z: -32.595177}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 8459462937806076438}
@@ -340,10 +340,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.8210663
-  m_Height: 3.7764664
+  m_Radius: 3.0061944
+  m_Height: 8.029301
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8882332, z: 0.013220152}
+  m_Center: {x: 0, y: 0, z: -0.9952356}
 --- !u!114 &8171620073551597202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,11 +366,11 @@ MonoBehaviour:
   MoveSpeed: 10
   MoveableTiles: []
   AttackTiles: []
-  EquipedWeapon: {fileID: 11400000, guid: a26fe75f1f9f7ec49a7d44a83cb83b6e, type: 2}
+  EquipedWeapon: {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
   Inventory: []
   WeaponsIninventory:
-  - {fileID: 11400000, guid: a26fe75f1f9f7ec49a7d44a83cb83b6e, type: 2}
-  BareHands: {fileID: 11400000, guid: a26fe75f1f9f7ec49a7d44a83cb83b6e, type: 2}
+  - {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
+  BareHands: {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
   Strength: 15
   Dexterity: 5
   Magic: 5
@@ -400,7 +400,7 @@ MonoBehaviour:
   RankBonus: 0200000005000000080000000a0000000f000000
   RankEXP: 
   Class: {fileID: 0}
-  CurrentAttack: {fileID: 11400000, guid: 2a8c8e78d5768dc4cb7e1159045075a4, type: 2}
+  CurrentAttack: {fileID: 11400000, guid: f3d4be69116ada24caeaf6b261e16e82, type: 2}
   UnlockedAttacks: []
   AvailableAttacks: []
   AttackCamera: {fileID: 6263118778866251419}
@@ -415,7 +415,8 @@ MonoBehaviour:
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 2
-  isMultiTile: 0
+  isMultiTile: 1
+  MutiTileAmount: 2
   AoELocations: []
   TauntSound: {fileID: 0}
 --- !u!114 &6387756794129780633
@@ -1832,7 +1833,7 @@ RectTransform:
   m_GameObject: {fileID: 6125610170321718884}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 2258492106739852400}
   m_Father: {fileID: 6238273283075082795}
@@ -1941,7 +1942,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263118778866251419}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0, y: 4.79, z: 7.82}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children:
   - {fileID: 4259257775166277429}
@@ -2242,7 +2243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8233712281560068257}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0, y: 4.79, z: 7.8200006}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children: []
   m_Father: {fileID: 6238273283075082795}
@@ -2680,7 +2681,7 @@ Transform:
   m_GameObject: {fileID: 8459462937806169654}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 6238273283075082795}
   m_RootOrder: 0
@@ -2814,8 +2815,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8459462937806169656}
   m_LocalRotation: {x: -0.34555307, y: 0.5680585, z: -0.38818163, w: 0.6381361}
-  m_LocalPosition: {x: 0.028694153, y: 0.5978114, z: -0.077423096}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 8459462937806076426}
   - {fileID: 8459462937806076502}

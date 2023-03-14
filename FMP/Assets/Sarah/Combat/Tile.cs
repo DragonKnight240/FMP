@@ -89,9 +89,9 @@ public class Tile : MonoBehaviour
                     CurrentTile[0] = GridPosition[0] - 1;
                     CurrentTile[1] = GridPosition[1] + 1;
 
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < NewUnit.GetComponent<BossAI>().MutiTileAmount; i++)
                     {
-                        for (int j = 0; j < 3; j++)
+                        for (int j = 0; j < NewUnit.GetComponent<BossAI>().MutiTileAmount; j++)
                         {
                             NextTile = TileManager.Instance.Grid[CurrentTile[0] + i, CurrentTile[1] + j].GetComponent<Tile>();
                             NextTile.Unit = NewUnit;

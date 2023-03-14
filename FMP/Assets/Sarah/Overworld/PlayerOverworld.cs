@@ -32,7 +32,6 @@ public class PlayerOverworld : MonoBehaviour
             {
                 transform.position = GameManager.Instance.PlayerReturnToOverworld;
                 AoEDisappear.gameObject.SetActive(true);
-                print("Returned to World");
             }
         }
 

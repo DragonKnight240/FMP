@@ -93,7 +93,7 @@ public class UnitManager : MonoBehaviour
 
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitBase>().Moving || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override)
+            if(Enemy.GetComponent<UnitBase>().Moving || Enemy.GetComponent<UnitBase>().ToAttack  || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override)
             {
                 break;
             }
@@ -211,6 +211,8 @@ public class UnitManager : MonoBehaviour
                         UnitBase.Inventory = data.Inventory;
 
                         //Stats
+                        UnitBase.Level = data.Level;
+                        UnitBase.EXP = data.EXP;
                         UnitBase.Strength = data.Strength;
                         UnitBase.Dexterity = data.Dexterity;
                         UnitBase.Magic = data.Magic;
@@ -342,6 +344,17 @@ public class UnitManager : MonoBehaviour
             if(UnitBase.GetComponent<BossAI>())
             {
                 UnitBase.ReturnAttackPossible = false;
+                if(UnitBase.GetComponent<BossAI>().isMultiTile)
+                {
+                    if(UnitBase.GetComponent<BossAI>().MutiTileAmount%3 != 0)
+                    {
+                        int BaseOffset = Mathf.FloorToInt(TileManager.Instance.TileSize / 2);
+                        
+                        UnitBase.GetComponent<BossAI>().ToCenter = new Vector2(BaseOffset, BaseOffset);
+
+                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y, UnitBase.transform.position.z + UnitBase.ToCenter[1]);
+                    }
+                }
             }
         }
 

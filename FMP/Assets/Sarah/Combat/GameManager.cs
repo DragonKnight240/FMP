@@ -72,6 +72,27 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            foreach(CharacterData Data in UnitData)
+            {
+                print(Data.EXP);
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.L))
+        {
+            if(UnitManager.Instance)
+            {
+                foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
+                {
+                    Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                }
+            }
+        }
+    }
+
 
     internal bool NextToolTip(ToolTip Tip = null)
     {

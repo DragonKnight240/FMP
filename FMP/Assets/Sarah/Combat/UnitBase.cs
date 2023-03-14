@@ -46,6 +46,7 @@ public class UnitBase : MonoBehaviour
     internal bool EXPPending = false;
 
     public List<Tile> MoveableTiles;
+    internal Vector2 ToCenter = new Vector2(0, 0);
     public List<Tile> AttackTiles;
 
     internal bool isAlive = true;
@@ -205,7 +206,7 @@ public class UnitBase : MonoBehaviour
                         return;
                     }
 
-                    if (new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z) ==
+                    if (new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]) ==
                         new Vector3(transform.position.x, transform.position.y, transform.position.z))
                     {
                         Path.RemoveAt(0);
@@ -222,8 +223,8 @@ public class UnitBase : MonoBehaviour
                         }
                     }
 
-                    transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
+                    transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]));
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x + ToCenter[0], transform.position.y, Path[0].transform.position.z + ToCenter[1]), MoveSpeed * Time.deltaTime);
                 }
                 else if(!Moving)
                 {

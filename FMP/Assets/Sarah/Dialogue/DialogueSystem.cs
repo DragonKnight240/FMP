@@ -48,27 +48,38 @@ public class DialogueSystem : MonoBehaviour
     {
         if (TextBox.activeInHierarchy)
         {
-            if (ToDisplayText != Text.text)
+            if (!CurrentLine.SystemNotification)
             {
-                LetterDiplayTimer += Time.unscaledDeltaTime;
-
-                if (LetterDiplayTimer >= LetterDiplayTime)
+                if (ToDisplayText != Text.text)
                 {
-                    LetterDiplayTimer = 0;
-                    NextLetter();
+                    LetterDiplayTimer += Time.unscaledDeltaTime;
+
+                    if (LetterDiplayTimer >= LetterDiplayTime)
+                    {
+                        LetterDiplayTimer = 0;
+                        NextLetter();
+                    }
                 }
             }
 
             if (Input.GetButtonDown("Fire1"))
             {
-                if (ToDisplayText == Text.text)
+                if (!CurrentLine.SystemNotification)
                 {
-                    NextLine();
+                    if (ToDisplayText == Text.text)
+                    {
+                        NextLine();
+                    }
+                    else
+                    {
+                        CurrentIndex = ToDisplayText.Length - 1;
+                        Text.text = ToDisplayText;
+                    }
                 }
                 else
                 {
-                    CurrentIndex = ToDisplayText.Length - 1;
-                    Text.text = ToDisplayText;
+                    SystemNotification.Instance.MainNotifiction.GetComponent<UIFade>().ToFadeOut();
+                    NextLine();
                 }
             }
         }
@@ -104,21 +115,31 @@ public class DialogueSystem : MonoBehaviour
         }
         else
         {
-            Text.text = "";
-            CurrentIndex = 0;
             CurrentLine = CurrentDialogue.Dequeue();
-            SpeakerName.text = CurrentLine.Speaker;
 
-            if(SpeakerName.text == "")
+            if (!CurrentLine.SystemNotification)
             {
-                SpeakerName.transform.parent.gameObject.SetActive(false);
+                Text.text = "";
+                CurrentIndex = 0;
+                SpeakerName.text = CurrentLine.Speaker;
+
+                if (SpeakerName.text == "")
+                {
+                    SpeakerName.transform.parent.gameObject.SetActive(false);
+                }
+                else
+                {
+                    SpeakerName.transform.parent.gameObject.SetActive(true);
+                }
+
+                ToDisplayText = CurrentLine.Text;
             }
             else
             {
-                SpeakerName.transform.parent.gameObject.SetActive(true);
-            }
+                SystemNotification.Instance.Text.text = CurrentLine.Text;
 
-            ToDisplayText = CurrentLine.Text;
+                SystemNotification.Instance.ActiveNotification();
+            }
         }
     }
 

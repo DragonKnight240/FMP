@@ -561,7 +561,7 @@ public class CombatMenu : MonoBehaviour
                 {
                     if (Unit.SupportedUnits.Count < i)
                     {
-                        SupportImages[i].sprite = Unit.UnitImage;
+                        SupportImages[i].sprite = Unit.SupportedUnits[i].UnitImage;
                         SupportImages[i].gameObject.SetActive(true);
                         continue;
                     }
