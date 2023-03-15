@@ -1684,14 +1684,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 557385043, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-      propertyPath: Speed
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1278669043142465176, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-      propertyPath: Speed
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 2100243045070131862, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1906,10 +1898,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3626400005380535938, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3888146963187750084, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
@@ -5347,13 +5335,14 @@ MonoBehaviour:
   - {fileID: 1696317298173679006, guid: 948a6502e6731074a80b8b45ed82caa6, type: 3}
   - {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
   - {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
+  - {fileID: 1696317298173679006, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
   UnitData: []
   MaxRecruitable: 2
   Convoy: []
   Money: 0
   inCombat: 1
   StartedGame: 1
-  GodMode: 0
+  GodMode: 1
 --- !u!4 &1569221630
 Transform:
   m_ObjectHideFlags: 0
@@ -5805,18 +5794,22 @@ MonoBehaviour:
     Unit: {fileID: 1696317298173679006, guid: 1fca8f6903e49f747822761ad61229b3, type: 3}
     X: 3
     Y: 2
-  - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: 5b1dbc64869e2854b99a3c1a1e02d408, type: 3}
-    X: 4
-    Y: 5
   - UnitType: 0
     Unit: {fileID: 1696317298173679006, guid: 22b0717f61aebe04b98e4b7872227693, type: 3}
     X: 6
     Y: 3
-  - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
-    X: 8
+  - UnitType: 0
+    Unit: {fileID: 1696317298173679006, guid: e9fc98b4001d1f9418c0f22d713a0023, type: 3}
+    X: 4
     Y: 3
+  - UnitType: 1
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 6
+    Y: 6
+  - UnitType: 1
+    Unit: {fileID: 1478534406159762325, guid: fff0a969ca0080c42bd69ef11b38b998, type: 3}
+    X: 4
+    Y: 6
   AllyUnits: []
   OverWorldScene: Test
 --- !u!4 &1653266685

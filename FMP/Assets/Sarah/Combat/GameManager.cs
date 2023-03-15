@@ -126,6 +126,16 @@ public class GameManager : MonoBehaviour
             {
                 Money += 1000;
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                if(UnitManager.Instance)
+                {
+                    foreach(GameObject Unit in UnitManager.Instance.EnemyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                    }
+                }
+            }
         }
         else
         {

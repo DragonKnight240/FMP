@@ -9,6 +9,7 @@ public class HoverTooltipManager : MonoBehaviour
 {
     public TextMeshProUGUI Text;
     public RectTransform tipObject;
+    public float OffsetX = 5;
 
     public static Action<string, Vector2> OnMouseOver;
     public static Action OnMouseLoseFocus;
@@ -25,7 +26,7 @@ public class HoverTooltipManager : MonoBehaviour
         tipObject.sizeDelta = new Vector2(Text.preferredWidth > 200 ? 200 : Text.preferredWidth, Text.preferredHeight);
 
         tipObject.gameObject.SetActive(true);
-        tipObject.transform.position = new Vector2(MousePos.x + tipObject.sizeDelta.x * 2, MousePos.y);
+        tipObject.transform.position = new Vector2(MousePos.x + OffsetX, MousePos.y);
     }
 
     void HideTip()

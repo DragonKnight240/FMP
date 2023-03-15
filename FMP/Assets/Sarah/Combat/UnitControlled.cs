@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitControlled : UnitBase
 {
+    UnitBase RecruitTarget;
+
     internal void MoveButton()
     {
         //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
@@ -62,18 +64,25 @@ public class UnitControlled : UnitBase
         //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
         Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
 
-        foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+        if (RecruitTarget)
         {
-            if (tile.GetComponent<Tile>().Special)
+            SpecialRecruit();
+        }
+        else
+        {
+            foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
             {
-                GameManager.Instance.ToolTipCheck(Tutorial.CWeaponAbility);
-                CameraMove.Instance.FollowTarget = null;
-                tile.GetComponent<Tile>().Special.Special(this);
-                UnitManager.Instance.UnitUpdate.Invoke();
-                Interact.Instance.SelectedUnit = null;
-                Interact.Instance.UISelectedUnit();
-                HideAllChangedTiles();
-                WaitUnit();
+                if (tile.GetComponent<Tile>().Special)
+                {
+                    GameManager.Instance.ToolTipCheck(Tutorial.CWeaponAbility);
+                    CameraMove.Instance.FollowTarget = null;
+                    tile.GetComponent<Tile>().Special.Special(this);
+                    UnitManager.Instance.UnitUpdate.Invoke();
+                    Interact.Instance.SelectedUnit = null;
+                    Interact.Instance.UISelectedUnit();
+                    HideAllChangedTiles();
+                    WaitUnit();
+                }
             }
         }
 
@@ -89,6 +98,45 @@ public class UnitControlled : UnitBase
                 WeaponsIninventory.Add((Weapon)item);
             }
         }
+    }
+
+    public bool CanRecruit()
+    {
+        if (Class.Name == "Archer")
+        {
+            if(GameManager.Instance.NumRecruited > GameManager.Instance.MaxRecruitable)
+            {
+                RecruitTarget = null;
+                return false;
+            }
+
+            foreach (GameObject TileObj in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+            {
+                if (TileObj.GetComponent<Tile>().Unit)
+                {
+                    if (TileObj.GetComponent<Tile>().Unit.CompareTag("Enemy"))
+                    {
+                        print(TileObj.GetComponent<Tile>().Unit.CurrentHealth / TileObj.GetComponent<Tile>().Unit.HealthMax);
+                        print(0.1f + (RankBonus[Class.Level] / TileObj.GetComponent<Tile>().Unit.HealthMax));
+                        if (TileObj.GetComponent<Tile>().Unit.CurrentHealth / TileObj.GetComponent<Tile>().Unit.HealthMax < 0.1f + (RankBonus[Class.Level] / TileObj.GetComponent<Tile>().Unit.HealthMax))
+                        {
+                            RecruitTarget = TileObj.GetComponent<Tile>().Unit;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        RecruitTarget = null;
+        return false;
+    }
+
+    internal void SpecialRecruit()
+    {
+        GameManager.Instance.NumRecruited++;
+        print(Mathf.FloorToInt((TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]));
+        RecruitTarget.GetComponent<UnitAI>().AttemptRecruit(100);
     }
 
     internal void AttackDisplay()

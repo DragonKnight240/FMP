@@ -524,6 +524,12 @@ public class CombatMenu : MonoBehaviour
             }
             else
             {
+                if(Unit.GetComponent<UnitControlled>().CanRecruit())
+                {
+                    SpecialButton.gameObject.SetActive(true);
+                    break;
+                }
+
                 SpecialButton.gameObject.SetActive(false);
             }
         }
