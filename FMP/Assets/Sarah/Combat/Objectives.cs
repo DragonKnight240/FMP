@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Objectives : MonoBehaviour
 {
     public string ObjectiveName;
-    public int ObjectiveNum;
+    public GameObject PromptPrefab;
     public Sprite Icon;
     public Image image;
     internal Vector2 position;

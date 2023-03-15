@@ -10,11 +10,16 @@ public class GameManager : MonoBehaviour
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
     internal Quaternion PlayerReturnRotation;
-    internal int CurrentUnitNum = 1;
+    internal int CurrentUnitNum = 0;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
     public List<Item> Convoy;
     public int Money = 0;
+
+    internal bool SwordInventoryFull = false;
+    internal bool GauntletInventoryFull = false;
+    internal bool MageInventoryFull = false;
+    internal bool ArcherInventoryFull = false;
 
     internal int OverworldLevelID;
 
@@ -68,6 +73,8 @@ public class GameManager : MonoBehaviour
             PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
+
+        RecruitUnit("Sword");
     }
 
 
@@ -117,7 +124,7 @@ public class GameManager : MonoBehaviour
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-
+                Money += 1000;
             }
         }
         else
@@ -153,6 +160,48 @@ public class GameManager : MonoBehaviour
                 {
                     //print("RESET");
                     CurrentInput = "";
+                }
+            }
+        }
+
+        foreach(CharacterData Data in UnitData)
+        {
+            if(Data.Inventory.Count >= 6)
+            {
+                if (Data.Class.Name == "Soldier")
+                {
+                    SwordInventoryFull = true;
+                }
+                else if(Data.Class.Name == "Mage")
+                {
+                    MageInventoryFull = true;
+                }
+                else if (Data.Class.Name == "Grappler")
+                {
+                    GauntletInventoryFull = true;
+                }
+                else if (Data.Class.Name == "Archer")
+                {
+                    ArcherInventoryFull = true;
+                }
+            }
+            else
+            {
+                if (Data.Class.Name == "Soldier")
+                {
+                    SwordInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Mage")
+                {
+                    MageInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Grappler")
+                {
+                    GauntletInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Archer")
+                {
+                    ArcherInventoryFull = false;
                 }
             }
         }

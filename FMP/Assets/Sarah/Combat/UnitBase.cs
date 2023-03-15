@@ -235,8 +235,15 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+            else 
+            {
+                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death)
+                {
+                    DeathZoomIn = true;
+                }
+            }
 
-            if(EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
+            if (EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 EXPPending = false;
                 Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
@@ -733,8 +740,6 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
-        //GetComponent<Fading>().ChangeMaterial();
-        //GetComponent<Fading>().FadeOut = true;
         isAlive = false;
 
         DeathZoomIn = false;

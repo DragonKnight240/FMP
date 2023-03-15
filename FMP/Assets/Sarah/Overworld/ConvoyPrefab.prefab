@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3584670582592795555
 RectTransform:
   m_ObjectHideFlags: 0
@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4991942150767934532}
   - component: {fileID: 7761998139069165007}
   - component: {fileID: 8544251185844573336}
+  - component: {fileID: 94625415487646807}
   m_Layer: 5
   m_Name: ConvoyPrefab
   m_TagString: Untagged
@@ -257,6 +258,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &94625415487646807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2734473348323457105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669693caa5398fe4ca6a403e239fd0f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Inventory: 1
 --- !u!1 &3413254974982710273
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5066495295505953221
 RectTransform:
   m_ObjectHideFlags: 0
