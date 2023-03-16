@@ -75,6 +75,7 @@ public class UnitAI : UnitBase
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
             UnitBase.UIHealth.value = Mathf.RoundToInt(UnitBase.HealthMax/2);
+            UnitBase.CurrentHealth = Mathf.RoundToInt(UnitBase.HealthMax / 2);
 
             UnitBase.AvailableAttacks = new List<SpecialAttacks>();
             UnitBase.AvailableAttacks = AvailableAttacks;

@@ -127,6 +127,7 @@ public class UnitBase : MonoBehaviour
     internal List<UnitBase> SupportedUnits;
     internal bool CanCrit = true;
     internal bool ReturnAttackPossible = true;
+    internal bool SpecialZoomIn;
 
     public List<UnitBase> InRangeTargets;
 
@@ -195,6 +196,11 @@ public class UnitBase : MonoBehaviour
                     HideAllChangedTiles();
                     NoDamage();
                 }
+                else if(SpecialZoomIn)
+                {
+                    HideAllChangedTiles();
+                    PlaySpecialAnim();
+                }
             }
 
             if (CurrentHealth > 0)
@@ -257,6 +263,11 @@ public class UnitBase : MonoBehaviour
                 UIHealth.value = Mathf.Lerp(UIHealth.value, CurrentHealth, Time.deltaTime * HealthLerpSpeed);
             }
         }
+    }
+
+    internal void PlaySpecialAnim()
+    {
+
     }
 
     //Moves the character from the current location to the wanted location
