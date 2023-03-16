@@ -128,14 +128,14 @@ public class UnitAI : UnitBase
 
         if (Path.Count > 0)
         {
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
             Position[0] = Path[Path.Count - 1].GridPosition[0];
             Position[1] = Path[Path.Count - 1].GridPosition[1];
         }
 
         if (Path.Count > 0)
         {
-            Path[Path.Count - 1].ChangeOccupant(this);
+            Path[Path.Count - 1].ChangeOccupant(this, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
         }
 
         ResetMoveableTiles();

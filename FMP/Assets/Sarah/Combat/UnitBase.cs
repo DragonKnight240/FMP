@@ -290,13 +290,13 @@ public class UnitBase : MonoBehaviour
 
             if (!Attacking)
             {
-                NewTile.ChangeOccupant(this);
+                NewTile.ChangeOccupant(this, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
             }
             else
             {
                 if (Path.Count > 0)
                 {
-                    Path[Path.Count - 1].ChangeOccupant(this);
+                    Path[Path.Count - 1].ChangeOccupant(this, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
                 }
             }
 
@@ -316,7 +316,7 @@ public class UnitBase : MonoBehaviour
     {
         if (ChangeOccupant)
         {
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
         }
         Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
@@ -712,7 +712,6 @@ public class UnitBase : MonoBehaviour
 
     public void ReturnTo()
     {
-        print("Return to Playing");
         if(ReturnAttack && ReturnAttackPossible)
         {
             AttackingZoom();
@@ -774,7 +773,7 @@ public class UnitBase : MonoBehaviour
 
     public void OnDeath()
     {
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
 
         if (CompareTag("Enemy"))
         {

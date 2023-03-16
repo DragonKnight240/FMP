@@ -73,6 +73,8 @@ public class BossAI : UnitAI
         }
 
         PendingDamage = false;
+        PendingAttack = false;
+        AoELocations.Clear();
     }
 
     internal void AoEPatient()
@@ -121,66 +123,92 @@ public class BossAI : UnitAI
 
     internal void AoEDirection(UnitBase Unit)
     {
-        Dictionary<Tile, float> Tiles = new Dictionary<Tile, float>();
-        Tile Closest = null;
+        print("Find route");
+        List<Tile> Route = new List<Tile>();
 
-        Tile CurrentTile;
-        float Distance;
+        Route = FindRouteTo(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), true);
 
-        foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+        Direction Dir = Direction.Down;
+        Tile ClosestTile = null;
+
+        if (Route.Count >= 1)
         {
-            CurrentTile = tile.GetComponent<Tile>();
-
-            Distance = Mathf.Sqrt((CurrentTile.GridPosition[1] - Unit.Position[1]) ^ 2 + (CurrentTile.GridPosition[0] - Unit.Position[0]) ^ 2);
-
-            Tiles.Add(CurrentTile, Distance);
-
-            if (Closest == null)
+            print("Actual PAth");
+            if (Position[1] == Route[1].GridPosition[1])
             {
-                Closest = tile.GetComponent<Tile>();
+                if (Route[0].GridPosition[0] > Position[0])
+                {
+                    Dir = Direction.Right;
+                }
+                else
+                {
+                    Dir = Direction.Left;
+                }
             }
             else
             {
-                if (Tiles[Closest] > Distance)
+                if (Route[1].GridPosition[1] > Position[1])
                 {
-                    Closest = CurrentTile;
+                    Dir = Direction.Up;
+                }
+                else
+                {
+                    Dir = Direction.Down;
+                }
+            }
+
+            ClosestTile = Route[0];
+        }
+        else
+        {
+            print("No path");
+            foreach(GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+            {
+                if(tile == TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]])
+                {
+                    if (Position[1] == tile.GetComponent<Tile>().GridPosition[1])
+                    {
+                        if (tile.GetComponent<Tile>().GridPosition[0] > Position[0])
+                        {
+                            Dir = Direction.Right;
+                        }
+                        else
+                        {
+                            Dir = Direction.Left;
+                        }
+                    }
+                    else
+                    {
+                        if (tile.GetComponent<Tile>().GridPosition[1] > Position[1])
+                        {
+                            Dir = Direction.Up;
+                        }
+                        else
+                        {
+                            Dir = Direction.Down;
+                        }
+                    }
+
+                    print(ClosestTile);
+                    ClosestTile = tile.GetComponent<Tile>();
+                    break;
                 }
             }
         }
 
-        Direction Dir;
-        
+        print(ClosestTile);
 
-        if (Position[1] == Closest.GridPosition[1] )
+        if (ClosestTile != null)
         {
-            if (Closest.GridPosition[0] > Position[0])
-            {
-                Dir = Direction.Right;
-            }
-            else
-            {
-                Dir = Direction.Left;
-            }
+            AoEDamage(Dir, ClosestTile.gameObject);
         }
         else
         {
-            if (Closest.GridPosition[1] > Position[1])
-            {
-                Dir = Direction.Up;
-            }
-            else
-            {
-                Dir = Direction.Down;
-            }
+            print("no close tile");
         }
-
-        //print(Dir);
-        //print(Closest);
-        
-        AoEDamage(Dir);
     }
 
-    internal void AoEDamage(Direction Dir)
+    internal void AoEDamage(Direction Dir, GameObject Tile)
     {
         int[] CurrentPosition = new int[2];
 
@@ -190,60 +218,14 @@ public class BossAI : UnitAI
         Centering[1] = 0;
 
         AoESpecialAttack AttackAoE = (AoESpecialAttack)CurrentAttack;
+        List<GameObject> Tiles = new List<GameObject>();
 
-        //Centering[0] = (Direction.Down == Dir || Direction.Up == Dir) ? Mathf.FloorToInt(AttackAoE.HorizontalRange / 2) : 0;
-        //Centering[1] = (Direction.Right == Dir || Direction.Left == Dir) && Centering[0] == 0 ? Mathf.FloorToInt(AttackAoE.VerticalRange / 2) : 0;
+        Tiles.Add(Tile);
 
-        switch (Dir)
+
+        for (int i = 0; i < AttackAoE.VerticalRange; i++)
         {
-            case Direction.Up:
-                {
-                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
-                    Centering[1] = AttackAoE.VerticalRange - 1;
-                    break;
-                }
-            case Direction.Down:
-                {
-                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
-                    break;
-                }
-            case Direction.Left:
-                {
-                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
-                    Centering[1] = -Mathf.FloorToInt(AttackAoE.VerticalRange / 2);
-                    break;
-                }
-            case Direction.Right:
-                {
-                    Centering[0] = Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
-                    break;
-                }
-        }
-
-        for (int i = 0; i <= AttackAoE.VerticalRange; i++)
-        {
-            CurrentPosition[0] = Position[0] + i + Centering[0];
-
-            if (CurrentPosition[0] < 0 || CurrentPosition[0] >= TileManager.Instance.Width - 1)
-            {
-                continue;
-            }
-
-            for (int j = 0; j < AttackAoE.HorizontalRange; j++)
-            {
-
-                CurrentPosition[1] = Position[1] + j + Centering[1];
-
-                if (CurrentPosition[1] < 0 || CurrentPosition[1] >= TileManager.Instance.Height - 1)
-                {
-                    continue;
-                }
-
-                if (!AoELocations.Contains(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>()))
-                {
-                    AoELocations.Add(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>());
-                }
-            }
+            Tiles = FindAoE(Tiles, Dir);
         }
 
         CurrentTurns = 1;
@@ -257,5 +239,65 @@ public class BossAI : UnitAI
         {
             tile.Show(true);
         }
+    }
+
+    internal List<GameObject> FindAoE(List<GameObject> tiles, Direction Dir)
+    {
+        List<GameObject> NextLayer = new List<GameObject>();
+
+        foreach (GameObject tile in tiles)
+        {
+            foreach (GameObject AdjacentTile in tile.GetComponent<Tile>().AdjacentTiles)
+            {
+                switch(Dir)
+                {
+                    case Direction.Up:
+                        {
+                            if(AdjacentTile.GetComponent<Tile>().GridPosition[1] < Position[1] + 1)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
+                    case Direction.Down:
+                        {
+                            if (AdjacentTile.GetComponent<Tile>().GridPosition[1] > Position[1] - 1)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
+                    case Direction.Left:
+                        {
+                            if (AdjacentTile.GetComponent<Tile>().GridPosition[0] > Position[0] - 1)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
+                    case Direction.Right:
+                        {
+                            if (AdjacentTile.GetComponent<Tile>().GridPosition[0] < Position[0] + 1)
+                            {
+                                continue;
+                            }
+                            break;
+                        }
+                }
+
+                if (!NextLayer.Contains(AdjacentTile))
+                {
+                    NextLayer.Add(AdjacentTile);
+                }
+
+                if (!AoELocations.Contains(AdjacentTile.GetComponent<Tile>()))
+                {
+                    AoELocations.Add(AdjacentTile.GetComponent<Tile>());
+                }
+
+            }
+        }
+
+        return NextLayer;
     }
 }

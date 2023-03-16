@@ -263,7 +263,7 @@ public class UnitManager : MonoBehaviour
                 }
                 else
                 {
-                    print("Skip Unit");
+                    //print("Skip Unit");
                     Index++;
                     continue;
                 }
@@ -336,7 +336,7 @@ public class UnitManager : MonoBehaviour
             UnitBase.Position = new int[2];
             UnitBase.Position[0] = X;
             UnitBase.Position[1] = Y;
-            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase);
+            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase, UnitBase.GetComponent<BossAI>()? UnitBase.GetComponent<BossAI>().isMultiTile: false);
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
             UnitBase.UIHealth.value = UnitBase.CurrentHealth;
