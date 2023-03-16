@@ -119,8 +119,11 @@ public class UnitControlled : UnitBase
                 {
                     if (TileObj.GetComponent<Tile>().Unit.CompareTag("Enemy"))
                     {
-                        print(TileObj.GetComponent<Tile>().Unit.CurrentHealth / TileObj.GetComponent<Tile>().Unit.HealthMax);
-                        print(0.1f + (RankBonus[Class.Level] / TileObj.GetComponent<Tile>().Unit.HealthMax));
+                        if(TileObj.GetComponent<Tile>().Unit.GetComponent<BossAI>())
+                        {
+                            continue;
+                        }
+
                         if (TileObj.GetComponent<Tile>().Unit.CurrentHealth / TileObj.GetComponent<Tile>().Unit.HealthMax < 0.1f + (RankBonus[Class.Level] / TileObj.GetComponent<Tile>().Unit.HealthMax))
                         {
                             RecruitTarget = TileObj.GetComponent<Tile>().Unit;
@@ -139,7 +142,7 @@ public class UnitControlled : UnitBase
     {
         GameManager.Instance.NumRecruited++;
         //print(Mathf.FloorToInt((TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]));
-        RecruitTarget.GetComponent<UnitAI>().AttemptRecruit(/*(TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]*/ 100);
+        RecruitTarget.GetComponent<UnitAI>().AttemptRecruit((TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]);
     }
 
     internal void AttackDisplay()
