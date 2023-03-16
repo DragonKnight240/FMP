@@ -13,6 +13,15 @@ public class OverworldMenu : MonoBehaviour
     public GameObject UnitSection;
     public GameObject ConveySection;
     public GameObject AttacksMenu;
+    public GameObject TradeOptions;
+
+    internal Item ToTradeItem; 
+    public GameObject SwordUserTrade;
+    public GameObject MagicUserTrade;
+    public GameObject GauntletUserTrade;
+    public GameObject BowUserTrade;
+    public GameObject ConvoyTrade;
+    public GameObject UseButton;
 
     public Button SwordButton;
     public Button MageButton;
@@ -31,6 +40,8 @@ public class OverworldMenu : MonoBehaviour
     public TMP_Text Class;
     public TMP_Text Name;
     public TMP_Text Level;
+
+    public CharacterData OpenCharacterData;
 
     public TMP_Text LevelBow;
     public TMP_Text LevelMagic;
@@ -110,11 +121,20 @@ public class OverworldMenu : MonoBehaviour
             Destroy(gameObject);
         }
 
+        int Index = 0;
+
         foreach(Item item in GameManager.Instance.Convoy)
         {
             ConvoyPrefabItems.Add(Instantiate(ConvoyPrefab, ConvoyItems.transform));
-            ConvoyPrefabItems[ConvoyPrefabItems.Count - 1].GetComponentInChildren<TMP_Text>().text = item.Name;
+            Index = ConvoyPrefabItems.Count - 1;
+            ConvoyPrefabItems[Index].GetComponent<Button>().onClick.RemoveAllListeners();
+            ConvoyPrefabItems[Index].GetComponent<Button>().onClick.AddListener(() => OpenTradeWindow(ConvoyPrefabItems[Index].GetComponent<ItemButton>()));
+            ConvoyPrefabItems[Index].GetComponentInChildren<TMP_Text>().text = item.Name;
+            ConvoyPrefabItems[Index].GetComponent<ItemButton>().LinkedItem = item;
+
         }
+
+        OpenCharacterData = null;
 
         UnitSection.SetActive(false);
         ConveySection.SetActive(true);
@@ -141,7 +161,7 @@ public class OverworldMenu : MonoBehaviour
 
         Level.text = Character.Level.ToString();
         UnitImage.sprite = Character.UnitImage;
-        Health.text = Character.CurrentHealth.ToString() + " / " + Character.HealthMax.ToString(); ;
+        Health.text = Character.CurrentHealth.ToString() + " / " + Character.HealthMax.ToString();
         Strength.text = Character.Strength.ToString();
         Dex.text = Character.Dexterity.ToString();
         Magic.text = Character.Magic.ToString();
@@ -157,25 +177,9 @@ public class OverworldMenu : MonoBehaviour
         LevelMagic.text = Character.MagicLevel.ToString();
         LevelSword.text = Character.SwordLevel.ToString();
 
-        int Index = 0;
+        UpdateInventorySlots(Character);
 
-        foreach(GameObject InventorySlots in InventoryItems)
-        {
-            if (Index > Character.Inventory.Count - 1)
-            {
-                InventorySlots.GetComponentInChildren<TMP_Text>().text = "None";
-                InventorySlots.GetComponent<ItemButton>().LinkedItem = null;
-                InventorySlots.SetActive(true);
-                Index++;
-                continue;
-            }
-
-            InventorySlots.GetComponentInChildren<TMP_Text>().text = Character.Inventory[Index].Name;
-            InventorySlots.GetComponent<ItemButton>().LinkedItem = Character.Inventory[Index];
-            InventorySlots.SetActive(true);
-
-            Index++;
-        }
+        OpenCharacterData = Character;
 
         ConveySection.SetActive(false);
         UnitSection.SetActive(true);
@@ -187,6 +191,31 @@ public class OverworldMenu : MonoBehaviour
         }
 
         AttacksMenu.SetActive(Shop.Instance.gameObject.activeInHierarchy || Character.UnlockedAttacks.Count == 0? false: true);
+    }
+
+    internal void UpdateInventorySlots(CharacterData Character)
+    {
+        int Index = 0;
+
+        foreach (GameObject InventorySlots in InventoryItems)
+        {
+            if (Index > Character.Inventory.Count - 1)
+            {
+                InventorySlots.GetComponentInChildren<TMP_Text>().text = "None";
+                InventorySlots.GetComponent<ItemButton>().LinkedItem = null;
+                InventorySlots.GetComponent<Button>().interactable = false;
+                InventorySlots.SetActive(true);
+                Index++;
+                continue;
+            }
+
+            InventorySlots.GetComponentInChildren<TMP_Text>().text = Character.Inventory[Index].Name;
+            InventorySlots.GetComponent<ItemButton>().LinkedItem = Character.Inventory[Index];
+            InventorySlots.GetComponent<Button>().interactable = true;
+            InventorySlots.SetActive(true);
+
+            Index++;
+        }
     }
 
     internal void DisplayAttacks(CharacterData Unit)
@@ -264,6 +293,235 @@ public class OverworldMenu : MonoBehaviour
 
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void UseItem()
+    {
+        if (ToTradeItem.Type == ItemTypes.Heal)
+        {
+            HealItem HealthItem = (HealItem)ToTradeItem;
+            if (OpenCharacterData.CurrentHealth + (HealthItem.HealValue) < OpenCharacterData.HealthMax)
+            {
+                OpenCharacterData.CurrentHealth += HealthItem.HealValue;
+            }
+            else
+            {
+                OpenCharacterData.CurrentHealth = OpenCharacterData.HealthMax;
+            }
+
+            Health.text = OpenCharacterData.CurrentHealth.ToString() + " / " + OpenCharacterData.HealthMax.ToString();
+        }
+            
+    }
+
+    public void OpenTradeWindow(ItemButton Item)
+    {
+        if(Item == null)
+        {
+            return;
+        }
+
+        if (OpenCharacterData != null)
+        {
+            if (!OpenCharacterData.Class.Name.Contains("Soldier"))
+            {
+                SwordUserTrade.SetActive(true);
+
+                if(GameManager.Instance.SwordInventoryFull)
+                {
+                    SwordUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    SwordUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                SwordUserTrade.SetActive(false);
+            }
+
+            if (!OpenCharacterData.Class.Name.Contains("Archer") && GameManager.Instance.ArcherRecruitComplete)
+            {
+                BowUserTrade.SetActive(true);
+
+                if (GameManager.Instance.ArcherInventoryFull)
+                {
+                    BowUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    BowUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                BowUserTrade.SetActive(false);
+            }
+
+            if (!OpenCharacterData.Class.Name.Contains("Grappler") && GameManager.Instance.GauntletRecruitComplete)
+            {
+                GauntletUserTrade.SetActive(true);
+
+                if (GameManager.Instance.GauntletInventoryFull)
+                {
+                    GauntletUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    GauntletUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                GauntletUserTrade.SetActive(false);
+            }
+
+            if (!OpenCharacterData.Class.Name.Contains("Mage"))
+            {
+                MagicUserTrade.SetActive(true);
+
+                if (GameManager.Instance.MageInventoryFull)
+                {
+                    MagicUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    MagicUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                MagicUserTrade.SetActive(false);
+            }
+
+            ConvoyTrade.SetActive(true);
+        }
+        else
+        {
+            MagicUserTrade.SetActive(true);
+
+            if (GameManager.Instance.MageInventoryFull)
+            {
+                MagicUserTrade.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                MagicUserTrade.GetComponent<Button>().interactable = true;
+            }
+
+            SwordUserTrade.SetActive(true);
+
+            if (GameManager.Instance.SwordInventoryFull)
+            {
+                SwordUserTrade.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                SwordUserTrade.GetComponent<Button>().interactable = true;
+            }
+
+            if (GameManager.Instance.ArcherRecruitComplete)
+            {
+                BowUserTrade.SetActive(true);
+
+                if (GameManager.Instance.ArcherInventoryFull)
+                {
+                    BowUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    BowUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                BowUserTrade.SetActive(false);
+            }
+
+            if (GameManager.Instance.GauntletRecruitComplete)
+            {
+                GauntletUserTrade.SetActive(true);
+
+                if (GameManager.Instance.GauntletInventoryFull)
+                {
+                    GauntletUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    GauntletUserTrade.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                GauntletUserTrade.SetActive(false);
+            }
+
+            ConvoyTrade.SetActive(false);
+        }
+
+        if(Item.LinkedItem.Type == ItemTypes.Heal)
+        {
+            UseButton.SetActive(true);
+        }
+        else
+        {
+            UseButton.SetActive(false);
+        }
+
+        ToTradeItem = Item.LinkedItem;
+
+        TradeOptions.SetActive(true);
+        TradeOptions.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void CloseTradeWindow()
+    {
+        ToTradeItem = null;
+        TradeOptions.GetComponent<UIFade>().ToFadeOut();
+    }
+
+    public void TradeItem(string Name)
+    {
+        CharacterData NewData = null;
+
+        foreach(CharacterData Data in GameManager.Instance.UnitData)
+        {
+            if(Data.UnitName == Name)
+            {
+                NewData = Data;
+                break;
+            }
+        }
+
+        if(OpenCharacterData != null)
+        {
+            OpenCharacterData.Inventory.Remove(ToTradeItem);
+        }
+        else
+        {
+            GameManager.Instance.Convoy.Remove(ToTradeItem);
+        }
+
+        if (NewData != null)
+        {
+            NewData.Inventory.Add(ToTradeItem);
+        }
+        else
+        {
+            GameManager.Instance.Convoy.Add(ToTradeItem);
+        }
+
+        if (OpenCharacterData != null)
+        {
+            UpdateInventorySlots(OpenCharacterData);
+        }
+        else
+        {
+            SwitchToConvoy();
+        }
+
+        CloseTradeWindow();
     }
 
 }

@@ -46,6 +46,7 @@ public class UnitBase : MonoBehaviour
     internal bool EXPPending = false;
 
     public List<Tile> MoveableTiles;
+    internal Vector2 ToCenter = new Vector2(0, 0);
     public List<Tile> AttackTiles;
 
     internal bool isAlive = true;
@@ -126,6 +127,7 @@ public class UnitBase : MonoBehaviour
     internal List<UnitBase> SupportedUnits;
     internal bool CanCrit = true;
     internal bool ReturnAttackPossible = true;
+    internal bool SpecialZoomIn;
 
     public List<UnitBase> InRangeTargets;
 
@@ -194,6 +196,11 @@ public class UnitBase : MonoBehaviour
                     HideAllChangedTiles();
                     NoDamage();
                 }
+                else if(SpecialZoomIn)
+                {
+                    HideAllChangedTiles();
+                    PlaySpecialAnim();
+                }
             }
 
             if (CurrentHealth > 0)
@@ -205,7 +212,7 @@ public class UnitBase : MonoBehaviour
                         return;
                     }
 
-                    if (new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z) ==
+                    if (new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]) ==
                         new Vector3(transform.position.x, transform.position.y, transform.position.z))
                     {
                         Path.RemoveAt(0);
@@ -222,8 +229,8 @@ public class UnitBase : MonoBehaviour
                         }
                     }
 
-                    transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x, transform.position.y, Path[0].CentrePoint.transform.position.z));
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x, transform.position.y, Path[0].transform.position.z), MoveSpeed * Time.deltaTime);
+                    transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]));
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x + ToCenter[0], transform.position.y, Path[0].transform.position.z + ToCenter[1]), MoveSpeed * Time.deltaTime);
                 }
                 else if(!Moving)
                 {
@@ -234,8 +241,15 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+            else 
+            {
+                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death)
+                {
+                    DeathZoomIn = true;
+                }
+            }
 
-            if(EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
+            if (EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 EXPPending = false;
                 Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
@@ -249,6 +263,11 @@ public class UnitBase : MonoBehaviour
                 UIHealth.value = Mathf.Lerp(UIHealth.value, CurrentHealth, Time.deltaTime * HealthLerpSpeed);
             }
         }
+    }
+
+    internal void PlaySpecialAnim()
+    {
+
     }
 
     //Moves the character from the current location to the wanted location
@@ -732,8 +751,6 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
-        //GetComponent<Fading>().ChangeMaterial();
-        //GetComponent<Fading>().FadeOut = true;
         isAlive = false;
 
         DeathZoomIn = false;

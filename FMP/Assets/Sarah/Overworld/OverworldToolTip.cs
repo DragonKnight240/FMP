@@ -30,12 +30,12 @@ public class OverworldToolTip : MonoBehaviour
         CurrentToolTip = Tip.tutorial;
         Text.text = Tip.Text;
         TooltipMain.GetComponent<MoveToScreenLocation>().Display = true;
-        print("Show Tooltip");
+        //print("Show Tooltip");
     }
 
     internal void UnShowToolTip()
     {
         TooltipMain.GetComponent<MoveToScreenLocation>().Display = false;
-        print("Unshow Tooltip");
+        //print("Unshow Tooltip");
     }
 }

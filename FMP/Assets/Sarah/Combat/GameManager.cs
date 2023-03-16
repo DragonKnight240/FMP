@@ -10,11 +10,16 @@ public class GameManager : MonoBehaviour
     public List<CharacterData> UnitData;
     internal Vector3 PlayerReturnToOverworld;
     internal Quaternion PlayerReturnRotation;
-    internal int CurrentUnitNum = 1;
+    internal int CurrentUnitNum = 0;
     internal int NumRecruited = 0;
     public int MaxRecruitable = 2;
     public List<Item> Convoy;
     public int Money = 0;
+
+    internal bool SwordInventoryFull = false;
+    internal bool GauntletInventoryFull = false;
+    internal bool MageInventoryFull = false;
+    internal bool ArcherInventoryFull = false;
 
     internal int OverworldLevelID;
 
@@ -41,6 +46,11 @@ public class GameManager : MonoBehaviour
     public bool inCombat = false;
     public bool StartedGame = false;
 
+    public bool GodMode = true;
+    internal string CurrentInput = "";
+
+    internal int MainObjectNum = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -63,6 +73,8 @@ public class GameManager : MonoBehaviour
             PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
+
+        RecruitUnit("Sword");
     }
 
 
@@ -70,6 +82,139 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
+    }
+
+    private void Update()
+    {
+        if (GodMode)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                foreach (CharacterData Data in UnitData)
+                {
+                    print(Data.EXP);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                if (UnitManager.Instance)
+                {
+                    foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                    }
+                }
+            }
+            else if(Input.GetKeyDown(KeyCode.H))
+            {
+                if (UnitManager.Instance)
+                {
+                    foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = Unit.GetComponent<UnitBase>().HealthMax;
+                    }
+                }
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                CombatTutorialComplete = true;
+                OverworldMoveTutorialComplete = true;
+                OverworldEnemyTutorialComplete = true;
+                OverworldTutorialComplete = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Money += 1000;
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                if(UnitManager.Instance)
+                {
+                    foreach(GameObject Unit in UnitManager.Instance.EnemyUnits)
+                    {
+                        Unit.GetComponent<UnitBase>().CurrentHealth = 1;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (Input.anyKeyDown)
+            {
+                if (Input.GetKeyDown(KeyCode.K) && CurrentInput == "" )
+                {
+                    CurrentInput += "K";
+                }
+                else if (Input.GetKeyDown(KeyCode.O) && CurrentInput == ("K"))
+                {
+                    CurrentInput += "O";
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && CurrentInput == ("KO"))
+                {
+                    CurrentInput += "S";
+                }
+                else if (Input.GetKeyDown(KeyCode.T) && CurrentInput == ("KOS"))
+                {
+                    CurrentInput += "T";
+                }
+                else if (Input.GetKeyDown(KeyCode.A) && CurrentInput == ("KOST"))
+                {
+                    CurrentInput += "A";
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && CurrentInput == ("KOSTA"))
+                {
+                    GodMode = true;
+                    //print(GodMode);
+                }
+                else
+                {
+                    //print("RESET");
+                    CurrentInput = "";
+                }
+            }
+        }
+
+        foreach(CharacterData Data in UnitData)
+        {
+            if(Data.Inventory.Count >= 6)
+            {
+                if (Data.Class.Name == "Soldier")
+                {
+                    SwordInventoryFull = true;
+                }
+                else if(Data.Class.Name == "Mage")
+                {
+                    MageInventoryFull = true;
+                }
+                else if (Data.Class.Name == "Grappler")
+                {
+                    GauntletInventoryFull = true;
+                }
+                else if (Data.Class.Name == "Archer")
+                {
+                    ArcherInventoryFull = true;
+                }
+            }
+            else
+            {
+                if (Data.Class.Name == "Soldier")
+                {
+                    SwordInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Mage")
+                {
+                    MageInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Grappler")
+                {
+                    GauntletInventoryFull = false;
+                }
+                else if (Data.Class.Name == "Archer")
+                {
+                    ArcherInventoryFull = false;
+                }
+            }
+        }
     }
 
 

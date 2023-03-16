@@ -25,6 +25,8 @@ public class UnitAI : UnitBase
     internal List<AttackStats> AttackProfiles;
     internal AttackStats CurrentAttackStats;
 
+    public GameObject AllyVariant;
+
     override internal void Start()
     {
         base.Start();
@@ -51,6 +53,53 @@ public class UnitAI : UnitBase
             {
                 Moving = false;
             }
+        }
+    }
+
+    internal void AttemptRecruit(float Chance)
+    {
+        if(Chance >= Random.Range(0, 101))
+        {
+            GameObject AllyVersion = Instantiate(AllyVariant, UnitManager.Instance.gameObject.transform, true);
+
+            UnitBase UnitBase = AllyVersion.GetComponent<UnitBase>();
+            UnitManager.Instance.AllyUnits.Add(AllyVersion);
+            TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
+
+            UnitManager.Instance.UnitUpdate.AddListener(() => { UnitBase.MoveableArea(false); });
+
+            UnitBase.Position = new int[2];
+            UnitBase.Position[0] = Position[0];
+            UnitBase.Position[1] = Position[1];
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(UnitBase);
+
+            UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
+            UnitBase.UIHealth.value = Mathf.RoundToInt(UnitBase.HealthMax/2);
+            UnitBase.CurrentHealth = Mathf.RoundToInt(UnitBase.HealthMax / 2);
+
+            UnitBase.AvailableAttacks = new List<SpecialAttacks>();
+            UnitBase.AvailableAttacks = AvailableAttacks;
+
+            UnitBase.WeaponsIninventory = WeaponsIninventory;
+
+            UnitBase.CurrentAttack = UnitBase.AvailableAttacks[0];
+
+            UnitBase.Inventory = Inventory;
+
+            UnitBase.transform.position = transform.position;
+
+
+            //Add to dead eNEMIES OGUnit
+
+            UnitManager.Instance.DeadEnemyUnits.Add(this);
+
+            CurrentHealth = 0;
+            isAlive = false;
+
+            
+
+            //Set inActive OGUnit
+            gameObject.SetActive(false);
         }
     }
 

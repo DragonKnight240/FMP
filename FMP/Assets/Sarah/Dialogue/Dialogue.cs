@@ -8,4 +8,5 @@ public class Dialogue : ScriptableObject
     public string Speaker;
     [TextAreaAttribute]
     public string Text;
+    public bool SystemNotification = false;
 }

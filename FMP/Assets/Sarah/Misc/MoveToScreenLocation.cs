@@ -66,11 +66,11 @@ public class MoveToScreenLocation : MonoBehaviour
 
         if(Display)
         {
-            transform.position = Vector3.MoveTowards(transform.position, InSightLocation, Speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, InSightLocation, Speed );
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, OutSightLocation, Speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, OutSightLocation, Speed );
         }
     }
 }

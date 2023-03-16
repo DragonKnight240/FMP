@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossAI : UnitAI
 {
     public bool isMultiTile = false;
+    public int MutiTileAmount = 3;
     internal List<int[]> MultiPosition;
     public List<Tile> AoELocations;
     internal int TurnCount;
@@ -120,95 +121,128 @@ public class BossAI : UnitAI
 
     internal void AoEDirection(UnitBase Unit)
     {
-        List<GameObject> Tiles = new List<GameObject>();
-        Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+        Dictionary<Tile, float> Tiles = new Dictionary<Tile, float>();
+        Tile Closest = null;
 
-        Direction Vert;
-        Direction Hori;
+        Tile CurrentTile;
+        float Distance;
 
-        if (Unit.Position[0] > Position[0])
+        foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
         {
-            //Right
-            Hori = Direction.Right;
+            CurrentTile = tile.GetComponent<Tile>();
+
+            Distance = Mathf.Sqrt((CurrentTile.GridPosition[1] - Unit.Position[1]) ^ 2 + (CurrentTile.GridPosition[0] - Unit.Position[0]) ^ 2);
+
+            Tiles.Add(CurrentTile, Distance);
+
+            if (Closest == null)
+            {
+                Closest = tile.GetComponent<Tile>();
+            }
+            else
+            {
+                if (Tiles[Closest] > Distance)
+                {
+                    Closest = CurrentTile;
+                }
+            }
         }
-        else
-        {
-            //Left
-            Hori = Direction.Left;
-        }
+
+        Direction Dir;
         
-        if (Unit.Position[1] < Position[1])
+
+        if (Position[1] == Closest.GridPosition[1] )
         {
-            //Down
-            Vert = Direction.Down;
+            if (Closest.GridPosition[0] > Position[0])
+            {
+                Dir = Direction.Right;
+            }
+            else
+            {
+                Dir = Direction.Left;
+            }
         }
         else
         {
-            //UP
-            Vert = Direction.Up;
+            if (Closest.GridPosition[1] > Position[1])
+            {
+                Dir = Direction.Up;
+            }
+            else
+            {
+                Dir = Direction.Down;
+            }
         }
 
-        AoEDamage(Hori, Vert);
+        print(Dir);
+        print(Closest);
+        
+        AoEDamage(Dir);
     }
 
-    internal void AoEDamage(Direction DirHori, Direction DirVert)
+    internal void AoEDamage(Direction Dir)
     {
         int[] CurrentPosition = new int[2];
 
         int[] Centering = new int[2];
 
-        AoELocations.Add(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>());
+        Centering[0] = 0;
+        Centering[1] = 0;
 
         AoESpecialAttack AttackAoE = (AoESpecialAttack)CurrentAttack;
 
-        Centering[0] = (Direction.Left == DirHori || Direction.Right == DirHori) ? Mathf.FloorToInt(AttackAoE.HorizontalRange / 2): 0;
-        Centering[1] = (Direction.Up == DirVert || Direction.Down == DirVert) && Centering[0] == 0 ? Mathf.FloorToInt(AttackAoE.VerticalRange / 2): 0;
+        //Centering[0] = (Direction.Down == Dir || Direction.Up == Dir) ? Mathf.FloorToInt(AttackAoE.HorizontalRange / 2) : 0;
+        //Centering[1] = (Direction.Right == Dir || Direction.Left == Dir) && Centering[0] == 0 ? Mathf.FloorToInt(AttackAoE.VerticalRange / 2) : 0;
 
-
-
-        for (int i = 0; i <= AttackAoE.HorizontalRange; i++)
+        switch (Dir)
         {
-            switch (DirHori)
-            {
-                case Direction.Right:
-                    {
-                        CurrentPosition[0] = Position[0] + i - Centering[0];
-                        break;
-                    }
-                case Direction.Left:
-                    {
-                        CurrentPosition[0] = Position[0] - i + Centering[0];
-                        break;
-                    }
-            }
+            case Direction.Up:
+                {
+                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
+                    Centering[1] = AttackAoE.VerticalRange - 1;
+                    break;
+                }
+            case Direction.Down:
+                {
+                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
+                    break;
+                }
+            case Direction.Left:
+                {
+                    Centering[0] = -Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
+                    Centering[1] = -Mathf.FloorToInt(AttackAoE.VerticalRange / 2);
+                    break;
+                }
+            case Direction.Right:
+                {
+                    Centering[0] = Mathf.FloorToInt(AttackAoE.HorizontalRange / 2);
+                    break;
+                }
+        }
+
+        for (int i = 0; i <= AttackAoE.VerticalRange; i++)
+        {
+            CurrentPosition[0] = Position[0] + i + Centering[0];
 
             if (CurrentPosition[0] < 0 || CurrentPosition[0] >= TileManager.Instance.Width - 1)
             {
                 continue;
             }
 
-            for (int j = 0; j < AttackAoE.VerticalRange; j++)
+            for (int j = 0; j < AttackAoE.HorizontalRange; j++)
             {
-                switch (DirVert)
-                {
-                    case Direction.Down:
-                        {
-                            CurrentPosition[1] = Position[1] - j - Centering[1];
-                            break;
-                        }
-                    case Direction.Up:
-                        {
-                            CurrentPosition[1] = Position[1] + j + Centering[1];
-                            break;
-                        }
-                }
+
+                CurrentPosition[1] = Position[1] + j + Centering[1];
 
                 if (CurrentPosition[1] < 0 || CurrentPosition[1] >= TileManager.Instance.Height - 1)
                 {
                     continue;
                 }
 
-                AoELocations.Add(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>());
+                if (!AoELocations.Contains(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>()))
+                {
+                    AoELocations.Add(TileManager.Instance.Grid[CurrentPosition[0], CurrentPosition[1]].GetComponent<Tile>());
+                }
             }
         }
 
