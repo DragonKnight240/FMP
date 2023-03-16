@@ -31,7 +31,7 @@ public class MovableBoulder : InteractOnGrid
         {
             if(RollingSource == null && RollingSound != null)
             {
-                SoundManager.Instance.PlaySFX(RollingSound);
+                RollingSource = SoundManager.Instance.PlaySFX(RollingSound);
             }
 
             if (Path.Count <= 0)
@@ -114,8 +114,11 @@ public class MovableBoulder : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        if (Unit.Class.Name == ClassNeeded.Name)
+        {
+            UnitToActiveIt = Unit;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        }
     }
 
     internal override void CalculateAoE(Direction DirectionInteraction)

@@ -47,6 +47,7 @@ public class KnockableTree : InteractOnGrid
                 }
 
                 isFalling = false;
+                UnitManager.Instance.UnitUpdate.Invoke();
                 gameObject.SetActive(false);
             }
         }
@@ -54,16 +55,15 @@ public class KnockableTree : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-        DealAoEDamage();
+        if (Unit.Class.Name == ClassNeeded.Name)
+        {
+            UnitToActiveIt = Unit;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+            DealAoEDamage();
 
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
-
-        UnitManager.Instance.UnitUpdate.Invoke();
-
-        Unit.WaitUnit();
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
+        }
     }
 
     internal override void CalculateAoE(Direction DirectionInteraction)

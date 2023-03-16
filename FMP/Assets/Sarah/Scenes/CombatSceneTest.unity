@@ -661,6 +661,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
 --- !u!1 &128072474
@@ -1173,6 +1181,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
 --- !u!1 &344118949
@@ -2235,6 +2251,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
 --- !u!1001 &657995924
@@ -2308,6 +2332,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
 --- !u!114 &659268638 stripped
@@ -4487,6 +4519,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     - target: {fileID: 6825903001297011129, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.23
@@ -5510,6 +5550,14 @@ PrefabInstance:
       propertyPath: Speed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeFallingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
+    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
+      propertyPath: TreeHitingGroundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
 --- !u!1 &1594610901
@@ -7054,6 +7102,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1818511928}
     m_Modifications:
+    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
+      propertyPath: DamageSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ce73f56a1d07f49428cbbc1b3466e001, type: 3}
+    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
+      propertyPath: ActivateSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b81b193b8395e0d49ba8a7e2465c825c, type: 3}
+    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
+      propertyPath: DeactivateSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 2daa93c622204044183c29d0695b33fa, type: 3}
     - target: {fileID: 6771490862047989870, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
       propertyPath: m_RootOrder
       value: 0

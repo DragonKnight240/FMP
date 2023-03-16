@@ -57,7 +57,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9598031f75d08ff45a8aeaa22dc6b491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SwordLevelMin: 0
+  ClassNeeded: {fileID: 0}
+  Damage: 2
   Speed: 50
   HitAmountWidth: 0
   HitAmountHeight: 15
+  TreeFallingSound: {fileID: 0}
+  TreeHitingGroundSound: {fileID: 0}

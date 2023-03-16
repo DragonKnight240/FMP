@@ -27,17 +27,24 @@ public class MagicOrb : InteractOnGrid
         if(StayForTurns < ActiveForTurns)
         {
             Active = false;
+            if (DeactivateSound)
+            {
+                SoundManager.Instance.PlaySFX(DeactivateSound);
+            }
         }
     }
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        Active = true;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-        if (ActivateSound)
+        if (Unit.Class.Name == ClassNeeded.Name)
         {
-            SoundManager.Instance.PlaySFX(ActivateSound);
+            UnitToActiveIt = Unit;
+            Active = true;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+            if (ActivateSound)
+            {
+                SoundManager.Instance.PlaySFX(ActivateSound);
+            }
         }
     }
 
@@ -63,11 +70,6 @@ public class MagicOrb : InteractOnGrid
                     }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
                 }
-            }
-
-            if (DeactivateSound)
-            {
-                SoundManager.Instance.PlaySFX(DeactivateSound);
             }
         }
     }
