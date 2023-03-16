@@ -11,6 +11,9 @@ public class KnockableTree : InteractOnGrid
     public int HitAmountWidth;
     public int HitAmountHeight;
     internal List<GameObject> AoETiles;
+    internal AudioSource FallingSource;
+    public AudioClip TreeFallingSound;
+    public AudioClip TreeHitingGroundSound;
 
 
     // Start is called before the first frame update
@@ -24,13 +27,26 @@ public class KnockableTree : InteractOnGrid
     {
         if(isFalling)
         {
+            if(FallingSource == null && TreeFallingSound != null)
+            {
+                FallingSource = SoundManager.Instance.PlaySFX(TreeFallingSound);
+            }
+
             transform.rotation = Quaternion.Lerp(transform.rotation, RotateTo, Time.deltaTime * Speed);
 
             if(transform.rotation == RotateTo)
             {
+                if(FallingSource)
+                {
+                    FallingSource.Stop();
+                }
+
+                if (TreeHitingGroundSound)
+                {
+                    SoundManager.Instance.PlaySFX(TreeHitingGroundSound);
+                }
+
                 isFalling = false;
-                //GetComponent<Fading>().ChangeMaterial();
-                //GetComponent<Fading>().FadeOut = true;
                 gameObject.SetActive(false);
             }
         }
@@ -44,6 +60,9 @@ public class KnockableTree : InteractOnGrid
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
+
+        UnitManager.Instance.UnitUpdate.Invoke();
+
         Unit.WaitUnit();
     }
 

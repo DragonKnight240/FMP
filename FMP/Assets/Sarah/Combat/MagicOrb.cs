@@ -11,6 +11,9 @@ public class MagicOrb : InteractOnGrid
     internal bool Active = false;
     public List<Tile> AoEArea;
     public int Damage;
+    public AudioClip ActivateSound;
+    public AudioClip DeactivateSound;
+    public AudioClip DamageSound;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,10 @@ public class MagicOrb : InteractOnGrid
         UnitToActiveIt = Unit;
         Active = true;
         CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        if (ActivateSound)
+        {
+            SoundManager.Instance.PlaySFX(ActivateSound);
+        }
     }
 
     internal void DealDamage()
@@ -49,8 +56,18 @@ public class MagicOrb : InteractOnGrid
                             continue;
                         }
                     }
+
+                    if (DamageSound)
+                    {
+                        SoundManager.Instance.PlaySFX(DamageSound);
+                    }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
                 }
+            }
+
+            if (DeactivateSound)
+            {
+                SoundManager.Instance.PlaySFX(DeactivateSound);
             }
         }
     }

@@ -197,7 +197,7 @@ public class UnitManager : MonoBehaviour
 
                     if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
                     {
-                        print("Input data");
+                        //print("Input data");
                         data = GameManager.Instance.UnitData[Index];
 
                         NewUnit.name = data.UnitName;

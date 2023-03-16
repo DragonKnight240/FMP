@@ -13,6 +13,10 @@ public class MovableBoulder : InteractOnGrid
     Tile LastTile;
     UnitBase Target;
     Direction RollDirection;
+    public bool DestroyAfterRoll;
+    internal AudioSource RollingSource;
+    public AudioClip RollingSound;
+    public AudioClip HitSound;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +29,11 @@ public class MovableBoulder : InteractOnGrid
     {
         if (Moving)
         {
+            if(RollingSource == null && RollingSound != null)
+            {
+                SoundManager.Instance.PlaySFX(RollingSound);
+            }
+
             if (Path.Count <= 0)
             {
                 return;
@@ -45,7 +54,27 @@ public class MovableBoulder : InteractOnGrid
 
                     CameraMove.Instance.FollowTarget = null;
                     CameraMove.Instance.Override = false;
-                    ResetSpecial();
+
+                    if(RollingSource)
+                    {
+                        RollingSource.Stop();
+                    }
+
+                    if (HitSound != null)
+                    {
+                        SoundManager.Instance.PlaySFX(HitSound);
+                    }
+
+                    if (DestroyAfterRoll)
+                    {
+                        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+                        Destroy(this.gameObject);
+                    }
+                    else
+                    {
+                        ResetSpecial();
+                    }
+                    UnitManager.Instance.UnitUpdate.Invoke();
                     return;
                 }
             }

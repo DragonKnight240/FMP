@@ -5803,12 +5803,8 @@ MonoBehaviour:
     X: 4
     Y: 3
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
-    X: 6
-    Y: 6
-  - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: b87f0189d8a06504d882ffb0b3fdcdd7, type: 3}
-    X: 4
+    Unit: {fileID: 1478534406159762325, guid: d063c3cbcfe03a042a11fa3bbcf54b94, type: 3}
+    X: 3
     Y: 6
   AllyUnits: []
   OverWorldScene: Test
@@ -7115,6 +7111,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1188778205}
     m_Modifications:
+    - target: {fileID: 8409222356235114596, guid: 9eb9898dbf8014e43a9efaad05ac056a, type: 3}
+      propertyPath: DestroyAfterRoll
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8409222356235114597, guid: 9eb9898dbf8014e43a9efaad05ac056a, type: 3}
       propertyPath: m_RootOrder
       value: 0

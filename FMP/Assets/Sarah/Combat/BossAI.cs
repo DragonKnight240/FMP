@@ -174,8 +174,8 @@ public class BossAI : UnitAI
             }
         }
 
-        print(Dir);
-        print(Closest);
+        //print(Dir);
+        //print(Closest);
         
         AoEDamage(Dir);
     }

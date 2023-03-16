@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
         {
             if (Unit.name.Contains(RecruitName))
             {
-                print("Recruited");
+                //print("Recruited");
                 GameObject TempUnit = Instantiate(Unit, new Vector3(0, 0, 0), Quaternion.identity);
                 TempUnit.SetActive(false);
                 SetUpUnit(TempUnit.GetComponent<UnitBase>());
