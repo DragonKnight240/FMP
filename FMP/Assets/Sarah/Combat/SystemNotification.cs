@@ -30,8 +30,9 @@ public class SystemNotification : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (MainNotifiction.activeInHierarchy && !DialogueSystem.Instance.PlayingDialogue)
+            if (MainNotifiction.activeInHierarchy && !DialogueSystem.Instance.PlayingDialogue && !Options.Instance.OptionsMenuUI.activeInHierarchy)
             {
+                Time.timeScale = 1;
                 MainNotifiction.GetComponent<UIFade>().ToFadeOut();
             }
         }
@@ -39,6 +40,7 @@ public class SystemNotification : MonoBehaviour
 
     public void ActiveNotification()
     {
+        Time.timeScale = 0;
         MainNotifiction.SetActive(true);
         MainNotifiction.GetComponent<UIFade>().ToFadeIn();
     }
