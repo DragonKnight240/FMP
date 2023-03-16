@@ -66,7 +66,10 @@ public class UnitControlled : UnitBase
 
         if (RecruitTarget)
         {
-            SpecialRecruit();
+            SpecialZoomIn = true;
+
+            AttackCamera.SetActive(true);
+            Interact.Instance.VirtualCam.SetActive(false);
         }
         else
         {
@@ -135,8 +138,8 @@ public class UnitControlled : UnitBase
     internal void SpecialRecruit()
     {
         GameManager.Instance.NumRecruited++;
-        print(Mathf.FloorToInt((TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]));
-        RecruitTarget.GetComponent<UnitAI>().AttemptRecruit(100);
+        //print(Mathf.FloorToInt((TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]));
+        RecruitTarget.GetComponent<UnitAI>().AttemptRecruit(/*(TotalDexterity() + TotalLuck()) / 2 + RankBonus[BowLevel]*/ 100);
     }
 
     internal void AttackDisplay()

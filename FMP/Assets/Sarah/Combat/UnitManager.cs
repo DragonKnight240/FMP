@@ -71,13 +71,13 @@ public class UnitManager : MonoBehaviour
 
         if (SetupFinished)
         {
-            if (DeadEnemyUnits.Count == EnemyUnits.Count)
+            if (DeadEnemyUnits.Count == EnemyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 //win
                 print("Win");
                 Interact.Instance.CombatMenu.DisplayVictoryScreen();
             }
-            else if (DeadAllyUnits.Count == AllyUnits.Count)
+            else if (DeadAllyUnits.Count == AllyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 //lose
                 print("Lose");

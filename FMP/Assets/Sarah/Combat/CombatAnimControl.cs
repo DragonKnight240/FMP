@@ -10,6 +10,7 @@ public class CombatAnimControl : MonoBehaviour
         Idle,
         Attack,
         Hit,
+        Special,
         Death
     }
 
@@ -27,7 +28,7 @@ public class CombatAnimControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrentAnimation != AnimParameters.Hit && CurrentAnimation != AnimParameters.Attack && AnimParameters.Death != CurrentAnimation)
+        if (CurrentAnimation != AnimParameters.Hit && CurrentAnimation != AnimParameters.Attack && AnimParameters.Death != CurrentAnimation && AnimParameters.Special != CurrentAnimation)
         {
             if (Unit.Moving)
             {

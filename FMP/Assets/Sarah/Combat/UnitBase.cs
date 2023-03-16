@@ -265,11 +265,6 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    internal void PlaySpecialAnim()
-    {
-
-    }
-
     //Moves the character from the current location to the wanted location
     internal bool Move(Tile NewTile, bool Attacking = false, bool Ignore = false)
     {
@@ -726,6 +721,14 @@ public class UnitBase : MonoBehaviour
         {
             ReturnMainCamera();
         }
+    }
+
+    internal void PlaySpecialAnim()
+    {
+        AnimControl.ChangeAnim("Special", CombatAnimControl.AnimParameters.Special);
+
+        WaitUnit();
+        SpecialZoomIn = false;
     }
 
     internal void PlayAttackAnim()
