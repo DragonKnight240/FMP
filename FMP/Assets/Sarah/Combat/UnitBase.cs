@@ -1448,6 +1448,8 @@ public class UnitBase : MonoBehaviour
             GameManager.Instance.ToolTipCheck(Tutorial.CWait);
             TurnManager.Instance.UnitsToMove -= 1;
         }
+
+        UnitManager.Instance.UnitUpdate.Invoke();
     }
 
     //A* Pathfinding
@@ -1548,6 +1550,12 @@ public class UnitBase : MonoBehaviour
                 }
             }
         }
+
+        if(EquipedWeapon.Range > Path.Count && ToAttack)
+        {
+            Path.RemoveRange(0, EquipedWeapon.Range - 1);
+        }
+
         Path.Reverse();
 
         return Path;
