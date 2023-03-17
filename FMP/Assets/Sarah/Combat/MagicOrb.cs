@@ -27,8 +27,10 @@ public class MagicOrb : InteractOnGrid
         if(StayForTurns < ActiveForTurns)
         {
             Active = false;
+            ActiveForTurns = 0;
             if (DeactivateSound)
             {
+                //print("Deactive sound " + gameObject);
                 SoundManager.Instance.PlaySFX(DeactivateSound);
             }
         }
@@ -43,6 +45,7 @@ public class MagicOrb : InteractOnGrid
             CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
             if (ActivateSound)
             {
+                //print("Active " + gameObject);
                 SoundManager.Instance.PlaySFX(ActivateSound);
             }
         }
@@ -66,11 +69,14 @@ public class MagicOrb : InteractOnGrid
 
                     if (DamageSound)
                     {
+                        //print("Damage sound " + gameObject);
                         SoundManager.Instance.PlaySFX(DamageSound);
                     }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
                 }
             }
+
+            ActiveForTurns++;
         }
     }
 

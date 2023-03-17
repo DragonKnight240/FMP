@@ -29,6 +29,7 @@ public class KnockableTree : InteractOnGrid
         {
             if(FallingSource == null && TreeFallingSound != null)
             {
+                //print("Falling sound");
                 FallingSource = SoundManager.Instance.PlaySFX(TreeFallingSound);
             }
 
@@ -43,6 +44,7 @@ public class KnockableTree : InteractOnGrid
 
                 if (TreeHitingGroundSound)
                 {
+                    //print("Hiting sounds");
                     SoundManager.Instance.PlaySFX(TreeHitingGroundSound);
                 }
 

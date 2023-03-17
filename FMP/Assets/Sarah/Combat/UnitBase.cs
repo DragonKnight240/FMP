@@ -733,6 +733,7 @@ public class UnitBase : MonoBehaviour
     internal void PlayAttackAnim()
     {
         AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
+        //print("Attack " + gameObject);
         SoundManager.Instance.PlaySFX(AttackSound);
 
         ResetMoveableTiles();
@@ -746,6 +747,7 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
         SoundManager.Instance.PlaySFX(HitSound);
+        //print("Hit sound " + gameObject);
 
         HitZoomIn = false;
     }
@@ -754,6 +756,7 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
+        //print("Death sound " + gameObject);
         isAlive = false;
 
         DeathZoomIn = false;
@@ -1487,7 +1490,7 @@ public class UnitBase : MonoBehaviour
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
                 if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
-                    (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile))
+                    (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {
                     continue;
                 }
@@ -1537,7 +1540,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (Path.Count > 1)
                 {
-                    Path.RemoveRange(0, 2);
+                    Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
                 }
                 else
                 {

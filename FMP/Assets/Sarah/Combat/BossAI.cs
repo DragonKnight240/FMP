@@ -50,6 +50,7 @@ public class BossAI : UnitAI
     public void PlayTauntAnim()
     {
         AnimControl.ChangeAnim("Taunt", CombatAnimControl.AnimParameters.Attack);
+        //print("Taunt sound " + gameObject);
         SoundManager.Instance.PlaySFX(TauntSound);
 
         ResetMoveableTiles();

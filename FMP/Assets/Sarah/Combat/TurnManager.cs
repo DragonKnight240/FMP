@@ -107,7 +107,6 @@ public class TurnManager : MonoBehaviour
             foreach(MagicOrb Orb in Orbs)
             {
                 Orb.DealDamage();
-                Orb.ActiveForTurns++;
             }
         }
     }

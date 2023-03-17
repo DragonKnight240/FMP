@@ -31,6 +31,7 @@ public class MovableBoulder : InteractOnGrid
         {
             if(RollingSource == null && RollingSound != null)
             {
+                //print("Boulder Rolling sound");
                 RollingSource = SoundManager.Instance.PlaySFX(RollingSound);
             }
 
@@ -62,6 +63,7 @@ public class MovableBoulder : InteractOnGrid
 
                     if (HitSound != null)
                     {
+                        //print("Boulder Hiting sound");
                         SoundManager.Instance.PlaySFX(HitSound);
                     }
 
