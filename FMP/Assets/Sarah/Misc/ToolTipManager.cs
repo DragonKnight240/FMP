@@ -51,7 +51,6 @@ public class ToolTipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(ToolTipObject.transform.position + " != " + ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation);
         //print(TurnManager.Instance.isPlayerTurn);
 
         if (NextTutorialOnReturn)

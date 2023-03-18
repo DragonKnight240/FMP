@@ -38,9 +38,12 @@ public class Compass : MonoBehaviour
         {
             if(MainObjectives.Count > 0)
             {
-                if(MainObjectives[GameManager.Instance.MainObjectNum] != null && GameManager.Instance.MainObjectNum < MainObjectives.Count)
+                if(GameManager.Instance.MainObjectNum < MainObjectives.Count)
                 {
-                    AddMarker(MainObjectives[GameManager.Instance.MainObjectNum]);
+                    if (MainObjectives[GameManager.Instance.MainObjectNum] != null)
+                    {
+                        AddMarker(MainObjectives[GameManager.Instance.MainObjectNum]);
+                    }
                 }
             }
         }
@@ -49,7 +52,10 @@ public class Compass : MonoBehaviour
 
         foreach(Objectives Marker in Markers)
         {
-            Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+            if (Marker != null)
+            {
+                Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+            }
         }
         
     }
@@ -65,6 +71,8 @@ public class Compass : MonoBehaviour
         {
             Destroy(Marker.ObjectMarkerOverworld);
         }
+
+        Markers.Remove(Marker);
 
         GameManager.Instance.MainObjectNum++;
     }
