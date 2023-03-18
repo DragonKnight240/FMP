@@ -74,6 +74,15 @@ public class GameManager : MonoBehaviour
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
 
+        foreach(GameObject Unit in AvailableUnits)
+        {
+            if(Unit.name.Contains("Sword"))
+            {
+                print("Sword Already in");
+                return;
+            }
+        }
+        print("Recruiting Sword");
         RecruitUnit("Sword");
     }
 
