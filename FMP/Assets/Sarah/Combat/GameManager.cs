@@ -78,11 +78,11 @@ public class GameManager : MonoBehaviour
         {
             if(Unit.name.Contains("Sword"))
             {
-                print("Sword Already in");
+                //print("Sword Already in");
                 return;
             }
         }
-        print("Recruiting Sword");
+        //print("Recruiting Sword");
         RecruitUnit("Sword");
     }
 
@@ -225,7 +225,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
 
     internal bool NextToolTip(ToolTip Tip = null)
     {

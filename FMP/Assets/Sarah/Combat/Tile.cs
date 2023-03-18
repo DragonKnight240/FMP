@@ -97,7 +97,7 @@ public class Tile : MonoBehaviour
                             NextTile.Unit = NewUnit;
                             NextTile.Occupied = NewUnit ? true : false;
                             NextTile.CanMoveOn = NewUnit ? false : true;
-                            print(CurrentTile[0] + " , " + CurrentTile[1]);
+                            //print(CurrentTile[0] + " , " + CurrentTile[1]);
                         }
                     }
                 }

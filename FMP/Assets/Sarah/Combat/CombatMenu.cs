@@ -113,6 +113,8 @@ public class CombatMenu : MonoBehaviour
     public GameObject VictoryScreen;
     public GameObject DefeatScreen;
 
+    public TMP_Text ScreenPrint;
+
 
     private void Start()
     {
@@ -555,6 +557,12 @@ public class CombatMenu : MonoBehaviour
         }
     }
 
+    internal void PrintToScreen(string toScreen)
+    {
+        ScreenPrint.text = toScreen;
+
+    }
+
     public void DisplaySupport()
     {
         if(Interact.Instance.SelectedUnit)
@@ -565,7 +573,7 @@ public class CombatMenu : MonoBehaviour
             {
                 for (int i = 0; i < SupportImages.Count; i++)
                 {
-                    if (Unit.SupportedUnits.Count < i)
+                    if (Unit.SupportedUnits.Count > i)
                     {
                         SupportImages[i].sprite = Unit.SupportedUnits[i].UnitImage;
                         SupportImages[i].gameObject.SetActive(true);
