@@ -188,7 +188,7 @@ public class UnitManager : MonoBehaviour
 
             if (Position.UnitType == UnitType.Ally)
             {
-                if (Index < GameManager.Instance.CurrentUnitNum + GameManager.Instance.NumRecruited)
+                if (Index < GameManager.Instance.AvailableUnits.Count)
                 {
                     NewUnit = Instantiate(GameManager.Instance.AvailableUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
                     UnitBase = NewUnit.GetComponent<UnitBase>();
