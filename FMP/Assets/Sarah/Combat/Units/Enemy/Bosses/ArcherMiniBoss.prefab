@@ -422,13 +422,15 @@ MonoBehaviour:
   InRangeTargets: []
   SupportsWith: []
   WeaponImage: {fileID: 3245401895718932567}
-  AttackSound: {fileID: 0}
-  HitSound: {fileID: 0}
-  DeathSound: {fileID: 0}
+  AttackSound: {fileID: 8300000, guid: 37210dd591198014ab7be8f2994bb01b, type: 3}
+  HitSound: {fileID: 8300000, guid: 050b717e094f5a54eb47b5244e3b4402, type: 3}
+  DeathSound: {fileID: 8300000, guid: 82759e4ff9f2fee44ad83f18944aace7, type: 3}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 2
+  AllyVariant: {fileID: 0}
   isMultiTile: 0
+  MutiTileAmount: 3
   AoELocations: []
   TauntSound: {fileID: 0}
 --- !u!114 &6387756794129780633
