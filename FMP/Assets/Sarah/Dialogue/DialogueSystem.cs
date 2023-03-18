@@ -62,7 +62,7 @@ public class DialogueSystem : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 if (!CurrentLine.SystemNotification)
                 {
