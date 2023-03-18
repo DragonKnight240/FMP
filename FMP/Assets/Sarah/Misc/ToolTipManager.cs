@@ -51,11 +51,15 @@ public class ToolTipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(ToolTipObject.transform.position + " != " + ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation);
+        //print(TurnManager.Instance.isPlayerTurn);
+
         if (NextTutorialOnReturn)
         {
-            if (ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position == ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation
+            if (ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position.ToString() == ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation.ToString()
                 && TurnManager.Instance.isPlayerTurn)
             {
+                print("OG Position");
                 NextTutorialOnReturn = false;
                 NewToolTip(PendingToolTip);
                 PendingToolTip = null;
@@ -107,7 +111,7 @@ public class ToolTipManager : MonoBehaviour
             return;
         }
 
-        if(ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position != ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation)
+        if(ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position.ToString() != ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation.ToString())
         {
             NextTutorialOnReturn = true;
             if (NewToolTip)

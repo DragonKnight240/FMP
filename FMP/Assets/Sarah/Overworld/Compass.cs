@@ -10,6 +10,7 @@ public class Compass : MonoBehaviour
     public Transform Player;
     internal List<Objectives> Markers = new List<Objectives>();
     public GameObject IconPrefab;
+    public GameObject OverworldIconPrefab;
 
     public List<Objectives> MainObjectives;
 
@@ -60,12 +61,19 @@ public class Compass : MonoBehaviour
             Destroy(Marker.image.gameObject);
         }
 
+        if(Marker.ObjectMarkerOverworld)
+        {
+            Destroy(Marker.ObjectMarkerOverworld);
+        }
+
         GameManager.Instance.MainObjectNum++;
     }
 
     public void AddMarker(Objectives Marker)
     {
         GameObject NewMarker = Instantiate(IconPrefab, CompassImage.transform);
+        GameObject NewOverworldMarker = Instantiate(OverworldIconPrefab, Marker.gameObject.transform);
+        Marker.ObjectMarkerOverworld = NewOverworldMarker;
         Marker.image = NewMarker.GetComponent<Image>();
         Marker.image.sprite = Marker.Icon;
 
