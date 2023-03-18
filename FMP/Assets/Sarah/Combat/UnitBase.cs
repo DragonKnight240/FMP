@@ -145,6 +145,7 @@ public class UnitBase : MonoBehaviour
     public AudioClip AttackSound;
     public AudioClip HitSound;
     public AudioClip DeathSound;
+    public AudioClip WeaponHitSound;
 
     [Header("Drops")]
     public int MoneyDrop;
@@ -620,6 +621,14 @@ public class UnitBase : MonoBehaviour
         {
             //print("Return Attack true");
             ReturnAttack = false;
+        }
+    }
+
+    public void PlayWeaponHitSound()
+    {
+        if (DamageToTake != 0)
+        {
+            SoundManager.Instance.PlaySFX(AttackTarget.WeaponHitSound);
         }
     }
 
