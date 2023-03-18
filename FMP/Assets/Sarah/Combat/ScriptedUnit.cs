@@ -117,7 +117,7 @@ public class ScriptedUnit : MonoBehaviour
         {
             case Actions.Move:
                 {
-                    Unit.GetComponent<UnitAI>().MoveAnywhere(TileManager.Instance.Grid[NextAction.Location[0], NextAction.Location[1]].GetComponent<Tile>());
+                    Unit.GetComponent<UnitAI>().MoveAsCloseTo(TileManager.Instance.Grid[NextAction.Location[0], NextAction.Location[1]].GetComponent<Tile>());
                     Unit.WaitUnit();
                     break;
                 }

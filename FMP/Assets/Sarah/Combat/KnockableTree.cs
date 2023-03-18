@@ -11,6 +11,9 @@ public class KnockableTree : InteractOnGrid
     public int HitAmountWidth;
     public int HitAmountHeight;
     internal List<GameObject> AoETiles;
+    internal AudioSource FallingSource;
+    public AudioClip TreeFallingSound;
+    public AudioClip TreeHitingGroundSound;
 
 
     // Start is called before the first frame update
@@ -24,13 +27,29 @@ public class KnockableTree : InteractOnGrid
     {
         if(isFalling)
         {
+            if(FallingSource == null && TreeFallingSound != null)
+            {
+                //print("Falling sound");
+                FallingSource = SoundManager.Instance.PlaySFX(TreeFallingSound);
+            }
+
             transform.rotation = Quaternion.Lerp(transform.rotation, RotateTo, Time.deltaTime * Speed);
 
             if(transform.rotation == RotateTo)
             {
+                if(FallingSource)
+                {
+                    FallingSource.Stop();
+                }
+
+                if (TreeHitingGroundSound)
+                {
+                    //print("Hiting sounds");
+                    SoundManager.Instance.PlaySFX(TreeHitingGroundSound);
+                }
+
                 isFalling = false;
-                //GetComponent<Fading>().ChangeMaterial();
-                //GetComponent<Fading>().FadeOut = true;
+                UnitManager.Instance.UnitUpdate.Invoke();
                 gameObject.SetActive(false);
             }
         }
@@ -38,13 +57,15 @@ public class KnockableTree : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
-        DealAoEDamage();
+        if (Unit.Class.Name == ClassNeeded.Name)
+        {
+            UnitToActiveIt = Unit;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+            DealAoEDamage();
 
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
-        Unit.WaitUnit();
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Occupied = false;
+        }
     }
 
     internal override void CalculateAoE(Direction DirectionInteraction)

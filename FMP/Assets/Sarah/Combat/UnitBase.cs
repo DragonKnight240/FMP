@@ -265,11 +265,6 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    internal void PlaySpecialAnim()
-    {
-
-    }
-
     //Moves the character from the current location to the wanted location
     internal bool Move(Tile NewTile, bool Attacking = false, bool Ignore = false)
     {
@@ -295,13 +290,13 @@ public class UnitBase : MonoBehaviour
 
             if (!Attacking)
             {
-                NewTile.ChangeOccupant(this);
+                NewTile.ChangeOccupant(this, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
             }
             else
             {
                 if (Path.Count > 0)
                 {
-                    Path[Path.Count - 1].ChangeOccupant(this);
+                    Path[Path.Count - 1].ChangeOccupant(this, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
                 }
             }
 
@@ -321,7 +316,7 @@ public class UnitBase : MonoBehaviour
     {
         if (ChangeOccupant)
         {
-            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+            TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
         }
         Path = new List<Tile>(FindRouteTo(NewTile, false));
     }
@@ -727,9 +722,18 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    internal void PlaySpecialAnim()
+    {
+        AnimControl.ChangeAnim("Special", CombatAnimControl.AnimParameters.Special);
+
+        WaitUnit();
+        SpecialZoomIn = false;
+    }
+
     internal void PlayAttackAnim()
     {
         AnimControl.ChangeAnim("Attack", CombatAnimControl.AnimParameters.Attack);
+        //print("Attack " + gameObject);
         SoundManager.Instance.PlaySFX(AttackSound);
 
         ResetMoveableTiles();
@@ -743,6 +747,7 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Hit", CombatAnimControl.AnimParameters.Hit);
         SoundManager.Instance.PlaySFX(HitSound);
+        //print("Hit sound " + gameObject);
 
         HitZoomIn = false;
     }
@@ -751,6 +756,7 @@ public class UnitBase : MonoBehaviour
     {
         AnimControl.ChangeAnim("Death", CombatAnimControl.AnimParameters.Death);
         SoundManager.Instance.PlaySFX(DeathSound);
+        //print("Death sound " + gameObject);
         isAlive = false;
 
         DeathZoomIn = false;
@@ -770,7 +776,7 @@ public class UnitBase : MonoBehaviour
 
     public void OnDeath()
     {
-        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null, GetComponent<BossAI>() ? GetComponent<BossAI>().isMultiTile : false);
 
         if (CompareTag("Enemy"))
         {
@@ -1442,6 +1448,8 @@ public class UnitBase : MonoBehaviour
             GameManager.Instance.ToolTipCheck(Tutorial.CWait);
             TurnManager.Instance.UnitsToMove -= 1;
         }
+
+        UnitManager.Instance.UnitUpdate.Invoke();
     }
 
     //A* Pathfinding
@@ -1484,7 +1492,7 @@ public class UnitBase : MonoBehaviour
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
                 if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
-                    (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile))
+                    (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {
                     continue;
                 }
@@ -1534,7 +1542,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (Path.Count > 1)
                 {
-                    Path.RemoveRange(0, 2);
+                    Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
                 }
                 else
                 {
@@ -1542,6 +1550,12 @@ public class UnitBase : MonoBehaviour
                 }
             }
         }
+
+        if(EquipedWeapon.Range > Path.Count && ToAttack)
+        {
+            Path.RemoveRange(0, EquipedWeapon.Range - 1);
+        }
+
         Path.Reverse();
 
         return Path;

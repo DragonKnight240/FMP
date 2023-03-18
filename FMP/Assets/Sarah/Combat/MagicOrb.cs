@@ -11,6 +11,9 @@ public class MagicOrb : InteractOnGrid
     internal bool Active = false;
     public List<Tile> AoEArea;
     public int Damage;
+    public AudioClip ActivateSound;
+    public AudioClip DeactivateSound;
+    public AudioClip DamageSound;
 
     // Start is called before the first frame update
     void Start()
@@ -24,14 +27,28 @@ public class MagicOrb : InteractOnGrid
         if(StayForTurns < ActiveForTurns)
         {
             Active = false;
+            ActiveForTurns = 0;
+            if (DeactivateSound)
+            {
+                //print("Deactive sound " + gameObject);
+                SoundManager.Instance.PlaySFX(DeactivateSound);
+            }
         }
     }
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        Active = true;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        if (Unit.Class.Name == ClassNeeded.Name)
+        {
+            UnitToActiveIt = Unit;
+            Active = true;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+            if (ActivateSound)
+            {
+                //print("Active " + gameObject);
+                SoundManager.Instance.PlaySFX(ActivateSound);
+            }
+        }
     }
 
     internal void DealDamage()
@@ -49,9 +66,17 @@ public class MagicOrb : InteractOnGrid
                             continue;
                         }
                     }
+
+                    if (DamageSound)
+                    {
+                        //print("Damage sound " + gameObject);
+                        SoundManager.Instance.PlaySFX(DamageSound);
+                    }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
                 }
             }
+
+            ActiveForTurns++;
         }
     }
 

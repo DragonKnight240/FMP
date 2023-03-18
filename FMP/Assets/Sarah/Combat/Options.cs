@@ -48,7 +48,10 @@ public class Options : MonoBehaviour
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
 
-            options.Add(option);
+            if (!options.Contains(option))
+            {
+                options.Add(option);
+            }
 
             if (resolutions[i].height == Screen.currentResolution.height && resolutions[i].width == Screen.currentResolution.width)
             {
@@ -141,11 +144,6 @@ public class Options : MonoBehaviour
         {
             Time.timeScale = TimeScale;
             Cursor.lockState = CursorMode;
-            //if (!GameManager.Instance.inCombat && InGame)
-            //{
-            //    Cursor.lockState = CursorLockMode.Locked;
-            //}
-            //OptionsMenuUI.SetActive(false);
             OptionsMenuUI.GetComponent<UIFade>().ToFadeOut();
         }
         else

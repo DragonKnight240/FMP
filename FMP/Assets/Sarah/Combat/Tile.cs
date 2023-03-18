@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour
         {
             if(!Unit.isActiveAndEnabled)
             {
-                ChangeOccupant(null);
+                ChangeOccupant(null, Unit.GetComponent<BossAI>() ? Unit.GetComponent<BossAI>().isMultiTile : false);
             }
         }
 
@@ -76,9 +76,9 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void ChangeOccupant(UnitBase NewUnit)
+    public void ChangeOccupant(UnitBase NewUnit, bool FromMulti = false)
     {
-        if(NewUnit)
+        if(FromMulti && NewUnit)
         {
             if (NewUnit.GetComponent<BossAI>())
             {
@@ -86,8 +86,8 @@ public class Tile : MonoBehaviour
                 {
                     Tile NextTile;
                     int[] CurrentTile = new int[2];
-                    CurrentTile[0] = GridPosition[0] - 1;
-                    CurrentTile[1] = GridPosition[1] + 1;
+                    CurrentTile[0] = GridPosition[0];
+                    CurrentTile[1] = GridPosition[1];
 
                     for (int i = 0; i < NewUnit.GetComponent<BossAI>().MutiTileAmount; i++)
                     {
@@ -97,7 +97,7 @@ public class Tile : MonoBehaviour
                             NextTile.Unit = NewUnit;
                             NextTile.Occupied = NewUnit ? true : false;
                             NextTile.CanMoveOn = NewUnit ? false : true;
-                            //print(CurrentTile[0] + " , " + CurrentTile[1]);
+                            print(CurrentTile[0] + " , " + CurrentTile[1]);
                         }
                     }
                 }

@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95177ab2c190e924b824b6ab6c6cc479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Reverse: 0
 --- !u!1 &3663593244171409703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,9 +2173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47eae7196c02e6f4aa2bea59884f032c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dialogue:
-  - {fileID: 0}
-  - {fileID: 0}
+  PreTutorialDialogue: []
+  PostTutorialDialogue: []
   ButtonPrompt: {fileID: 1010893564799529850}
 --- !u!1 &3954283709511696859
 GameObject:

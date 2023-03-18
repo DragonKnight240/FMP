@@ -104,6 +104,7 @@ public class EnemyOverWorld : MonoBehaviour
             {
                 if(!PlayerInRange)
                 {
+                    //print("Spotted " + gameObject);
                     SoundManager.Instance.PlaySFX(SpottedPlayer);
                 }
 
@@ -113,6 +114,7 @@ public class EnemyOverWorld : MonoBehaviour
             {
                 if (PlayerInRange)
                 {
+                    //print("Lost " + gameObject);
                     SoundManager.Instance.PlaySFX(LostPlayer);
                 }
                 PlayerInRange = false;

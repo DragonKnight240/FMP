@@ -10,6 +10,7 @@ public class Compass : MonoBehaviour
     public Transform Player;
     internal List<Objectives> Markers = new List<Objectives>();
     public GameObject IconPrefab;
+    public GameObject OverworldIconPrefab;
 
     public List<Objectives> MainObjectives;
 
@@ -37,9 +38,12 @@ public class Compass : MonoBehaviour
         {
             if(MainObjectives.Count > 0)
             {
-                if(MainObjectives[GameManager.Instance.MainObjectNum] != null && GameManager.Instance.MainObjectNum < MainObjectives.Count)
+                if(GameManager.Instance.MainObjectNum < MainObjectives.Count)
                 {
-                    AddMarker(MainObjectives[GameManager.Instance.MainObjectNum]);
+                    if (MainObjectives[GameManager.Instance.MainObjectNum] != null)
+                    {
+                        AddMarker(MainObjectives[GameManager.Instance.MainObjectNum]);
+                    }
                 }
             }
         }
@@ -48,7 +52,10 @@ public class Compass : MonoBehaviour
 
         foreach(Objectives Marker in Markers)
         {
-            Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+            if (Marker != null)
+            {
+                Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+            }
         }
         
     }
@@ -60,12 +67,21 @@ public class Compass : MonoBehaviour
             Destroy(Marker.image.gameObject);
         }
 
+        if(Marker.ObjectMarkerOverworld)
+        {
+            Destroy(Marker.ObjectMarkerOverworld);
+        }
+
+        Markers.Remove(Marker);
+
         GameManager.Instance.MainObjectNum++;
     }
 
     public void AddMarker(Objectives Marker)
     {
         GameObject NewMarker = Instantiate(IconPrefab, CompassImage.transform);
+        GameObject NewOverworldMarker = Instantiate(OverworldIconPrefab, Marker.gameObject.transform);
+        Marker.ObjectMarkerOverworld = NewOverworldMarker;
         Marker.image = NewMarker.GetComponent<Image>();
         Marker.image.sprite = Marker.Icon;
 

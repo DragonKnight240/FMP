@@ -48,6 +48,8 @@ public class OverworldChest : MonoBehaviour
         GameManager.Instance.Convoy.Add(Item);
         InRange = false;
         ButtonPrompt.GetComponent<UIFade>().ToFadeOut();
+        SystemNotification.Instance.Text.text = "Obtained: " + Item.Name;
+        SystemNotification.Instance.ActiveNotification();
         Destroy(this);
     }
 }

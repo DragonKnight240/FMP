@@ -71,13 +71,13 @@ public class UnitManager : MonoBehaviour
 
         if (SetupFinished)
         {
-            if (DeadEnemyUnits.Count == EnemyUnits.Count)
+            if (DeadEnemyUnits.Count == EnemyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 //win
                 print("Win");
                 Interact.Instance.CombatMenu.DisplayVictoryScreen();
             }
-            else if (DeadAllyUnits.Count == AllyUnits.Count)
+            else if (DeadAllyUnits.Count == AllyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
             {
                 //lose
                 print("Lose");
@@ -197,7 +197,7 @@ public class UnitManager : MonoBehaviour
 
                     if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
                     {
-                        print("Input data");
+                        //print("Input data");
                         data = GameManager.Instance.UnitData[Index];
 
                         NewUnit.name = data.UnitName;
@@ -263,7 +263,7 @@ public class UnitManager : MonoBehaviour
                 }
                 else
                 {
-                    print("Skip Unit");
+                    //print("Skip Unit");
                     Index++;
                     continue;
                 }
@@ -336,7 +336,7 @@ public class UnitManager : MonoBehaviour
             UnitBase.Position = new int[2];
             UnitBase.Position[0] = X;
             UnitBase.Position[1] = Y;
-            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase);
+            TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase, UnitBase.GetComponent<BossAI>()? UnitBase.GetComponent<BossAI>().isMultiTile: false);
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
             UnitBase.UIHealth.value = UnitBase.CurrentHealth;

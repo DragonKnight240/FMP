@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class LookAtCamera : MonoBehaviour
 {
@@ -11,21 +12,21 @@ public class LookAtCamera : MonoBehaviour
     void Start()
     {
         Cam = FindObjectOfType<Camera>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        if(Cam.name != "Main Camera")
+        {
+            Cam = FindObjectOfType<CinemachineBrain>().GetComponent<Camera>();
+        }
     }
 
     private void LateUpdate()
     {
         transform.LookAt(Cam.transform);
 
-        if(Reverse)
+        if (Reverse)
         {
             transform.Rotate(0, 180, 0);
         }
     }
+
 }

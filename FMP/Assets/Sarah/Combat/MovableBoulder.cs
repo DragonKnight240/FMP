@@ -13,6 +13,10 @@ public class MovableBoulder : InteractOnGrid
     Tile LastTile;
     UnitBase Target;
     Direction RollDirection;
+    public bool DestroyAfterRoll;
+    internal AudioSource RollingSource;
+    public AudioClip RollingSound;
+    public AudioClip HitSound;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +29,12 @@ public class MovableBoulder : InteractOnGrid
     {
         if (Moving)
         {
+            if(RollingSource == null && RollingSound != null)
+            {
+                //print("Boulder Rolling sound");
+                RollingSource = SoundManager.Instance.PlaySFX(RollingSound);
+            }
+
             if (Path.Count <= 0)
             {
                 return;
@@ -45,7 +55,28 @@ public class MovableBoulder : InteractOnGrid
 
                     CameraMove.Instance.FollowTarget = null;
                     CameraMove.Instance.Override = false;
-                    ResetSpecial();
+
+                    if(RollingSource)
+                    {
+                        RollingSource.Stop();
+                    }
+
+                    if (HitSound != null)
+                    {
+                        //print("Boulder Hiting sound");
+                        SoundManager.Instance.PlaySFX(HitSound);
+                    }
+
+                    if (DestroyAfterRoll)
+                    {
+                        TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().ChangeOccupant(null);
+                        Destroy(this.gameObject);
+                    }
+                    else
+                    {
+                        ResetSpecial();
+                    }
+                    UnitManager.Instance.UnitUpdate.Invoke();
                     return;
                 }
             }
@@ -85,8 +116,11 @@ public class MovableBoulder : InteractOnGrid
 
     public override void Special(UnitBase Unit)
     {
-        UnitToActiveIt = Unit;
-        CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        if (Unit.Class.Name == ClassNeeded.Name)
+        {
+            UnitToActiveIt = Unit;
+            CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
+        }
     }
 
     internal override void CalculateAoE(Direction DirectionInteraction)
