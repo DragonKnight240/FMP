@@ -39,6 +39,15 @@ public class BossAI : UnitAI
 
             PlayTauntAnim();
         }
+
+        //if (PendingAttack)
+        //{
+        //    ShowDamageRange();
+        //}
+        //else
+        //{
+        //    HideDamageRange();
+        //}
     }
 
     public void ZoomTaunt()
@@ -72,6 +81,8 @@ public class BossAI : UnitAI
                 }
             }
         }
+
+        HideDamageRange();
 
         PendingDamage = false;
         PendingAttack = false;
@@ -229,6 +240,8 @@ public class BossAI : UnitAI
             Tiles = FindAoE(Tiles, Dir);
         }
 
+        ShowDamageRange();
+
         CurrentTurns = 1;
         TurnCount = AttackAoE.TurnTilDamage;
         PendingAttack = true;
@@ -238,7 +251,15 @@ public class BossAI : UnitAI
     {
         foreach(Tile tile in AoELocations)
         {
-            tile.Show(true);
+            tile.WhichColour();
+        }
+    }
+
+    internal void HideDamageRange()
+    {
+        foreach (Tile tile in AoELocations)
+        {
+            tile.WhichColour(Interact.Instance.SelectedUnit, true);
         }
     }
 

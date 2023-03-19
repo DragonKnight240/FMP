@@ -159,6 +159,7 @@ public class MagicOrb : InteractOnGrid
             && Interact.Instance.SelectedUnit == null)
         {
             HideRange();
+            TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().WhichColour(Interact.Instance.SelectedUnit);
         }
     }
 }

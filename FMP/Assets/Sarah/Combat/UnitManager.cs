@@ -31,6 +31,7 @@ public class UnitManager : MonoBehaviour
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
     internal List<UnitAI> PendingEnemies;
+    internal BossAI Boss;
 
     private void Awake()
     {
@@ -343,6 +344,7 @@ public class UnitManager : MonoBehaviour
 
             if(UnitBase.GetComponent<BossAI>())
             {
+                Boss = UnitBase.GetComponent<BossAI>();
                 UnitBase.ReturnAttackPossible = false;
                 if(UnitBase.GetComponent<BossAI>().isMultiTile)
                 {

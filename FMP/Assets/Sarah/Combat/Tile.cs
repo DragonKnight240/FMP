@@ -109,8 +109,19 @@ public class Tile : MonoBehaviour
         CanMoveOn = NewUnit ? false : true;
     }
 
-    public void Hide()
+    public void Hide(bool IgnoreBoss = false)
     {
+        if (UnitManager.Instance.Boss && !IgnoreBoss)
+        {
+            if (UnitManager.Instance.Boss.PendingAttack)
+            {
+                if (UnitManager.Instance.Boss.AoELocations.Contains(this))
+                {
+                    GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
+                    return;
+                }
+            }
+        }
         GetComponent<MeshRenderer>().material = OGMaterial;
     }
 
@@ -201,7 +212,11 @@ public class Tile : MonoBehaviour
             {
                 if (Unit.GetComponent<BossAI>().PendingAttack)
                 {
-                    Unit.GetComponent<BossAI>().ShowDamageRange();
+                    if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+                        && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
+                    {
+                        TileManager.Instance.Grid[GridPosition[0], GridPosition[1]].GetComponent<Tile>().Show(false, true);
+                    }
                     return;
                 }
             }
@@ -290,13 +305,25 @@ public class Tile : MonoBehaviour
         WhichColour(Interact.Instance.SelectedUnit);
     }
 
-    internal void WhichColour(UnitBase PassedUnit = null)
+    internal void WhichColour(UnitBase PassedUnit = null, bool IgnoreAoEBoss = false)
     {
         bool inRange;
 
         if(OGMaterial == null)
         {
             return;
+        }
+
+        if(UnitManager.Instance.Boss && !IgnoreAoEBoss && !Interact.Instance.SelectedUnit)
+        {
+            if(UnitManager.Instance.Boss.PendingAttack)
+            {
+                if(UnitManager.Instance.Boss.AoELocations.Contains(this))
+                {
+                    Show(true);
+                    return;
+                }
+            }
         }
 
         if (Interact.Instance.SelectedUnit)

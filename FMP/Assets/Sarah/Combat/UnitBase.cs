@@ -518,7 +518,7 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.WhichColour(this);
+            tile.WhichColour(this, true);
         }
     }
 
@@ -1389,7 +1389,7 @@ public class UnitBase : MonoBehaviour
                 {
                     if (GetComponent<BossAI>().PendingAttack)
                     {
-                        GetComponent<BossAI>().ShowDamageRange();
+                        //GetComponent<BossAI>().ShowDamageRange();
                     }
                     else
                     {
