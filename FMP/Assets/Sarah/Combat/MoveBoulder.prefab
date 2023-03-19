@@ -63,6 +63,9 @@ MonoBehaviour:
   Damage: 25
   MoveSpeed: 30
   RotateSpeed: 200
+  DestroyAfterRoll: 0
+  RollingSound: {fileID: 8300000, guid: dae672abd40998344ab096d18fb22bf5, type: 3}
+  HitSound: {fileID: 8300000, guid: 8f2672ad24118af42bbcad7d3d02ec75, type: 3}
 --- !u!114 &8409222356235114592
 MonoBehaviour:
   m_ObjectHideFlags: 0
