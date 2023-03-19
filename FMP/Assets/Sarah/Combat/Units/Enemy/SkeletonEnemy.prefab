@@ -414,10 +414,11 @@ MonoBehaviour:
   AttackSound: {fileID: 8300000, guid: f88be00359c06f942bc02ac0ca7c26b1, type: 3}
   HitSound: {fileID: 8300000, guid: 1aae02a619be7de4f9d7045b1a86444a, type: 3}
   DeathSound: {fileID: 8300000, guid: 15342aa0290f62140b5d12d5dbff432c, type: 3}
+  WeaponHitSound: {fileID: 0}
   MoneyDrop: 2
   ItemDrop: {fileID: 0}
   Behaviour: 0
-  AllyVariant: {fileID: 0}
+  AllyVariant: {fileID: 1478534406159762325, guid: d294747f3c169754ba312bb1e4d34647, type: 3}
 --- !u!114 &6387756794129780633
 MonoBehaviour:
   m_ObjectHideFlags: 0

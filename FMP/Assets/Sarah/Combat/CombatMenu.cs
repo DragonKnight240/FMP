@@ -157,6 +157,11 @@ public class CombatMenu : MonoBehaviour
 
         AttackText.GetComponent<CanvasGroup>().alpha = 0;
         AttackText.gameObject.SetActive(false);
+
+        if (SceneLoader.Instance)
+        {
+            SceneLoader.Instance.LoadingScreen.GetComponent<UIFade>().ToFadeOut();
+        }
     }
 
     private void Update()

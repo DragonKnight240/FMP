@@ -88,6 +88,8 @@ public class OverworldMenu : MonoBehaviour
         }
 
         ItemDetails.SetActive(false);
+
+        SceneLoader.Instance.LoadingScreen.GetComponent<UIFade>().ToFadeOut();
     }
 
     // Update is called once per frame

@@ -1474,7 +1474,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //A* Pathfinding
-    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
+    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false/*, bool MultiTile = false*/)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
@@ -1512,6 +1512,14 @@ public class UnitBase : MonoBehaviour
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
+                //if(MultiTile)
+                //{
+                //    foreach(GameObject AdjAdjacentTile in AdjacentTile.GetComponent<Tile>().AdjacentTiles)
+                //    {
+                //        if(AdjAdjacentTile.GetComponent<Tile>().GridPosition[0] >)
+                //    }
+                //}
+
                 if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
                     (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {

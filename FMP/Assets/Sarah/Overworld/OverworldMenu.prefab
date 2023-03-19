@@ -205,7 +205,10 @@ MonoBehaviour:
   CompassImage: {fileID: 1903507628}
   Player: {fileID: 0}
   IconPrefab: {fileID: 8711464396631649255, guid: 32eb662a2c1213649871a0c491ad0823, type: 3}
+  OverworldIconPrefab: {fileID: 1595562014632516172, guid: 8d242c643893cd145a7493f698ecd91f, type: 3}
   MainObjectives:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
 --- !u!1 &7991003490062843
@@ -3500,7 +3503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.60450745, y: -126.97814}
+  m_AnchoredPosition: {x: 0.6044922, y: -126.97815}
   m_SizeDelta: {x: -57.7603, y: -332.3037}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4762528297363065734
@@ -32967,7 +32970,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: cdee2c0f3e08af346805e333af447836, type: 2}
   - DialogueAfter: 3
     Lines:
-    - {fileID: 11400000, guid: 785bfe33b1020974cb3852c434d3ba6f, type: 2}
+    - {fileID: 11400000, guid: 3704c9aa464a45e4b9c43c51d24c687d, type: 2}
+    - {fileID: 11400000, guid: f86a860527d003c4cb575e130ba69978, type: 2}
+    - {fileID: 11400000, guid: 196c217fff59df847a32ab56d5ad1745, type: 2}
+    - {fileID: 11400000, guid: 7a3a570ada080fd47a24263b23461af2, type: 2}
+    - {fileID: 11400000, guid: e70cb406916a866409378e0dfc15e3f2, type: 2}
+    - {fileID: 11400000, guid: ef799c669c2d6674ca620f3c21485d6e, type: 2}
 --- !u!1 &8578700664519244490
 GameObject:
   m_ObjectHideFlags: 0
@@ -35634,7 +35642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &10267297884734258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35732,7 +35740,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9097026370456868869}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

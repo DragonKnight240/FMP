@@ -41,6 +41,14 @@ public class MoveToScreenLocation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (SceneLoader.Instance)
+        {
+            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha < 1 && !UnitManager.Instance.SetupFinished)
+            {
+                return;
+            }
+        }
+
         if (!Override)
         {
             if (Input.mousePosition.y > Screen.height / DivideShowHeight)
