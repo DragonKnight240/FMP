@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Grappler
   m_EditorClassIdentifier: 
   Name: Grappler
-  Abilties: []
-  LevelRequirement: 
-  Level: 0
+  Abilties:
+  - {fileID: 11400000, guid: f431f47888acb4c459e9152eba12aff3, type: 2}
+  - {fileID: 11400000, guid: b6bd32b3dfb25934aa9ba14df64971a4, type: 2}
+  - {fileID: 11400000, guid: f4d9907c2f3a2d246ad87c2fbf73d7fc, type: 2}
+  - {fileID: 11400000, guid: 197b680637dc59941a340d73f8be5e2c, type: 2}
+  LevelRequirement: 02000000030000000400000005000000
+  Level: 1
   EXP: 0
-  TotalEXPNeeded: 64000000c80000002c01000090010000
+  TotalEXPNeeded: 320000004b0000006400000096000000
   Strength: 0
   Dexterity: 0
   Magic: 0

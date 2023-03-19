@@ -58,7 +58,7 @@ public class ToolTipManager : MonoBehaviour
             if (ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position.ToString() == ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation.ToString()
                 && TurnManager.Instance.isPlayerTurn)
             {
-                print("OG Position");
+                //print("OG Position");
                 NextTutorialOnReturn = false;
                 NewToolTip(PendingToolTip);
                 PendingToolTip = null;

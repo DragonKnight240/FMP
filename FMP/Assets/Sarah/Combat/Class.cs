@@ -37,11 +37,32 @@ public class Class : ScriptableObject
     {
         foreach(int LevelEXP in TotalEXPNeeded)
         {
-            if(LevelEXP >= EXP)
+            if(LevelEXP <= EXP)
             {
                 Level += 1;
             }
         }
+    }
+
+    internal SpecialAttacks NewAbility(UnitBase Unit)
+    {
+        int Index = 0;
+
+        foreach (SpecialAttacks Ability in Abilties)
+        {
+            if (Level >= LevelRequirement[Index])
+            {
+                if (!Unit.UnlockedAttacks.Contains(Ability))
+                {
+                    Unit.UnlockedAttacks.Add(Ability);
+                    return Ability;
+                }
+            }
+
+            Index++;
+        }
+
+        return null;
     }
 
     internal void AbilityUnlock(UnitBase Unit)

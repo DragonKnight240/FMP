@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 5089674695608281398}
   - component: {fileID: 3847409220696145077}
   m_Layer: 0
-  m_Name: TileDungeon
+  m_Name: TileDungeon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   InRangeMaterial: {fileID: 2100000, guid: be6b93a9f34acd3448d00f7ee6f192db, type: 2}
   WeaponRangeMaterial: {fileID: 2100000, guid: c8c9e84ecfe6c214cb4aea5c2972a902, type: 2}
   OverlayMaterial: {fileID: 2100000, guid: 07722fec34c406e4b8b93d3581df7e53, type: 2}
-  SpecialMaterial: {fileID: 0}
+  SpecialMaterial: {fileID: 2100000, guid: 370ef7a059151a54fb844de9d84cec4b, type: 2}
 --- !u!1001 &3445296382346108420
 PrefabInstance:
   m_ObjectHideFlags: 0
