@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     internal bool MageInventoryFull = false;
     internal bool ArcherInventoryFull = false;
 
-    internal int OverworldLevelID;
+    internal Vector3 StartLocation;
 
     //Progress
     internal bool CombatTutorialComplete = false;
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
         if (FindObjectOfType<PlayerOverworld>())
         {
+            StartLocation = FindObjectOfType<PlayerOverworld>().transform.position;
             PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
@@ -417,9 +418,11 @@ public class GameManager : MonoBehaviour
         {
             AvailableUnits.RemoveRange(1, AvailableUnits.Count - 1);
         }
-
+        
         CombatTutorialComplete = false;
         OverworldTutorialComplete = false;
+        OverworldMoveTutorialComplete = false;
+        OverworldEnemyTutorialComplete = false;
         ArcherRecruitComplete = false;
         GauntletRecruitComplete = false;
         PostDungeon1Complete = false;
@@ -439,5 +442,7 @@ public class GameManager : MonoBehaviour
 
         inCombat = false;
         StartedGame = false;
+
+        PlayerReturnToOverworld = StartLocation;
     }
 }
