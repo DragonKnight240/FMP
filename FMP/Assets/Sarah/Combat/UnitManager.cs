@@ -412,6 +412,11 @@ public class UnitManager : MonoBehaviour
 
         GameManager.Instance.inCombat = false;
 
+        if (FindObjectOfType<OnCombatEndMainMenu>())
+        {
+            FindObjectOfType<OnCombatEndMainMenu>().Menu();
+        }
+        
         SceneLoader.Instance.LoadNewScene(OverWorldScene);
     }
 }
