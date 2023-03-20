@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Mage
   m_EditorClassIdentifier: 
   Name: Mage
-  Abilties: []
-  LevelRequirement: 
-  Level: 0
+  Abilties:
+  - {fileID: 11400000, guid: 5f4240fa9e9013145a6afa3e691fbaee, type: 2}
+  - {fileID: 11400000, guid: a9e763ad202bbf44480125c70bef4692, type: 2}
+  - {fileID: 11400000, guid: 8f16477746d48b043b0cc2258ac4036d, type: 2}
+  - {fileID: 11400000, guid: b27ab7a0ab72cb344afed9f45aaf4b7d, type: 2}
+  LevelRequirement: 02000000030000000400000005000000
+  Level: 1
   EXP: 0
-  TotalEXPNeeded: 64000000c80000002c01000090010000
+  TotalEXPNeeded: 320000004b0000006400000096000000
   Strength: 0
   Dexterity: 0
   Magic: 0

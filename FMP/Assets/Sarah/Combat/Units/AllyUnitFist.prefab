@@ -852,15 +852,15 @@ MonoBehaviour:
   Level: 1
   EXP: 0
   EXPNeeded: 64000000c80000002c01000090010000
-  GrowthRateHP: 0
-  GrowthRateStrength: 0
-  GrowthRateDexterity: 0
-  GrowthRateMagic: 0
-  GrowthRateDefence: 0
-  GrowthRateResistance: 0
-  GrowthRateSpeed: 0
-  GrowthRateLuck: 0
-  BowProficiency: 0
+  GrowthRateHP: 110
+  GrowthRateStrength: 120
+  GrowthRateDexterity: -10
+  GrowthRateMagic: -5
+  GrowthRateDefence: 50
+  GrowthRateResistance: 50
+  GrowthRateSpeed: 60
+  GrowthRateLuck: 5
+  BowProficiency: 1
   BowLevel: 1
   SwordProficiency: 0
   SwordLevel: 1
@@ -886,6 +886,7 @@ MonoBehaviour:
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
 --- !u!114 &-2159630872647823261

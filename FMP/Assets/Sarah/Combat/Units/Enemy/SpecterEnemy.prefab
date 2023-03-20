@@ -372,14 +372,14 @@ MonoBehaviour:
   WeaponsIninventory:
   - {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
-  Strength: 2
-  Dexterity: 0
-  Magic: 0
-  Defence: 0
-  Resistance: 0
-  Speed: 0
-  Luck: 0
-  Level: 0
+  Strength: 8
+  Dexterity: 4
+  Magic: 5
+  Defence: 5
+  Resistance: 5
+  Speed: 10
+  Luck: 7
+  Level: 1
   EXP: 0
   EXPNeeded: 
   GrowthRateHP: 0
@@ -413,10 +413,11 @@ MonoBehaviour:
   AttackSound: {fileID: 8300000, guid: 658d1a76355298d4788d27ae51b3dbca, type: 3}
   HitSound: {fileID: 8300000, guid: 5479a71be999c6a4690a57ba6ed098dd, type: 3}
   DeathSound: {fileID: 8300000, guid: 61891b8c095591540a158cb90db0647a, type: 3}
+  WeaponHitSound: {fileID: 0}
   MoneyDrop: 2
   ItemDrop: {fileID: 0}
   Behaviour: 0
-  AllyVariant: {fileID: 0}
+  AllyVariant: {fileID: 1478534406159762325, guid: b81ed01355008ec419cf48e31226ba7f, type: 3}
 --- !u!114 &6387756794129780633
 MonoBehaviour:
   m_ObjectHideFlags: 0

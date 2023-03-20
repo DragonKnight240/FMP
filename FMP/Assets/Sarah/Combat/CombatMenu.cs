@@ -87,6 +87,12 @@ public class CombatMenu : MonoBehaviour
     internal bool ShowEXP;
     internal UnitBase ToLevel;
 
+    public GameObject ClassEXP;
+    public int ClassTargetEXP;
+    public Slider ClassEXPBar;
+    internal bool ClassShowEXP;
+    internal UnitBase ClassToLevel;
+
     public GameObject LevelScreen;
 
     public GameObject HPIncrease;
@@ -109,9 +115,17 @@ public class CombatMenu : MonoBehaviour
     public TMP_Text OldLevel;
     public TMP_Text NewLevel;
 
+    //Class New Attack
+    public TMP_Text AttackName;
+    public GameObject AttackScreen;
+
+    internal SpecialAttacks NewAttack;
+
     //Ending Scences
     public GameObject VictoryScreen;
     public GameObject DefeatScreen;
+
+    public TMP_Text ScreenPrint;
 
 
     private void Start()
@@ -143,6 +157,11 @@ public class CombatMenu : MonoBehaviour
 
         AttackText.GetComponent<CanvasGroup>().alpha = 0;
         AttackText.gameObject.SetActive(false);
+
+        if (SceneLoader.Instance)
+        {
+            SceneLoader.Instance.LoadingScreen.GetComponent<UIFade>().ToFadeOut();
+        }
     }
 
     private void Update()
@@ -199,11 +218,40 @@ public class CombatMenu : MonoBehaviour
             }
         }
 
-        if(LevelScreen.activeInHierarchy)
+        if (ClassShowEXP && ClassEXP.GetComponent<CanvasGroup>().alpha == 1)
+        {
+            ClassEXPBar.value = Mathf.Lerp(ClassEXPBar.value, ClassTargetEXP, Time.deltaTime);
+
+            if (ClassEXPBar.value >= ClassTargetEXP - 1 || ClassEXPBar.value == ClassEXPBar.maxValue)
+            {
+                if (!EXP.activeInHierarchy && !LevelScreen.activeInHierarchy)
+                {
+                    ClassShowEXP = false;
+                    ClassEXP.GetComponent<UIFade>().ToFadeOut();
+
+                    if (NewAttack != null)
+                    {
+                        ShowClass(ClassToLevel, NewAttack);
+                        ClassToLevel = null;
+                        NewAttack = null;
+                    }
+                }
+            }
+        }
+
+        if (LevelScreen.activeInHierarchy)
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 LevelScreen.GetComponent<UIFade>().ToFadeOut();
+            }
+        }
+
+        if (AttackScreen.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                AttackScreen.GetComponent<UIFade>().ToFadeOut();
             }
         }
     }
@@ -211,9 +259,31 @@ public class CombatMenu : MonoBehaviour
     public void EXPSliderShow(UnitBase Unit, int Damage)
     {
         EXPBar.maxValue = Unit.EXPNeeded[Unit.Level - 1];
+        if(Unit.Level == 1)
+        {
+            EXPBar.minValue = 0;
+        }
+        else
+        {
+            EXPBar.minValue = Unit.EXPNeeded[Unit.Level - 2];
+        }
         EXPBar.value = Unit.EXP;
         Unit.GainCharacterEXP(Damage);
+
+        ClassEXPBar.maxValue = Unit.Class.TotalEXPNeeded[Unit.Class.Level - 1];
+
+        if (Unit.Class.Level == 1)
+        {
+            ClassEXPBar.minValue = 0;
+        }
+        else
+        {
+            ClassEXPBar.minValue = Unit.Class.TotalEXPNeeded[Unit.Level - 2];
+        }
+
+        ClassEXPBar.value = Unit.Class.EXP;
         Unit.GainClassEXP(Damage);
+
         Unit.GainWeaponEXP();
 
         if(Unit.isSupported())
@@ -222,10 +292,23 @@ public class CombatMenu : MonoBehaviour
         }
 
         TargetEXP = Unit.EXP;
+        ClassTargetEXP = Unit.Class.EXP;
 
         ShowEXP = true;
         EXP.SetActive(true);
         EXP.GetComponent<UIFade>().ToFadeIn();
+
+        ClassShowEXP = true;
+        ClassEXP.SetActive(true);
+        ClassEXP.GetComponent<UIFade>().ToFadeIn();
+    }
+
+    public void ShowClass(UnitBase Unit, SpecialAttacks NewAttack)
+    {
+        AttackName.text = Unit.UnitName + " Obtained A New Attack " + NewAttack.Name;
+
+        AttackScreen.SetActive(true);
+        AttackScreen.GetComponent<UIFade>().ToFadeIn();
     }
 
     public void LevelShow(UnitBase Unit)
@@ -555,6 +638,12 @@ public class CombatMenu : MonoBehaviour
         }
     }
 
+    internal void PrintToScreen(string toScreen)
+    {
+        ScreenPrint.text = toScreen;
+
+    }
+
     public void DisplaySupport()
     {
         if(Interact.Instance.SelectedUnit)
@@ -563,11 +652,30 @@ public class CombatMenu : MonoBehaviour
 
             if (Unit.SupportedUnits.Count > 0)
             {
+                string HoverText = "";
                 for (int i = 0; i < SupportImages.Count; i++)
                 {
-                    if (Unit.SupportedUnits.Count < i)
+                    HoverText = "";
+                    if (Unit.SupportedUnits.Count > i)
                     {
                         SupportImages[i].sprite = Unit.SupportedUnits[i].UnitImage;
+
+                        //print("Start loop");
+                        foreach (UnitSupports Supportable in Unit.SupportsWith)
+                        {
+                            print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
+                            if (Unit.SupportedUnits[i].UnitName == Supportable.UnitObj.GetComponent<UnitBase>().UnitName)
+                            {
+                                print("Supported unit found");
+                                for (int j = 0; j < Supportable.Level; j++)
+                                {
+                                    HoverText += "+" + Supportable.SupportStats[j].Increase.ToString() + " " + Supportable.SupportStats[j].Stat.ToString() + "\n";
+                                }
+                            }
+                        }
+
+                        print(HoverText);
+                        SupportImages[i].GetComponent<HoverTooltip>().ChangeText(HoverText);
                         SupportImages[i].gameObject.SetActive(true);
                         continue;
                     }

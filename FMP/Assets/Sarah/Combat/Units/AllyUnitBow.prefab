@@ -686,7 +686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 6842069966975610096}
   HealthLerpSpeed: 10
-  UnitName: 
+  UnitName: Bow
   UnitImage: {fileID: 21300000, guid: 40320b5eda06dba479322a58dbf05fad, type: 3}
   HealthMax: 45
   CurrentHealth: 0
@@ -709,14 +709,14 @@ MonoBehaviour:
   Level: 1
   EXP: 0
   EXPNeeded: 64000000c80000002c01000090010000
-  GrowthRateHP: 0
-  GrowthRateStrength: 0
-  GrowthRateDexterity: 0
-  GrowthRateMagic: 0
-  GrowthRateDefence: 0
-  GrowthRateResistance: 0
-  GrowthRateSpeed: 0
-  GrowthRateLuck: 0
+  GrowthRateHP: 100
+  GrowthRateStrength: 10
+  GrowthRateDexterity: 120
+  GrowthRateMagic: -10
+  GrowthRateDefence: -10
+  GrowthRateResistance: -5
+  GrowthRateSpeed: 10
+  GrowthRateLuck: 5
   BowProficiency: 0
   BowLevel: 1
   SwordProficiency: 0
@@ -743,6 +743,7 @@ MonoBehaviour:
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
 --- !u!114 &-2159630872647823261

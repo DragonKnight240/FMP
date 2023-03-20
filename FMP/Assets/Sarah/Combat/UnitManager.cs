@@ -31,6 +31,7 @@ public class UnitManager : MonoBehaviour
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
     internal List<UnitAI> PendingEnemies;
+    internal BossAI Boss;
 
     private void Awake()
     {
@@ -237,6 +238,9 @@ public class UnitManager : MonoBehaviour
                         //Class
                         UnitBase.Class = data.Class;
 
+                        //Support
+                        UnitBase.SupportsWith = data.Supports;
+
                         //Attack
                         UnitBase.UnlockedAttacks.Clear();
                         UnitBase.UnlockedAttacks = data.UnlockedAttacks;
@@ -257,6 +261,16 @@ public class UnitManager : MonoBehaviour
 
                         NewUnit.GetComponent<UnitBase>().Class.FindLevel();
                         NewUnit.GetComponent<UnitBase>().Class.AbilityUnlock(NewUnit.GetComponent<UnitBase>());
+
+                        List<UnitSupports> SupportList = new List<UnitSupports>();
+
+                        foreach (UnitSupports Support in NewUnit.GetComponent<UnitBase>().SupportsWith)
+                        {
+                            SupportList.Add(Instantiate(Support));
+                        }
+
+                        NewUnit.GetComponent<UnitBase>().SupportsWith = SupportList;
+
                     }
 
                     Index++;
@@ -343,6 +357,7 @@ public class UnitManager : MonoBehaviour
 
             if(UnitBase.GetComponent<BossAI>())
             {
+                Boss = UnitBase.GetComponent<BossAI>();
                 UnitBase.ReturnAttackPossible = false;
                 if(UnitBase.GetComponent<BossAI>().isMultiTile)
                 {

@@ -31,6 +31,11 @@ public class HoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    public void ChangeText(string NewText)
+    {
+        TipToShow = NewText;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Hovering = true;

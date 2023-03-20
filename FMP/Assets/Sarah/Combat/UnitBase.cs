@@ -274,7 +274,7 @@ public class UnitBase : MonoBehaviour
             return false;
         }
 
-        if ((MoveableTiles.Contains(NewTile) && NewTile.Unit == null) || Attacking || Ignore)
+        if ((MoveableTiles.Contains(NewTile) && NewTile.Special == null && NewTile.Unit == null) || Attacking || Ignore)
         {
             GameManager.Instance.ToolTipCheck(Tutorial.CMove);
 
@@ -416,7 +416,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (!MoveableTiles.Contains(AdjacentTile.GetComponent<Tile>()))
                 {
-                    if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit)
+                    if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit || AdjacentTile.GetComponent<Tile>().Special)
                     {
                         if (!WeaponRange)
                         {
@@ -429,6 +429,10 @@ public class UnitBase : MonoBehaviour
                             {
                                 MoveEnd = true;
                             }
+                        }
+                        else if(AdjacentTile.GetComponent<Tile>().Special)
+                        {
+                            MoveEnd = true;
                         }
                         else
                         {
@@ -467,7 +471,7 @@ public class UnitBase : MonoBehaviour
         {
             foreach (GameObject AdjacentTile in tile.GetComponent<Tile>().AdjacentTiles)
             {
-                if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit)
+                if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit || AdjacentTile.GetComponent<Tile>().Special)
                 {
                     if (!NextLayer.Contains(AdjacentTile))
                     {
@@ -514,7 +518,7 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.WhichColour(this);
+            tile.WhichColour(this, true);
         }
     }
 
@@ -831,7 +835,7 @@ public class UnitBase : MonoBehaviour
         {
             for(int i = 0; i < SupportsWith.Count; i ++)
             {
-                if(Unit == SupportsWith[i].Unit)
+                if(Unit.UnitName == SupportsWith[i].UnitObj.GetComponent<UnitBase>().UnitName)
                 {
                     SupportsWith[i].EXP += Mathf.RoundToInt(Damage * Random.Range(0.15f, 0.25f));
                 }
@@ -892,11 +896,19 @@ public class UnitBase : MonoBehaviour
 
     internal void GainClassEXP(int Damage)
     {
+        if (Class.Level > Class.TotalEXPNeeded.Count)
+        {
+            return;
+        }
+
         Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
 
         if(Class.EXP >= Class.TotalEXPNeeded[Class.Level - 1])
         {
+            Interact.Instance.CombatMenu.ClassToLevel = this;
             Class.Level++;
+
+            Interact.Instance.CombatMenu.NewAttack = Class.NewAbility(this);
         }
     }
 
@@ -1377,7 +1389,7 @@ public class UnitBase : MonoBehaviour
                 {
                     if (GetComponent<BossAI>().PendingAttack)
                     {
-                        GetComponent<BossAI>().ShowDamageRange();
+                        //GetComponent<BossAI>().ShowDamageRange();
                     }
                     else
                     {
@@ -1462,7 +1474,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //A* Pathfinding
-    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
+    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false/*, bool MultiTile = false*/)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
@@ -1500,6 +1512,14 @@ public class UnitBase : MonoBehaviour
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
+                //if(MultiTile)
+                //{
+                //    foreach(GameObject AdjAdjacentTile in AdjacentTile.GetComponent<Tile>().AdjacentTiles)
+                //    {
+                //        if(AdjAdjacentTile.GetComponent<Tile>().GridPosition[0] >)
+                //    }
+                //}
+
                 if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
                     (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {

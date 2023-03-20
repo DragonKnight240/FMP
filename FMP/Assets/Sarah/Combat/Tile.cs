@@ -97,7 +97,7 @@ public class Tile : MonoBehaviour
                             NextTile.Unit = NewUnit;
                             NextTile.Occupied = NewUnit ? true : false;
                             NextTile.CanMoveOn = NewUnit ? false : true;
-                            print(CurrentTile[0] + " , " + CurrentTile[1]);
+                            //print(CurrentTile[0] + " , " + CurrentTile[1]);
                         }
                     }
                 }
@@ -109,8 +109,19 @@ public class Tile : MonoBehaviour
         CanMoveOn = NewUnit ? false : true;
     }
 
-    public void Hide()
+    public void Hide(bool IgnoreBoss = false)
     {
+        if (UnitManager.Instance.Boss && !IgnoreBoss)
+        {
+            if (UnitManager.Instance.Boss.PendingAttack)
+            {
+                if (UnitManager.Instance.Boss.AoELocations.Contains(this))
+                {
+                    GetComponent<MeshRenderer>().material = WeaponRangeMaterial;
+                    return;
+                }
+            }
+        }
         GetComponent<MeshRenderer>().material = OGMaterial;
     }
 
@@ -124,7 +135,8 @@ public class Tile : MonoBehaviour
             if (GridPosition[1] < TileManager.Instance.Height && GridPosition[1] >= 0)
             {
                 if (TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn 
-                    || TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().Unit)
+                    || TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().Unit 
+                    || TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]].GetComponent<Tile>().Special)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0] + 1, GridPosition[1]]);
                 }
@@ -137,7 +149,8 @@ public class Tile : MonoBehaviour
             if (GridPosition[1] - 1 < TileManager.Instance.Height && GridPosition[1] - 1 >= 0)
             {
                 if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1].GetComponent<Tile>().CanMoveOn
-                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] -1].GetComponent<Tile>().Unit)
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] -1].GetComponent<Tile>().Unit
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1].GetComponent<Tile>().Special)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0], GridPosition[1] - 1]);
                 }
@@ -150,7 +163,8 @@ public class Tile : MonoBehaviour
             if (GridPosition[1] + 1 < TileManager.Instance.Height && GridPosition[1] + 1 >= 0)
             {
                 if (TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().CanMoveOn
-                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().Unit)
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().Unit
+                    || TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1].GetComponent<Tile>().Special)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0], GridPosition[1] + 1]);
                 }
@@ -163,7 +177,8 @@ public class Tile : MonoBehaviour
             if (GridPosition[1] < TileManager.Instance.Height && GridPosition[1] >= 0)
             {
                 if (TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().CanMoveOn
-                    || TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().Unit)
+                    || TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().Unit
+                    || TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]].GetComponent<Tile>().Special)
                 {
                     AdjacentTiles.Add(TileManager.Instance.Grid[GridPosition[0] - 1, GridPosition[1]]);
                 }
@@ -197,7 +212,11 @@ public class Tile : MonoBehaviour
             {
                 if (Unit.GetComponent<BossAI>().PendingAttack)
                 {
-                    Unit.GetComponent<BossAI>().ShowDamageRange();
+                    if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
+                        && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
+                    {
+                        TileManager.Instance.Grid[GridPosition[0], GridPosition[1]].GetComponent<Tile>().Show(false, true);
+                    }
                     return;
                 }
             }
@@ -286,13 +305,25 @@ public class Tile : MonoBehaviour
         WhichColour(Interact.Instance.SelectedUnit);
     }
 
-    internal void WhichColour(UnitBase PassedUnit = null)
+    internal void WhichColour(UnitBase PassedUnit = null, bool IgnoreAoEBoss = false)
     {
         bool inRange;
 
         if(OGMaterial == null)
         {
             return;
+        }
+
+        if(UnitManager.Instance.Boss && !IgnoreAoEBoss && !Interact.Instance.SelectedUnit)
+        {
+            if(UnitManager.Instance.Boss.PendingAttack)
+            {
+                if(UnitManager.Instance.Boss.AoELocations.Contains(this))
+                {
+                    Show(true);
+                    return;
+                }
+            }
         }
 
         if (Interact.Instance.SelectedUnit)

@@ -11,6 +11,8 @@ public class MagicOrb : InteractOnGrid
     internal bool Active = false;
     public List<Tile> AoEArea;
     public int Damage;
+    public Material GlowMaterial;
+    internal Material OGMatieral;
     public AudioClip ActivateSound;
     public AudioClip DeactivateSound;
     public AudioClip DamageSound;
@@ -19,6 +21,7 @@ public class MagicOrb : InteractOnGrid
     void Start()
     {
         AoEArea = new List<Tile>();
+        OGMatieral = GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
@@ -33,6 +36,8 @@ public class MagicOrb : InteractOnGrid
                 //print("Deactive sound " + gameObject);
                 SoundManager.Instance.PlaySFX(DeactivateSound);
             }
+
+            GetComponent<MeshRenderer>().material = OGMatieral;
         }
     }
 
@@ -48,6 +53,8 @@ public class MagicOrb : InteractOnGrid
                 //print("Active " + gameObject);
                 SoundManager.Instance.PlaySFX(ActivateSound);
             }
+
+            GetComponent<MeshRenderer>().material = GlowMaterial;
         }
     }
 
@@ -159,6 +166,7 @@ public class MagicOrb : InteractOnGrid
             && Interact.Instance.SelectedUnit == null)
         {
             HideRange();
+            TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().WhichColour(Interact.Instance.SelectedUnit);
         }
     }
 }

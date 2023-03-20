@@ -39,6 +39,15 @@ public class BossAI : UnitAI
 
             PlayTauntAnim();
         }
+
+        //if (PendingAttack)
+        //{
+        //    ShowDamageRange();
+        //}
+        //else
+        //{
+        //    HideDamageRange();
+        //}
     }
 
     public void ZoomTaunt()
@@ -72,6 +81,8 @@ public class BossAI : UnitAI
                 }
             }
         }
+
+        HideDamageRange();
 
         PendingDamage = false;
         PendingAttack = false;
@@ -124,7 +135,7 @@ public class BossAI : UnitAI
 
     internal void AoEDirection(UnitBase Unit)
     {
-        print("Find route");
+        //print("Find route");
         List<Tile> Route = new List<Tile>();
 
         Route = FindRouteTo(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), true);
@@ -132,7 +143,7 @@ public class BossAI : UnitAI
         Direction Dir = Direction.Down;
         Tile ClosestTile = null;
 
-        if (Route.Count >= 1)
+        if (Route.Count > 1)
         {
             print("Actual PAth");
             if (Position[1] == Route[1].GridPosition[1])
@@ -163,7 +174,7 @@ public class BossAI : UnitAI
         else
         {
             print("No path");
-            foreach(GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
+            foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
             {
                 if(tile == TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]])
                 {
@@ -224,10 +235,12 @@ public class BossAI : UnitAI
         Tiles.Add(Tile);
 
 
-        for (int i = 0; i < AttackAoE.VerticalRange; i++)
+        for (int i = 0; i < (AttackAoE.VerticalRange > AttackAoE.HorizontalRange? AttackAoE.VerticalRange: AttackAoE.HorizontalRange); i++)
         {
             Tiles = FindAoE(Tiles, Dir);
         }
+
+        ShowDamageRange();
 
         CurrentTurns = 1;
         TurnCount = AttackAoE.TurnTilDamage;
@@ -238,7 +251,15 @@ public class BossAI : UnitAI
     {
         foreach(Tile tile in AoELocations)
         {
-            tile.Show(true);
+            tile.WhichColour();
+        }
+    }
+
+    internal void HideDamageRange()
+    {
+        foreach (Tile tile in AoELocations)
+        {
+            tile.WhichColour(Interact.Instance.SelectedUnit, true);
         }
     }
 

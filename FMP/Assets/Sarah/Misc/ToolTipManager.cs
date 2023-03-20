@@ -21,7 +21,7 @@ public class ToolTipManager : MonoBehaviour
     internal Dictionary<ToolTip, bool> Seen;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(GameManager.Instance)
         {
@@ -51,14 +51,20 @@ public class ToolTipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(TurnManager.Instance.isPlayerTurn);
-
+        if (SceneLoader.Instance)
+        {
+            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha < 1 && !UnitManager.Instance.SetupFinished)
+            {
+                return;
+            }
+        }
+        
         if (NextTutorialOnReturn)
         {
             if (ToolTipObject.GetComponent<MoveToScreenLocation>().transform.position.ToString() == ToolTipObject.GetComponent<MoveToScreenLocation>().OutSightLocation.ToString()
                 && TurnManager.Instance.isPlayerTurn)
             {
-                print("OG Position");
+                //print("OG Position");
                 NextTutorialOnReturn = false;
                 NewToolTip(PendingToolTip);
                 PendingToolTip = null;

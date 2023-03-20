@@ -5,6 +5,7 @@ using UnityEngine;
 public enum ItemTypes
 {
     Heal,
+    Buff,
     ClassChanger,
     Weapon
 }

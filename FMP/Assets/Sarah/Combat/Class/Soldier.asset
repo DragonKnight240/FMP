@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Soldier
   m_EditorClassIdentifier: 
   Name: Soldier
-  Abilties: []
-  LevelRequirement: 
-  Level: 0
+  Abilties:
+  - {fileID: 11400000, guid: 7bdd4ad7197d1c845b8504dcce3ccfd5, type: 2}
+  - {fileID: 11400000, guid: 646a873de8e8b9e4db466785619a952e, type: 2}
+  - {fileID: 11400000, guid: df8b7a1a17f24f34fb0bea19e66d85b4, type: 2}
+  - {fileID: 11400000, guid: b9c72a0966fbcb140bcc806fddd5a023, type: 2}
+  LevelRequirement: 02000000030000000400000005000000
+  Level: 1
   EXP: 0
-  TotalEXPNeeded: 64000000c80000002c01000090010000
+  TotalEXPNeeded: 320000004b0000006400000096000000
   Strength: 0
   Dexterity: 0
   Magic: 0

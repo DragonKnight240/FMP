@@ -9,7 +9,7 @@ public class HoverTooltipManager : MonoBehaviour
 {
     public TextMeshProUGUI Text;
     public RectTransform tipObject;
-    public float OffsetX = 5;
+    public float OffsetX = 100;
 
     public static Action<string, Vector2> OnMouseOver;
     public static Action OnMouseLoseFocus;
