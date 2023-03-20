@@ -35,8 +35,9 @@ public class MagicOrb : InteractOnGrid
             {
                 //print("Deactive sound " + gameObject);
                 SoundManager.Instance.PlaySFX(DeactivateSound);
-                GetComponent<MeshRenderer>().material = OGMatieral;
             }
+
+            GetComponent<MeshRenderer>().material = OGMatieral;
         }
     }
 
@@ -51,8 +52,9 @@ public class MagicOrb : InteractOnGrid
             {
                 //print("Active " + gameObject);
                 SoundManager.Instance.PlaySFX(ActivateSound);
-                GetComponent<MeshRenderer>().material = GlowMaterial;
             }
+
+            GetComponent<MeshRenderer>().material = GlowMaterial;
         }
     }
 
