@@ -7855,7 +7855,7 @@ MonoBehaviour:
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 5
   Dexterity: 6
-  Magic: 10
+  Magic: 15
   Defence: 6
   Resistance: 8
   Speed: 10
@@ -7894,6 +7894,7 @@ MonoBehaviour:
   AttackSound: {fileID: 0}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 0
