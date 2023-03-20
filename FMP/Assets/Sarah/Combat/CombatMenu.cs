@@ -652,11 +652,30 @@ public class CombatMenu : MonoBehaviour
 
             if (Unit.SupportedUnits.Count > 0)
             {
+                string HoverText = "";
                 for (int i = 0; i < SupportImages.Count; i++)
                 {
+                    HoverText = "";
                     if (Unit.SupportedUnits.Count > i)
                     {
                         SupportImages[i].sprite = Unit.SupportedUnits[i].UnitImage;
+
+                        //print("Start loop");
+                        foreach (UnitSupports Supportable in Unit.SupportsWith)
+                        {
+                            print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
+                            if (Unit.SupportedUnits[i].UnitName == Supportable.UnitObj.GetComponent<UnitBase>().UnitName)
+                            {
+                                print("Supported unit found");
+                                for (int j = 0; j < Supportable.Level; j++)
+                                {
+                                    HoverText += "+" + Supportable.SupportStats[j].Increase.ToString() + " " + Supportable.SupportStats[j].Stat.ToString() + "\n";
+                                }
+                            }
+                        }
+
+                        print(HoverText);
+                        SupportImages[i].GetComponent<HoverTooltip>().ChangeText(HoverText);
                         SupportImages[i].gameObject.SetActive(true);
                         continue;
                     }

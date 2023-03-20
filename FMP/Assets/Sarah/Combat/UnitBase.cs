@@ -835,7 +835,7 @@ public class UnitBase : MonoBehaviour
         {
             for(int i = 0; i < SupportsWith.Count; i ++)
             {
-                if(Unit == SupportsWith[i].Unit)
+                if(Unit.UnitName == SupportsWith[i].UnitObj.GetComponent<UnitBase>().UnitName)
                 {
                     SupportsWith[i].EXP += Mathf.RoundToInt(Damage * Random.Range(0.15f, 0.25f));
                 }

@@ -21,7 +21,7 @@ public class ToolTipManager : MonoBehaviour
     internal Dictionary<ToolTip, bool> Seen;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(GameManager.Instance)
         {

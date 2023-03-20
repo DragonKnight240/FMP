@@ -238,6 +238,9 @@ public class UnitManager : MonoBehaviour
                         //Class
                         UnitBase.Class = data.Class;
 
+                        //Support
+                        UnitBase.SupportsWith = data.Supports;
+
                         //Attack
                         UnitBase.UnlockedAttacks.Clear();
                         UnitBase.UnlockedAttacks = data.UnlockedAttacks;
@@ -258,6 +261,16 @@ public class UnitManager : MonoBehaviour
 
                         NewUnit.GetComponent<UnitBase>().Class.FindLevel();
                         NewUnit.GetComponent<UnitBase>().Class.AbilityUnlock(NewUnit.GetComponent<UnitBase>());
+
+                        List<UnitSupports> SupportList = new List<UnitSupports>();
+
+                        foreach (UnitSupports Support in NewUnit.GetComponent<UnitBase>().SupportsWith)
+                        {
+                            SupportList.Add(Instantiate(Support));
+                        }
+
+                        NewUnit.GetComponent<UnitBase>().SupportsWith = SupportList;
+
                     }
 
                     Index++;

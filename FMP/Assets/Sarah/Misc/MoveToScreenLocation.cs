@@ -43,9 +43,20 @@ public class MoveToScreenLocation : MonoBehaviour
     {
         if (SceneLoader.Instance)
         {
-            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha < 1 && !UnitManager.Instance.SetupFinished)
+            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha < 1)
             {
-                return;
+                if (UnitManager.Instance)
+                {
+                    if (!UnitManager.Instance.SetupFinished)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+
             }
         }
 

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
     public GameObject LoadingScreen;
+    public Slider LoadingBar;
 
     private void Awake()
     {
@@ -24,7 +26,10 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadNewScene(string NewScene)
     {
-        StartCoroutine(LoadScene(NewScene));
+        if (!LoadingScreen.activeInHierarchy)
+        {
+            StartCoroutine(LoadScene(NewScene));
+        }
 
         //SceneManager.LoadScene(NewScene);
     }
@@ -39,15 +44,19 @@ public class SceneLoader : MonoBehaviour
         LoadingScreen.SetActive(true);
         LoadingScreen.GetComponent<UIFade>().ToFadeIn();
 
-        if (LoadingScreen.GetComponent<CanvasGroup>().alpha > 1)
+        if (LoadingScreen.GetComponent<CanvasGroup>().alpha < 1)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName);
 
         while (!loadScene.isDone)
         {
+            float Progress = Mathf.Clamp01(loadScene.progress / 0.9f);
+            print(Progress);
+            LoadingBar.value = Progress;
+
             yield return null;
         }
 

@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.S) && CurrentInput == ("KOSTA"))
                 {
-                    GodMode = true;
+                    GodMode = !GodMode;
                     //print(GodMode);
                 }
                 else
@@ -317,6 +317,58 @@ public class GameManager : MonoBehaviour
 
             Unit.Class.FindLevel();
             Unit.Class.AbilityUnlock(Unit);
+        }
+
+        if (Unit.SupportsWith != null)
+        {
+            List<UnitSupports> SupportList = new List<UnitSupports>();
+
+            foreach (UnitSupports Support in Unit.SupportsWith)
+            {
+                SupportList.Add(Instantiate(Support));
+            }
+
+            Unit.SupportsWith = SupportList;
+        }
+
+        Unit.AvailableAttacks = new List<SpecialAttacks>();
+
+        foreach (Item item in Unit.WeaponsIninventory)
+        {
+            Weapon weapon = (Weapon)item;
+            Unit.Inventory.Add(weapon);
+            if (weapon.Special)
+            {
+                if (!Unit.UnlockedAttacks.Contains(weapon.Special))
+                {
+                    Unit.UnlockedAttacks.Add(weapon.Special);
+
+                    if (Unit.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                    {
+                        Unit.AvailableAttacks.Add(weapon.Special);
+                    }
+                }
+            }
+        }
+
+        foreach (SpecialAttacks Attack in Unit.UnlockedAttacks)
+        {
+            if (Unit.AvailableAttacks.Contains(Attack))
+            {
+                continue;
+            }
+
+            if (Unit.EquipedWeapon.WeaponType == Attack.WeaponType)
+            {
+                Unit.AvailableAttacks.Add(Attack);
+            }
+        }
+
+        Unit.CurrentAttack = Unit.AvailableAttacks[0];
+
+        if (Unit.WeaponsIninventory.Contains(Unit.BareHands))
+        {
+            Unit.WeaponsIninventory.Add(Unit.BareHands);
         }
     }
 

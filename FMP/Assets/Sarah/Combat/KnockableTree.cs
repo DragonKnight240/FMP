@@ -35,7 +35,7 @@ public class KnockableTree : InteractOnGrid
 
             transform.rotation = Quaternion.Lerp(transform.rotation, RotateTo, Time.deltaTime * Speed);
 
-            if(transform.rotation == RotateTo)
+            if(transform.rotation.ToString() == RotateTo.ToString())
             {
                 if(FallingSource)
                 {
