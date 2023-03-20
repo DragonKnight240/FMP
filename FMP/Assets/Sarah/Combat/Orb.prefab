@@ -115,6 +115,9 @@ MonoBehaviour:
   MagicLevelMin: 0
   AoEArea: []
   Damage: 5
+  ActivateSound: {fileID: 8300000, guid: afb47a7ee4e3da942a2d22cf606ad254, type: 3}
+  DeactivateSound: {fileID: 8300000, guid: 17c7d17c6cebf1d4ba9c3cc4804e7386, type: 3}
+  DamageSound: {fileID: 0}
 --- !u!1001 &9120677787079028153
 PrefabInstance:
   m_ObjectHideFlags: 0

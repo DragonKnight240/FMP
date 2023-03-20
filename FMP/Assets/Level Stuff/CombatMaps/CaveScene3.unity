@@ -13519,6 +13519,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8409222356235114596, guid: 9eb9898dbf8014e43a9efaad05ac056a, type: 3}
+      propertyPath: DestroyAfterRoll
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8409222356235114597, guid: 9eb9898dbf8014e43a9efaad05ac056a, type: 3}
       propertyPath: m_RootOrder
       value: 28
@@ -13958,11 +13962,11 @@ MonoBehaviour:
     X: 6
     Y: 8
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: 86f52115eaf4ce0458c0a0e9337973a1, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: 5a69c531994adaf4b9d69555daab87b9, type: 3}
     X: 1
     Y: 9
   - UnitType: 1
-    Unit: {fileID: 1478534406159762325, guid: 86f52115eaf4ce0458c0a0e9337973a1, type: 3}
+    Unit: {fileID: 1478534406159762325, guid: 5a69c531994adaf4b9d69555daab87b9, type: 3}
     X: 0
     Y: 8
   AllyUnits: []
