@@ -51,6 +51,11 @@ public class GameManager : MonoBehaviour
 
     internal int MainObjectNum = 0;
 
+    //Runes
+    internal bool Rune1Active;
+    internal bool Rune2Active;
+    internal bool Rune3Active;
+
     private void Awake()
     {
         if (Instance == null)
@@ -427,6 +432,10 @@ public class GameManager : MonoBehaviour
         GauntletRecruitComplete = false;
         PostDungeon1Complete = false;
         PostDungeon2Complete = false;
+
+        Rune1Active = false;
+        Rune2Active = false;
+        Rune3Active = false;
 
         DialogueToPlay = PlayAfter.None;
 
