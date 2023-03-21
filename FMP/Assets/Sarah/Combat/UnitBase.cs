@@ -1512,18 +1512,133 @@ public class UnitBase : MonoBehaviour
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
-                //if(MultiTile)
-                //{
-                //    foreach(GameObject AdjAdjacentTile in AdjacentTile.GetComponent<Tile>().AdjacentTiles)
-                //    {
-                //        if(AdjAdjacentTile.GetComponent<Tile>().GridPosition[0] >)
-                //    }
-                //}
 
-                if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
+                if (CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
                     (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {
                     continue;
+                }
+
+                if (GetComponent<BossAI>())
+                {
+                    if (GetComponent<BossAI>().isMultiTile)
+                    {
+                        int XGrid = AdjacentTile.GetComponent<Tile>().GridPosition[0];
+                        int YGrid = AdjacentTile.GetComponent<Tile>().GridPosition[1];
+
+                        //Right
+                        if (XGrid + 1 < TileManager.Instance.Width)
+                        {
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        //UP
+                        if (YGrid + 1 < TileManager.Instance.Height)
+                        {
+                            if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        //UPRight
+                        if (XGrid + 1 < TileManager.Instance.Width && YGrid + 1 < TileManager.Instance.Height)
+                        {
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+
+                        //if (XGrid - 1 >= 0)
+                        //{
+                        //    if (!CheckedNodes.ContainsKey(TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>()))
+                        //    {
+                        //        //Left
+                        //        if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>() != End.Tile)
+                        //        {
+                        //            if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Unit != this)
+                        //            {
+                        //                continue;
+                        //            }
+                        //        }
+
+                        //        if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Special)
+                        //        {
+                        //            continue;
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        continue;
+                        //    }
+                        //}
+
+                        //if (YGrid - 1 >= 0)
+                        //{
+                        //    if (!CheckedNodes.ContainsKey(TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>()))
+                        //    {
+                        //        //Down
+                        //        if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>() != End.Tile)
+                        //        {
+                        //            if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Unit != this)
+                        //            {
+                        //                continue;
+                        //            }
+                        //        }
+
+                        //        if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Special)
+                        //        {
+                        //            continue;
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        continue;
+                        //    }
+                        //}
+
+                    }
                 }
 
                 G = CurrentNode.GCost + 1;
@@ -1571,7 +1686,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (Path.Count > 1)
                 {
-                    Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
+                    //Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
                 }
                 else
                 {
