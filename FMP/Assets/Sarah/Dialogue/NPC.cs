@@ -18,7 +18,7 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("Interact") && InRange)
+        if(Input.GetButton("Interact") && InRange && !DialogueSystem.Instance.PlayingDialogue)
         {
             if (!GameManager.Instance.CombatTutorialComplete)
             {

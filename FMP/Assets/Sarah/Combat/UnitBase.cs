@@ -210,6 +210,7 @@ public class UnitBase : MonoBehaviour
                 {
                     if (Path.Count <= 0)
                     {
+                        Moving = false;
                         return;
                     }
 
@@ -1589,55 +1590,6 @@ public class UnitBase : MonoBehaviour
                             continue;
                         }
 
-
-                        //if (XGrid - 1 >= 0)
-                        //{
-                        //    if (!CheckedNodes.ContainsKey(TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>()))
-                        //    {
-                        //        //Left
-                        //        if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>() != End.Tile)
-                        //        {
-                        //            if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Unit != this)
-                        //            {
-                        //                continue;
-                        //            }
-                        //        }
-
-                        //        if (TileManager.Instance.Grid[XGrid - 1, YGrid].GetComponent<Tile>().Special)
-                        //        {
-                        //            continue;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        continue;
-                        //    }
-                        //}
-
-                        //if (YGrid - 1 >= 0)
-                        //{
-                        //    if (!CheckedNodes.ContainsKey(TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>()))
-                        //    {
-                        //        //Down
-                        //        if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>() != End.Tile)
-                        //        {
-                        //            if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Unit != this)
-                        //            {
-                        //                continue;
-                        //            }
-                        //        }
-
-                        //        if (TileManager.Instance.Grid[XGrid, YGrid - 1].GetComponent<Tile>().Special)
-                        //        {
-                        //            continue;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        continue;
-                        //    }
-                        //}
-
                     }
                 }
 
@@ -1656,7 +1608,7 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        print("Failed");
+        print("Failed " + gameObject);
         return Path;
     }
 
@@ -1697,6 +1649,7 @@ public class UnitBase : MonoBehaviour
 
         if(EquipedWeapon.Range > Path.Count && ToAttack)
         {
+            print("Remove");
             Path.RemoveRange(0, EquipedWeapon.Range - 1);
         }
 
