@@ -50,6 +50,10 @@ public class MovableBoulder : InteractOnGrid
                     if(Target)
                     {
                         Target.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
+                        if (Target.CurrentHealth <= 0)
+                        {
+                            UnitManager.Instance.PendingDeath.Add(Target);
+                        }
                         Target = null;
                     }
 

@@ -157,6 +157,26 @@ public class Options : MonoBehaviour
         }
     }
 
+    public void AccessabilityMenu()
+    {
+
+    }
+
+    public void InvertMouseControl(bool Invert)
+    {
+        GameManager.Instance.MouseControlsInvert = Invert;
+    }
+
+    public void KeepTurnUIOpen(bool UIToggle)
+    {
+        GameManager.Instance.KeepTurnUIUp = UIToggle;
+    }
+
+    public void QuestMarkersActive(bool ObjectiveToggle)
+    {
+
+    }
+
     public void masterVolume(float volume)
     {
         audioMixer.SetFloat("Master", volume);

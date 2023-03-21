@@ -80,6 +80,11 @@ public class MagicOrb : InteractOnGrid
                         SoundManager.Instance.PlaySFX(DamageSound);
                     }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
+
+                    if (tile.Unit.CurrentHealth <= 0)
+                    {
+                        UnitManager.Instance.PendingDeath.Add(tile.Unit);
+                    }
                 }
             }
 

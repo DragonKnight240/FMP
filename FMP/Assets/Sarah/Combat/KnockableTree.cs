@@ -150,6 +150,11 @@ public class KnockableTree : InteractOnGrid
             if(tile.GetComponent<Tile>().Unit)
             {
                 tile.GetComponent<Tile>().Unit.ShowLongDistanceDamageNumbers(Damage);
+
+                if(tile.GetComponent<Tile>().Unit.CurrentHealth <=0)
+                {
+                    UnitManager.Instance.PendingDeath.Add(tile.GetComponent<Tile>().Unit);
+                }
             }
         }
     }

@@ -78,6 +78,11 @@ public class BossAI : UnitAI
                     AttackTarget = tile.Unit;
                     tile.Unit.AttackTarget = this;
                     tile.Unit.ShowLongDistanceDamageNumbers(CalculateDamage());
+
+                    if (tile.Unit.CurrentHealth <= 0)
+                    {
+                        UnitManager.Instance.PendingDeath.Add(tile.Unit);
+                    }
                 }
             }
         }

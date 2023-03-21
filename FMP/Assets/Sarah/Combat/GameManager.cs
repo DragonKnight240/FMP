@@ -36,11 +36,17 @@ public class GameManager : MonoBehaviour
     //DialogueToShow
     internal PlayAfter DialogueToPlay = PlayAfter.None;
 
-    //Sound
+    //Options
+    //Sounds
     internal float MasterSlider = 0;
     internal float SFXSlider = 0;
     internal float MusicSlider = 0;
     internal float AmbianceSlider = 0;
+
+    //Accessability
+    internal bool KeepTurnUIUp = false;
+    internal bool MouseControlsInvert = true;
+
 
     //Timer
     public bool inCombat = false;

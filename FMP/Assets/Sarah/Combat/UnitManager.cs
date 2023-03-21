@@ -31,6 +31,7 @@ public class UnitManager : MonoBehaviour
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
     internal List<UnitAI> PendingEnemies;
+    internal List<UnitBase> PendingDeath;
     internal BossAI Boss;
 
     private void Awake()
@@ -50,6 +51,7 @@ public class UnitManager : MonoBehaviour
         DeadAllyUnits = new List<UnitBase>();
         UnitUpdate = new UnityEvent();
         PendingEnemies = new List<UnitAI>();
+        PendingDeath = new List<UnitBase>();
     }
 
     // Start is called before the first frame update
@@ -94,7 +96,9 @@ public class UnitManager : MonoBehaviour
 
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitBase>().Moving || Enemy.GetComponent<UnitBase>().ToAttack  || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override)
+            if(Enemy.GetComponent<UnitBase>().Moving || Enemy.GetComponent<UnitBase>().ToAttack  
+                || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override
+                || PendingDeath.Count > 0)
             {
                 break;
             }

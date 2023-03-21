@@ -245,9 +245,18 @@ public class UnitBase : MonoBehaviour
             }
             else 
             {
-                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death)
+                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death && Interact.Instance.VirtualCam.activeInHierarchy)
                 {
-                    DeathZoomIn = true;
+                    if(UnitManager.Instance.PendingDeath.Count > 0)
+                    {
+                        if(UnitManager.Instance.PendingDeath[0] == this)
+                        {
+                            DeathZoomIn = true;
+                            AttackCamera.SetActive(true);
+                            Interact.Instance.VirtualCam.SetActive(false);
+                            UnitManager.Instance.PendingDeath.RemoveAt(0);
+                        }
+                    }
                 }
             }
 
