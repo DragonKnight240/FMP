@@ -307,19 +307,41 @@ public class UnitManager : MonoBehaviour
 
             UnitBase.AvailableAttacks = new List<SpecialAttacks>();
 
-            foreach (Item item in UnitBase.WeaponsIninventory)
+            if(UnitBase.EquipedWeapon)
             {
-                Weapon weapon = (Weapon)item;
-                UnitBase.Inventory.Add(weapon);
-                if(weapon.Special)
+                if(!UnitBase.Inventory.Contains(UnitBase.EquipedWeapon))
                 {
-                    if(!UnitBase.UnlockedAttacks.Contains(weapon.Special))
-                    {
-                        UnitBase.UnlockedAttacks.Add(weapon.Special);
+                    UnitBase.Inventory.Add(UnitBase.EquipedWeapon);
+                }
+            }
 
-                        if(UnitBase.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+            foreach (Item item in UnitBase.Inventory)
+            {
+                //print(item.Name + " " + UnitBase.gameObject);
+
+                if (item == null)
+                {
+                    continue;
+                }
+
+                //print(item.Type);
+
+                if (item.Type == ItemTypes.Weapon)
+                {
+                    //print("Weapon Detected - " + UnitBase.gameObject);
+                    Weapon weapon = (Weapon)item;
+                    UnitBase.WeaponsIninventory.Add(weapon);
+
+                    if (weapon.Special)
+                    {
+                        if (!UnitBase.UnlockedAttacks.Contains(weapon.Special))
                         {
-                            UnitBase.AvailableAttacks.Add(weapon.Special);
+                            UnitBase.UnlockedAttacks.Add(weapon.Special);
+
+                            if (UnitBase.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                            {
+                                UnitBase.AvailableAttacks.Add(weapon.Special);
+                            }
                         }
                     }
                 }
