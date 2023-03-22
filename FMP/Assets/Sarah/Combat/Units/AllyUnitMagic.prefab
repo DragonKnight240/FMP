@@ -1316,10 +1316,11 @@ MonoBehaviour:
   MoveSpeed: 30
   MoveableTiles: []
   AttackTiles: []
+  Path: []
   EquipedWeapon: {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
-  Inventory: []
-  WeaponsIninventory:
+  Inventory:
   - {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
+  WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 5
   Dexterity: 6

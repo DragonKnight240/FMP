@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 public class HoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string TipToShow;
-    bool Hovering = false;
-    float TimeToShow = 0.5f;
-    float TimerShow = 0;
+    internal bool Hovering = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +19,12 @@ public class HoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if(Hovering)
         {
-            TimerShow += Time.unscaledDeltaTime;
-            if(TimerShow > TimeToShow)
-            {
-                TimerShow = 0;
-                HoverTooltipManager.OnMouseOver(TipToShow, Input.mousePosition);
-                Hovering = false;
-            }
+            Vector2 Position = Input.mousePosition;
+
+            float pivotX = Position.x / Screen.width;
+            float pivotY = Position.y / Screen.height;
+
+            HoverTooltipManager.OnMouseOver(TipToShow, Position, new Vector2(pivotX,pivotY));
         }
     }
 
@@ -42,6 +39,17 @@ public class HoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        Hovering = false;
+        HoverTooltipManager.OnMouseLoseFocus();
+    }
+
+    public void OnMouseEnter()
+    {
+        Hovering = true;
+    }
+
+    public void OnMouseExit()
     {
         Hovering = false;
         HoverTooltipManager.OnMouseLoseFocus();

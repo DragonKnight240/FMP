@@ -481,6 +481,7 @@ public class CombatMenu : MonoBehaviour
         GameManager.Instance.ToolTipCheck(Tutorial.CChangeWeapon);
 
         Unit.EquipedWeapon = Weapons[NewIndex];
+        Weapon.text = Weapons[NewIndex].Name;
         Interact.Instance.UIWeaponImage();
         Unit.ChangeWeaponImage();
 
@@ -542,11 +543,22 @@ public class CombatMenu : MonoBehaviour
                         ConUnit.MainAnim.runtimeAnimatorController = ConUnit.MagicAnimControl;
                         break;
                     }
+                default:
+                    {
+                        ConUnit.Sword.SetActive(false);
+                        ConUnit.GauntletR.SetActive(false);
+                        ConUnit.GauntletsL.SetActive(false);
+                        ConUnit.Bow.SetActive(false);
+                        ConUnit.MagicBook.SetActive(false);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.FistAnimControl;
+                        break;
+                    }
             }
         }
-
         ChangeAvailableAttacks();
         CheckTargetStatus();
+
     }
 
     public void ChangeAttack(bool Next)
@@ -725,10 +737,10 @@ public class CombatMenu : MonoBehaviour
                         //print("Start loop");
                         foreach (UnitSupports Supportable in Unit.SupportsWith)
                         {
-                            print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
+                            //print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
                             if (Unit.SupportedUnits[i].UnitName == Supportable.UnitObj.GetComponent<UnitBase>().UnitName)
                             {
-                                print("Supported unit found");
+                                //print("Supported unit found");
                                 for (int j = 0; j < Supportable.Level; j++)
                                 {
                                     HoverText += "+" + Supportable.SupportStats[j].Increase.ToString() + " " + Supportable.SupportStats[j].Stat.ToString() + "\n";

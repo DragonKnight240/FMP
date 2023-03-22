@@ -376,6 +376,12 @@ public class UnitManager : MonoBehaviour
             UnitBase.Position = new int[2];
             UnitBase.Position[0] = X;
             UnitBase.Position[1] = Y;
+            
+            if (UnitBase.GetComponent<BossAI>())
+            {
+                UnitBase.GetComponent<BossAI>().MultiPositions = new List<Tile>();
+            }
+            
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase, UnitBase.GetComponent<BossAI>()? UnitBase.GetComponent<BossAI>().isMultiTile: false);
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;

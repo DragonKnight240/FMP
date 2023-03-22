@@ -1193,7 +1193,7 @@ public class UnitBase : MonoBehaviour
                 }
             default:
                 {
-                    print("No Weapon");
+                    //print("No Weapon");
                     break;
                 }
         }
@@ -1692,7 +1692,7 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        print("Failed " + gameObject);
+        //print("Failed " + gameObject);
         return Path;
     }
 

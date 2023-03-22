@@ -345,19 +345,33 @@ public class GameManager : MonoBehaviour
 
         Unit.AvailableAttacks = new List<SpecialAttacks>();
 
-        foreach (Item item in Unit.WeaponsIninventory)
+        foreach (Item item in Unit.Inventory)
         {
-            Weapon weapon = (Weapon)item;
-            Unit.Inventory.Add(weapon);
-            if (weapon.Special)
-            {
-                if (!Unit.UnlockedAttacks.Contains(weapon.Special))
-                {
-                    Unit.UnlockedAttacks.Add(weapon.Special);
+            //print(item.Name + " " + UnitBase.gameObject);
 
-                    if (Unit.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+            if (item == null)
+            {
+                continue;
+            }
+
+            //print(item.Type);
+
+            if (item.Type == ItemTypes.Weapon)
+            {
+                //print("Weapon Detected - " + UnitBase.gameObject);
+                Weapon weapon = (Weapon)item;
+                Unit.WeaponsIninventory.Add(weapon);
+
+                if (weapon.Special)
+                {
+                    if (!Unit.UnlockedAttacks.Contains(weapon.Special))
                     {
-                        Unit.AvailableAttacks.Add(weapon.Special);
+                        Unit.UnlockedAttacks.Add(weapon.Special);
+
+                        if (Unit.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                        {
+                            Unit.AvailableAttacks.Add(weapon.Special);
+                        }
                     }
                 }
             }

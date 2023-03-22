@@ -18,8 +18,9 @@ public class MagicOrb : InteractOnGrid
     public AudioClip DamageSound;
 
     // Start is called before the first frame update
-    void Start()
+    override internal void Start()
     {
+        base.Start();
         AoEArea = new List<Tile>();
         OGMatieral = GetComponent<MeshRenderer>().material;
     }

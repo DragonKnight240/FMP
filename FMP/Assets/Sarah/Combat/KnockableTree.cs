@@ -17,8 +17,9 @@ public class KnockableTree : InteractOnGrid
 
 
     // Start is called before the first frame update
-    void Start()
+    override internal void Start()
     {
+        base.Start();
         AoETiles = new List<GameObject>();
     }
 

@@ -84,6 +84,8 @@ public class Tile : MonoBehaviour
             {
                 if (NewUnit.GetComponent<BossAI>().isMultiTile)
                 {
+                    NewUnit.GetComponent<BossAI>().MultiPositions.Clear();
+                    NewUnit.GetComponent<BossAI>().MultiPositions = new List<Tile>();
                     Tile NextTile;
                     int[] CurrentTile = new int[2];
                     CurrentTile[0] = GridPosition[0];
@@ -97,7 +99,7 @@ public class Tile : MonoBehaviour
                             NextTile.Unit = NewUnit;
                             NextTile.Occupied = NewUnit ? true : false;
                             NextTile.CanMoveOn = NewUnit ? false : true;
-                            //print(CurrentTile[0] + " , " + CurrentTile[1]);
+                            NewUnit.GetComponent<BossAI>().MultiPositions.Add(NextTile);
                         }
                     }
                 }
@@ -258,6 +260,11 @@ public class Tile : MonoBehaviour
             }
         }
 
+        if(Special)
+        {
+            Special.HoverTip.Hovering = true;
+        }
+
         if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
             && !Interact.Instance.CombatMenu.CombatMenuObject.gameObject.activeInHierarchy)
         {
@@ -274,6 +281,9 @@ public class Tile : MonoBehaviour
 
         if (Special)
         {
+            Special.HoverTip.Hovering = false;
+            HoverTooltipManager.OnMouseLoseFocus();
+
             if (Special.GetComponent<MagicOrb>())
             {
                 Special.GetComponent<MagicOrb>().HideRange();

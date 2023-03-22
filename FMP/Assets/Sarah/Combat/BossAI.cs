@@ -6,7 +6,7 @@ public class BossAI : UnitAI
 {
     public bool isMultiTile = false;
     public int MutiTileAmount = 3;
-    internal List<int[]> MultiPosition;
+    internal List<Tile> MultiPositions;
     public List<Tile> AoELocations;
     internal int TurnCount;
     internal int CurrentTurns;

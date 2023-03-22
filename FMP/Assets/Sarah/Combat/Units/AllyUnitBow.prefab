@@ -695,10 +695,11 @@ MonoBehaviour:
   MoveSpeed: 30
   MoveableTiles: []
   AttackTiles: []
+  Path: []
   EquipedWeapon: {fileID: 11400000, guid: 486c44bfb4aae1e408eb6e361856810c, type: 2}
-  Inventory: []
-  WeaponsIninventory:
+  Inventory:
   - {fileID: 11400000, guid: 486c44bfb4aae1e408eb6e361856810c, type: 2}
+  WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 3
   Dexterity: 12
@@ -5558,25 +5559,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Wep_Ornate_Sword_02
       objectReference: {fileID: 0}
-    - target: {fileID: 194264, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.79999983
-      objectReference: {fileID: 0}
-    - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.79999965
-      objectReference: {fileID: 0}
-    - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.79999983
       objectReference: {fileID: 0}
     - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5692,6 +5677,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a2f028dc737935d44a70e0fee3c13b4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a2f028dc737935d44a70e0fee3c13b4f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a2f028dc737935d44a70e0fee3c13b4f, type: 3}
       propertyPath: m_Name
