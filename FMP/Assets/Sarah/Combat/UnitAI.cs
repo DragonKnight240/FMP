@@ -204,7 +204,11 @@ public class UnitAI : UnitBase
             {
                 if(tile.Unit.CompareTag("Ally"))
                 {
-                    InRangeTargets.Add(tile.Unit);
+                    if(FindRouteTo(TileManager.Instance.Grid[tile.GridPosition[0], tile.GridPosition[1]].GetComponent<Tile>()).Count > 0)
+                    {
+                        print("InRange Unit - " + tile.Unit);
+                        InRangeTargets.Add(tile.Unit);
+                    }
                 }
             }
         }

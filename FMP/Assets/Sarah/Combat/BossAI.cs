@@ -111,10 +111,17 @@ public class BossAI : UnitAI
 
             if (AttackTarget != null)
             {
+                print(AttackTarget);
                 MoveAsCloseTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
-                AoEDirection(AttackTarget);
 
-                ToTaunt = true;
+                FindInRangeTargets(false, false);
+                CheckCurrentRange();
+
+                if (AttackTarget)
+                {
+                    AoEDirection(AttackTarget);
+                    ToTaunt = true;
+                }
             }
         }
 
@@ -147,6 +154,8 @@ public class BossAI : UnitAI
 
         Direction Dir = Direction.Down;
         Tile ClosestTile = null;
+
+        print(Route.Count);
 
         if (Route.Count > 1)
         {

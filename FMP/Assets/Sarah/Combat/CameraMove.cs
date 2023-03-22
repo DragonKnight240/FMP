@@ -43,10 +43,10 @@ public class CameraMove : MonoBehaviour
     {
         if (ButtonMovement)
         {
-            if (!Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || !Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy)
+            if ((!Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || !Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy) && FollowTarget == null)
             {
-                float x = Input.GetAxis("Horizontal");
-                float z = Input.GetAxis("Vertical");
+                float x = Input.GetAxisRaw("Horizontal");
+                float z = Input.GetAxisRaw("Vertical");
 
                 RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), RB.velocity.y, (z * SmoothSpeed * 100 * Time.timeScale));
 

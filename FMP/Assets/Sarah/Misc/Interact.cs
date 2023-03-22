@@ -48,6 +48,9 @@ public class Interact : MonoBehaviour
 
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out Hit))
                 {
+                    print(Hit.transform.gameObject);
+                    print(SelectedUnit.AttackTarget.transform);
+
                     if (Hit.transform.GetComponent<UnitBase>())
                     {
                         if (Hit.transform.gameObject == SelectedUnit.gameObject)
@@ -58,12 +61,14 @@ public class Interact : MonoBehaviour
                         {
                             if (Hit.transform == SelectedUnit.AttackTarget.transform)
                             {
-                                AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                                print("Attack");
+                                AttackUnit(TileManager.Instance.Grid[Hit.transform.GetComponent<UnitBase>().Position[0], Hit.transform.GetComponent<UnitBase>().Position[0]].GetComponent<Tile>());
                             }
                         }
                     }
                     else if (Hit.transform.GetComponent<Tile>())
                     {
+                        print("Tile");
                         if (Hit.transform.GetComponent<Tile>().Unit)
                         {
                             if (Hit.transform.GetComponent<Tile>().Unit == SelectedUnit)
@@ -72,9 +77,11 @@ public class Interact : MonoBehaviour
                             }
                             else if (Hit.transform.GetComponent<Tile>().Unit.CompareTag("Enemy"))
                             {
-                                if (Hit.transform == TileManager.Instance.Grid[SelectedUnit.AttackTarget.Position[0], SelectedUnit.AttackTarget.Position[1]].transform)
+                                print("Enemy Unit");
+                                if (Hit.transform.GetComponent<Tile>().Unit == SelectedUnit.AttackTarget)
                                 {
-                                    AttackUnit(Hit.transform.GetComponent<Tile>().Unit);
+                                    print("Attack");
+                                    AttackUnit(Hit.transform.GetComponent<Tile>());
                                 }
                             }
                         }
@@ -109,7 +116,7 @@ public class Interact : MonoBehaviour
                                 {
                                     if(SelectedUnit)
                                     {
-                                        AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                                        AttackUnit(Hit.transform.GetComponent<Tile>());
                                     }
                                 }
                             }
@@ -123,7 +130,7 @@ public class Interact : MonoBehaviour
                             print("Hit Enemy");
                             if (SelectedUnit)
                             {
-                                AttackUnit(Hit.transform.GetComponent<UnitBase>());
+                                AttackUnit(TileManager.Instance.Grid[Hit.transform.GetComponent<UnitBase>().Position[0], Hit.transform.GetComponent<UnitBase>().Position[1]].GetComponent<Tile>());
                             }
                         }
                     }
@@ -179,14 +186,18 @@ public class Interact : MonoBehaviour
         }
     }
 
-    internal void AttackUnit(UnitBase Unit)
+    internal void AttackUnit(Tile tile)
     {
+        UnitBase Unit = tile.Unit;
+
         if (SelectedUnit)
         {
             if (CombatMenu.AttackMenuObject.activeInHierarchy)
             {
-                if (SelectedUnit.AttackTiles.Contains(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()))
+                print("Attack Unit");
+                if (SelectedUnit.AttackTiles.Contains(tile))
                 {
+                    print("In Attack tiles");
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
                     UISelectedUnit();

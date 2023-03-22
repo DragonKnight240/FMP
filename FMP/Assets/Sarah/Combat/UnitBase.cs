@@ -51,7 +51,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool isAlive = true;
     internal bool Moving = false;
-    internal List<Tile> Path;
+    public List<Tile> Path;
 
     internal CombatAnimControl AnimControl;
 
@@ -426,8 +426,83 @@ public class UnitBase : MonoBehaviour
             {
                 if (!MoveableTiles.Contains(AdjacentTile.GetComponent<Tile>()))
                 {
+
                     if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit || AdjacentTile.GetComponent<Tile>().Special)
                     {
+
+                        if (GetComponent<BossAI>())
+                        {
+                            if (GetComponent<BossAI>().isMultiTile)
+                            {
+                                int XGrid = AdjacentTile.GetComponent<Tile>().GridPosition[0];
+                                int YGrid = AdjacentTile.GetComponent<Tile>().GridPosition[1];
+
+                                //Right
+                                if (XGrid + 1 < TileManager.Instance.Width)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                //UP
+                                if (YGrid + 1 < TileManager.Instance.Height)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                //UPRight
+                                if (XGrid + 1 < TileManager.Instance.Width && YGrid + 1 < TileManager.Instance.Height)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                            }
+                        }
+
                         if (!WeaponRange)
                         {
                             MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
