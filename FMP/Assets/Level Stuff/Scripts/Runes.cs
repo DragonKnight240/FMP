@@ -21,7 +21,9 @@ public class Runes : MonoBehaviour
                 {
                     if (GameManager.Instance.Rune1Active)
                     {
-                        GameManager.Instance.Rune1Active = true;
+                        isActive = true;
+                        GetComponent<Renderer>().material = R_Material;
+                        WallRune.GetComponent<Renderer>().material = R_Material;
                     }
                     break;
                 }
@@ -29,7 +31,9 @@ public class Runes : MonoBehaviour
                 {
                     if (GameManager.Instance.Rune2Active)
                     {
-                        GameManager.Instance.Rune2Active = true;
+                        isActive = true;
+                        GetComponent<Renderer>().material = R_Material;
+                        WallRune.GetComponent<Renderer>().material = R_Material;
                     }
                     break;
                 }
@@ -37,7 +41,9 @@ public class Runes : MonoBehaviour
                 {
                     if (GameManager.Instance.Rune3Active)
                     {
-                        GameManager.Instance.Rune3Active = true;
+                        isActive = true;
+                        GetComponent<Renderer>().material = R_Material;
+                        WallRune.GetComponent<Renderer>().material = R_Material;
                     }
                     break;
                 }
@@ -45,7 +51,9 @@ public class Runes : MonoBehaviour
                 {
                     if (GameManager.Instance.Rune1Active)
                     {
-                        GameManager.Instance.Rune1Active = true;
+                        isActive = true;
+                        GetComponent<Renderer>().material = R_Material;
+                        WallRune.GetComponent<Renderer>().material = R_Material;
                     }
                     break;
                 }
