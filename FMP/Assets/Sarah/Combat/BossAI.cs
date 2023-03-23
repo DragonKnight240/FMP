@@ -6,7 +6,7 @@ public class BossAI : UnitAI
 {
     public bool isMultiTile = false;
     public int MutiTileAmount = 3;
-    internal List<int[]> MultiPosition;
+    internal List<Tile> MultiPositions;
     public List<Tile> AoELocations;
     internal int TurnCount;
     internal int CurrentTurns;
@@ -78,6 +78,11 @@ public class BossAI : UnitAI
                     AttackTarget = tile.Unit;
                     tile.Unit.AttackTarget = this;
                     tile.Unit.ShowLongDistanceDamageNumbers(CalculateDamage());
+
+                    if (tile.Unit.CurrentHealth <= 0)
+                    {
+                        UnitManager.Instance.PendingDeath.Add(tile.Unit);
+                    }
                 }
             }
         }
@@ -106,10 +111,17 @@ public class BossAI : UnitAI
 
             if (AttackTarget != null)
             {
+                print(AttackTarget);
                 MoveAsCloseTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
-                AoEDirection(AttackTarget);
 
-                ToTaunt = true;
+                FindInRangeTargets(false, false);
+                CheckCurrentRange();
+
+                if (AttackTarget)
+                {
+                    AoEDirection(AttackTarget);
+                    ToTaunt = true;
+                }
             }
         }
 
@@ -142,6 +154,8 @@ public class BossAI : UnitAI
 
         Direction Dir = Direction.Down;
         Tile ClosestTile = null;
+
+        print(Route.Count);
 
         if (Route.Count > 1)
         {

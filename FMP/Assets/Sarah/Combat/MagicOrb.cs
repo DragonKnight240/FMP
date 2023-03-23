@@ -18,8 +18,9 @@ public class MagicOrb : InteractOnGrid
     public AudioClip DamageSound;
 
     // Start is called before the first frame update
-    void Start()
+    override internal void Start()
     {
+        base.Start();
         AoEArea = new List<Tile>();
         OGMatieral = GetComponent<MeshRenderer>().material;
     }
@@ -80,6 +81,11 @@ public class MagicOrb : InteractOnGrid
                         SoundManager.Instance.PlaySFX(DamageSound);
                     }
                     tile.Unit.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.MagicLevel] - tile.Unit.CalculateMagicDefence(WeaponType.Staff));
+
+                    if (tile.Unit.CurrentHealth <= 0)
+                    {
+                        UnitManager.Instance.PendingDeath.Add(tile.Unit);
+                    }
                 }
             }
 

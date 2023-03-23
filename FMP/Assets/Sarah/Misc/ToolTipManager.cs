@@ -73,7 +73,7 @@ public class ToolTipManager : MonoBehaviour
 
         if (CompletedTurn1)
         {
-            if (UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().CurrentHealth < UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().HealthMax * 0.4 && !ToolTipManager.Instance.Seen[FindToolTip(Tutorial.CUseItem)])
+            if (UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().CurrentHealth < UnitManager.Instance.AllyUnits[0].GetComponent<UnitBase>().HealthMax * 0.7 && !ToolTipManager.Instance.Seen[FindToolTip(Tutorial.CUseItem)])
             {
                 NewToolTip(FindToolTip(Tutorial.CUseItem));
             }

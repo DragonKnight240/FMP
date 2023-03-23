@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
-
+using UnityEngine.UI;
 
 public class HoverTooltipManager : MonoBehaviour
 {
     public TextMeshProUGUI Text;
+    public LayoutElement Layout;
     public RectTransform tipObject;
-    public float OffsetX = 100;
+    public float CharacterLimit = 100;
 
-    public static Action<string, Vector2> OnMouseOver;
+    public static Action<string, Vector2, Vector2> OnMouseOver;
     public static Action OnMouseLoseFocus;
 
     // Start is called before the first frame update
@@ -20,19 +21,23 @@ public class HoverTooltipManager : MonoBehaviour
         HideTip();
     }
 
-    void ShowTip(string tip, Vector2 MousePos)
+    void ShowTip(string tip, Vector2 MousePos, Vector2 Pivot)
     {
         Text.text = tip;
-        tipObject.sizeDelta = new Vector2(Text.preferredWidth > 200 ? 200 : Text.preferredWidth, Text.preferredHeight);
+
+        Layout.enabled = (Text.text.Length > CharacterLimit? true: false);
+
+        tipObject.pivot = Pivot;
 
         tipObject.gameObject.SetActive(true);
-        tipObject.transform.position = new Vector2(MousePos.x + OffsetX, MousePos.y);
+        tipObject.transform.position = new Vector2(MousePos.x, MousePos.y);
     }
 
     void HideTip()
     {
         Text.text = default;
         tipObject.gameObject.SetActive(false);
+        //print("Hide tooltip");
     }
 
     private void OnEnable()

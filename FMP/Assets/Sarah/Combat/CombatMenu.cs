@@ -481,10 +481,84 @@ public class CombatMenu : MonoBehaviour
         GameManager.Instance.ToolTipCheck(Tutorial.CChangeWeapon);
 
         Unit.EquipedWeapon = Weapons[NewIndex];
+        Weapon.text = Weapons[NewIndex].Name;
         Interact.Instance.UIWeaponImage();
         Unit.ChangeWeaponImage();
+
+        if(Unit.GetComponent<UnitControlled>())
+        {
+            UnitControlled ConUnit = Unit.GetComponent<UnitControlled>();
+
+            switch (Unit.EquipedWeapon.WeaponType)
+            {
+                case WeaponType.Sword:
+                    {
+                        ConUnit.Sword.SetActive(true);
+                        ConUnit.GauntletR.SetActive(false);
+                        ConUnit.GauntletsL.SetActive(false);
+                        ConUnit.Bow.SetActive(false);
+                        ConUnit.MagicBook.SetActive(false);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.SwordAnimControl;
+                        break;
+                    }
+                case WeaponType.Bow:
+                    {
+                        ConUnit.Sword.SetActive(false);
+                        ConUnit.GauntletR.SetActive(false);
+                        ConUnit.GauntletsL.SetActive(false);
+                        ConUnit.Bow.SetActive(true);
+                        ConUnit.MagicBook.SetActive(false);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.BowAnimControl;
+                        break;
+                    }
+                case WeaponType.Gauntlets:
+                    {
+                        ConUnit.Sword.SetActive(false);
+                        if (Unit.EquipedWeapon != Unit.BareHands)
+                        {
+                            ConUnit.GauntletR.SetActive(true);
+                            ConUnit.GauntletsL.SetActive(true);
+                        }
+                        else
+                        {
+                            ConUnit.GauntletR.SetActive(false);
+                            ConUnit.GauntletsL.SetActive(false);
+                        }
+                        ConUnit.Bow.SetActive(false);
+                        ConUnit.MagicBook.SetActive(false);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.FistAnimControl;
+                        break;
+                    }
+                case WeaponType.Staff:
+                    {
+                        ConUnit.Sword.SetActive(true);
+                        ConUnit.GauntletR.SetActive(false);
+                        ConUnit.GauntletsL.SetActive(false);
+                        ConUnit.Bow.SetActive(false);
+                        ConUnit.MagicBook.SetActive(true);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.MagicAnimControl;
+                        break;
+                    }
+                default:
+                    {
+                        ConUnit.Sword.SetActive(false);
+                        ConUnit.GauntletR.SetActive(false);
+                        ConUnit.GauntletsL.SetActive(false);
+                        ConUnit.Bow.SetActive(false);
+                        ConUnit.MagicBook.SetActive(false);
+
+                        ConUnit.MainAnim.runtimeAnimatorController = ConUnit.FistAnimControl;
+                        break;
+                    }
+            }
+        }
         ChangeAvailableAttacks();
         CheckTargetStatus();
+
     }
 
     public void ChangeAttack(bool Next)
@@ -663,10 +737,10 @@ public class CombatMenu : MonoBehaviour
                         //print("Start loop");
                         foreach (UnitSupports Supportable in Unit.SupportsWith)
                         {
-                            print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
+                            //print(Supportable.UnitObj.GetComponent<UnitBase>().UnitName + " " + Unit.SupportedUnits[i].UnitName);
                             if (Unit.SupportedUnits[i].UnitName == Supportable.UnitObj.GetComponent<UnitBase>().UnitName)
                             {
-                                print("Supported unit found");
+                                //print("Supported unit found");
                                 for (int j = 0; j < Supportable.Level; j++)
                                 {
                                     HoverText += "+" + Supportable.SupportStats[j].Increase.ToString() + " " + Supportable.SupportStats[j].Stat.ToString() + "\n";

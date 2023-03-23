@@ -6,6 +6,28 @@ public class UnitControlled : UnitBase
 {
     UnitBase RecruitTarget;
 
+    [Header("WeaponAssets")]
+    public GameObject Sword;
+    public GameObject GauntletsL;
+    public GameObject GauntletR;
+    public GameObject MagicBook;
+    public GameObject Bow;
+
+    [Header("Animations Weapon")]
+    internal Animator MainAnim;
+
+    public RuntimeAnimatorController SwordAnimControl;
+    public RuntimeAnimatorController FistAnimControl;
+    public RuntimeAnimatorController MagicAnimControl;
+    public RuntimeAnimatorController BowAnimControl;
+
+    override internal void Start()
+    {
+        base.Start();
+
+        MainAnim = GetComponent<Animator>();
+    }
+
     internal void MoveButton()
     {
         //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);

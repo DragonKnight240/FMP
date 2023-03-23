@@ -19,8 +19,9 @@ public class MovableBoulder : InteractOnGrid
     public AudioClip HitSound;
 
     // Start is called before the first frame update
-    void Start()
+    override internal void Start()
     {
+        base.Start();
         Path = new List<Tile>();
     }
 
@@ -50,6 +51,10 @@ public class MovableBoulder : InteractOnGrid
                     if(Target)
                     {
                         Target.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
+                        if (Target.CurrentHealth <= 0)
+                        {
+                            UnitManager.Instance.PendingDeath.Add(Target);
+                        }
                         Target = null;
                     }
 

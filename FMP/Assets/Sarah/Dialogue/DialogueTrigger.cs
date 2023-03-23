@@ -9,10 +9,13 @@ public class DialogueTrigger : MonoBehaviour
     internal bool InRange;
     public bool OnlyPlayOnce = false;
     internal PlayAfter DestroyIf = PlayAfter.None;
+    bool Checking = true;
 
     private void Start()
     {
-        switch(DestroyIf)
+        Checking = true;
+
+        switch (DestroyIf)
         {
             case PlayAfter.GauntletRecruit:
                 {
@@ -60,6 +63,35 @@ public class DialogueTrigger : MonoBehaviour
                     break;
                 }
         }
+
+        if (OnlyPlayOnce)
+        {
+            if (GameManager.Instance.TriggerDialogue.ContainsKey(this.name))
+            {
+                if (GameManager.Instance.TriggerDialogue[this.name])
+                {
+                    //if (DialogueSystem.Instance.PlayingDialogue)
+                    //{
+                    //    if (DialogueSystem.Instance.ToDisplayText == Lines[0].Text)
+                    //    {
+                    //        print("Same");
+                    //        DialogueSystem.Instance.CurrentDialogue = null;
+                    //        DialogueSystem.Instance.PlayingDialogue = false;
+                    //    }
+                    //}
+                    //print("Destory");
+                    Destroy(this);
+                }
+            }
+            else
+            {
+                //print("Add " + GameManager.Instance.TriggerDialogue.Count);
+                GameManager.Instance.TriggerDialogue.Add(this.name, false);
+            }
+
+            Checking = false;
+        }
+
     }
 
     private void Update()
@@ -86,12 +118,13 @@ public class DialogueTrigger : MonoBehaviour
 
     void PlayOnce()
     {
+        GameManager.Instance.TriggerDialogue[this.name] = true;
         Destroy(this);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player") && !Checking)
         {
             if (PlayOnEnter)
             {

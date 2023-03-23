@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     internal Vector3 StartLocation;
 
+    internal Dictionary<string, bool> TriggerDialogue = new Dictionary<string, bool>();
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
@@ -36,11 +38,17 @@ public class GameManager : MonoBehaviour
     //DialogueToShow
     internal PlayAfter DialogueToPlay = PlayAfter.None;
 
-    //Sound
+    //Options
+    //Sounds
     internal float MasterSlider = 0;
     internal float SFXSlider = 0;
     internal float MusicSlider = 0;
     internal float AmbianceSlider = 0;
+
+    //Accessability
+    internal bool KeepTurnUIUp = false;
+    internal bool MouseControlsInvert = true;
+
 
     //Timer
     public bool inCombat = false;
@@ -50,6 +58,11 @@ public class GameManager : MonoBehaviour
     internal string CurrentInput = "";
 
     internal int MainObjectNum = 0;
+
+    //Runes
+    internal bool Rune1Active;
+    internal bool Rune2Active;
+    internal bool Rune3Active;
 
     private void Awake()
     {
@@ -75,14 +88,15 @@ public class GameManager : MonoBehaviour
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
 
-        foreach(GameObject Unit in AvailableUnits)
+        foreach (GameObject Unit in AvailableUnits)
         {
-            if(Unit.name.Contains("Sword"))
+            if (Unit.name.Contains("Sword"))
             {
                 //print("Sword Already in");
                 return;
             }
         }
+
         //print("Recruiting Sword");
         RecruitUnit("Sword");
     }
@@ -334,19 +348,33 @@ public class GameManager : MonoBehaviour
 
         Unit.AvailableAttacks = new List<SpecialAttacks>();
 
-        foreach (Item item in Unit.WeaponsIninventory)
+        foreach (Item item in Unit.Inventory)
         {
-            Weapon weapon = (Weapon)item;
-            Unit.Inventory.Add(weapon);
-            if (weapon.Special)
-            {
-                if (!Unit.UnlockedAttacks.Contains(weapon.Special))
-                {
-                    Unit.UnlockedAttacks.Add(weapon.Special);
+            //print(item.Name + " " + UnitBase.gameObject);
 
-                    if (Unit.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+            if (item == null)
+            {
+                continue;
+            }
+
+            //print(item.Type);
+
+            if (item.Type == ItemTypes.Weapon)
+            {
+                //print("Weapon Detected - " + UnitBase.gameObject);
+                Weapon weapon = (Weapon)item;
+                Unit.WeaponsIninventory.Add(weapon);
+
+                if (weapon.Special)
+                {
+                    if (!Unit.UnlockedAttacks.Contains(weapon.Special))
                     {
-                        Unit.AvailableAttacks.Add(weapon.Special);
+                        Unit.UnlockedAttacks.Add(weapon.Special);
+
+                        if (Unit.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                        {
+                            Unit.AvailableAttacks.Add(weapon.Special);
+                        }
                     }
                 }
             }
@@ -427,6 +455,10 @@ public class GameManager : MonoBehaviour
         GauntletRecruitComplete = false;
         PostDungeon1Complete = false;
         PostDungeon2Complete = false;
+
+        Rune1Active = false;
+        Rune2Active = false;
+        Rune3Active = false;
 
         DialogueToPlay = PlayAfter.None;
 

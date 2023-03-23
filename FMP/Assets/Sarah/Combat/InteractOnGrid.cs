@@ -17,11 +17,18 @@ public class InteractOnGrid : MonoBehaviour
     internal List<GameObject> ActiveTiles;
     internal Dictionary<Tile, Direction> InteractLocations;
     internal UnitBase UnitToActiveIt;
-
-    private void Start()
+    internal HoverTooltip HoverTip;
+    
+    virtual internal void Start()
     {
         Position = new int[2];
         InteractLocations = new Dictionary<Tile, Direction>();
+        HoverTip = GetComponent<HoverTooltip>();
+
+        if(HoverTip == null)
+        { 
+            HoverTip = GetComponentInChildren<HoverTooltip>(true);
+        }
     }
     private void Update()
     {

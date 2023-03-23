@@ -12,6 +12,11 @@ public class RuneManager : MonoBehaviour
     void Start()
     {
         Runes = FindObjectsOfType<Runes>();
+
+        for(int i = 0; i < Runes.Length; i++)
+        {
+            Runes[i].RuneNumber = i + 1;
+        }
     }
 
     // Update is called once per frame

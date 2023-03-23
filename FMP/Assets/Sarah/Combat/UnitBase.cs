@@ -51,7 +51,7 @@ public class UnitBase : MonoBehaviour
 
     internal bool isAlive = true;
     internal bool Moving = false;
-    internal List<Tile> Path;
+    public List<Tile> Path;
 
     internal CombatAnimControl AnimControl;
 
@@ -210,6 +210,7 @@ public class UnitBase : MonoBehaviour
                 {
                     if (Path.Count <= 0)
                     {
+                        Moving = false;
                         return;
                     }
 
@@ -244,9 +245,18 @@ public class UnitBase : MonoBehaviour
             }
             else 
             {
-                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death)
+                if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death && Interact.Instance.VirtualCam.activeInHierarchy)
                 {
-                    DeathZoomIn = true;
+                    if(UnitManager.Instance.PendingDeath.Count > 0)
+                    {
+                        if(UnitManager.Instance.PendingDeath[0] == this)
+                        {
+                            DeathZoomIn = true;
+                            AttackCamera.SetActive(true);
+                            Interact.Instance.VirtualCam.SetActive(false);
+                            UnitManager.Instance.PendingDeath.RemoveAt(0);
+                        }
+                    }
                 }
             }
 
@@ -416,8 +426,83 @@ public class UnitBase : MonoBehaviour
             {
                 if (!MoveableTiles.Contains(AdjacentTile.GetComponent<Tile>()))
                 {
+
                     if (AdjacentTile.GetComponent<Tile>().CanMoveOn || AdjacentTile.GetComponent<Tile>().Unit || AdjacentTile.GetComponent<Tile>().Special)
                     {
+
+                        if (GetComponent<BossAI>())
+                        {
+                            if (GetComponent<BossAI>().isMultiTile)
+                            {
+                                int XGrid = AdjacentTile.GetComponent<Tile>().GridPosition[0];
+                                int YGrid = AdjacentTile.GetComponent<Tile>().GridPosition[1];
+
+                                //Right
+                                if (XGrid + 1 < TileManager.Instance.Width)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                //UP
+                                if (YGrid + 1 < TileManager.Instance.Height)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                //UPRight
+                                if (XGrid + 1 < TileManager.Instance.Width && YGrid + 1 < TileManager.Instance.Height)
+                                {
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit)
+                                    {
+                                        if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Special)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                            }
+                        }
+
                         if (!WeaponRange)
                         {
                             MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
@@ -1108,7 +1193,7 @@ public class UnitBase : MonoBehaviour
                 }
             default:
                 {
-                    print("No Weapon");
+                    //print("No Weapon");
                     break;
                 }
         }
@@ -1512,18 +1597,84 @@ public class UnitBase : MonoBehaviour
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
             {
-                //if(MultiTile)
-                //{
-                //    foreach(GameObject AdjAdjacentTile in AdjacentTile.GetComponent<Tile>().AdjacentTiles)
-                //    {
-                //        if(AdjAdjacentTile.GetComponent<Tile>().GridPosition[0] >)
-                //    }
-                //}
 
-                if(CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
+                if (CheckedNodes.ContainsKey(AdjacentTile.GetComponent<Tile>()) || 
                     (AdjacentTile.GetComponent<Tile>().Unit && AdjacentTile.GetComponent<Tile>() != End.Tile) || AdjacentTile.GetComponent<Tile>().Special)
                 {
                     continue;
+                }
+
+                if (GetComponent<BossAI>())
+                {
+                    if (GetComponent<BossAI>().isMultiTile)
+                    {
+                        int XGrid = AdjacentTile.GetComponent<Tile>().GridPosition[0];
+                        int YGrid = AdjacentTile.GetComponent<Tile>().GridPosition[1];
+
+                        //Right
+                        if (XGrid + 1 < TileManager.Instance.Width)
+                        {
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        //UP
+                        if (YGrid + 1 < TileManager.Instance.Height)
+                        {
+                            if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid, YGrid + 1].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        //UPRight
+                        if (XGrid + 1 < TileManager.Instance.Width && YGrid + 1 < TileManager.Instance.Height)
+                        {
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit && TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>() != End.Tile)
+                            {
+                                if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Unit != this)
+                                {
+                                    continue;
+                                }
+                            }
+
+                            if (TileManager.Instance.Grid[XGrid + 1, YGrid + 1].GetComponent<Tile>().Special)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                    }
                 }
 
                 G = CurrentNode.GCost + 1;
@@ -1541,7 +1692,7 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        print("Failed");
+        //print("Failed " + gameObject);
         return Path;
     }
 
@@ -1571,7 +1722,7 @@ public class UnitBase : MonoBehaviour
             {
                 if (Path.Count > 1)
                 {
-                    Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
+                    //Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
                 }
                 else
                 {
@@ -1582,6 +1733,7 @@ public class UnitBase : MonoBehaviour
 
         if(EquipedWeapon.Range > Path.Count && ToAttack)
         {
+            print("Remove");
             Path.RemoveRange(0, EquipedWeapon.Range - 1);
         }
 

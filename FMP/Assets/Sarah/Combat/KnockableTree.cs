@@ -17,8 +17,9 @@ public class KnockableTree : InteractOnGrid
 
 
     // Start is called before the first frame update
-    void Start()
+    override internal void Start()
     {
+        base.Start();
         AoETiles = new List<GameObject>();
     }
 
@@ -150,6 +151,11 @@ public class KnockableTree : InteractOnGrid
             if(tile.GetComponent<Tile>().Unit)
             {
                 tile.GetComponent<Tile>().Unit.ShowLongDistanceDamageNumbers(Damage);
+
+                if(tile.GetComponent<Tile>().Unit.CurrentHealth <=0)
+                {
+                    UnitManager.Instance.PendingDeath.Add(tile.GetComponent<Tile>().Unit);
+                }
             }
         }
     }

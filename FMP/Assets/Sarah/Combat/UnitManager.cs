@@ -31,6 +31,7 @@ public class UnitManager : MonoBehaviour
     internal UnityEvent UnitUpdate;
     internal GameObject EnemyMoving;
     internal List<UnitAI> PendingEnemies;
+    internal List<UnitBase> PendingDeath;
     internal BossAI Boss;
 
     private void Awake()
@@ -50,6 +51,7 @@ public class UnitManager : MonoBehaviour
         DeadAllyUnits = new List<UnitBase>();
         UnitUpdate = new UnityEvent();
         PendingEnemies = new List<UnitAI>();
+        PendingDeath = new List<UnitBase>();
     }
 
     // Start is called before the first frame update
@@ -94,7 +96,9 @@ public class UnitManager : MonoBehaviour
 
         foreach (GameObject Enemy in EnemyUnits)
         {
-            if(Enemy.GetComponent<UnitBase>().Moving || Enemy.GetComponent<UnitBase>().ToAttack  || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override)
+            if(Enemy.GetComponent<UnitBase>().Moving || Enemy.GetComponent<UnitBase>().ToAttack  
+                || Interact.Instance.VirtualCam.transform.position != Interact.Instance.transform.position || CameraMove.Instance.Override
+                || PendingDeath.Count > 0)
             {
                 break;
             }
@@ -307,19 +311,41 @@ public class UnitManager : MonoBehaviour
 
             UnitBase.AvailableAttacks = new List<SpecialAttacks>();
 
-            foreach (Item item in UnitBase.WeaponsIninventory)
+            if(UnitBase.EquipedWeapon)
             {
-                Weapon weapon = (Weapon)item;
-                UnitBase.Inventory.Add(weapon);
-                if(weapon.Special)
+                if(!UnitBase.Inventory.Contains(UnitBase.EquipedWeapon))
                 {
-                    if(!UnitBase.UnlockedAttacks.Contains(weapon.Special))
-                    {
-                        UnitBase.UnlockedAttacks.Add(weapon.Special);
+                    UnitBase.Inventory.Add(UnitBase.EquipedWeapon);
+                }
+            }
 
-                        if(UnitBase.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+            foreach (Item item in UnitBase.Inventory)
+            {
+                //print(item.Name + " " + UnitBase.gameObject);
+
+                if (item == null)
+                {
+                    continue;
+                }
+
+                //print(item.Type);
+
+                if (item.Type == ItemTypes.Weapon)
+                {
+                    //print("Weapon Detected - " + UnitBase.gameObject);
+                    Weapon weapon = (Weapon)item;
+                    UnitBase.WeaponsIninventory.Add(weapon);
+
+                    if (weapon.Special)
+                    {
+                        if (!UnitBase.UnlockedAttacks.Contains(weapon.Special))
                         {
-                            UnitBase.AvailableAttacks.Add(weapon.Special);
+                            UnitBase.UnlockedAttacks.Add(weapon.Special);
+
+                            if (UnitBase.EquipedWeapon.WeaponType == weapon.Special.WeaponType)
+                            {
+                                UnitBase.AvailableAttacks.Add(weapon.Special);
+                            }
                         }
                     }
                 }
@@ -350,6 +376,12 @@ public class UnitManager : MonoBehaviour
             UnitBase.Position = new int[2];
             UnitBase.Position[0] = X;
             UnitBase.Position[1] = Y;
+            
+            if (UnitBase.GetComponent<BossAI>())
+            {
+                UnitBase.GetComponent<BossAI>().MultiPositions = new List<Tile>();
+            }
+            
             TileManager.Instance.Grid[X, Y].GetComponent<Tile>().ChangeOccupant(UnitBase, UnitBase.GetComponent<BossAI>()? UnitBase.GetComponent<BossAI>().isMultiTile: false);
 
             UnitBase.UIHealth.maxValue = UnitBase.HealthMax;
