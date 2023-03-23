@@ -60,10 +60,14 @@ public class MainMenu : MonoBehaviour
     internal void ControlToPlayer()
     {
         VirtualCamera.gameObject.SetActive(false);
-        MainCamera.SetActive(true);
+        if (GameManager.Instance.DialogueToPlay == PlayAfter.None)
+        {
+            MainCamera.SetActive(true);
+
+        }
         options.InGame = true;
-        FindObjectOfType<PlayerOverworld>().CanMove = true;
         GameManager.Instance.StartedGame = true;
+        FindObjectOfType<PlayerOverworld>().CanMove = true;
         CompassObj.SetActive(true);
         CompassObj.GetComponent<UIFade>().ToFadeIn();
         Destroy(this);

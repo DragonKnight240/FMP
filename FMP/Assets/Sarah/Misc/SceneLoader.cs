@@ -54,7 +54,7 @@ public class SceneLoader : MonoBehaviour
         while (!loadScene.isDone)
         {
             float Progress = Mathf.Clamp01(loadScene.progress / 0.9f);
-            print(Progress);
+            //print(Progress);
             LoadingBar.value = Progress;
 
             yield return null;
