@@ -27,12 +27,17 @@ public class EnemyOverWorld : MonoBehaviour
     //Sound
     public AudioClip SpottedPlayer;
     public AudioClip LostPlayer;
+
+    Animator Anim;
+
     //public AudioClip IdleSound;
 
     // Start is called before the first frame update
     void Start()
     {
         PatrolLocations = new List<Transform>();
+
+        Anim = GetComponent<Animator>();
 
         if(PatrolLocationsParent)
         {
@@ -104,7 +109,7 @@ public class EnemyOverWorld : MonoBehaviour
             {
                 if(!PlayerInRange)
                 {
-                    //print("Spotted " + gameObject);
+                    Anim.SetTrigger("Chase");
                     SoundManager.Instance.PlaySFX(SpottedPlayer);
                 }
 
@@ -114,7 +119,7 @@ public class EnemyOverWorld : MonoBehaviour
             {
                 if (PlayerInRange)
                 {
-                    //print("Lost " + gameObject);
+                    Anim.SetTrigger("Walk");
                     SoundManager.Instance.PlaySFX(LostPlayer);
                 }
                 PlayerInRange = false;
