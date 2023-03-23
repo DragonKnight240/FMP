@@ -86,8 +86,8 @@ public class SetCameraLocation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(MainCamera.activeInHierarchy);
-        print(!CameraLocation.activeInHierarchy);
+        //print(MainCamera.activeInHierarchy);
+        //print(!CameraLocation.activeInHierarchy);
 
         if(MainCamera.activeInHierarchy && !CameraLocation.activeInHierarchy)
         {

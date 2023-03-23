@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     internal Vector3 StartLocation;
 
+    internal Dictionary<string, bool> TriggerDialogue = new Dictionary<string, bool>();
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
@@ -86,14 +88,15 @@ public class GameManager : MonoBehaviour
             PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
         }
 
-        foreach(GameObject Unit in AvailableUnits)
+        foreach (GameObject Unit in AvailableUnits)
         {
-            if(Unit.name.Contains("Sword"))
+            if (Unit.name.Contains("Sword"))
             {
                 //print("Sword Already in");
                 return;
             }
         }
+
         //print("Recruiting Sword");
         RecruitUnit("Sword");
     }
