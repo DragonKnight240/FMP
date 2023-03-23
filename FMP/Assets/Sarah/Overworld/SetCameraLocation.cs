@@ -91,7 +91,7 @@ public class SetCameraLocation : MonoBehaviour
 
         if(MainCamera.activeInHierarchy && !CameraLocation.activeInHierarchy)
         {
-            print("Destroy");
+            //print("Destroy");
             Destroy(this);
         }
         else
@@ -103,7 +103,7 @@ public class SetCameraLocation : MonoBehaviour
                 if (!DialogueSystem.Instance.PlayingDialogue)
                 {
                     Time.timeScale = 1;
-                    print("Reactive");
+                    //print("Reactive");
                     CameraLocation.SetActive(false);
                     MainCamera.SetActive(true);
                 }

@@ -7,10 +7,13 @@ public class LookAtCamera : MonoBehaviour
 {
     Camera Cam;
     public bool Reverse = false;
+    public Vector3 StartRotation;
 
     // Start is called before the first frame update
     void Start()
     {
+        StartRotation = transform.rotation.eulerAngles;
+
         Cam = FindObjectOfType<Camera>();
 
         if(Cam.name != "Main Camera")
@@ -22,6 +25,8 @@ public class LookAtCamera : MonoBehaviour
     private void LateUpdate()
     {
         transform.LookAt(Cam.transform);
+
+        transform.Rotate(StartRotation.x, StartRotation.y, StartRotation.z);
 
         if (Reverse)
         {
