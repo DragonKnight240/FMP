@@ -1734,6 +1734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reverse: 1
+  StartOffset: {x: 0, y: 0, z: 0}
 --- !u!225 &5450897828481102569
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5532,6 +5533,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5942264745051772072}
     m_Modifications:
+    - target: {fileID: 194264, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 452572, guid: e6fa756c603368045a35e5b45a1b84cb, type: 3}
       propertyPath: m_RootOrder
       value: 1

@@ -186,9 +186,17 @@ public class Interact : MonoBehaviour
         {
             if (CombatMenu.AttackMenuObject.activeInHierarchy)
             {
-                if (SelectedUnit.AttackTiles.Contains(tile) && Unit != null || 
-                    Unit.GetComponent<BossAI>()? (Unit.GetComponent<BossAI>().isMultiTile? Unit.GetComponent<BossAI>().MultiPositions.Contains(tile): false) : false)
+                bool isBossMulti = false;
+
+                if (Unit.GetComponent<BossAI>())
                 {
+                    isBossMulti = (Unit.GetComponent<BossAI>().isMultiTile ? Unit.GetComponent<BossAI>().MultiPositions.Contains(tile) : false);
+                }
+
+                if (SelectedUnit.AttackTiles.Contains(tile) && Unit != null || isBossMulti)
+                {
+                    
+
                     SelectedUnit.Attack(Unit);
                     SelectedUnit = null;
                     UISelectedUnit();
