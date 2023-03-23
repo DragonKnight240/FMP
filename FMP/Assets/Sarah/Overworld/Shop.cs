@@ -130,12 +130,16 @@ public class Shop : MonoBehaviour
         ItemDetails.SetActive(false);
     }
 
-    public void CloseShop()
+    public void CloseShop(bool CloseInventory = true)
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         ShopMenuObject.GetComponent<UIFade>().ToFadeOut();
-        OverworldMenu.Instance.CloseInventory();
+
+        if (CloseInventory)
+        {
+            OverworldMenu.Instance.CloseInventory();
+        }
     }
 
     public void OpenShop()

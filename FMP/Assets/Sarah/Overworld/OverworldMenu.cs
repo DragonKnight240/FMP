@@ -309,6 +309,7 @@ public class OverworldMenu : MonoBehaviour
     {
         if (!GameManager.Instance.OverworldInventoryComplete)
         {
+            print("Close Tutorial");
             OverworldToolTip.Instance.UnShowToolTip();
             GameManager.Instance.OverworldInventoryComplete = true;
         }
@@ -318,7 +319,7 @@ public class OverworldMenu : MonoBehaviour
         ConveySection.SetActive(false);
         UnitSection.SetActive(false);
 
-        Shop.Instance.CloseShop();
+        Shop.Instance.CloseShop(false);
 
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -354,7 +355,6 @@ public class OverworldMenu : MonoBehaviour
         {
             OverworldToolTip.Instance.UnShowToolTip(TradeTooltip);
             OverworldToolTip.Instance.SetTooltip(InventoryTooltip);
-            GameManager.Instance.OverworldInventoryComplete = true;
         }
 
         if (OpenCharacterData != null)
