@@ -6,7 +6,7 @@ public class Runes : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public int RuneNumber;
+    internal int RuneNumber;
     public Material R_Material;
     public GameObject WallRune;
     public bool isActive = false;
