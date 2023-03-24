@@ -5894,6 +5894,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158686740527119510, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158686740527119510, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8738621161487431725, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -16919,7 +16951,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1896884449}
   - component: {fileID: 1896884448}
-  - component: {fileID: 1896884450}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -16958,18 +16989,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1896884450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896884447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11fe26bfc197d724189134a1c2191005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1911143445
 PrefabInstance:
   m_ObjectHideFlags: 0

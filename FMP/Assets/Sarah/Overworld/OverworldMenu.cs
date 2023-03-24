@@ -413,7 +413,7 @@ public class OverworldMenu : MonoBehaviour
                 GauntletUserTrade.SetActive(false);
             }
 
-            if (!OpenCharacterData.Class.Name.Contains("Mage"))
+            if (!OpenCharacterData.Class.Name.Contains("Mage") && GameManager.Instance.CombatTutorialComplete)
             {
                 MagicUserTrade.SetActive(true);
 
