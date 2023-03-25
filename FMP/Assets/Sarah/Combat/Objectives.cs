@@ -12,6 +12,7 @@ public class Objectives : MonoBehaviour
     internal Vector2 position;
     public PlayAfter GameManagerCheck;
     internal GameObject ObjectMarkerOverworld;
+    internal bool InRange = false;
 
     // Start is called before the first frame update
     void Start()
