@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reverse: 1
+  StartOffset: {x: 0, y: 0, z: 0}
 --- !u!225 &5530283499454789304
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -379,6 +380,7 @@ MonoBehaviour:
   MoveSpeed: 10
   MoveableTiles: []
   AttackTiles: []
+  Path: []
   EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
   Inventory: []
   WeaponsIninventory:
@@ -428,6 +430,16 @@ MonoBehaviour:
   WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
+  Recruited: 1
+  Sword: {fileID: 0}
+  GauntletsL: {fileID: 0}
+  GauntletR: {fileID: 0}
+  MagicBook: {fileID: 0}
+  Bow: {fileID: 0}
+  SwordAnimControl: {fileID: 0}
+  FistAnimControl: {fileID: 0}
+  MagicAnimControl: {fileID: 0}
+  BowAnimControl: {fileID: 0}
 --- !u!1 &1803069742185365548
 GameObject:
   m_ObjectHideFlags: 0

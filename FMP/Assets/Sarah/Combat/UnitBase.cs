@@ -1271,18 +1271,43 @@ public class UnitBase : MonoBehaviour
         SupportedUnits.Clear();
         SupportedUnits = new List<UnitBase>();
 
-        foreach(GameObject Adjacent in TileManager.Instance.Grid[Position[0],Position[1]].GetComponent<Tile>().AdjacentTiles)
-        {
-            tile = Adjacent.GetComponent<Tile>();
+        FindInRangeTargets(true);
 
-            if(tile.Unit)
+        if (InRangeTargets.Contains(AttackTarget))
+        {
+            foreach (GameObject Adjacent in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
             {
-                if(tile.Unit.CompareTag(tag))
+                tile = Adjacent.GetComponent<Tile>();
+
+                if (tile.Unit)
                 {
-                    SupportedUnits.Add(tile.Unit);
+                    if (tile.Unit.CompareTag(tag) && tile.Unit != this && !tile.Unit.GetComponent<UnitControlled>().Recruited)
+                    {
+                        SupportedUnits.Add(tile.Unit);
+                    }
                 }
             }
         }
+        else
+        {
+            List<Tile> PathTo = new List<Tile>();
+            PathTo = FindRouteTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
+
+            foreach (GameObject Adjacent in PathTo[PathTo.Count - 1].AdjacentTiles)
+            {
+                tile = Adjacent.GetComponent<Tile>();
+
+                if (tile.Unit)
+                {
+                    if (tile.Unit.CompareTag(tag) && tile.Unit != this && !tile.Unit.GetComponent<UnitControlled>().Recruited)
+                    {
+                        SupportedUnits.Add(tile.Unit);
+                    }
+                }
+            }
+        }
+
+        FindInRangeTargets();
 
         if (SupportedUnits.Count > 0)
         {

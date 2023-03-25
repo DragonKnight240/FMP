@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnitControlled : UnitBase
 {
     UnitBase RecruitTarget;
+    public bool Recruited = false;
 
     [Header("WeaponAssets")]
     public GameObject Sword;
