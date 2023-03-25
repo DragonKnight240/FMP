@@ -211,9 +211,15 @@ public class UnitBase : MonoBehaviour
                 {
                     if (Path.Count <= 0)
                     {
+                        print("Zero move");
                         Moving = false;
                         return;
                     }
+
+                    //foreach(Tile tile in Path)
+                    //{
+                    //    print(tile.name);
+                    //}
 
                     if (new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]) ==
                         new Vector3(transform.position.x, transform.position.y, transform.position.z))
@@ -280,6 +286,7 @@ public class UnitBase : MonoBehaviour
     //Moves the character from the current location to the wanted location
     internal bool Move(Tile NewTile, bool Attacking = false, bool Ignore = false)
     {
+
         if (MovedForTurn)
         {
             return false;
@@ -314,8 +321,6 @@ public class UnitBase : MonoBehaviour
 
             ResetMoveableTiles();
             UnitManager.Instance.UnitUpdate.Invoke();
-            List<GameObject> Tile = new List<GameObject>();
-            Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
 
             return true;
         }
@@ -657,7 +662,10 @@ public class UnitBase : MonoBehaviour
     //Main Attack Function
     internal void Attack(UnitBase Enemy)
     {
-        isSupported();
+        if (CompareTag("Ally"))
+        {
+            isSupported();
+        }
         List<GameObject> tiles = new List<GameObject>();
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
@@ -671,13 +679,14 @@ public class UnitBase : MonoBehaviour
 
         AttackTiles.Clear();
         AttackTiles = new List<Tile>();
-        FindInRangeTargets(true);
+        FindInRangeTargets(true, false);
 
         //Checks from current Position
         if (InRangeTargets.Count != 0)
         {
             if (InRangeTargets.Contains(Enemy))
             {
+                print("Attack from Current Position");
                 MoveableArea(false);
                 HideAllChangedTiles();
                 CalculateReturnAttack();
@@ -685,6 +694,7 @@ public class UnitBase : MonoBehaviour
             }
         }
 
+        print("Move");
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
 
@@ -1262,7 +1272,7 @@ public class UnitBase : MonoBehaviour
         SupportedUnits.Clear();
         SupportedUnits = new List<UnitBase>();
 
-        FindInRangeTargets(true);
+        FindInRangeTargets(true, false);
 
         if (InRangeTargets.Contains(AttackTarget))
         {
@@ -1302,7 +1312,7 @@ public class UnitBase : MonoBehaviour
             AttackTile = PathTo[PathTo.Count - 1];
         }
 
-        FindInRangeTargets();
+        FindInRangeTargets(false, false);
 
         if (SupportedUnits.Count > 0)
         {
@@ -1579,7 +1589,7 @@ public class UnitBase : MonoBehaviour
     }
 
     //A* Pathfinding
-    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false/*, bool MultiTile = false*/)
+    internal List<Tile> FindRouteTo(Tile TargetTile, bool Ignore = false)
     {
         List<Node> ToCheckNodes = new List<Node>();
         Dictionary<Tile, Node> CheckedNodes = new Dictionary<Tile, Node>();
@@ -1591,7 +1601,7 @@ public class UnitBase : MonoBehaviour
         Node CurrentNode;
 
         int G;
-        List<Tile> Path = new List<Tile>();
+        List<Tile> PathTo = new List<Tile>();
 
         while (ToCheckNodes.Count > 0)
         {
@@ -1610,9 +1620,9 @@ public class UnitBase : MonoBehaviour
 
             if(CurrentNode.Tile == End.Tile)
             {
-                Path = FindPath(CurrentNode, Ignore);
+                PathTo = FindPath(CurrentNode, Ignore);
                 //print("Success");
-                return Path;
+                return PathTo;
             }
 
             foreach(GameObject AdjacentTile in CurrentNode.Tile.AdjacentTiles)
@@ -1713,24 +1723,24 @@ public class UnitBase : MonoBehaviour
         }
 
         //print("Failed " + gameObject);
-        return Path;
+        return PathTo;
     }
 
     List<Tile> FindPath(Node EndNode, bool Ignore)
     {
-        List<Tile> Path = new List<Tile>();
+        List<Tile> PathTo = new List<Tile>();
         Node Node = EndNode;
 
         if ((Node.Tile.Unit == null && (MoveableTiles.Contains(Node.Tile)) || Ignore))
         {
-            Path.Add(EndNode.Tile);
+            PathTo.Add(EndNode.Tile);
         }
 
         while (Node.Tile != TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>())
         {
             if ((Node.PreviousTile.Tile.Unit == null && (MoveableTiles.Contains(Node.PreviousTile.Tile)) || Ignore))
             {
-                Path.Add(Node.PreviousTile.Tile);
+                PathTo.Add(Node.PreviousTile.Tile);
             }
             
             Node = Node.PreviousTile;
@@ -1740,7 +1750,7 @@ public class UnitBase : MonoBehaviour
         {
             if(GetComponent<BossAI>().isMultiTile)
             {
-                if (Path.Count > 1)
+                if (PathTo.Count > 1)
                 {
                     //Path.RemoveRange(0, Mathf.FloorToInt(GetComponent<BossAI>().MutiTileAmount/2));
                 }
@@ -1757,9 +1767,9 @@ public class UnitBase : MonoBehaviour
         //    Path.RemoveRange(0, EquipedWeapon.Range - 1);
         //}
 
-        Path.Reverse();
+        PathTo.Reverse();
 
-        return Path;
+        return PathTo;
     }
 
     int DistanceToTile(Tile StartTile, Tile EndTile)

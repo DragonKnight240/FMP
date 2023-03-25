@@ -154,6 +154,8 @@ public class UnitManager : MonoBehaviour
                 Unit.WaitUnit();
                 EnemyMoving = Unit.gameObject;
             }
+
+            PendingEnemies = new List<UnitAI>();
         }
     }
 
