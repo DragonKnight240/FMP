@@ -206,7 +206,7 @@ public class UnitAI : UnitBase
                 {
                     if(FindRouteTo(TileManager.Instance.Grid[tile.GridPosition[0], tile.GridPosition[1]].GetComponent<Tile>()).Count > 0)
                     {
-                        print("InRange Unit - " + tile.Unit);
+                        //print("InRange Unit - " + tile.Unit);
                         InRangeTargets.Add(tile.Unit);
                     }
                 }

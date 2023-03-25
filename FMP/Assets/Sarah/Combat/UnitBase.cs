@@ -128,6 +128,7 @@ public class UnitBase : MonoBehaviour
     internal bool CanCrit = true;
     internal bool ReturnAttackPossible = true;
     internal bool SpecialZoomIn;
+    internal Tile AttackTile;
 
     public List<UnitBase> InRangeTargets;
 
@@ -1203,21 +1204,11 @@ public class UnitBase : MonoBehaviour
 
     internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
     {
-        CalculatePath(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), false);
-
-        List<GameObject> tile = new List<GameObject>();
-        tile.Add(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
-
-        if(Path.Count > 0)
-        {
-            FindInRangeTargets(true, false, Path[Path.Count - 1].gameObject);
-            WeaponRangeAttack(tile, false);
-        }
-
-        if(InRangeTargets.Contains(Unit))
+        if (AttackTiles.Contains(Unit.AttackTile))
         {
             return true;
         }
+
         return false;
     }
 
@@ -1287,6 +1278,8 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+
+            AttackTile = TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>();
         }
         else
         {
@@ -1305,6 +1298,8 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
+
+            AttackTile = PathTo[PathTo.Count - 1];
         }
 
         FindInRangeTargets();
@@ -1756,11 +1751,11 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        if(EquipedWeapon.Range > Path.Count && ToAttack)
-        {
-            print("Remove");
-            Path.RemoveRange(0, EquipedWeapon.Range - 1);
-        }
+        //if(EquipedWeapon.Range > Path.Count && ToAttack)
+        //{
+        //    print("Remove");
+        //    Path.RemoveRange(0, EquipedWeapon.Range - 1);
+        //}
 
         Path.Reverse();
 
