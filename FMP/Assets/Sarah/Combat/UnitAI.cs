@@ -113,7 +113,7 @@ public class UnitAI : UnitBase
         }
         else
         {
-            print(TargetTile.name);
+            //print(TargetTile.name);
         }
 
         int Index = 0;

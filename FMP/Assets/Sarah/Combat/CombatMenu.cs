@@ -286,7 +286,7 @@ public class CombatMenu : MonoBehaviour
 
         Unit.GainWeaponEXP();
 
-        if(Unit.isSupported())
+        if(Unit.isSupported(Unit.AttackTarget))
         {
             Unit.GainSupportEXP(Damage);
         }
@@ -432,6 +432,9 @@ public class CombatMenu : MonoBehaviour
     public void ChangeAttackTarget(bool Next)
     {
         UnitBase Unit = Interact.Instance.SelectedUnit;
+
+        //Unit.isSupported();
+
         int NewIndex;
         if (Next)
         {
@@ -619,8 +622,9 @@ public class CombatMenu : MonoBehaviour
     {
         AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
         CameraMove.Instance.FollowTarget = null;
-        Interact.Instance.SelectedUnit.HideAllChangedTiles();
+        UnitBase Temp = Interact.Instance.SelectedUnit;
         Interact.Instance.SelectedUnit = null;
+        Temp.HideAllChangedTiles();
         Interact.Instance.UISelectedUnit();
     }
 
@@ -630,7 +634,7 @@ public class CombatMenu : MonoBehaviour
 
         Unit.HideAllChangedTiles();
         Unit.MoveableArea(false);
-        Unit.GetComponent<UnitControlled>().FindInRangeTargets();
+        Unit.GetComponent<UnitControlled>().FindInRangeTargets(false,false);
         Unit.ShowAllInRangeTiles();
 
         if (Unit.InRangeTargets.Count > 0)
@@ -691,7 +695,7 @@ public class CombatMenu : MonoBehaviour
             }
         }
 
-        Unit.GetComponent<UnitControlled>().FindInRangeTargets();
+        Unit.GetComponent<UnitControlled>().FindInRangeTargets(false, false);
 
         if (Unit.GetComponent<UnitControlled>().InRangeTargets.Count > 0)
         {

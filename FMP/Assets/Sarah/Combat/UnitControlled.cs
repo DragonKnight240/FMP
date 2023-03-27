@@ -37,7 +37,7 @@ public class UnitControlled : UnitBase
 
     internal void AttackButton(UnitBase Unit = null)
     {
-        FindInRangeTargets();
+        FindInRangeTargets(false, false);
 
         if (InRangeTargets.Count > 0)
         {
@@ -170,7 +170,7 @@ public class UnitControlled : UnitBase
 
     internal void AttackDisplay()
     {
-        isSupported();
+        isSupported(AttackTarget);
 
         if (Interact.Instance.SelectedUnit.WeaponsIninventory.Count == 0)
         {

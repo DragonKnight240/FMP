@@ -590,17 +590,16 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
-            if (Interact.Instance.SelectedUnit)
-            {
-                //if (!Interact.Instance.SelectedUnit.AttackTiles.Contains(tile))
-                //{
-                    tile.Hide();
-                //}
-            }
-            else
-            {
-                tile.Hide();
-            }
+            tile.WhichColour();
+
+            //if (Interact.Instance.SelectedUnit)
+            //{
+            //        tile.Hide();
+            //}
+            //else
+            //{
+            //    tile.Hide();
+            //}
         }
 
     }
@@ -664,7 +663,7 @@ public class UnitBase : MonoBehaviour
     {
         if (CompareTag("Ally"))
         {
-            isSupported();
+            isSupported(Enemy);
         }
         List<GameObject> tiles = new List<GameObject>();
         tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
@@ -694,7 +693,7 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        print("Move");
+        //print("Move");
         MoveableArea(false);
         Move(TileManager.Instance.Grid[Enemy.Position[0], Enemy.Position[1]].GetComponent<Tile>(), true);
 
@@ -1214,11 +1213,23 @@ public class UnitBase : MonoBehaviour
 
     internal bool CanReturnAttackIncludeMovement(UnitBase Unit)
     {
+        AttackTiles.Clear();
+        AttackTiles = new List<Tile>();
+
+        List<GameObject> Tiles = new List<GameObject>();
+
+        Tiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
+
+        AttackableArea(Tiles, false);
+
         if (AttackTiles.Contains(Unit.AttackTile))
         {
+            MoveableArea(false);
+            HideAllChangedTiles();
             return true;
         }
-
+        MoveableArea(false);
+        HideAllChangedTiles();
         return false;
     }
 
@@ -1265,7 +1276,7 @@ public class UnitBase : MonoBehaviour
         return TotalAdded;
     }
 
-    internal bool isSupported()
+    internal bool isSupported(UnitBase ToAttackUnit)
     {
         Tile tile;
 
@@ -1274,7 +1285,7 @@ public class UnitBase : MonoBehaviour
 
         FindInRangeTargets(true, false);
 
-        if (InRangeTargets.Contains(AttackTarget))
+        if (InRangeTargets.Contains(ToAttackUnit))
         {
             foreach (GameObject Adjacent in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
             {
@@ -1294,7 +1305,7 @@ public class UnitBase : MonoBehaviour
         else
         {
             List<Tile> PathTo = new List<Tile>();
-            PathTo = FindRouteTo(TileManager.Instance.Grid[AttackTarget.Position[0], AttackTarget.Position[1]].GetComponent<Tile>());
+            PathTo = FindRouteTo(TileManager.Instance.Grid[ToAttackUnit.Position[0], ToAttackUnit.Position[1]].GetComponent<Tile>());
 
             foreach (GameObject Adjacent in PathTo[PathTo.Count - 1].AdjacentTiles)
             {
@@ -1761,11 +1772,11 @@ public class UnitBase : MonoBehaviour
             }
         }
 
-        //if(EquipedWeapon.Range > Path.Count && ToAttack)
-        //{
-        //    print("Remove");
-        //    Path.RemoveRange(0, EquipedWeapon.Range - 1);
-        //}
+        if (EquipedWeapon.Range < Path.Count && ToAttack)
+        {
+            print("Remove");
+            Path.RemoveRange(0, EquipedWeapon.Range - 1);
+        }
 
         PathTo.Reverse();
 
