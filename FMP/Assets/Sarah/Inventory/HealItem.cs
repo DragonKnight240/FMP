@@ -6,4 +6,5 @@ using UnityEngine;
 public class HealItem : Item
 {
     public int HealValue;
+    public AudioClip ItemUseSound;
 }
