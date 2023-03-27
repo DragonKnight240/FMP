@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Objectives : MonoBehaviour
 {
-    public string ObjectiveName;
+    public bool ShowObjectiveOverworld = true;
     //public GameObject PromptPrefab;
     public Sprite Icon;
     internal Image image;

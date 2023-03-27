@@ -58,10 +58,15 @@ public class Compass : MonoBehaviour
                 {
                     print("Remove Objective");
                     RemoveObjective(Marker);
-                    AddMarker(Marker);
+                    Marker.InRange = false;
+                    //AddMarker(Marker);
+                    break;
                 }
 
-                Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+                if (Marker.image)
+                {
+                    Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
+                }
             }
         }
         
@@ -87,8 +92,12 @@ public class Compass : MonoBehaviour
     public void AddMarker(Objectives Marker)
     {
         GameObject NewMarker = Instantiate(IconPrefab, CompassImage.transform);
-        GameObject NewOverworldMarker = Instantiate(OverworldIconPrefab, Marker.gameObject.transform);
-        Marker.ObjectMarkerOverworld = NewOverworldMarker;
+
+        if (Marker.ShowObjectiveOverworld)
+        {
+            GameObject NewOverworldMarker = Instantiate(OverworldIconPrefab, Marker.gameObject.transform);
+            Marker.ObjectMarkerOverworld = NewOverworldMarker;
+        }
         Marker.image = NewMarker.GetComponent<Image>();
         Marker.image.sprite = Marker.Icon;
 
