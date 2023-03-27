@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class HoverTooltipManager : MonoBehaviour
 {
+    public RectTransform Background;
     public TextMeshProUGUI Text;
     public LayoutElement Layout;
     public RectTransform tipObject;
@@ -24,8 +25,17 @@ public class HoverTooltipManager : MonoBehaviour
     void ShowTip(string tip, Vector2 MousePos, Vector2 Pivot)
     {
         Text.text = tip;
+        Text.ForceMeshUpdate();
 
-        Layout.enabled = (Text.text.Length > CharacterLimit? true: false);
+        Layout.enabled = (Text.text.Length > CharacterLimit ? true : false);
+
+        //if (!Layout.isActiveAndEnabled)
+        //{
+        //    Vector2 TextSize = Text.GetRenderedValues(false);
+        //    Vector2 paddingSize = new Vector2(5, 5);
+
+        //    Background.sizeDelta = TextSize + paddingSize;
+        //}
 
         tipObject.pivot = Pivot;
 
