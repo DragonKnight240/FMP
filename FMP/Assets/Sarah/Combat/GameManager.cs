@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
+    internal bool OverworldInventoryComplete = false;
     internal bool OverworldMoveTutorialComplete = false;
     internal bool OverworldEnemyTutorialComplete = false;
     internal bool ArcherRecruitComplete = false;

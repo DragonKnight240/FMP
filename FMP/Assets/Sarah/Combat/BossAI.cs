@@ -15,6 +15,7 @@ public class BossAI : UnitAI
     internal bool ToAoEAttack;
     internal bool ToTaunt = false;
     public AudioClip TauntSound;
+    internal Transform LookAtAttack;
 
     override public void Update()
     {
@@ -29,6 +30,7 @@ public class BossAI : UnitAI
 
         if(!Moving && ToTaunt)
         {
+            transform.LookAt(LookAtAttack);
             ZoomTaunt();
         }
 
@@ -54,6 +56,8 @@ public class BossAI : UnitAI
     {
         AttackCamera.SetActive(true);
         Interact.Instance.VirtualCam.SetActive(false);
+
+        ShowDamageRange();
     }
 
     public void PlayTauntAnim()
@@ -148,21 +152,21 @@ public class BossAI : UnitAI
     internal void AoEDirection(UnitBase Unit)
     {
         //print("Find route");
-        List<Tile> Route = new List<Tile>();
+        //List<Tile> Route = new List<Tile>();
 
-        Route = FindRouteTo(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), true);
+        //Route = FindRouteTo(TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>(), true);
 
         Direction Dir = Direction.Down;
         Tile ClosestTile = null;
 
-        print(Route.Count);
+        //print(Route.Count);
 
-        if (Route.Count > 1)
+        if (Path.Count > 1)
         {
-            print("Actual PAth");
-            if (Position[1] == Route[1].GridPosition[1])
+            //print("Actual PAth");
+            if (Position[1] == Path[1].GridPosition[1])
             {
-                if (Route[0].GridPosition[0] > Position[0])
+                if (Path[0].GridPosition[0] > Position[0])
                 {
                     Dir = Direction.Right;
                 }
@@ -173,7 +177,7 @@ public class BossAI : UnitAI
             }
             else
             {
-                if (Route[1].GridPosition[1] > Position[1])
+                if (Path[1].GridPosition[1] > Position[1])
                 {
                     Dir = Direction.Up;
                 }
@@ -183,13 +187,14 @@ public class BossAI : UnitAI
                 }
             }
 
-            ClosestTile = Route[0];
+            ClosestTile = Path[0];
         }
         else
         {
-            print("No path");
+            //print("No path");
             foreach (GameObject tile in TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().AdjacentTiles)
             {
+                //print(tile.name + " " + TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]]);
                 if(tile == TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]])
                 {
                     if (Position[1] == tile.GetComponent<Tile>().GridPosition[1])
@@ -224,9 +229,12 @@ public class BossAI : UnitAI
 
         print(ClosestTile);
 
+
         if (ClosestTile != null)
         {
             AoEDamage(Dir, ClosestTile.gameObject);
+
+            LookAtAttack = ClosestTile.CentrePoint.transform;
         }
         else
         {
@@ -254,8 +262,6 @@ public class BossAI : UnitAI
             Tiles = FindAoE(Tiles, Dir);
         }
 
-        ShowDamageRange();
-
         CurrentTurns = 1;
         TurnCount = AttackAoE.TurnTilDamage;
         PendingAttack = true;
@@ -263,6 +269,8 @@ public class BossAI : UnitAI
 
     internal void ShowDamageRange()
     {
+        print("Damge Range");
+
         foreach(Tile tile in AoELocations)
         {
             tile.WhichColour();

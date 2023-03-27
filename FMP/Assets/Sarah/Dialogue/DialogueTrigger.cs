@@ -88,9 +88,9 @@ public class DialogueTrigger : MonoBehaviour
                 //print("Add " + GameManager.Instance.TriggerDialogue.Count);
                 GameManager.Instance.TriggerDialogue.Add(this.name, false);
             }
-
-            Checking = false;
         }
+
+        Checking = false;
 
     }
 
@@ -128,6 +128,11 @@ public class DialogueTrigger : MonoBehaviour
         {
             if (PlayOnEnter)
             {
+                if (GetComponent<Objectives>())
+                {
+                    GetComponent<Objectives>().InRange = true;
+                }
+
                 DialogueSystem.Instance.DialoguePrompt.GetComponent<UIFade>().ToFadeOut();
                 DialogueSystem.Instance.StartDialogue(Lines);
                 if(OnlyPlayOnce)

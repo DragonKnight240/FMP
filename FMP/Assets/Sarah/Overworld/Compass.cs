@@ -54,6 +54,13 @@ public class Compass : MonoBehaviour
         {
             if (Marker != null)
             {
+                if (Marker.InRange)
+                {
+                    print("Remove Objective");
+                    RemoveObjective(Marker);
+                    AddMarker(Marker);
+                }
+
                 Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
             }
         }

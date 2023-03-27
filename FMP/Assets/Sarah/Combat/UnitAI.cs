@@ -107,13 +107,20 @@ public class UnitAI : UnitBase
     {
         MovedForTurn = true;
 
-        Path = new List<Tile>(FindRouteTo(TargetTile));
+        if (Path.Count <= 0)
+        {
+            Path = new List<Tile>(FindRouteTo(TargetTile));
+        }
+        else
+        {
+            //print(TargetTile.name);
+        }
 
         int Index = 0;
 
-        foreach(Tile tile in Path)
+        foreach (Tile tile in Path)
         {
-            if(MoveableTiles.Contains(tile))
+            if (MoveableTiles.Contains(tile))
             {
                 Index++;
                 continue;
@@ -140,8 +147,7 @@ public class UnitAI : UnitBase
 
         ResetMoveableTiles();
         UnitManager.Instance.UnitUpdate.Invoke();
-        List<GameObject> Tile = new List<GameObject>();
-        Tile.Add(TileManager.Instance.Grid[Position[0], Position[1]].gameObject);
+
     }
 
     public void PerformAction()
@@ -206,7 +212,7 @@ public class UnitAI : UnitBase
                 {
                     if(FindRouteTo(TileManager.Instance.Grid[tile.GridPosition[0], tile.GridPosition[1]].GetComponent<Tile>()).Count > 0)
                     {
-                        print("InRange Unit - " + tile.Unit);
+                        //print("InRange Unit - " + tile.Unit);
                         InRangeTargets.Add(tile.Unit);
                     }
                 }

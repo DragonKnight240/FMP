@@ -43,7 +43,7 @@ public class MoveToScreenLocation : MonoBehaviour
     {
         if (SceneLoader.Instance)
         {
-            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha < 1)
+            if (SceneLoader.Instance.LoadingScreen.GetComponent<CanvasGroup>().alpha > 0)
             {
                 if (UnitManager.Instance)
                 {
@@ -51,10 +51,6 @@ public class MoveToScreenLocation : MonoBehaviour
                     {
                         return;
                     }
-                }
-                else
-                {
-                    return;
                 }
 
             }

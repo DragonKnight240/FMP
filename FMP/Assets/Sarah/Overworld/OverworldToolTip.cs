@@ -33,9 +33,18 @@ public class OverworldToolTip : MonoBehaviour
         //print("Show Tooltip");
     }
 
-    internal void UnShowToolTip()
+    internal void UnShowToolTip(ToolTip CompletedTip = null)
     {
-        TooltipMain.GetComponent<MoveToScreenLocation>().Display = false;
-        //print("Unshow Tooltip");
+        if (CompletedTip)
+        {
+            if(CurrentToolTip == CompletedTip.tutorial)
+            {
+                TooltipMain.GetComponent<MoveToScreenLocation>().Display = false;
+            }
+        }
+        else
+        {
+            TooltipMain.GetComponent<MoveToScreenLocation>().Display = false;
+        }
     }
 }

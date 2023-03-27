@@ -66,6 +66,9 @@ public class OverworldMenu : MonoBehaviour
     public GameObject ConvoyPrefab;
     internal List<GameObject> ConvoyPrefabItems;
 
+    public ToolTip InventoryTooltip;
+    public ToolTip TradeTooltip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,12 +98,9 @@ public class OverworldMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.CombatTutorialComplete)
+        if (Input.GetButtonDown("OpenInventory"))
         {
-            if(Input.GetButtonDown("OpenInventory"))
-            {
-                ToggleInventory();
-            }
+            ToggleInventory();
         }
     }
 
@@ -171,7 +171,11 @@ public class OverworldMenu : MonoBehaviour
         Resistance.text = Character.Resistance.ToString();
         Speed.text = Character.Speed.ToString();
         Luck.text = Character.Luck.ToString();
-        Class.text = Character.Class.Name.ToString();
+
+        if (Character.Class)
+        {
+            Class.text = Character.Class.Name.ToString();
+        }
         Name.text = Character.UnitName.ToString();
 
         LevelBow.text = Character.BowLevel.ToString();
@@ -259,6 +263,11 @@ public class OverworldMenu : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (!GameManager.Instance.OverworldInventoryComplete)
+        {
+            OverworldToolTip.Instance.SetTooltip(TradeTooltip);
+        }
+
         Time.timeScale = 0;
         SwordButton.gameObject.SetActive(true);
         MageButton.gameObject.SetActive(true);
@@ -281,6 +290,15 @@ public class OverworldMenu : MonoBehaviour
             GauntletButton.gameObject.SetActive(false);
         }
 
+        if(GameManager.Instance.CombatTutorialComplete)
+        {
+            MageButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            MageButton.gameObject.SetActive(false);
+        }
+
         ChangeUnitData("Zoom");
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -289,9 +307,19 @@ public class OverworldMenu : MonoBehaviour
 
     public void CloseInventory()
     {
+        if (!GameManager.Instance.OverworldInventoryComplete)
+        {
+            print("Close Tutorial");
+            OverworldToolTip.Instance.UnShowToolTip();
+            GameManager.Instance.OverworldInventoryComplete = true;
+        }
+
+
         InventoryMenu.SetActive(false);
         ConveySection.SetActive(false);
         UnitSection.SetActive(false);
+
+        Shop.Instance.CloseShop(false);
 
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -321,6 +349,12 @@ public class OverworldMenu : MonoBehaviour
         if(Item == null)
         {
             return;
+        }
+
+        if (!GameManager.Instance.OverworldInventoryComplete)
+        {
+            OverworldToolTip.Instance.UnShowToolTip(TradeTooltip);
+            OverworldToolTip.Instance.SetTooltip(InventoryTooltip);
         }
 
         if (OpenCharacterData != null)
@@ -379,7 +413,7 @@ public class OverworldMenu : MonoBehaviour
                 GauntletUserTrade.SetActive(false);
             }
 
-            if (!OpenCharacterData.Class.Name.Contains("Mage"))
+            if (!OpenCharacterData.Class.Name.Contains("Mage") && GameManager.Instance.CombatTutorialComplete)
             {
                 MagicUserTrade.SetActive(true);
 

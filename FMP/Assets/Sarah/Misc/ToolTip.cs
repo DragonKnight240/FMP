@@ -16,7 +16,7 @@ public enum Tutorial
     OEnterCombat,
     OInventory,
     CMoveCamera,
-    OIntentory
+    OTrade
 }
 
 [CreateAssetMenu(fileName = "Tutorial")]

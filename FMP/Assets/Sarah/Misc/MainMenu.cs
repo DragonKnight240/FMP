@@ -15,9 +15,14 @@ public class MainMenu : MonoBehaviour
     public CinemachineVirtualCamera VirtualCamera;
     public GameObject CompassObj;
 
+    internal SetCameraLocation[] CameraLocations; 
+
     void Start()
     {
         options = GetComponent<Options>();
+
+        CameraLocations = FindObjectsOfType<SetCameraLocation>();
+
         if (GameManager.Instance)
         {
             if (GameManager.Instance.StartedGame)
@@ -28,6 +33,7 @@ public class MainMenu : MonoBehaviour
                 return;
             }
         }
+
         DollyCartSpeed = DollyCart.m_Speed;
         DollyCart.m_Speed = 0;
         Cursor.lockState = CursorLockMode.Confined;
@@ -60,7 +66,19 @@ public class MainMenu : MonoBehaviour
     internal void ControlToPlayer()
     {
         VirtualCamera.gameObject.SetActive(false);
-        if (GameManager.Instance.DialogueToPlay == PlayAfter.None)
+
+        bool CamReturn = true;
+
+        foreach(SetCameraLocation CamLoc in CameraLocations)
+        {
+            if(GameManager.Instance.DialogueToPlay == CamLoc.ActiveOnReturn)
+            {
+                CamReturn = false;
+                break;
+            }
+        }
+
+        if (GameManager.Instance.DialogueToPlay == PlayAfter.None || CamReturn)
         {
             MainCamera.SetActive(true);
 

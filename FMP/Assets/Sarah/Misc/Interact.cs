@@ -268,6 +268,14 @@ public class Interact : MonoBehaviour
         if (SelectedUnit)
         {
             CombatMenu.UnitText.text = SelectedUnit.UnitName;
+            if (SelectedUnit.Class)
+            {
+                CombatMenu.ClassText.text = SelectedUnit.Class.Name;
+            }
+            else
+            {
+                CombatMenu.ClassText.text = "";
+            }
             UIWeaponImage();
             CombatMenu.SelectedUnitTab.GetComponent<MoveToScreenLocation>().Display = true;
             GameManager.Instance.ToolTipCheck(Tutorial.CUnitSelect);
