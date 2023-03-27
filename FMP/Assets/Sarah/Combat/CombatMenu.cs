@@ -65,6 +65,7 @@ public class CombatMenu : MonoBehaviour
     //Selected
     public GameObject SelectedUnitTab;
     public TMP_Text UnitText;
+    public TMP_Text ClassText;
     public Image WeaponImage;
 
     //End Turn
