@@ -330,6 +330,9 @@ public class OverworldMenu : MonoBehaviour
         if (ToTradeItem.Type == ItemTypes.Heal)
         {
             HealItem HealthItem = (HealItem)ToTradeItem;
+
+            SoundManager.Instance.PlaySFX(HealthItem.ItemUseSound);
+
             if (OpenCharacterData.CurrentHealth + (HealthItem.HealValue) < OpenCharacterData.HealthMax)
             {
                 OpenCharacterData.CurrentHealth += HealthItem.HealValue;
