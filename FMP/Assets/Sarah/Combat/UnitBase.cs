@@ -417,6 +417,11 @@ public class UnitBase : MonoBehaviour
         {
             AttackableArea(CheckingTiles, ShowTiles);
         }
+
+        if(!ShowTiles)
+        {
+            HideAllChangedTiles();
+        }
     }
 
     //Adds the adjacent tiles to moveable/attack tiles list and shows the tiles in the correct colour
@@ -586,20 +591,18 @@ public class UnitBase : MonoBehaviour
     }
 
     //Hides all changed tiles
-    internal void HideAllChangedTiles()
+    internal void HideAllChangedTiles(bool Reset = true)
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.WhichColour();
-
-            //if (Interact.Instance.SelectedUnit)
-            //{
-            //        tile.Hide();
-            //}
-            //else
-            //{
-            //    tile.Hide();
-            //}
+            if (Reset)
+            {
+                tile.Hide();
+            }
+            else
+            {
+                tile.WhichColour();
+            }
         }
 
     }
