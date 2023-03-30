@@ -24,6 +24,8 @@ public class Options : MonoBehaviour
     public Toggle InvertedMouse;
     public Slider MouseSensSlider;
 
+    public Toggle VsyncToggle;
+
     public AudioMixer audioMixer;
     Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
@@ -168,6 +170,15 @@ public class Options : MonoBehaviour
             InvertMouseControl(GameManager.Instance.MouseControlsInvert);
             InvertedMouse.isOn = GameManager.Instance.MouseControlsInvert;
         }
+
+        if(QualitySettings.vSyncCount == 0)
+        {
+            VsyncToggle.isOn = false;
+        }
+        else
+        {
+            VsyncToggle.isOn = true;
+        }
     }
 
     private void Update()
@@ -207,6 +218,23 @@ public class Options : MonoBehaviour
 
             OptionsMenuUI.SetActive(true);
             OptionsMenuUI.GetComponent<UIFade>().ToFadeIn();
+        }
+    }
+
+    public void QualitySetting(int index)
+    {
+        QualitySettings.SetQualityLevel(index);
+    }
+
+    public void Vsync(bool vsync)
+    {
+        if (vsync)
+        {
+            QualitySettings.vSyncCount = 1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
         }
     }
 

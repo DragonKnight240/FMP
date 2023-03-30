@@ -12,6 +12,7 @@ public class TurnManager : MonoBehaviour
     internal UnityEvent TurnChange;
     internal int UnitsToMove = 0;
     internal MagicOrb[] Orbs;
+    internal bool PendingAction = false;
 
     private void Awake()
     {
@@ -49,8 +50,9 @@ public class TurnManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            if (UnitsToMove <= 0 && Interact.Instance.VirtualCam.activeInHierarchy)
+            if (UnitsToMove <= 0 && Interact.Instance.VirtualCam.activeInHierarchy && !PendingAction)
             {
+                print("Turn Change to Enemy");
                 isPlayerTurn = false;
                 TurnChange.Invoke();
                 Interact.Instance.SelectedUnit = null;
@@ -74,7 +76,7 @@ public class TurnManager : MonoBehaviour
         {
             foreach (GameObject Unit in UnitManager.Instance.EnemyUnits )
             {
-                if (Unit.GetComponent<UnitBase>().Moving)
+                if (Unit.GetComponent<UnitBase>().Moving || PendingAction)
                 {
                     return;
                 }

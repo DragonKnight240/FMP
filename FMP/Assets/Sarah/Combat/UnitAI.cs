@@ -52,6 +52,7 @@ public class UnitAI : UnitBase
             if(Path.Count == 0)
             {
                 Moving = false;
+                Interact.Instance.UnitMoving = false;
             }
         }
     }

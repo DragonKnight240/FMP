@@ -218,5 +218,7 @@ public class UnitControlled : UnitBase
         Interact.Instance.CombatMenu.CritEnemy.text = (AttackTarget.CanReturnAttackIncludeMovement(this) ? AttackTarget.CalculateCritChance() : 0).ToString();
 
         Interact.Instance.CombatMenu.DisplaySupport();
+
+        Interact.Instance.SelectedUnit.ShowAllInRangeTiles();
     }
 }
