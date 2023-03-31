@@ -5,10 +5,27 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using TMPro;
+using Cinemachine;
 
 public class Options : MonoBehaviour
 {
     public static Options Instance;
+
+    public GameObject ScreenObject;
+    public GameObject AccessabilityObject;
+    public GameObject SoundObject;
+
+    public GameObject QuitButton;
+
+    public CinemachineFreeLook PersonCam;
+    internal float XAxisSpeed;
+    internal float YAxisSpeed;
+
+    public Toggle InvertedMouse;
+    public Slider MouseSensSlider;
+
+    public Toggle VsyncToggle;
+
     public AudioMixer audioMixer;
     Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
@@ -113,7 +130,7 @@ public class Options : MonoBehaviour
 
         MusicSlider.value = Volume;
 
-        if (!MainMenu)
+        if (MainMenu)
         {
             audioMixer.GetFloat("Ambiance", out Volume);
             GameManager.Instance.AmbianceSlider = Volume;
@@ -125,6 +142,43 @@ public class Options : MonoBehaviour
         }
 
         AmbianceSlider.value = Volume;
+
+        if (PersonCam)
+        {
+            YAxisSpeed = PersonCam.m_YAxis.m_MaxSpeed;
+            XAxisSpeed = PersonCam.m_XAxis.m_MaxSpeed;
+        }
+
+        if(MainMenu)
+        {
+            GameManager.Instance.MouseSensitivity = MouseSensSlider.value;
+            MouseSensitivity(GameManager.Instance.MouseSensitivity);
+        }
+        else
+        {
+            MouseSensitivity(GameManager.Instance.MouseSensitivity);
+            MouseSensSlider.value = GameManager.Instance.MouseSensitivity;
+        }
+
+        if(MainMenu)
+        {
+            GameManager.Instance.MouseControlsInvert = InvertedMouse.isOn;
+            InvertMouseControl(GameManager.Instance.MouseControlsInvert);
+        }
+        else
+        {
+            InvertMouseControl(GameManager.Instance.MouseControlsInvert);
+            InvertedMouse.isOn = GameManager.Instance.MouseControlsInvert;
+        }
+
+        if(QualitySettings.vSyncCount == 0)
+        {
+            VsyncToggle.isOn = false;
+        }
+        else
+        {
+            VsyncToggle.isOn = true;
+        }
     }
 
     private void Update()
@@ -152,24 +206,84 @@ public class Options : MonoBehaviour
             Time.timeScale = 0;
             CursorMode = Cursor.lockState;
             Cursor.lockState = CursorLockMode.Confined;
+
+            if (GameManager.Instance.StartedGame)
+            {
+                QuitButton.SetActive(true);
+            }
+            else
+            {
+                QuitButton.SetActive(false);
+            }
+
             OptionsMenuUI.SetActive(true);
             OptionsMenuUI.GetComponent<UIFade>().ToFadeIn();
         }
     }
 
+    public void QualitySetting(int index)
+    {
+        QualitySettings.SetQualityLevel(index);
+    }
+
+    public void Vsync(bool vsync)
+    {
+        if (vsync)
+        {
+            QualitySettings.vSyncCount = 1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
+        }
+    }
+
     public void AccessabilityMenu()
     {
+        SoundObject.SetActive(false);
+        ScreenObject.SetActive(false);
+        AccessabilityObject.SetActive(true);
+    }
 
+    public void SoundMenu()
+    {
+        SoundObject.SetActive(true);
+        ScreenObject.SetActive(false);
+        AccessabilityObject.SetActive(false);
+    }
+
+    public void ScreenMenu()
+    {
+        SoundObject.SetActive(false);
+        ScreenObject.SetActive(true);
+        AccessabilityObject.SetActive(false);
     }
 
     public void InvertMouseControl(bool Invert)
     {
         GameManager.Instance.MouseControlsInvert = Invert;
+
+        if (PersonCam)
+        {
+            PersonCam.m_YAxis.m_InvertInput = Invert;
+            PersonCam.m_XAxis.m_InvertInput = Invert;
+        }
     }
 
     public void KeepTurnUIOpen(bool UIToggle)
     {
         GameManager.Instance.KeepTurnUIUp = UIToggle;
+    }
+
+    public void MouseSensitivity(float NewSense)
+    {
+        GameManager.Instance.MouseSensitivity = NewSense;
+
+        if (PersonCam)
+        {
+            PersonCam.m_YAxis.m_MaxSpeed = NewSense * YAxisSpeed;
+            PersonCam.m_XAxis.m_MaxSpeed = NewSense * XAxisSpeed;
+        }
     }
 
     public void QuestMarkersActive(bool ObjectiveToggle)

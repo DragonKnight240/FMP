@@ -6,6 +6,7 @@ public class RuneManager : MonoBehaviour
 {
     Runes[] Runes;
     public MoveObject ObjectOpen;
+    public AudioClip AllRunesActiveSound;
 
 
     // Start is called before the first frame update
@@ -36,5 +37,6 @@ public class RuneManager : MonoBehaviour
     void OpenDoor()
     {
         ObjectOpen.Activate = true;
+        SoundManager.Instance.PlaySFX(AllRunesActiveSound);
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1817610947827136486}
   - component: {fileID: 1817610947827136491}
   - component: {fileID: 1817610947827136490}
+  - component: {fileID: 6934468168765390441}
   m_Layer: 0
   m_Name: KnockDownTree 1
   m_TagString: Special
@@ -65,6 +66,20 @@ MonoBehaviour:
   HitAmountHeight: 2
   TreeFallingSound: {fileID: 0}
   TreeHitingGroundSound: {fileID: 8300000, guid: 9016aa444f1837e4fa8cc7785ef5894d, type: 3}
+--- !u!114 &6934468168765390441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817610947827136489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b37fadec5b75942b2653eeb32b889c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipToShow: 'Soldier Special: Can be knocked down to deal damage in the opposite
+    direction of the activing unit'
 --- !u!1001 &9006866923261831699
 PrefabInstance:
   m_ObjectHideFlags: 0

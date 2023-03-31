@@ -33,6 +33,7 @@ public class UnitManager : MonoBehaviour
     internal List<UnitAI> PendingEnemies;
     internal List<UnitBase> PendingDeath;
     internal BossAI Boss;
+    internal bool PendingEXP;
 
     private void Awake()
     {
@@ -74,17 +75,22 @@ public class UnitManager : MonoBehaviour
 
         if (SetupFinished)
         {
-            if (DeadEnemyUnits.Count == EnemyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
+            if (!Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy && !Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy
+                && !Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled && !Interact.Instance.CombatMenu.ClassEXPBar.isActiveAndEnabled
+                && !PendingEXP)
             {
-                //win
-                print("Win");
-                Interact.Instance.CombatMenu.DisplayVictoryScreen();
-            }
-            else if (DeadAllyUnits.Count == AllyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
-            {
-                //lose
-                print("Lose");
-                Interact.Instance.CombatMenu.DisplayDefeatScreen();
+                if (DeadEnemyUnits.Count == EnemyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
+                {
+                    //win
+                    print("Win");
+                    Interact.Instance.CombatMenu.DisplayVictoryScreen();
+                }
+                else if (DeadAllyUnits.Count == AllyUnits.Count && Interact.Instance.VirtualCam.activeInHierarchy)
+                {
+                    //lose
+                    print("Lose");
+                    Interact.Instance.CombatMenu.DisplayDefeatScreen();
+                }
             }
         }
     }
@@ -398,10 +404,10 @@ public class UnitManager : MonoBehaviour
                     if(UnitBase.GetComponent<BossAI>().MutiTileAmount%3 != 0)
                     {
                         int BaseOffset = Mathf.FloorToInt(TileManager.Instance.TileSize / 2);
-                        
-                        UnitBase.GetComponent<BossAI>().ToCenter = new Vector2(BaseOffset, BaseOffset);
 
-                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y, UnitBase.transform.position.z + UnitBase.ToCenter[1]);
+                        UnitBase.GetComponent<BossAI>().ToCenter = new Vector3(BaseOffset, BaseOffset, (UnitBase.GetComponent<CapsuleCollider>().height/2));
+
+                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y + UnitBase.ToCenter[2], UnitBase.transform.position.z + UnitBase.ToCenter[1]);
                     }
                 }
             }

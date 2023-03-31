@@ -50,8 +50,10 @@ public class KnockableTree : InteractOnGrid
                 }
 
                 isFalling = false;
-                UnitManager.Instance.UnitUpdate.Invoke();
                 gameObject.SetActive(false);
+                TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().Special = null;
+                UnitManager.Instance.UnitUpdate.Invoke();
+                TurnManager.Instance.PendingAction = false;
             }
         }
     }
@@ -60,6 +62,7 @@ public class KnockableTree : InteractOnGrid
     {
         if (Unit.Class.Name == ClassNeeded.Name)
         {
+            TurnManager.Instance.PendingAction = true;
             UnitToActiveIt = Unit;
             CalculateAoE(InteractLocations[TileManager.Instance.Grid[Unit.Position[0], Unit.Position[1]].GetComponent<Tile>()]);
             DealAoEDamage();

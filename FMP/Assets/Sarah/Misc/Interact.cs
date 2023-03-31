@@ -9,6 +9,7 @@ public class Interact : MonoBehaviour
     internal UnitBase TempSelectedUnit;
     internal CombatMenu CombatMenu;
     internal GameObject VirtualCam;
+    internal bool UnitMoving = false;
 
     private void Awake()
     {
@@ -137,6 +138,11 @@ public class Interact : MonoBehaviour
 
     internal void SelectionUnit(UnitBase Unit)
     {
+        if(UnitMoving)
+        {
+            return;
+        }
+
         if (SelectedUnit != Unit)
         {
             if (Unit.EndTurn)

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6771490862047989859}
   - component: {fileID: 6771490862047989868}
   - component: {fileID: 6771490862047989869}
+  - component: {fileID: 3474452306651812315}
   m_Layer: 0
   m_Name: Orb
   m_TagString: Special
@@ -115,9 +116,23 @@ MonoBehaviour:
   MagicLevelMin: 0
   AoEArea: []
   Damage: 5
+  GlowMaterial: {fileID: 0}
   ActivateSound: {fileID: 8300000, guid: afb47a7ee4e3da942a2d22cf606ad254, type: 3}
   DeactivateSound: {fileID: 8300000, guid: 17c7d17c6cebf1d4ba9c3cc4804e7386, type: 3}
   DamageSound: {fileID: 0}
+--- !u!114 &3474452306651812315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771490862047989871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b37fadec5b75942b2653eeb32b889c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipToShow: 'Mage Special: Once activated it deal AoE damage to all units in range'
 --- !u!1001 &9120677787079028153
 PrefabInstance:
   m_ObjectHideFlags: 0

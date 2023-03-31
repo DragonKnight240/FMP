@@ -48,7 +48,7 @@ public class MovableBoulder : InteractOnGrid
                 if (Path.Count <= 0)
                 {
                     Moving = false;
-                    if(Target)
+                    if (Target)
                     {
                         Target.ShowLongDistanceDamageNumbers(Damage + UnitToActiveIt.RankBonus[UnitToActiveIt.FistLevel]);
                         if (Target.CurrentHealth <= 0)

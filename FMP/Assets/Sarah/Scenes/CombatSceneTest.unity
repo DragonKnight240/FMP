@@ -1820,6 +1820,38 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158686740527119510, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158686740527119510, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
 --- !u!1 &609484269
@@ -2080,18 +2112,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1817610947827136486, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.3034847
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136486, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.2606623
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136486, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.3034847
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136486, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.514
       objectReference: {fileID: 0}
@@ -2134,26 +2154,6 @@ PrefabInstance:
     - target: {fileID: 1817610947827136489, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
       propertyPath: m_Name
       value: KnockDownTree 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136489, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: Speed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: TreeFallingSound
-      value: 
-      objectReference: {fileID: 8300000, guid: a42f8b41af9c1ed49902327c3c47cf68, type: 3}
-    - target: {fileID: 1817610947827136490, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: TreeHitingGroundSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 61f7ef692bcab9e409c9cec7660d1ffe, type: 3}
-    - target: {fileID: 7465984259180291502, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
@@ -2704,25 +2704,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860670423}
   m_Mesh: {fileID: 1424200115404124385, guid: f222748f1796b2e49a56a2fbf7563247, type: 3}
---- !u!1 &863088949 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1817610947827136489, guid: 145bf2a2c44945742939d2a9dacb2ecf, type: 3}
-  m_PrefabInstance: {fileID: 1307517504}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &863088950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863088949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b37fadec5b75942b2653eeb32b889c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TipToShow: 'Solider Special: Can be knocked down to deal damage in the opposite
-    direction of the activing unit'
 --- !u!1 &890856931
 GameObject:
   m_ObjectHideFlags: 0
@@ -6793,24 +6774,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992444404}
   m_Mesh: {fileID: 1424200115404124385, guid: f222748f1796b2e49a56a2fbf7563247, type: 3}
---- !u!1 &2012220573 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6771490862047989871, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
-  m_PrefabInstance: {fileID: 6771490861472073275}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2012220574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2012220573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b37fadec5b75942b2653eeb32b889c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TipToShow: 'Mage Special: Once activated it deal AoE damage to all units in range'
 --- !u!1 &2045272823
 GameObject:
   m_ObjectHideFlags: 0
@@ -7052,18 +7015,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1818511928}
     m_Modifications:
-    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
-      propertyPath: DamageSound
-      value: 
-      objectReference: {fileID: 8300000, guid: ce73f56a1d07f49428cbbc1b3466e001, type: 3}
-    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
-      propertyPath: ActivateSound
-      value: 
-      objectReference: {fileID: 8300000, guid: b81b193b8395e0d49ba8a7e2465c825c, type: 3}
-    - target: {fileID: 6771490862047989869, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
-      propertyPath: DeactivateSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 2daa93c622204044183c29d0695b33fa, type: 3}
     - target: {fileID: 6771490862047989870, guid: 2cc1945307a3aa747b420d404c5cbb2b, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -99,8 +99,17 @@ public class MainMenu : MonoBehaviour
         MainMenuCanvas.SetActive(false);
     }
 
-    public void Options()
+    public void Option()
     {
+        if (!GameManager.Instance.StartedGame)
+        {
+            Options.Instance.QuitButton.SetActive(false);
+        }
+        else
+        {
+            Options.Instance.QuitButton.SetActive(true);
+        }
+
         OptionsMenu.SetActive(true);
     }
 

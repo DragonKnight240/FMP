@@ -46,7 +46,7 @@ public class UnitBase : MonoBehaviour
     internal bool EXPPending = false;
 
     public List<Tile> MoveableTiles;
-    internal Vector2 ToCenter = new Vector2(0, 0);
+    internal Vector3 ToCenter = new Vector3(0, 0, 0);
     public List<Tile> AttackTiles;
 
     internal bool isAlive = true;
@@ -211,15 +211,10 @@ public class UnitBase : MonoBehaviour
                 {
                     if (Path.Count <= 0)
                     {
-                        print("Zero move");
                         Moving = false;
+                        Interact.Instance.UnitMoving = false;
                         return;
                     }
-
-                    //foreach(Tile tile in Path)
-                    //{
-                    //    print(tile.name);
-                    //}
 
                     if (new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]) ==
                         new Vector3(transform.position.x, transform.position.y, transform.position.z))
@@ -228,8 +223,9 @@ public class UnitBase : MonoBehaviour
                         if (Path.Count <= 0)
                         {
                             Moving = false;
+                            Interact.Instance.UnitMoving = false;
 
-                            if(ToAttack)
+                            if (ToAttack)
                             {
                                 ToAttack = false;
                                 AttackingZoom();
@@ -269,6 +265,7 @@ public class UnitBase : MonoBehaviour
 
             if (EXPPending && Interact.Instance.VirtualCam.activeInHierarchy)
             {
+                UnitManager.Instance.PendingEXP = false;
                 EXPPending = false;
                 Interact.Instance.CombatMenu.EXPSliderShow(this, AttackTarget.DamageToTake);
             }
@@ -300,6 +297,7 @@ public class UnitBase : MonoBehaviour
 
             MovedForTurn = true;
             Moving = true;
+            Interact.Instance.UnitMoving = true;
 
             if (Path.Count > 0)
             {
@@ -416,6 +414,15 @@ public class UnitBase : MonoBehaviour
         else
         {
             AttackableArea(CheckingTiles, ShowTiles);
+        }
+
+        if(!ShowTiles)
+        {
+            HideAllChangedTiles();
+        }
+        else
+        {
+            ShowAllInRangeTiles();
         }
     }
 
@@ -586,20 +593,18 @@ public class UnitBase : MonoBehaviour
     }
 
     //Hides all changed tiles
-    internal void HideAllChangedTiles()
+    internal void HideAllChangedTiles(bool Reset = true)
     {
         foreach (Tile tile in AttackTiles)
         {
-            tile.WhichColour();
-
-            //if (Interact.Instance.SelectedUnit)
-            //{
-            //        tile.Hide();
-            //}
-            //else
-            //{
-            //    tile.Hide();
-            //}
+            if (Reset)
+            {
+                tile.Hide();
+            }
+            else
+            {
+                tile.WhichColour();
+            }
         }
 
     }
@@ -796,6 +801,7 @@ public class UnitBase : MonoBehaviour
         if (CompareTag("Ally") && !ReturnAttack)
         {
             EXPPending = true;
+            UnitManager.Instance.PendingEXP = true;
         }
     }
 
@@ -1225,11 +1231,11 @@ public class UnitBase : MonoBehaviour
         if (AttackTiles.Contains(Unit.AttackTile))
         {
             MoveableArea(false);
-            HideAllChangedTiles();
+            //HideAllChangedTiles();
             return true;
         }
         MoveableArea(false);
-        HideAllChangedTiles();
+        //HideAllChangedTiles();
         return false;
     }
 
@@ -1569,8 +1575,6 @@ public class UnitBase : MonoBehaviour
 
     internal void WaitUnit()
     {
-        HideAllChangedTiles();
-
         MovedForTurn = true;
         AttackedForTurn = true;
         EndTurn = true;
@@ -1597,6 +1601,8 @@ public class UnitBase : MonoBehaviour
         }
 
         UnitManager.Instance.UnitUpdate.Invoke();
+
+        HideAllChangedTiles(false);
     }
 
     //A* Pathfinding
@@ -1768,6 +1774,7 @@ public class UnitBase : MonoBehaviour
                 else
                 {
                     Moving = false;
+                    Interact.Instance.UnitMoving = false;
                 }
             }
         }

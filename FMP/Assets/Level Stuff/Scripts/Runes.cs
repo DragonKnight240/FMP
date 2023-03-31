@@ -13,6 +13,8 @@ public class Runes : MonoBehaviour
     internal bool InRange = false;
     public GameObject ButtonPrompt;
 
+    public AudioClip ActiveSound;
+
     private void Start()
     {
         switch (RuneNumber)
@@ -67,6 +69,7 @@ public class Runes : MonoBehaviour
             isActive = true;
             GetComponent<Renderer>().material = R_Material;
             WallRune.GetComponent<Renderer>().material = R_Material;
+            SoundManager.Instance.PlaySFX(ActiveSound);
 
             switch(RuneNumber)
             {

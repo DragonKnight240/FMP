@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     //Accessability
     internal bool KeepTurnUIUp = false;
     internal bool MouseControlsInvert = true;
+    internal float MouseSensitivity = 100;
 
 
     //Timer
