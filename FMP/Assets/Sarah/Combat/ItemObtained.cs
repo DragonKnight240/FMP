@@ -29,11 +29,11 @@ public class ItemObtained : InteractOnGrid
         Interact.Instance.CombatMenu.ItemText.text = Item.Name;
         Interact.Instance.CombatMenu.ItemNotification.SetActive(true);
 
-        Unit.Inventory.Add(Item);
+        Unit.Inventory.Add(Instantiate(Item));
 
         if(Item.Type == ItemTypes.Weapon)
         {
-            Unit.WeaponsIninventory.Add((Weapon)Item);
+            Unit.WeaponsIninventory.Add(Instantiate((Weapon)Item));
         }
 
         TileManager.Instance.Grid[Position[0], Position[1]].GetComponent<Tile>().CanMoveOn = true;

@@ -58,7 +58,7 @@ public class UnitControlled : UnitBase
                 CameraMove.Instance.FollowTarget = InRangeTargets[0].transform;
                 AttackTarget = InRangeTargets[0];
             }
-            FindWeapons();
+            //FindWeapons();
             AttackDisplay();
             Interact.Instance.CombatMenu.AttackMenuObject.SetActive(true);
             Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeIn();

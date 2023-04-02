@@ -15,6 +15,8 @@ public class CharacterData
 
     public Sprite UnitImage;
 
+    public bool Setup = false;
+
     //Stats
     public int Level;
     public int EXP;

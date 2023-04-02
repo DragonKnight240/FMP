@@ -169,12 +169,9 @@ public class CombatMenu : MonoBehaviour
     {
         if(ItemNotification.activeInHierarchy)
         {
-            ItemStayTimer += Time.deltaTime;
-
-            if(ItemStayTime <= ItemStayTimer)
+            if (Input.anyKeyDown)
             {
                 ItemNotification.SetActive(false);
-                ItemStayTimer = 0;
             }
         }
 

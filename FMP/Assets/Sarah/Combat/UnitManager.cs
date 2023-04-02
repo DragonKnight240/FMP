@@ -323,9 +323,14 @@ public class UnitManager : MonoBehaviour
             {
                 if(!UnitBase.Inventory.Contains(UnitBase.EquipedWeapon))
                 {
-                    UnitBase.Inventory.Add(UnitBase.EquipedWeapon);
+                    Weapon weapon = Instantiate(UnitBase.EquipedWeapon);
+                    UnitBase.Inventory.Add(weapon);
+                    UnitBase.EquipedWeapon = weapon;
                 }
             }
+
+            List<Weapon> WeaponInventory = new List<Weapon>();
+            List<Item> InventoryInstances = new List<Item>();
 
             foreach (Item item in UnitBase.Inventory)
             {
@@ -340,9 +345,19 @@ public class UnitManager : MonoBehaviour
 
                 if (item.Type == ItemTypes.Weapon)
                 {
-                    //print("Weapon Detected - " + UnitBase.gameObject);
                     Weapon weapon = (Weapon)item;
-                    UnitBase.WeaponsIninventory.Add(weapon);
+
+                    if (!UnitBase.Setup)
+                    {
+                        InventoryInstances.Add(Instantiate(weapon));
+                        WeaponInventory.Add((Weapon)InventoryInstances[InventoryInstances.Count - 1]);
+                    }
+                    else
+                    {
+                        WeaponInventory.Add((Weapon)item);
+                    }
+
+                    WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
 
                     if (weapon.Special)
                     {
@@ -357,7 +372,21 @@ public class UnitManager : MonoBehaviour
                         }
                     }
                 }
+                else if (!UnitBase.Setup)
+                {
+                    InventoryInstances.Add(Instantiate(item));
+                }
             }
+
+            UnitBase.WeaponsIninventory = WeaponInventory;
+
+            if (!UnitBase.Setup)
+            {
+                UnitBase.Inventory = InventoryInstances;
+
+                UnitBase.Setup = true;
+            }
+            UnitBase.EquipedWeapon = UnitBase.WeaponsIninventory[0];
 
             foreach (SpecialAttacks Attack in UnitBase.UnlockedAttacks)
             {
@@ -376,7 +405,8 @@ public class UnitManager : MonoBehaviour
 
             if (UnitBase.WeaponsIninventory.Contains(UnitBase.BareHands))
             {
-                UnitBase.WeaponsIninventory.Add(UnitBase.BareHands);
+                UnitBase.WeaponsIninventory.Add(Instantiate(UnitBase.BareHands));
+                //UnitBase.WeaponsIninventory.Add(UnitBase.BareHands);
             }
 
             UnitUpdate.AddListener(() => { UnitBase.MoveableArea(false); });
