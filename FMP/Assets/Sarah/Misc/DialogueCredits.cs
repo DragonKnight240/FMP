@@ -38,6 +38,7 @@ public class DialogueCredits : MonoBehaviour
 
     public void LoadMenu()
     {
+        Options.Instance.LoadWebpage("https://forms.gle/s29mEgD3bTF735759");
         GameManager.Instance.ReturnToDefault();
         SceneLoader.Instance.ReloadScene();
     }

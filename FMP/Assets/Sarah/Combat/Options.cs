@@ -226,6 +226,11 @@ public class Options : MonoBehaviour
         QualitySettings.SetQualityLevel(index);
     }
 
+    public void LoadWebpage(string URL)
+    {
+        Application.OpenURL(URL);
+    }
+
     public void Vsync(bool vsync)
     {
         if (vsync)
