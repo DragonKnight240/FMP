@@ -71,36 +71,37 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+
+            UnitData = new List<CharacterData>();
+
+            CurrentUnitNum = AvailableUnits.Count;
+
+            if (FindObjectOfType<PlayerOverworld>())
+            {
+                StartLocation = FindObjectOfType<PlayerOverworld>().transform.position;
+                PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+                PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
+            }
+
+            foreach (GameObject Unit in AvailableUnits)
+            {
+                if (Unit.name.Contains("Sword"))
+                {
+                    //print("Sword Already in");
+                    return;
+                }
+            }
+
+            //print("Recruiting Sword");
+            RecruitUnit("Sword");
         }
         else
         {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
-
-        UnitData = new List<CharacterData>();
-
-        CurrentUnitNum = AvailableUnits.Count;
-
-        if (FindObjectOfType<PlayerOverworld>())
-        {
-            StartLocation = FindObjectOfType<PlayerOverworld>().transform.position;
-            PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
-            PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
-        }
-
-        foreach (GameObject Unit in AvailableUnits)
-        {
-            if (Unit.name.Contains("Sword"))
-            {
-                //print("Sword Already in");
-                return;
-            }
-        }
-
-        //print("Recruiting Sword");
-        RecruitUnit("Sword");
     }
 
 

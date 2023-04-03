@@ -239,7 +239,7 @@ public class UnitBase : MonoBehaviour
                     Inventory.Add(weapon);
                     WeaponsIninventory.Add(weapon);
 
-                    Interact.Instance.CombatMenu.ItemText.text = EquipedWeapon.Name;
+                    Interact.Instance.CombatMenu.ItemText.text = EquipedWeapon.Name + " (" + EquipedWeapon.CurrentDurablity + " / " + EquipedWeapon.Durablity + ")";
                     Interact.Instance.CombatMenu.ItemNotification.SetActive(true);
 
                     PendingWeaponDistruction = false;
@@ -1127,11 +1127,6 @@ public class UnitBase : MonoBehaviour
         }
 
         return Increase;
-    }
-
-    void AddOverflow()
-    {
-
     }
 
     internal int CalculateDodge(UnitBase OtherUnit)

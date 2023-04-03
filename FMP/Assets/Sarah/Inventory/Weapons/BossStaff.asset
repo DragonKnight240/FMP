@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9078f6d9e5be9e44096909edeb31ed96, type: 3}
-  m_Name: IronSword
+  m_Name: BossStaff
   m_EditorClassIdentifier: 
-  Name: Iron Sword
+  Name: BossStaff
   Type: 3
-  Damage: 10
-  Range: 1
-  Durablity: 30
-  HitRate: 80
-  CritRate: 10
-  Special: {fileID: 11400000, guid: 63372a5edb71c154aad593cfbc35759e, type: 2}
-  ProficiencyIncrease: 2
-  WeaponType: 0
+  Damage: 45
+  Range: 2
+  Durablity: 0
+  HitRate: 85
+  CritRate: 65
+  Special: {fileID: 11400000, guid: 07c740eb45c520f498147786a483ac31, type: 2}
+  ProficiencyIncrease: 0
+  WeaponType: 3
   WeaponImage: {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
-  DestoryedWeapon: {fileID: 11400000, guid: cac3c2c03807e504ea659b02771c80e3, type: 2}
+  DestoryedWeapon: {fileID: 0}
   isDestroyed: 0

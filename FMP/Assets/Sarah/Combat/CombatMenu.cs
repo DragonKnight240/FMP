@@ -303,7 +303,7 @@ public class CombatMenu : MonoBehaviour
 
     public void ShowClass(UnitBase Unit, SpecialAttacks NewAttack)
     {
-        AttackName.text = Unit.UnitName + " Obtained A New Attack " + NewAttack.Name;
+        AttackName.text = Unit.UnitName + " Obtained A New Attack " + NewAttack.Name + " (" + NewAttack.DurabilityMultiplier + ")";
 
         AttackScreen.SetActive(true);
         AttackScreen.GetComponent<UIFade>().ToFadeIn();
@@ -482,7 +482,7 @@ public class CombatMenu : MonoBehaviour
         GameManager.Instance.ToolTipCheck(Tutorial.CChangeWeapon);
 
         Unit.EquipedWeapon = Weapons[NewIndex];
-        Weapon.text = Weapons[NewIndex].Name;
+        Weapon.text = Weapons[NewIndex].Name + " (" + Weapons[NewIndex].CurrentDurablity + " / " + Weapons[NewIndex].Durablity + ")";
         Interact.Instance.UIWeaponImage();
         Unit.ChangeWeaponImage();
 

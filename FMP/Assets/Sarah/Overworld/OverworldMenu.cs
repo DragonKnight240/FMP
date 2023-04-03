@@ -251,7 +251,7 @@ public class OverworldMenu : MonoBehaviour
         Crit.text = item.CritRate.ToString();
         Hit.text = item.HitRate.ToString();
         Range.text = item.Range.ToString();
-        Durability.text = item.Durablity.ToString() + " / " + item.CurrentDurablity.ToString();
+        Durability.text = item.CurrentDurablity.ToString() + " / " + item.Durablity.ToString();
 
         ItemDetails.SetActive(true);
     }

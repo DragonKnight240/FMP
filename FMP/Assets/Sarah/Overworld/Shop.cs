@@ -69,7 +69,7 @@ public class Shop : MonoBehaviour
         if(GameManager.Instance.Money - Items[Index].Item.Price >= 0)
         {
             GameManager.Instance.Money = GameManager.Instance.Money - Items[Index].Item.Price;
-            GameManager.Instance.Convoy.Add(Items[Index].Item.item);
+            GameManager.Instance.Convoy.Add(Instantiate(Items[Index].Item.item));
             Items[Index].Item.AmountInStock--;
             if(Items[Index].Item.AmountInStock <= 0)
             {

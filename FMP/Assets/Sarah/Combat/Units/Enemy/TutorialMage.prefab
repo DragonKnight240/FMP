@@ -7867,7 +7867,8 @@ MonoBehaviour:
   AttackTiles: []
   Path: []
   EquipedWeapon: {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
-  Inventory: []
+  Inventory:
+  - {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
   WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 5

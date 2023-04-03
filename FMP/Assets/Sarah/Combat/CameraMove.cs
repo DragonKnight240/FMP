@@ -42,7 +42,7 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         if(Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy || Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy 
-            || SystemNotification.Instance.MainNotifiction.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled 
+            || Interact.Instance.CombatMenu.ItemNotification.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled 
             || Interact.Instance.CombatMenu.ClassEXPBar.isActiveAndEnabled)
         {
             return;
@@ -99,7 +99,7 @@ public class CameraMove : MonoBehaviour
     private void LateUpdate()
     {
         if (Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy || Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy
-            || SystemNotification.Instance.MainNotifiction.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled
+            || Interact.Instance.CombatMenu.ItemNotification.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled
             || Interact.Instance.CombatMenu.ClassEXPBar.isActiveAndEnabled)
         {
             return;
