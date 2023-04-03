@@ -536,6 +536,8 @@ public class OverworldMenu : MonoBehaviour
         if(OpenCharacterData != null)
         {
             OpenCharacterData.Inventory.Remove(ToTradeItem);
+
+            //if(ToTradeItem == OpenCharacterData.)
         }
         else
         {
