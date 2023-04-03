@@ -58,7 +58,7 @@ public class UnitControlled : UnitBase
                 CameraMove.Instance.FollowTarget = InRangeTargets[0].transform;
                 AttackTarget = InRangeTargets[0];
             }
-            FindWeapons();
+            //FindWeapons();
             AttackDisplay();
             Interact.Instance.CombatMenu.AttackMenuObject.SetActive(true);
             Interact.Instance.CombatMenu.AttackMenuObject.GetComponent<UIFade>().ToFadeIn();
@@ -206,8 +206,8 @@ public class UnitControlled : UnitBase
         }
 
         Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - (AttackTarget.CanReturnAttackIncludeMovement(this)?AttackTarget.CalculateDamage(this): 0) ) / HealthMax;
-        Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name;
-        Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name;
+        Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name + " (" + EquipedWeapon.CurrentDurablity + " / " + EquipedWeapon.Durablity + ")";
+        Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name + " (" +  CurrentAttack.DurabilityMultiplier + ")";
         Interact.Instance.CombatMenu.DamageAlly.text = CalculateDamage().ToString();
         Interact.Instance.CombatMenu.HitAlly.text = (CalcuateHitChance() - AttackTarget.CalculateDodge(this)).ToString();
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();

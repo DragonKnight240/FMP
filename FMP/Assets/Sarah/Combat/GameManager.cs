@@ -71,36 +71,37 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+
+            UnitData = new List<CharacterData>();
+
+            CurrentUnitNum = AvailableUnits.Count;
+
+            if (FindObjectOfType<PlayerOverworld>())
+            {
+                StartLocation = FindObjectOfType<PlayerOverworld>().transform.position;
+                PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
+                PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
+            }
+
+            foreach (GameObject Unit in AvailableUnits)
+            {
+                if (Unit.name.Contains("Sword"))
+                {
+                    //print("Sword Already in");
+                    return;
+                }
+            }
+
+            //print("Recruiting Sword");
+            RecruitUnit("Sword");
         }
         else
         {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
-
-        UnitData = new List<CharacterData>();
-
-        CurrentUnitNum = AvailableUnits.Count;
-
-        if (FindObjectOfType<PlayerOverworld>())
-        {
-            StartLocation = FindObjectOfType<PlayerOverworld>().transform.position;
-            PlayerReturnToOverworld = FindObjectOfType<PlayerOverworld>().transform.position;
-            PlayerReturnRotation = FindObjectOfType<PlayerOverworld>().transform.rotation;
-        }
-
-        foreach (GameObject Unit in AvailableUnits)
-        {
-            if (Unit.name.Contains("Sword"))
-            {
-                //print("Sword Already in");
-                return;
-            }
-        }
-
-        //print("Recruiting Sword");
-        RecruitUnit("Sword");
     }
 
 
@@ -119,6 +120,13 @@ public class GameManager : MonoBehaviour
                 foreach (CharacterData Data in UnitData)
                 {
                     print(Data.EXP);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (UnitManager.Instance)
+                {
+                    UnitManager.Instance.EndingCombat();
                 }
             }
             else if (Input.GetKeyDown(KeyCode.L))
@@ -283,6 +291,8 @@ public class GameManager : MonoBehaviour
         data.CurrentHealth = Unit.CurrentHealth;
         data.Movement = Unit.Movement;
 
+        data.Setup = Unit.Setup;
+
         //Inventory
         data.Inventory = Unit.Inventory;
 
@@ -350,6 +360,9 @@ public class GameManager : MonoBehaviour
 
         Unit.AvailableAttacks = new List<SpecialAttacks>();
 
+        List<Weapon> WeaponInventory = new List<Weapon>();
+        List<Item> InventoryInstances = new List<Item>();
+
         foreach (Item item in Unit.Inventory)
         {
             //print(item.Name + " " + UnitBase.gameObject);
@@ -363,9 +376,19 @@ public class GameManager : MonoBehaviour
 
             if (item.Type == ItemTypes.Weapon)
             {
-                //print("Weapon Detected - " + UnitBase.gameObject);
                 Weapon weapon = (Weapon)item;
-                Unit.WeaponsIninventory.Add(weapon);
+
+                if (!Unit.Setup)
+                {
+                    InventoryInstances.Add(Instantiate(weapon));
+                    WeaponInventory.Add((Weapon)InventoryInstances[InventoryInstances.Count - 1]);
+                }
+                else
+                {
+                    WeaponInventory.Add((Weapon)item);
+                }
+
+                WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
 
                 if (weapon.Special)
                 {
@@ -380,6 +403,19 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+            else if(!Unit.Setup)
+            {
+                InventoryInstances.Add(Instantiate(item));
+            }
+        }
+
+        Unit.WeaponsIninventory = WeaponInventory;
+
+        if(!Unit.Setup)
+        {
+            Unit.Inventory = InventoryInstances;
+
+            Unit.Setup = true;
         }
 
         foreach (SpecialAttacks Attack in Unit.UnlockedAttacks)
@@ -399,7 +435,8 @@ public class GameManager : MonoBehaviour
 
         if (Unit.WeaponsIninventory.Contains(Unit.BareHands))
         {
-            Unit.WeaponsIninventory.Add(Unit.BareHands);
+            Unit.WeaponsIninventory.Add(Instantiate(Unit.BareHands));
+            //Unit.WeaponsIninventory.Add(Unit.BareHands);
         }
     }
 

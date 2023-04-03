@@ -133,6 +133,7 @@ public class UnitAI : UnitBase
         Path.RemoveRange(Index, Path.Count - Index);
 
         Moving = true;
+        Interact.Instance.UnitMoving = true;
 
         if (Path.Count > 0)
         {

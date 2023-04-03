@@ -25,4 +25,6 @@ public class Weapon : Item
     public int ProficiencyIncrease;
     public WeaponType WeaponType;
     public Sprite WeaponImage;
+    public Weapon DestoryedWeapon;
+    public bool isDestroyed;
 }

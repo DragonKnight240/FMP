@@ -44,6 +44,7 @@ public class UnitBase : MonoBehaviour
     public int Movement = 3;
     public float MoveSpeed = 10;
     internal bool EXPPending = false;
+    internal bool Setup = false;
 
     public List<Tile> MoveableTiles;
     internal Vector3 ToCenter = new Vector3(0, 0, 0);
@@ -129,6 +130,7 @@ public class UnitBase : MonoBehaviour
     internal bool ReturnAttackPossible = true;
     internal bool SpecialZoomIn;
     internal Tile AttackTile;
+    internal bool PendingWeaponDistruction;
 
     public List<UnitBase> InRangeTargets;
 
@@ -139,7 +141,7 @@ public class UnitBase : MonoBehaviour
     internal List<StatusEffect> CurrentStatusEffects;
 
     [Header("UI Stuff")]
-    public Image WeaponImage; 
+    public Image WeaponImage;
 
     //Sounds
     [Header("Sound Effects")]
@@ -190,18 +192,57 @@ public class UnitBase : MonoBehaviour
                 }
                 else if (AttackZoomIn)
                 {
+                    if (CompareTag("Ally"))
+                    {
+                        if (EquipedWeapon)
+                        {
+                            if (!EquipedWeapon.isDestroyed)
+                            {
+                                EquipedWeapon.CurrentDurablity += CurrentAttack.DurabilityMultiplier;
+
+                                if (EquipedWeapon.CurrentDurablity <= 0)
+                                {
+                                    PendingWeaponDistruction = true;
+                                }
+                            }
+                        }
+                    }
+
                     HideAllChangedTiles();
                     PlayAttackAnim();
                 }
-                else if(NoDamageZoomIn)
+                else if (NoDamageZoomIn)
                 {
                     HideAllChangedTiles();
                     NoDamage();
                 }
-                else if(SpecialZoomIn)
+                else if (SpecialZoomIn)
                 {
                     HideAllChangedTiles();
                     PlaySpecialAnim();
+                }
+            }
+            else if (Interact.Instance.VirtualCam.activeInHierarchy && PendingWeaponDistruction)
+            {
+                if (!Interact.Instance.CombatMenu.ShowEXP && !Interact.Instance.CombatMenu.ClassShowEXP
+                   && !EXPPending && !Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy
+                   && !Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy
+                   && EquipedWeapon.DestoryedWeapon != null)
+                {
+                    Weapon weapon = Instantiate(EquipedWeapon.DestoryedWeapon);
+
+                    WeaponsIninventory.Remove(EquipedWeapon);
+                    Inventory.Remove(EquipedWeapon);
+
+                    EquipedWeapon = weapon;
+
+                    Inventory.Add(weapon);
+                    WeaponsIninventory.Add(weapon);
+
+                    Interact.Instance.CombatMenu.ItemText.text = EquipedWeapon.Name + " (" + EquipedWeapon.CurrentDurablity + " / " + EquipedWeapon.Durablity + ")";
+                    Interact.Instance.CombatMenu.ItemNotification.SetActive(true);
+
+                    PendingWeaponDistruction = false;
                 }
             }
 
@@ -237,7 +278,7 @@ public class UnitBase : MonoBehaviour
                     transform.LookAt(new Vector3(Path[0].CentrePoint.transform.position.x + ToCenter[0], transform.position.y, Path[0].CentrePoint.transform.position.z + ToCenter[1]));
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(Path[0].transform.position.x + ToCenter[0], transform.position.y, Path[0].transform.position.z + ToCenter[1]), MoveSpeed * Time.deltaTime);
                 }
-                else if(!Moving)
+                else if (!Moving)
                 {
                     if (ToAttack)
                     {
@@ -246,13 +287,13 @@ public class UnitBase : MonoBehaviour
                     }
                 }
             }
-            else 
+            else
             {
                 if (AnimControl.CurrentAnimation != CombatAnimControl.AnimParameters.Death && Interact.Instance.VirtualCam.activeInHierarchy)
                 {
-                    if(UnitManager.Instance.PendingDeath.Count > 0)
+                    if (UnitManager.Instance.PendingDeath.Count > 0)
                     {
-                        if(UnitManager.Instance.PendingDeath[0] == this)
+                        if (UnitManager.Instance.PendingDeath[0] == this)
                         {
                             DeathZoomIn = true;
                             AttackCamera.SetActive(true);
@@ -353,9 +394,9 @@ public class UnitBase : MonoBehaviour
         }
 
         //Checks if an enemy unit is in the attack range
-        foreach(Tile tile in AttackTiles)
+        foreach (Tile tile in AttackTiles)
         {
-            if(tile.Unit)
+            if (tile.Unit)
             {
                 //Makes sure it's not a unit on the same team
                 if (!tile.Unit.CompareTag(tag) && tile.Unit != this.gameObject)
@@ -372,7 +413,7 @@ public class UnitBase : MonoBehaviour
                             }
                         }
                     }
-                    
+
                     return true;
                 }
             }
@@ -392,14 +433,14 @@ public class UnitBase : MonoBehaviour
         OuterMostMove.Clear();
 
         List<GameObject> CheckingTiles = new List<GameObject>();
-        CheckingTiles.Add(TileManager.Instance.Grid[Position[0],Position[1]]);
+        CheckingTiles.Add(TileManager.Instance.Grid[Position[0], Position[1]]);
 
-        for(int i = 0; i < Movement; i++)
+        for (int i = 0; i < Movement; i++)
         {
             CheckingTiles = CheckTiles(CheckingTiles, false, ShowTiles);
         }
 
-        foreach(GameObject tile in CheckingTiles)
+        foreach (GameObject tile in CheckingTiles)
         {
             if (!OuterMostMove.Contains(tile))
             {
@@ -416,7 +457,7 @@ public class UnitBase : MonoBehaviour
             AttackableArea(CheckingTiles, ShowTiles);
         }
 
-        if(!ShowTiles)
+        if (!ShowTiles)
         {
             HideAllChangedTiles();
         }
@@ -521,14 +562,14 @@ public class UnitBase : MonoBehaviour
                             MoveableTiles.Add(AdjacentTile.GetComponent<Tile>());
                         }
 
-                        if(AdjacentTile.GetComponent<Tile>().Unit)
+                        if (AdjacentTile.GetComponent<Tile>().Unit)
                         {
                             if (AdjacentTile.GetComponent<Tile>().Unit != this)
                             {
                                 MoveEnd = true;
                             }
                         }
-                        else if(AdjacentTile.GetComponent<Tile>().Special)
+                        else if (AdjacentTile.GetComponent<Tile>().Special)
                         {
                             MoveEnd = true;
                         }
@@ -537,7 +578,7 @@ public class UnitBase : MonoBehaviour
                             NextLayer.Add(AdjacentTile);
                         }
 
-                        
+
                     }
 
                     if (!AttackTiles.Contains(AdjacentTile.GetComponent<Tile>()))
@@ -552,7 +593,7 @@ public class UnitBase : MonoBehaviour
                 }
             }
 
-            if(MoveEnd)
+            if (MoveEnd)
             {
                 OuterMostMove.Add(tile);
             }
@@ -633,7 +674,7 @@ public class UnitBase : MonoBehaviour
         if (MovedForTurn || IgnoreMovement)
         {
             List<GameObject> Tiles = new List<GameObject>();
-            Tiles.Add(TileObj? TileObj: TileManager.Instance.Grid[Position[0], Position[1]]);
+            Tiles.Add(TileObj ? TileObj : TileManager.Instance.Grid[Position[0], Position[1]]);
             AttackTiles.Clear();
             AttackTiles = new List<Tile>();
 
@@ -753,14 +794,14 @@ public class UnitBase : MonoBehaviour
 
     public void NoDamage()
     {
-        if(NoDamageTimer == 0)
+        if (NoDamageTimer == 0)
         {
             ShowDamageNumbers();
         }
 
         NoDamageTimer += Time.deltaTime;
 
-        if(NoDamageTimer >= NoDamageTime)
+        if (NoDamageTimer >= NoDamageTime)
         {
             NoDamageTimer = 0.0f;
             NoDamageZoomIn = false;
@@ -809,12 +850,12 @@ public class UnitBase : MonoBehaviour
     {
         DamageNumbersController.ResetDamageNumber();
         DecreaseHealth(DamageToTake);
-        DamageNumbersController.PlayDamage(0, DamageToTake); 
+        DamageNumbersController.PlayDamage(0, DamageToTake);
     }
 
     internal void ShowLongDistanceDamageNumbers(int Damage)
     {
-        if(Damage < 1)
+        if (Damage < 1)
         {
             Damage = 1;
         }
@@ -826,7 +867,7 @@ public class UnitBase : MonoBehaviour
 
     public void ReturnTo()
     {
-        if(ReturnAttack && ReturnAttackPossible)
+        if (ReturnAttack && ReturnAttackPossible)
         {
             AttackingZoom();
         }
@@ -919,6 +960,11 @@ public class UnitBase : MonoBehaviour
         }
         else
         {
+            if(EXPPending)
+            {
+                UnitManager.Instance.PendingEXP = false;
+            }
+
             if (!UnitManager.Instance.DeadAllyUnits.Contains(this))
             {
                 UnitManager.Instance.DeadAllyUnits.Add(this);
@@ -932,11 +978,11 @@ public class UnitBase : MonoBehaviour
 
     internal void GainSupportEXP(int Damage)
     {
-        foreach(UnitBase Unit in SupportedUnits)
+        foreach (UnitBase Unit in SupportedUnits)
         {
-            for(int i = 0; i < SupportsWith.Count; i ++)
+            for (int i = 0; i < SupportsWith.Count; i++)
             {
-                if(Unit.UnitName == SupportsWith[i].UnitObj.GetComponent<UnitBase>().UnitName)
+                if (Unit.UnitName == SupportsWith[i].UnitObj.GetComponent<UnitBase>().UnitName)
                 {
                     SupportsWith[i].EXP += Mathf.RoundToInt(Damage * Random.Range(0.15f, 0.25f));
                 }
@@ -946,17 +992,17 @@ public class UnitBase : MonoBehaviour
 
     internal void GainWeaponEXP()
     {
-        switch(EquipedWeapon.WeaponType)
+        switch (EquipedWeapon.WeaponType)
         {
             case WeaponType.Bow:
                 {
                     BowProficiency += Mathf.RoundToInt((EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.25f, 0.35f));
-                    
-                    if(BowProficiency >= RankEXP[BowLevel - 1])
+
+                    if (BowProficiency >= RankEXP[BowLevel - 1])
                     {
                         BowProficiency++;
                     }
-                    
+
                     break;
                 }
             case WeaponType.Sword:
@@ -1004,7 +1050,7 @@ public class UnitBase : MonoBehaviour
 
         Class.EXP += Mathf.RoundToInt((Damage + EquipedWeapon.ProficiencyIncrease + CurrentAttack.ProficiencyIncreaseMultiplier) * Random.Range(0.15f, 0.25f));
 
-        if(Class.EXP >= Class.TotalEXPNeeded[Class.Level - 1])
+        if (Class.EXP >= Class.TotalEXPNeeded[Class.Level - 1])
         {
             Interact.Instance.CombatMenu.ClassToLevel = this;
             Class.Level++;
@@ -1023,12 +1069,12 @@ public class UnitBase : MonoBehaviour
     //Main LevelUP
     void LevelUp()
     {
-        if(Level > EXPNeeded.Count)
+        if (Level > EXPNeeded.Count)
         {
             return;
         }
 
-        if(EXP >= EXPNeeded[Level - 1])
+        if (EXP >= EXPNeeded[Level - 1])
         {
             int NewAmount = Mathf.FloorToInt(GrowthTotal(Class.StrengthGrowthRate, GrowthRateStrength));
             Strength += NewAmount;
@@ -1075,17 +1121,12 @@ public class UnitBase : MonoBehaviour
 
         float Rate = Increase % 1;
 
-        if(Random.Range(0, 101) <= Rate)
+        if (Random.Range(0, 101) <= Rate)
         {
             Increase++;
         }
 
         return Increase;
-    }
-
-    void AddOverflow()
-    {
-
     }
 
     internal int CalculateDodge(UnitBase OtherUnit)

@@ -1317,9 +1317,9 @@ MonoBehaviour:
   MoveableTiles: []
   AttackTiles: []
   Path: []
-  EquipedWeapon: {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
+  EquipedWeapon: {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
   Inventory:
-  - {fileID: 11400000, guid: 633e1bacb063f3b479a0a4f1dad1bd5c, type: 2}
+  - {fileID: 11400000, guid: 938c53e0eae6e9343a183a1077f6b479, type: 2}
   WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
   Strength: 5
@@ -1369,6 +1369,7 @@ MonoBehaviour:
   WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
+  Recruited: 0
   Sword: {fileID: 790970604661625215}
   GauntletsL: {fileID: 6051647758945943863}
   GauntletR: {fileID: 6183258583571220017}

@@ -41,6 +41,13 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy || Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy 
+            || Interact.Instance.CombatMenu.ItemNotification.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled 
+            || Interact.Instance.CombatMenu.ClassEXPBar.isActiveAndEnabled)
+        {
+            return;
+        }
+
         if (ButtonMovement)
         {
             if ((!Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || !Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy) /*&& FollowTarget == null*/)
@@ -91,7 +98,14 @@ public class CameraMove : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(ButtonMovement)
+        if (Interact.Instance.CombatMenu.LevelScreen.activeInHierarchy || Interact.Instance.CombatMenu.AttackScreen.activeInHierarchy
+            || Interact.Instance.CombatMenu.ItemNotification.activeInHierarchy || Interact.Instance.CombatMenu.EXPBar.isActiveAndEnabled
+            || Interact.Instance.CombatMenu.ClassEXPBar.isActiveAndEnabled)
+        {
+            return;
+        }
+
+        if (ButtonMovement)
         {
             if(Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy || UnitManager.Instance.EnemyMoving || FollowTarget)
             {

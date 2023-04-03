@@ -33,6 +33,11 @@ public class Interact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(SelectedUnit)
+        {
+            SelectedUnit.ShowAllInRangeTiles();
+        }
+
         bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
 
         if (Options.Instance.OptionsMenuUI.activeInHierarchy || isOverUI)
