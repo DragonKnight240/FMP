@@ -356,6 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reverse: 1
+  StartOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &7047278640546337344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,7 +689,7 @@ MonoBehaviour:
   UIHealth: {fileID: 6842069966975610096}
   HealthLerpSpeed: 10
   UnitName: Bow
-  UnitImage: {fileID: 21300000, guid: 40320b5eda06dba479322a58dbf05fad, type: 3}
+  UnitImage: {fileID: 21300000, guid: b0b64be089c1d5545bba172966d0cc28, type: 3}
   HealthMax: 45
   CurrentHealth: 0
   Movement: 2
@@ -748,6 +749,7 @@ MonoBehaviour:
   WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
+  Recruited: 0
   Sword: {fileID: 4656183742409902488}
   GauntletsL: {fileID: 5271390680897884228}
   GauntletR: {fileID: 7728925742862705429}

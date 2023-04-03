@@ -438,15 +438,22 @@ public class OverworldMenu : MonoBehaviour
         }
         else
         {
-            MagicUserTrade.SetActive(true);
-
-            if (GameManager.Instance.MageInventoryFull)
+            if (GameManager.Instance.CombatTutorialComplete)
             {
-                MagicUserTrade.GetComponent<Button>().interactable = false;
+                MagicUserTrade.SetActive(true);
+
+                if (GameManager.Instance.MageInventoryFull)
+                {
+                    MagicUserTrade.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    MagicUserTrade.GetComponent<Button>().interactable = true;
+                }
             }
             else
             {
-                MagicUserTrade.GetComponent<Button>().interactable = true;
+                MagicUserTrade.SetActive(false);
             }
 
             SwordUserTrade.SetActive(true);
@@ -536,6 +543,8 @@ public class OverworldMenu : MonoBehaviour
         if(OpenCharacterData != null)
         {
             OpenCharacterData.Inventory.Remove(ToTradeItem);
+
+            //if(ToTradeItem == OpenCharacterData.)
         }
         else
         {

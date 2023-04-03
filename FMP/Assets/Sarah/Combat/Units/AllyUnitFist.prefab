@@ -794,6 +794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reverse: 1
+  StartOffset: {x: 0, y: 0, z: 0}
 --- !u!225 &692552513866494931
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -925,7 +926,7 @@ MonoBehaviour:
   UIHealth: {fileID: 4389364210218555682}
   HealthLerpSpeed: 10
   UnitName: Aura
-  UnitImage: {fileID: 21300000, guid: 27ad9f0084ac1984999315bfaccd80f7, type: 3}
+  UnitImage: {fileID: 21300000, guid: a6da1055da70ee54283330d2d8fccb12, type: 3}
   HealthMax: 70
   CurrentHealth: 0
   Movement: 2
@@ -985,6 +986,7 @@ MonoBehaviour:
   WeaponHitSound: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
+  Recruited: 0
   Sword: {fileID: 3456205376165633638}
   GauntletsL: {fileID: 7688134925171800258}
   GauntletR: {fileID: 2214440775157495179}

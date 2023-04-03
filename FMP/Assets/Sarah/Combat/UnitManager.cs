@@ -368,26 +368,26 @@ public class UnitManager : MonoBehaviour
                 }
             }
 
-            bool EquipedItemPresent = false;
+            //bool EquipedItemPresent = false;
 
-            if (UnitBase.EquipedWeapon)
-            {
-                foreach(Weapon weapon in InventoryInstances)
-                {
-                    if(weapon.Name == UnitBase.EquipedWeapon.Name)
-                    {
-                        EquipedItemPresent = true;
-                        break;
-                    }
-                }
+            //if (UnitBase.EquipedWeapon)
+            //{
+            //    foreach(Weapon weapon in WeaponInventory)
+            //    {
+            //        if(weapon.Name == UnitBase.EquipedWeapon.Name)
+            //        {
+            //            EquipedItemPresent = true;
+            //            break;
+            //        }
+            //    }
 
-                if (!EquipedItemPresent)
-                {
-                    Weapon weapon = Instantiate(UnitBase.EquipedWeapon);
-                    InventoryInstances.Add(weapon);
-                    UnitBase.EquipedWeapon = weapon;
-                }
-            }
+            //    if (!EquipedItemPresent)
+            //    {
+            //        Weapon weapon = Instantiate(UnitBase.EquipedWeapon);
+            //        InventoryInstances.Add(weapon);
+            //        UnitBase.EquipedWeapon = weapon;
+            //    }
+            //}
 
             UnitBase.WeaponsIninventory = WeaponInventory;
 

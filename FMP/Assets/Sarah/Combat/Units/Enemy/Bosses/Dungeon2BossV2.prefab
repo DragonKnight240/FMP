@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reverse: 1
+  StartOffset: {x: 0, y: 0, z: 0}
 --- !u!225 &5530283499454789304
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -367,11 +368,12 @@ MonoBehaviour:
   MoveSpeed: 10
   MoveableTiles: []
   AttackTiles: []
-  EquipedWeapon: {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
-  Inventory: []
-  WeaponsIninventory:
-  - {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
-  BareHands: {fileID: 11400000, guid: 8fca84570c27ae7488e580108835290d, type: 2}
+  Path: []
+  EquipedWeapon: {fileID: 11400000, guid: 6f56081296545d540a9eecc6482d3b9c, type: 2}
+  Inventory:
+  - {fileID: 11400000, guid: 6f56081296545d540a9eecc6482d3b9c, type: 2}
+  WeaponsIninventory: []
+  BareHands: {fileID: 11400000, guid: 6f56081296545d540a9eecc6482d3b9c, type: 2}
   Strength: 15
   Dexterity: 5
   Magic: 5
