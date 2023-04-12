@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Strike
   m_EditorClassIdentifier: 
   Name: Strike
+  WeaponType: 0
   DamageMultiplier: 7
   HitRateMultiplier: 90
-  CritRateMultiplier: 15
+  CritRateMultiplier: 8
   ProficiencyIncreaseMultiplier: 2
   DurabilityMultiplier: -2
+  isAOE: 0

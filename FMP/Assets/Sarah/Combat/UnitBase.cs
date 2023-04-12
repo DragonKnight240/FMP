@@ -654,6 +654,11 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
+            if (Interact.Instance.CurrentTile == tile)
+            {
+                tile.Show(false, true);
+                continue;
+            }
             tile.WhichColour(this, true);
         }
     }
