@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIHealth: {fileID: 3085743388621641376}
   HealthLerpSpeed: 10
-  UnitName: Demon
+  UnitName: Mushroom
   UnitImage: {fileID: 0}
   HealthMax: 75
   CurrentHealth: 0
@@ -386,11 +386,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a26fe75f1f9f7ec49a7d44a83cb83b6e, type: 2}
   WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: a26fe75f1f9f7ec49a7d44a83cb83b6e, type: 2}
-  Strength: 15
+  Strength: 18
   Dexterity: 5
   Magic: 5
-  Defence: 7
-  Resistance: 7
+  Defence: 12
+  Resistance: 12
   Speed: 10
   Luck: 10
   Level: 0
