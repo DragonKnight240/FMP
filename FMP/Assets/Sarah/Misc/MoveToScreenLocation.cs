@@ -16,6 +16,10 @@ public class MoveToScreenLocation : MonoBehaviour
     internal float OverrideTime = 0;
     internal float OverrideTimer = 0;
 
+    internal bool Both = false;
+    internal float BothDelay = 1f;
+    internal float BothDelayTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +90,33 @@ public class MoveToScreenLocation : MonoBehaviour
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, OutSightLocation, Speed );
+        }
+
+        if (Both)
+        {
+            if (transform.position.ToString() == OutSightLocation.ToString())
+            {
+                BothDelayTimer += Time.unscaledDeltaTime;
+
+                if (BothDelayTimer >= BothDelay)
+                {
+                    BothDelayTimer = 0;
+                    Both = false;
+                    Display = true;
+                }
+            }
+
+            if (transform.position.ToString() == InSightLocation.ToString())
+            {
+                BothDelayTimer += Time.unscaledDeltaTime;
+
+                if (BothDelayTimer >= BothDelay)
+                {
+                    BothDelayTimer = 0;
+                    Both = false;
+                    Display = false;
+                }
+            }
         }
     }
 }

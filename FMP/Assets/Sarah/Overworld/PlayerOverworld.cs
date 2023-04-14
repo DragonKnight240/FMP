@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine;
 
 public class PlayerOverworld : MonoBehaviour
@@ -14,6 +16,9 @@ public class PlayerOverworld : MonoBehaviour
     internal bool CanMove;
     Animator Anim;
     internal bool isOnGround = true;
+
+    public CinemachineFreeLook FreelookCam;
+    public PostProcessVolume PPVolume;
 
     private void Start()
     {
@@ -138,5 +143,11 @@ public class PlayerOverworld : MonoBehaviour
                 Anim.SetTrigger("Fall");
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        print("Destroy");
+        PPVolume.weight = 0;
     }
 }

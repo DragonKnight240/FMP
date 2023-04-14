@@ -818,6 +818,8 @@ MonoBehaviour:
   Cam: {fileID: 3490531473005931772}
   SmoothRate: 10
   YMax: 1
+  FreelookCam: {fileID: 2024462606}
+  PPVolume: {fileID: 1969165150}
 --- !u!54 &3490531472840599704
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -848,6 +850,7 @@ GameObject:
   - component: {fileID: 3490531473005931773}
   - component: {fileID: 1767546420}
   - component: {fileID: 470679766}
+  - component: {fileID: 1969165150}
   - component: {fileID: 470679764}
   - component: {fileID: 470679765}
   m_Layer: 7
@@ -1148,6 +1151,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1969165150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3490531473005931761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: db19f4f87a42a7c4081bddece770e10a, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 0
+  priority: 1
 --- !u!114 &470679764
 MonoBehaviour:
   m_ObjectHideFlags: 0

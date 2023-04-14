@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     internal Dictionary<string, bool> TriggerDialogue = new Dictionary<string, bool>();
 
+    public float PPCombatSpeed = 1;
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
@@ -248,6 +250,20 @@ public class GameManager : MonoBehaviour
                     ArcherInventoryFull = false;
                 }
             }
+        }
+    }
+
+    internal void PostProcessingComabt(PlayerOverworld Player, string NewScene)
+    {
+        print(Player.PPVolume.weight);
+
+        Player.PPVolume.weight = Mathf.Lerp(Player.PPVolume.weight, 1, PPCombatSpeed);
+        Player.FreelookCam.m_Lens.FieldOfView = Mathf.Lerp(Player.FreelookCam.m_Lens.FieldOfView, 25, PPCombatSpeed);
+
+        if(Player.PPVolume.weight >= 0.95)
+        {
+            SceneLoader.Instance.LoadNewScene(NewScene);
+            print("New Scene");
         }
     }
 

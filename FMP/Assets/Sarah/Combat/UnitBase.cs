@@ -823,9 +823,10 @@ public class UnitBase : MonoBehaviour
         {
             AttackTarget.DamageToTake = CalculateDamage();
 
-            if (CalculateCritChance() >= Random.Range(0, 101) && CanCrit)
+            if (CalculateCritChance() >= /*Random.Range(0, 101)*/ 0 && CanCrit)
             {
                 AttackTarget.DamageToTake *= 3;
+                Interact.Instance.CombatMenu.ShowCritMessage();
             }
 
             if (AttackTarget.CurrentHealth - AttackTarget.DamageToTake > 0)
@@ -843,6 +844,7 @@ public class UnitBase : MonoBehaviour
             AttackTarget.DamageToTake = 0;
             AttackTarget.NoDamageZoomIn = true;
         }
+
 
         if (CompareTag("Ally") && !ReturnAttack)
         {

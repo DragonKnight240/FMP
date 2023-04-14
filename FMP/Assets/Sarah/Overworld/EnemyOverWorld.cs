@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine;
 
 public class EnemyOverWorld : MonoBehaviour
@@ -29,6 +30,8 @@ public class EnemyOverWorld : MonoBehaviour
     public AudioClip LostPlayer;
 
     Animator Anim;
+
+    internal bool PendingCombat = false;
 
     //public AudioClip IdleSound;
 
@@ -72,6 +75,7 @@ public class EnemyOverWorld : MonoBehaviour
     {
         if (ReachedPlayer)
         {
+            GameManager.Instance.PostProcessingComabt(Player.GetComponent<PlayerOverworld>(), RandomMap());
             return;
         }
 
@@ -148,11 +152,16 @@ public class EnemyOverWorld : MonoBehaviour
                     {
                         GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
                         GameManager.Instance.PlayerReturnToOverworld.y += 1;
+
+                        //foreach(PostProcessEffectSettings PPESetting in Player.GetComponent<PlayerOverworld>().BattleProfile.settings)
+                        //{
+                        //    PPESetting.active = true;
+                        //    print(PPESetting.name);
+                        //}
                     }
 
                     GameManager.Instance.inCombat = true;
                 }
-                SceneLoader.Instance.LoadNewScene(RandomMap());
             }
         }
     }
