@@ -147,7 +147,7 @@ public class PlayerOverworld : MonoBehaviour
 
     private void OnDestroy()
     {
-        print("Destroy");
+        //print("Destroy");
         PPVolume.weight = 0;
     }
 }

@@ -119,10 +119,10 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                foreach (CharacterData Data in UnitData)
-                {
-                    print(Data.EXP);
-                }
+                //foreach (CharacterData Data in UnitData)
+                //{
+                //    print(Data.EXP);
+                //}
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
 
     internal void PostProcessingComabt(PlayerOverworld Player, string NewScene)
     {
-        print(Player.PPVolume.weight);
+        //print(Player.PPVolume.weight);
 
         Player.PPVolume.weight = Mathf.Lerp(Player.PPVolume.weight, 1, PPCombatSpeed);
         Player.FreelookCam.m_Lens.FieldOfView = Mathf.Lerp(Player.FreelookCam.m_Lens.FieldOfView, 25, PPCombatSpeed);
@@ -263,7 +263,7 @@ public class GameManager : MonoBehaviour
         if(Player.PPVolume.weight >= 0.95)
         {
             SceneLoader.Instance.LoadNewScene(NewScene);
-            print("New Scene");
+            //print("New Scene");
         }
     }
 
