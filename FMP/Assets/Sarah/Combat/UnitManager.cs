@@ -210,13 +210,6 @@ public class UnitManager : MonoBehaviour
                     {
                         data = GameManager.Instance.UnitData[Index];
 
-                        if (data.CurrentHealth <= 0)
-                        {
-                            Index++;
-                            Destroy(NewUnit);
-                            continue;
-                        }
-
                         NewUnit.name = data.UnitName;
                         UnitBase.UnitName = data.UnitName;
                         UnitBase.HealthMax = data.HealthMax;

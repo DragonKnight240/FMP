@@ -9,12 +9,17 @@ public class Compass : MonoBehaviour
     public RawImage CompassImage;
     public Transform Player;
     internal List<Objectives> Markers = new List<Objectives>();
+    internal List<Objectives> OtherActiveMarkers = new List<Objectives>();
     public GameObject IconPrefab;
     public GameObject OverworldIconPrefab;
 
     public List<Objectives> MainObjectives;
 
+    public List<Objectives> OtherObjectives;
+
     float CompassUnit;
+
+    internal Zone CurrentZone = Zone.Village;
 
     // Start is called before the first frame update
     void Awake()
@@ -29,6 +34,11 @@ public class Compass : MonoBehaviour
         }
 
         CompassUnit = CompassImage.rectTransform.rect.width / 360f;
+    }
+
+    private void Start()
+    {
+        ChangeMarkerLocation(Zone.Village);
     }
 
     // Update is called once per frame
@@ -67,6 +77,14 @@ public class Compass : MonoBehaviour
                 {
                     Marker.image.rectTransform.anchoredPosition = CompassPosition(Marker);
                 }
+            }
+        }
+
+        foreach(Objectives OtherMarker in OtherActiveMarkers)
+        {
+            if (OtherMarker.image)
+            {
+                OtherMarker.image.rectTransform.anchoredPosition = CompassPosition(OtherMarker);
             }
         }
         
@@ -112,5 +130,39 @@ public class Compass : MonoBehaviour
         float Angle = Vector2.SignedAngle(Marker.position - PlayerPos, PlayerForward);
 
         return new Vector2(CompassUnit * Angle, 0f);
+    }
+
+    internal void ChangeMarkerLocation(Zone NewZone)
+    {
+        foreach(Objectives Marker in OtherActiveMarkers)
+        {
+            if (Marker.image)
+            {
+                Destroy(Marker.image.gameObject);
+            }
+
+            if (Marker.ObjectMarkerOverworld)
+            {
+                Destroy(Marker.ObjectMarkerOverworld);
+            }
+        }
+
+        OtherActiveMarkers.Clear();
+        OtherActiveMarkers = new List<Objectives>();
+
+        foreach (Objectives OtherMarker in OtherObjectives)
+        {
+            if (OtherMarker.ZoneObjective == NewZone)
+            {
+                GameObject NewMarker = Instantiate(IconPrefab, CompassImage.transform);
+
+                OtherMarker.image = NewMarker.GetComponent<Image>();
+                OtherMarker.image.sprite = OtherMarker.Icon;
+
+                OtherActiveMarkers.Add(OtherMarker);
+            }
+        }
+
+        CurrentZone = NewZone;
     }
 }
