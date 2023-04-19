@@ -59,6 +59,8 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(Item item)
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
+
         switch (item.Type)
         {
             case ItemTypes.Heal:
@@ -82,6 +84,8 @@ public class Inventory : MonoBehaviour
 
     public void ChangeWeapon(Item item)
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ChangeWeaponSound);
+
         if (Interact.Instance.SelectedUnit.EquipedWeapon != item)
         {
             Interact.Instance.SelectedUnit.EquipedWeapon = (Weapon)item;

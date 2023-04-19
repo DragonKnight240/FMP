@@ -15,7 +15,10 @@ public class MainMenu : MonoBehaviour
     public CinemachineVirtualCamera VirtualCamera;
     public GameObject CompassObj;
 
-    internal SetCameraLocation[] CameraLocations; 
+    internal SetCameraLocation[] CameraLocations;
+
+    [Header("Sound Effects")]
+    public AudioClip ButtonPress;
 
     void Start()
     {
@@ -93,6 +96,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         Cursor.lockState = CursorLockMode.Locked;
         DollyCart.m_Speed = DollyCartSpeed;
         VirtualCamera.LookAt = FindObjectOfType<PlayerOverworld>().transform;
@@ -115,11 +119,13 @@ public class MainMenu : MonoBehaviour
 
     public void CloseOptions()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         OptionsMenu.SetActive(false);
     }
 
     public void Quit()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         Application.Quit();
     }
 }

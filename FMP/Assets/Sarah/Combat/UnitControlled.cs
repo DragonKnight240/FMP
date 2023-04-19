@@ -37,6 +37,7 @@ public class UnitControlled : UnitBase
 
     internal void AttackButton(UnitBase Unit = null)
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
         FindInRangeTargets(false, false);
 
         if (InRangeTargets.Count > 0)
@@ -76,6 +77,7 @@ public class UnitControlled : UnitBase
 
     internal void ItemButton()
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
         FindObjectOfType<Inventory>().ButtonText(Inventory);
         Interact.Instance.CombatMenu.InventoryObject.SetActive(true);
         Interact.Instance.CombatMenu.InventoryObject.GetComponent<UIFade>().ToFadeIn();
@@ -84,6 +86,7 @@ public class UnitControlled : UnitBase
 
     internal void SpecialButton()
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
         //Interact.Instance.CombatMenu.CombatMenuObject.SetActive(false);
         Interact.Instance.CombatMenu.CombatMenuObject.GetComponent<UIFade>().ToFadeOut();
 
