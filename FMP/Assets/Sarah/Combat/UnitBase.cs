@@ -152,6 +152,11 @@ public class UnitBase : MonoBehaviour
 
     [Header("VFX")]
     public GameObject HealingParticle;
+    public GameObject PartSwordLoc;
+    public GameObject PartMagicLoc;
+    public GameObject PartBowLoc;
+    public GameObject PartGauntletLoc;
+    internal GameObject CurrentParticle;
 
     [Header("Drops")]
     public int MoneyDrop;
@@ -368,6 +373,47 @@ public class UnitBase : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void PlayParticleEffect()
+    {
+        switch (EquipedWeapon.WeaponType)
+        {
+            case WeaponType.Sword:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartSwordLoc.transform);
+                    break;
+                }
+            case WeaponType.Bow:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartBowLoc.transform);
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLoc.transform);
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartMagicLoc.transform);
+                    break;
+                }
+            default:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLoc.transform);
+                    break;
+                }
+        }
+
+    }
+
+    public void SetParticleSpeed(float Speed)
+    {
+        if(CurrentParticle.GetComponent<csParticleMove>())
+        {
+            CurrentParticle.GetComponent<csParticleMove>().speed = Speed;
+        }
     }
 
     //Find Path to the target sqaure

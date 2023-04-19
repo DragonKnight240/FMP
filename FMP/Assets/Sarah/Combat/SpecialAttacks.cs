@@ -22,6 +22,8 @@ public class SpecialAttacks : ScriptableObject
     public int DurabilityMultiplier;
     public bool isAOE = false;
 
+    public GameObject Particles;
+
     [Header("Effects")]
     public UnitBase.StatusEffect StatusEffect;
 
