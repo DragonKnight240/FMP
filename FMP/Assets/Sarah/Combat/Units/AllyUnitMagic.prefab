@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeDisable: 2
+  ToDestroy: 0
 --- !u!1 &310283719030677440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,6 +1384,10 @@ MonoBehaviour:
   DeathSound: {fileID: 0}
   WeaponHitSound: {fileID: 0}
   HealingParticle: {fileID: 301198047617323911}
+  PartSwordLoc: {fileID: 0}
+  PartMagicLoc: {fileID: 6322042441648284416}
+  PartBowLoc: {fileID: 0}
+  PartGauntletLoc: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Recruited: 0

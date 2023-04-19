@@ -40,6 +40,13 @@ public class Shop : MonoBehaviour
     public TMP_Text DurabilityNum;
     public TMP_Text RangeNum;
 
+    [Header("Sound Effects")]
+    public AudioClip BuySound;
+    public AudioClip NotEnoughMoney;
+    public AudioClip OpenShopSound;
+    public AudioClip CloseShopSound;
+    public AudioClip ShowDetailsSound;
+
     private void Awake()
     {
         if(Instance == null)
@@ -68,6 +75,7 @@ public class Shop : MonoBehaviour
     {
         if(GameManager.Instance.Money - Items[Index].Item.Price >= 0)
         {
+            SoundManager.Instance.PlaySFX(BuySound);
             GameManager.Instance.Money = GameManager.Instance.Money - Items[Index].Item.Price;
             GameManager.Instance.Convoy.Add(Instantiate(Items[Index].Item.item));
             Items[Index].Item.AmountInStock--;
@@ -79,6 +87,10 @@ public class Shop : MonoBehaviour
             {
                 Items[Index].ItemText.text = "x" + ItemsForSale[Index].AmountInStock.ToString();
             }
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX(NotEnoughMoney);
         }
 
         MoneyAmount.text = GameManager.Instance.Money.ToString();
@@ -115,6 +127,8 @@ public class Shop : MonoBehaviour
 
     internal void UpdateItemDetails(Weapon item)
     {
+        SoundManager.Instance.PlaySFX(ShowDetailsSound);
+
         DamageNum.text = item.Damage.ToString();
         CritRateNum.text = item.CritRate.ToString();
         HitRateNum.text = item.HitRate.ToString();
@@ -132,23 +146,25 @@ public class Shop : MonoBehaviour
 
     public void CloseShop(bool CloseInventory = true)
     {
+        SoundManager.Instance.PlaySFX(CloseShopSound);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         ShopMenuObject.GetComponent<UIFade>().ToFadeOut();
 
         if (CloseInventory)
         {
-            OverworldMenu.Instance.CloseInventory();
+            OverworldMenu.Instance.CloseInventory(true);
         }
     }
 
     public void OpenShop()
     {
+        SoundManager.Instance.PlaySFX(OpenShopSound);
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
         UpdateShop();
 
-        OverworldMenu.Instance.OpenInventory();
+        OverworldMenu.Instance.OpenInventory(true);
 
         ShopMenuObject.SetActive(true);
         ShopMenuObject.GetComponent<UIFade>().ToFadeIn();

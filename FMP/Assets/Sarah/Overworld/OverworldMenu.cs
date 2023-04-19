@@ -69,6 +69,13 @@ public class OverworldMenu : MonoBehaviour
     public ToolTip InventoryTooltip;
     public ToolTip TradeTooltip;
 
+    [Header("Sound Effect")]
+    public AudioClip CloseTradeSound;
+    public AudioClip OpenTradeSound;
+    public AudioClip OpenInventorySound;
+    public AudioClip CloseInventorySound;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -261,8 +268,13 @@ public class OverworldMenu : MonoBehaviour
         ItemDetails.SetActive(false);
     }
 
-    public void OpenInventory()
+    public void OpenInventory(bool Shop = false)
     {
+        if(!Shop)
+        {
+            SoundManager.Instance.PlaySFX(OpenInventorySound);
+        }
+
         if (!GameManager.Instance.OverworldInventoryComplete)
         {
             OverworldToolTip.Instance.SetTooltip(TradeTooltip);
@@ -305,7 +317,7 @@ public class OverworldMenu : MonoBehaviour
 
     }
 
-    public void CloseInventory()
+    public void CloseInventory(bool FromShop = false)
     {
         if (!GameManager.Instance.OverworldInventoryComplete)
         {
@@ -319,7 +331,13 @@ public class OverworldMenu : MonoBehaviour
         ConveySection.SetActive(false);
         UnitSection.SetActive(false);
 
-        Shop.Instance.CloseShop(false);
+        if(!FromShop)
+        {
+            SoundManager.Instance.PlaySFX(CloseInventorySound);
+            Shop.Instance.CloseShop(false);
+        }
+
+
 
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -359,6 +377,8 @@ public class OverworldMenu : MonoBehaviour
             OverworldToolTip.Instance.UnShowToolTip(TradeTooltip);
             OverworldToolTip.Instance.SetTooltip(InventoryTooltip);
         }
+
+        SoundManager.Instance.PlaySFX(OpenTradeSound);
 
         if (OpenCharacterData != null)
         {
@@ -523,12 +543,15 @@ public class OverworldMenu : MonoBehaviour
 
     public void CloseTradeWindow()
     {
+        SoundManager.Instance.PlaySFX(CloseTradeSound);
         ToTradeItem = null;
         TradeOptions.GetComponent<UIFade>().ToFadeOut();
     }
 
     public void TradeItem(string Name)
     {
+        SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
+
         CharacterData NewData = null;
 
         foreach(CharacterData Data in GameManager.Instance.UnitData)
