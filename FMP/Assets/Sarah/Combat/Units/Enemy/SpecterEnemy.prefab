@@ -369,18 +369,18 @@ MonoBehaviour:
   MoveableTiles: []
   AttackTiles: []
   Path: []
-  EquipedWeapon: {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
+  EquipedWeapon: {fileID: 11400000, guid: 9512a247375f6ef4484b5bf6008fd2c7, type: 2}
   Inventory:
-  - {fileID: 11400000, guid: 2e469f0079061524e9bb8d1b16dba9a7, type: 2}
+  - {fileID: 11400000, guid: 9512a247375f6ef4484b5bf6008fd2c7, type: 2}
   WeaponsIninventory: []
   BareHands: {fileID: 11400000, guid: 622f634c6eb26324fbd8085005e09c94, type: 2}
-  Strength: 8
+  Strength: 10
   Dexterity: 4
   Magic: 5
-  Defence: 5
-  Resistance: 5
+  Defence: 7
+  Resistance: 15
   Speed: 10
-  Luck: 7
+  Luck: 10
   Level: 1
   EXP: 0
   EXPNeeded: 

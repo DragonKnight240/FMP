@@ -202,6 +202,8 @@ public class Tile : MonoBehaviour
             return;
         }
 
+        Interact.Instance.CurrentTile = this;
+
         if (Unit)
         {
             if (Unit.EndTurn || OGMaterial == null)
@@ -277,6 +279,11 @@ public class Tile : MonoBehaviour
         if (!UnitManager.Instance.SetupFinished)
         {
             return;
+        }
+
+        if (Interact.Instance.CurrentTile == this)
+        {
+            Interact.Instance.CurrentTile = null;
         }
 
         if (Special)

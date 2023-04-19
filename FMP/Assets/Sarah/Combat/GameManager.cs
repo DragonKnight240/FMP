@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     internal Dictionary<string, bool> TriggerDialogue = new Dictionary<string, bool>();
 
+    public float PPCombatSpeed = 1;
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;
@@ -117,10 +119,10 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                foreach (CharacterData Data in UnitData)
-                {
-                    print(Data.EXP);
-                }
+                //foreach (CharacterData Data in UnitData)
+                //{
+                //    print(Data.EXP);
+                //}
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -248,6 +250,20 @@ public class GameManager : MonoBehaviour
                     ArcherInventoryFull = false;
                 }
             }
+        }
+    }
+
+    internal void PostProcessingComabt(PlayerOverworld Player, string NewScene)
+    {
+        //print(Player.PPVolume.weight);
+
+        Player.PPVolume.weight = Mathf.Lerp(Player.PPVolume.weight, 1, PPCombatSpeed);
+        Player.FreelookCam.m_Lens.FieldOfView = Mathf.Lerp(Player.FreelookCam.m_Lens.FieldOfView, 25, PPCombatSpeed);
+
+        if(Player.PPVolume.weight >= 0.95)
+        {
+            SceneLoader.Instance.LoadNewScene(NewScene);
+            //print("New Scene");
         }
     }
 
@@ -462,7 +478,7 @@ public class GameManager : MonoBehaviour
                     //print("Active: Checking " + Type + " - Current: " + ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial);
                     if (Type == ToolTipManager.Instance.PendingToolTip.tutorial || Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
-                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect|| Type == Tutorial.CMoveCamera || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }
                 else
@@ -471,7 +487,7 @@ public class GameManager : MonoBehaviour
                     if (Type == ToolTipManager.Instance.Tooltips[ToolTipManager.Instance.CurrentToolTipIndex].tutorial)
                     {
                         //print("Complete");
-                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
+                        ToolTipManager.Instance.CompleteToolTip(Type == Tutorial.CUnitSelect || Type == Tutorial.CMoveCamera || Type == Tutorial.CMove || Type == Tutorial.CChangeWeapon ? true : false);
                     }
                 }
             }

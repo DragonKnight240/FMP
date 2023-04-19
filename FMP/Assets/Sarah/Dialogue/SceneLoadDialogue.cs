@@ -56,6 +56,21 @@ public class SceneLoadDialogue : MonoBehaviour
                     GameManager.Instance.RecruitUnit("Bow");
                     break;
                 }
+            case PlayAfter.PostDungeon1:
+                {
+                    GameManager.Instance.PostDungeon1Complete = true;
+                    break;
+                }
+            case PlayAfter.PostDungeon2:
+                {
+                    GameManager.Instance.PostDungeon2Complete = true;
+                    break;
+                }
+            case PlayAfter.PostTutorial:
+                {
+                    GameManager.Instance.CombatTutorialComplete = true;
+                    break;
+                }
         }
 
         if(GameManager.Instance)

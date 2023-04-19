@@ -6,7 +6,12 @@ public class HealUnits : MonoBehaviour
 {
     internal bool InRange = false;
     public AudioClip HealSound;
-    public ParticleSystem PlayerParticles;
+    internal PlayerOverworld Player;
+
+    private void Start()
+    {
+        Player = FindObjectOfType<PlayerOverworld>();
+    }
 
     internal void Heal()
     {
@@ -17,6 +22,6 @@ public class HealUnits : MonoBehaviour
         }
 
         SoundManager.Instance.PlaySFX(HealSound);
-        PlayerParticles.Play();
+        Player.HealPartical.SetActive(true);
     }
 }

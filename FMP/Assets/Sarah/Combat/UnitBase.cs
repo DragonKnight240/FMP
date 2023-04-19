@@ -150,6 +150,14 @@ public class UnitBase : MonoBehaviour
     public AudioClip DeathSound;
     public AudioClip WeaponHitSound;
 
+    [Header("VFX")]
+    public GameObject HealingParticle;
+    public GameObject PartSwordLoc;
+    public GameObject PartMagicLoc;
+    public GameObject PartBowLoc;
+    public GameObject PartGauntletLoc;
+    internal GameObject CurrentParticle;
+
     [Header("Drops")]
     public int MoneyDrop;
     public Item ItemDrop;
@@ -365,6 +373,47 @@ public class UnitBase : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void PlayParticleEffect()
+    {
+        switch (EquipedWeapon.WeaponType)
+        {
+            case WeaponType.Sword:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartSwordLoc.transform);
+                    break;
+                }
+            case WeaponType.Bow:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartBowLoc.transform);
+                    break;
+                }
+            case WeaponType.Gauntlets:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLoc.transform);
+                    break;
+                }
+            case WeaponType.Staff:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartMagicLoc.transform);
+                    break;
+                }
+            default:
+                {
+                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLoc.transform);
+                    break;
+                }
+        }
+
+    }
+
+    public void SetParticleSpeed(float Speed)
+    {
+        if(CurrentParticle.GetComponent<csParticleMove>())
+        {
+            CurrentParticle.GetComponent<csParticleMove>().speed = Speed;
+        }
     }
 
     //Find Path to the target sqaure
@@ -654,6 +703,11 @@ public class UnitBase : MonoBehaviour
     {
         foreach (Tile tile in AttackTiles)
         {
+            if (Interact.Instance.CurrentTile == tile)
+            {
+                tile.Show(false, true);
+                continue;
+            }
             tile.WhichColour(this, true);
         }
     }
@@ -821,6 +875,7 @@ public class UnitBase : MonoBehaviour
             if (CalculateCritChance() >= Random.Range(0, 101) && CanCrit)
             {
                 AttackTarget.DamageToTake *= 3;
+                Interact.Instance.CombatMenu.ShowCritMessage();
             }
 
             if (AttackTarget.CurrentHealth - AttackTarget.DamageToTake > 0)
@@ -838,6 +893,7 @@ public class UnitBase : MonoBehaviour
             AttackTarget.DamageToTake = 0;
             AttackTarget.NoDamageZoomIn = true;
         }
+
 
         if (CompareTag("Ally") && !ReturnAttack)
         {
@@ -1370,7 +1426,7 @@ public class UnitBase : MonoBehaviour
             AttackTile = PathTo[PathTo.Count - 1];
         }
 
-        FindInRangeTargets(false, false);
+        MoveableArea(false);
 
         if (SupportedUnits.Count > 0)
         {
@@ -1516,6 +1572,8 @@ public class UnitBase : MonoBehaviour
 
     internal void IncreaseHealth(int Health)
     {
+        HealingParticle.SetActive(true);
+
         if (Health + CurrentHealth < HealthMax)
         {
             CurrentHealth += Health;

@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Zone
+{
+    Dungeon1,
+    Dungeon2,
+    Village,
+    ScarletWoods,
+    Desert,
+    OutsideVillage
+}
+
 public class Objectives : MonoBehaviour
 {
     public bool ShowObjectiveOverworld = true;
@@ -13,6 +23,11 @@ public class Objectives : MonoBehaviour
     public PlayAfter GameManagerCheck;
     internal GameObject ObjectMarkerOverworld;
     internal bool InRange = false;
+
+    public GameObject OverworldIcon;
+
+    //Other Objectives
+    public Zone ZoneObjective;
 
     // Start is called before the first frame update
     void Start()

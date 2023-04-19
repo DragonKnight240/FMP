@@ -10,6 +10,7 @@ public class Interact : MonoBehaviour
     internal CombatMenu CombatMenu;
     internal GameObject VirtualCam;
     internal bool UnitMoving = false;
+    internal Tile CurrentTile;
 
     private void Awake()
     {

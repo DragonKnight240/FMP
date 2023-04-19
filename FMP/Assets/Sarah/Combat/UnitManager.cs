@@ -205,12 +205,9 @@ public class UnitManager : MonoBehaviour
                 {
                     NewUnit = Instantiate(GameManager.Instance.AvailableUnits[Index], TileManager.Instance.Grid[X, Y].GetComponent<Tile>().CentrePoint.transform.position, Quaternion.identity, transform);
                     UnitBase = NewUnit.GetComponent<UnitBase>();
-                    AllyUnits.Add(NewUnit);
-                    TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
 
                     if (GameManager.Instance.UnitData.Count > 0 && Index < GameManager.Instance.UnitData.Count)
                     {
-                        //print("Input data");
                         data = GameManager.Instance.UnitData[Index];
 
                         NewUnit.name = data.UnitName;
@@ -261,6 +258,7 @@ public class UnitManager : MonoBehaviour
                         {
                             NewUnit.SetActive(false);
                             UnitBase.isAlive = false;
+                            DeadAllyUnits.Add(NewUnit.GetComponent<UnitBase>());
                         }
 
                         data = new CharacterData();
@@ -284,6 +282,9 @@ public class UnitManager : MonoBehaviour
                         NewUnit.GetComponent<UnitBase>().SupportsWith = SupportList;
 
                     }
+
+                    AllyUnits.Add(NewUnit);
+                    TurnManager.Instance.TurnChange.AddListener(UnitBase.TurnChange);
 
                     Index++;
                 }
@@ -367,27 +368,6 @@ public class UnitManager : MonoBehaviour
                     InventoryInstances.Add(Instantiate(item));
                 }
             }
-
-            //bool EquipedItemPresent = false;
-
-            //if (UnitBase.EquipedWeapon)
-            //{
-            //    foreach(Weapon weapon in WeaponInventory)
-            //    {
-            //        if(weapon.Name == UnitBase.EquipedWeapon.Name)
-            //        {
-            //            EquipedItemPresent = true;
-            //            break;
-            //        }
-            //    }
-
-            //    if (!EquipedItemPresent)
-            //    {
-            //        Weapon weapon = Instantiate(UnitBase.EquipedWeapon);
-            //        InventoryInstances.Add(weapon);
-            //        UnitBase.EquipedWeapon = weapon;
-            //    }
-            //}
 
             UnitBase.WeaponsIninventory = WeaponInventory;
 

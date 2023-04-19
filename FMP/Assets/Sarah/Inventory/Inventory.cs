@@ -63,10 +63,10 @@ public class Inventory : MonoBehaviour
         {
             case ItemTypes.Heal:
                 {
+                    Interact.Instance.SelectedUnit.Inventory.Remove(item);
                     HealItem HealItem = (HealItem)item;
                     SoundManager.Instance.PlaySFX(HealItem.ItemUseSound);
                     Interact.Instance.SelectedUnit.IncreaseHealth(HealItem.HealValue);
-                    Interact.Instance.SelectedUnit.Inventory.Remove(item);
                     ButtonText(Interact.Instance.SelectedUnit.Inventory);
                     break;
                 }

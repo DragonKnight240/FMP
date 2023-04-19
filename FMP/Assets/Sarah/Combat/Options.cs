@@ -143,10 +143,21 @@ public class Options : MonoBehaviour
 
         AmbianceSlider.value = Volume;
 
-        if (PersonCam)
+        if (MainMenu)
         {
-            YAxisSpeed = PersonCam.m_YAxis.m_MaxSpeed;
-            XAxisSpeed = PersonCam.m_XAxis.m_MaxSpeed;
+            if (PersonCam)
+            {
+                YAxisSpeed = PersonCam.m_YAxis.m_MaxSpeed;
+                XAxisSpeed = PersonCam.m_XAxis.m_MaxSpeed;
+            }
+        }
+        else
+        {
+            if(PersonCam)
+            {
+                PersonCam.m_YAxis.m_MaxSpeed = YAxisSpeed;
+                PersonCam.m_XAxis.m_MaxSpeed = XAxisSpeed;
+            }
         }
 
         if(MainMenu)

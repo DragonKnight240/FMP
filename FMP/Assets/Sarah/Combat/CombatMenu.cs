@@ -122,6 +122,9 @@ public class CombatMenu : MonoBehaviour
 
     internal SpecialAttacks NewAttack;
 
+    public GameObject CritPanel;
+    public AudioClip CritSound;
+
     //Ending Scences
     public GameObject VictoryScreen;
     public GameObject DefeatScreen;
@@ -252,6 +255,18 @@ public class CombatMenu : MonoBehaviour
                 AttackScreen.GetComponent<UIFade>().ToFadeOut();
             }
         }
+    }
+
+    public void ShowCritMessage()
+    {
+        CritPanel.GetComponent<MoveToScreenLocation>().Both = true;
+        CritPanel.GetComponent<MoveToScreenLocation>().Display = true;
+        SoundManager.Instance.PlaySFX(CritSound);
+    }
+
+    public void UnshowCritMessage()
+    {
+        CritPanel.GetComponent<MoveToScreenLocation>().Display = false;
     }
 
     public void EXPSliderShow(UnitBase Unit, int Damage)
