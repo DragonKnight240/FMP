@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SerializeField]
+public enum PuzzleLoc
+{
+    Desert1,
+    Desert2,
+    Cave
+}
+
 public class RuneManager : MonoBehaviour
 {
+    public PuzzleLoc PuzzleLocation;
     Runes[] Runes;
     public MoveObject ObjectOpen;
     public AudioClip AllRunesActiveSound;
-
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +24,10 @@ public class RuneManager : MonoBehaviour
 
         for(int i = 0; i < Runes.Length; i++)
         {
-            Runes[i].RuneNumber = i + 1;
+            if (Runes[i].RuneLocation == PuzzleLocation)
+            {
+                Runes[i].RuneNumber = i + 1;
+            }
         }
     }
 

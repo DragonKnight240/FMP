@@ -20,6 +20,11 @@ public class DialogueSystem : MonoBehaviour
     internal bool PlayingDialogue = false;
     internal Dialogue CurrentLine;
 
+    [Header("Sound Effects")]
+    public AudioClip OpenDialogue;
+    public AudioClip NextDialogue;
+    public AudioClip EndDialogueSound;
+
     private void Start()
     {
         if(Instance == null)
@@ -96,6 +101,8 @@ public class DialogueSystem : MonoBehaviour
             CurrentDialogue.Enqueue(Line);
         }
 
+        SoundManager.Instance.PlaySFX(OpenDialogue);
+
         TextBox.SetActive(true);
         TextBox.GetComponent<UIFade>().ToFadeIn();
         NextLine();
@@ -116,6 +123,8 @@ public class DialogueSystem : MonoBehaviour
         else
         {
             CurrentLine = CurrentDialogue.Dequeue();
+
+            SoundManager.Instance.PlaySFX(NextDialogue);
 
             if (!CurrentLine.SystemNotification)
             {
@@ -145,6 +154,7 @@ public class DialogueSystem : MonoBehaviour
 
     public void EndDialogue()
     {
+        SoundManager.Instance.PlaySFX(EndDialogueSound);
         TextBox.GetComponent<UIFade>().ToFadeOut();
         PlayingDialogue = false;
         Time.timeScale = 1;

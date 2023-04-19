@@ -244,7 +244,7 @@ public class Interact : MonoBehaviour
             CombatMenu.ItemButton.onClick.AddListener(Unit.ItemButton);
 
             CombatMenu.WaitButton.onClick.RemoveAllListeners();
-            CombatMenu.WaitButton.onClick.AddListener(Unit.WaitUnit);
+            CombatMenu.WaitButton.onClick.AddListener(() => { Unit.WaitUnit(); });
 
             CombatMenu.SpecialButton.onClick.RemoveAllListeners();
             CombatMenu.SpecialButton.onClick.AddListener(Unit.SpecialButton);

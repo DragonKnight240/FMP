@@ -131,6 +131,10 @@ public class CombatMenu : MonoBehaviour
 
     public TMP_Text ScreenPrint;
 
+    [Header("Sound Effects")]
+    public AudioClip ButtonPress;
+    public AudioClip ChangeWeaponSound;
+
 
     private void Start()
     {
@@ -438,12 +442,13 @@ public class CombatMenu : MonoBehaviour
 
     public void CloseInventory()
     {
-        //InventoryObject.SetActive(false);
+        SoundManager.Instance.PlaySFX(ButtonPress);
         InventoryObject.GetComponent<UIFade>().ToFadeOut();
     }
 
     public void ChangeAttackTarget(bool Next)
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         UnitBase Unit = Interact.Instance.SelectedUnit;
 
         //Unit.isSupported();
@@ -473,6 +478,7 @@ public class CombatMenu : MonoBehaviour
 
     public void ChangeWeapon(bool Next)
     {
+        SoundManager.Instance.PlaySFX(ChangeWeaponSound);
         UnitBase Unit = Interact.Instance.SelectedUnit;
         List<Weapon> Weapons = Unit.WeaponsIninventory;
 
@@ -579,6 +585,7 @@ public class CombatMenu : MonoBehaviour
 
     public void ChangeAttack(bool Next)
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         UnitBase Unit = Interact.Instance.SelectedUnit;
         List<SpecialAttacks> AttackList = Unit.AvailableAttacks;
 
@@ -607,6 +614,7 @@ public class CombatMenu : MonoBehaviour
 
     internal void ChangeAvailableAttacks()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         UnitBase Unit = Interact.Instance.SelectedUnit;
 
         Unit.AvailableAttacks.Clear();
@@ -633,6 +641,7 @@ public class CombatMenu : MonoBehaviour
 
     public void CancelAttack()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         AttackMenuObject.GetComponent<UIFade>().ToFadeOut();
         CameraMove.Instance.FollowTarget = null;
         UnitBase Temp = Interact.Instance.SelectedUnit;
@@ -789,9 +798,10 @@ public class CombatMenu : MonoBehaviour
 
     public void EndPlayerTurn()
     {
-        foreach(GameObject Unit in UnitManager.Instance.AllyUnits)
+        SoundManager.Instance.PlaySFX(ButtonPress);
+        foreach (GameObject Unit in UnitManager.Instance.AllyUnits)
         {
-            Unit.GetComponent<UnitBase>().WaitUnit();
+            Unit.GetComponent<UnitBase>().WaitUnit(false);
         }
 
         EndButtonMover.Display = false;

@@ -68,6 +68,15 @@ public class GameManager : MonoBehaviour
     internal bool Rune2Active;
     internal bool Rune3Active;
 
+    //DesertPuzzle1Rune
+    internal bool Rune1Desert1;
+    internal bool Rune2Desert1;
+
+    //DesertPuzzleRunes
+    internal bool Rune1Desert2;
+    internal bool Rune2Desert2;
+    internal bool Rune3Desert2;
+
     private void Awake()
     {
         if (Instance == null)

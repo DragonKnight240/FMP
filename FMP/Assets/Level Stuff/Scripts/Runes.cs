@@ -5,7 +5,7 @@ using UnityEngine;
 public class Runes : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public PuzzleLoc RuneLocation;
     internal int RuneNumber;
     public Material R_Material;
     public GameObject WallRune;
@@ -21,41 +21,139 @@ public class Runes : MonoBehaviour
         {
             case 1:
                 {
-                    if (GameManager.Instance.Rune1Active)
+                    switch(RuneLocation)
                     {
-                        isActive = true;
-                        GetComponent<Renderer>().material = R_Material;
-                        WallRune.GetComponent<Renderer>().material = R_Material;
+                        case PuzzleLoc.Cave:
+                            {
+                                if (GameManager.Instance.Rune1Active)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert1:
+                            {
+                                if (GameManager.Instance.Rune1Desert1)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert2:
+                            {
+                                if (GameManager.Instance.Rune1Desert2)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
                     }
                     break;
                 }
             case 2:
                 {
-                    if (GameManager.Instance.Rune2Active)
+                    switch (RuneLocation)
                     {
-                        isActive = true;
-                        GetComponent<Renderer>().material = R_Material;
-                        WallRune.GetComponent<Renderer>().material = R_Material;
+                        case PuzzleLoc.Cave:
+                            {
+                                if (GameManager.Instance.Rune2Active)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert1:
+                            {
+                                if (GameManager.Instance.Rune2Desert1)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert2:
+                            {
+                                if (GameManager.Instance.Rune2Desert2)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
                     }
                     break;
                 }
             case 3:
                 {
-                    if (GameManager.Instance.Rune3Active)
+                    switch (RuneLocation)
                     {
-                        isActive = true;
-                        GetComponent<Renderer>().material = R_Material;
-                        WallRune.GetComponent<Renderer>().material = R_Material;
+                        case PuzzleLoc.Cave:
+                            {
+                                if (GameManager.Instance.Rune3Active)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert2:
+                            {
+                                if (GameManager.Instance.Rune3Desert2)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
                     }
                     break;
                 }
             default:
                 {
-                    if (GameManager.Instance.Rune1Active)
+                    switch (RuneLocation)
                     {
-                        isActive = true;
-                        GetComponent<Renderer>().material = R_Material;
-                        WallRune.GetComponent<Renderer>().material = R_Material;
+                        case PuzzleLoc.Cave:
+                            {
+                                if (GameManager.Instance.Rune1Active)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert1:
+                            {
+                                if (GameManager.Instance.Rune1Desert1)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
+                        case PuzzleLoc.Desert2:
+                            {
+                                if (GameManager.Instance.Rune1Desert2)
+                                {
+                                    isActive = true;
+                                    GetComponent<Renderer>().material = R_Material;
+                                    WallRune.GetComponent<Renderer>().material = R_Material;
+                                }
+                                break;
+                            }
                     }
                     break;
                 }
@@ -75,22 +173,85 @@ public class Runes : MonoBehaviour
             {
                 case 1:
                     {
-                        GameManager.Instance.Rune1Active = true;
+                        switch(RuneLocation)
+                        {
+                            case PuzzleLoc.Desert1:
+                                {
+                                    GameManager.Instance.Rune1Desert1 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Desert2:
+                                {
+                                    GameManager.Instance.Rune1Desert2 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Cave:
+                                {
+                                    GameManager.Instance.Rune1Active = true;
+                                    break;
+                                }
+                        }
                         break;
                     }
                 case 2:
                     {
-                        GameManager.Instance.Rune2Active = true;
+                        switch (RuneLocation)
+                        {
+                            case PuzzleLoc.Desert1:
+                                {
+                                    GameManager.Instance.Rune2Desert1 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Desert2:
+                                {
+                                    GameManager.Instance.Rune2Desert2 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Cave:
+                                {
+                                    GameManager.Instance.Rune2Active = true;
+                                    break;
+                                }
+                        }
                         break;
                     }
                 case 3:
                     {
-                        GameManager.Instance.Rune3Active = true;
+                        switch (RuneLocation)
+                        {
+                            case PuzzleLoc.Desert2:
+                                {
+                                    GameManager.Instance.Rune3Desert2 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Cave:
+                                {
+                                    GameManager.Instance.Rune3Active = true;
+                                    break;
+                                }
+                        }
                         break;
                     }
                 default:
                     {
-                        GameManager.Instance.Rune1Active = true;
+                        switch (RuneLocation)
+                        {
+                            case PuzzleLoc.Desert1:
+                                {
+                                    GameManager.Instance.Rune1Desert1 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Desert2:
+                                {
+                                    GameManager.Instance.Rune1Desert2 = true;
+                                    break;
+                                }
+                            case PuzzleLoc.Cave:
+                                {
+                                    GameManager.Instance.Rune1Active = true;
+                                    break;
+                                }
+                        }
                         break;
                     }
             }

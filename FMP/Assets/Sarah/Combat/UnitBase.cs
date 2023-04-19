@@ -825,10 +825,7 @@ public class UnitBase : MonoBehaviour
 
     public void PlayWeaponHitSound()
     {
-        if (DamageToTake != 0)
-        {
-            SoundManager.Instance.PlaySFX(AttackTarget.WeaponHitSound);
-        }
+        SoundManager.Instance.PlaySFX(AttackTarget.WeaponHitSound);
     }
 
     public void AttackingZoom()
@@ -1672,8 +1669,12 @@ public class UnitBase : MonoBehaviour
         MoveableArea(false);
     }
 
-    internal void WaitUnit()
+    internal void WaitUnit(bool Playsound = true)
     {
+        if (Playsound)
+        {
+            SoundManager.Instance.PlaySFX(Interact.Instance.CombatMenu.ButtonPress);
+        }
         MovedForTurn = true;
         AttackedForTurn = true;
         EndTurn = true;
