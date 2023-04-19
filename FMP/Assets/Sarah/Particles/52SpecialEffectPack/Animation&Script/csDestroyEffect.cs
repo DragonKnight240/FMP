@@ -5,10 +5,14 @@ public class csDestroyEffect : MonoBehaviour
 {
     float TimerDisable = 0;
     public float TimeDisable = 10;
+    public bool ToDestroy = false;
 
     private void Start()
     {
-        //Destroy(this.gameObject, 10); 
+        if (ToDestroy)
+        {
+            Destroy(gameObject, TimeDisable); 
+        }
     }
 
     void Update()
