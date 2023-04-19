@@ -258,6 +258,7 @@ public class UnitManager : MonoBehaviour
                         {
                             NewUnit.SetActive(false);
                             UnitBase.isAlive = false;
+                            DeadAllyUnits.Add(NewUnit.GetComponent<UnitBase>());
                         }
 
                         data = new CharacterData();

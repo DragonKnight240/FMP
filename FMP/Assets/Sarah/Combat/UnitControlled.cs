@@ -206,8 +206,8 @@ public class UnitControlled : UnitBase
         }
 
         Interact.Instance.CombatMenu.HealthAlly.value = (float)(CurrentHealth - (AttackTarget.CanReturnAttackIncludeMovement(this)?AttackTarget.CalculateDamage(this): 0) ) / HealthMax;
-        Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name + " (" + EquipedWeapon.CurrentDurablity + " / " + EquipedWeapon.Durablity + ")";
-        Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name + " (" +  CurrentAttack.DurabilityMultiplier + ")";
+        Interact.Instance.CombatMenu.Weapon.text = EquipedWeapon.Name + (EquipedWeapon != BareHands || !EquipedWeapon.isDestroyed ? (" (" + EquipedWeapon.CurrentDurablity + " / " + EquipedWeapon.Durablity + ")"): "");
+        Interact.Instance.CombatMenu.Attack.text = CurrentAttack.Name + (EquipedWeapon != BareHands || !EquipedWeapon.isDestroyed ? " (" +  CurrentAttack.DurabilityMultiplier + ")": "");
         Interact.Instance.CombatMenu.DamageAlly.text = CalculateDamage().ToString();
         Interact.Instance.CombatMenu.HitAlly.text = (CalcuateHitChance() - AttackTarget.CalculateDodge(this)).ToString();
         Interact.Instance.CombatMenu.CritAlly.text = CalculateCritChance().ToString();

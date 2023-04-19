@@ -150,6 +150,9 @@ public class UnitBase : MonoBehaviour
     public AudioClip DeathSound;
     public AudioClip WeaponHitSound;
 
+    [Header("VFX")]
+    public GameObject HealingParticle;
+
     [Header("Drops")]
     public int MoneyDrop;
     public Item ItemDrop;
@@ -823,7 +826,7 @@ public class UnitBase : MonoBehaviour
         {
             AttackTarget.DamageToTake = CalculateDamage();
 
-            if (CalculateCritChance() >= /*Random.Range(0, 101)*/ 0 && CanCrit)
+            if (CalculateCritChance() >= Random.Range(0, 101) && CanCrit)
             {
                 AttackTarget.DamageToTake *= 3;
                 Interact.Instance.CombatMenu.ShowCritMessage();
@@ -1377,7 +1380,7 @@ public class UnitBase : MonoBehaviour
             AttackTile = PathTo[PathTo.Count - 1];
         }
 
-        FindInRangeTargets(false, false);
+        MoveableArea(false);
 
         if (SupportedUnits.Count > 0)
         {
@@ -1523,6 +1526,8 @@ public class UnitBase : MonoBehaviour
 
     internal void IncreaseHealth(int Health)
     {
+        HealingParticle.SetActive(true);
+
         if (Health + CurrentHealth < HealthMax)
         {
             CurrentHealth += Health;

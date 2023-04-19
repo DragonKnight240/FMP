@@ -10750,6 +10750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tooltips:
+  - {fileID: 11400000, guid: 41cbf2e64583e8241bf2e4ad931de938, type: 2}
   - {fileID: 11400000, guid: 02ea2023b143b7f408226355568d41ef, type: 2}
   - {fileID: 11400000, guid: e63154b1666883a429d46397a878ae56, type: 2}
   - {fileID: 11400000, guid: 01a971c2d588cda47b21bee731165e63, type: 2}
@@ -12361,6 +12362,7 @@ MonoBehaviour:
   AttackName: {fileID: 6606576902675408912}
   AttackScreen: {fileID: 5043876981828774373}
   CritPanel: {fileID: 7047090875927158224}
+  CritSound: {fileID: 0}
   VictoryScreen: {fileID: 5441866711908448036}
   DefeatScreen: {fileID: 6502974252590467801}
   ScreenPrint: {fileID: 2933329918878997980}
@@ -12565,8 +12567,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Attack
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13704,8 +13706,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Weapon
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14087,8 +14089,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

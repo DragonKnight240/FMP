@@ -24,6 +24,8 @@ public class Objectives : MonoBehaviour
     internal GameObject ObjectMarkerOverworld;
     internal bool InRange = false;
 
+    public GameObject OverworldIcon;
+
     //Other Objectives
     public Zone ZoneObjective;
 

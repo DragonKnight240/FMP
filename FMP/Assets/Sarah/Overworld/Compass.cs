@@ -156,6 +156,12 @@ public class Compass : MonoBehaviour
             {
                 GameObject NewMarker = Instantiate(IconPrefab, CompassImage.transform);
 
+                if(OtherMarker.ShowObjectiveOverworld && OtherMarker.OverworldIcon)
+                {
+                    GameObject NewOverworldMarker = Instantiate(OtherMarker.OverworldIcon, OtherMarker.gameObject.transform);
+                    OtherMarker.ObjectMarkerOverworld = NewOverworldMarker;
+                }
+
                 OtherMarker.image = NewMarker.GetComponent<Image>();
                 OtherMarker.image.sprite = OtherMarker.Icon;
 

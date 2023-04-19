@@ -52,10 +52,18 @@ public class CameraMove : MonoBehaviour
         {
             if ((!Interact.Instance.CombatMenu.CombatMenuObject.activeInHierarchy || !Interact.Instance.CombatMenu.AttackMenuObject.activeInHierarchy) /*&& FollowTarget == null*/)
             {
-                float x = Input.GetAxisRaw("Horizontal");
-                float z = Input.GetAxisRaw("Vertical");
+                if(!BoundaryCameraMove())
+                {
+                    float x = Input.GetAxisRaw("Horizontal");
+                    float z = Input.GetAxisRaw("Vertical");
 
-                RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), RB.velocity.y, (z * SmoothSpeed * 100 * Time.timeScale));
+                    RB.velocity = new Vector3((x * SmoothSpeed * 100 * Time.timeScale), RB.velocity.y, (z * SmoothSpeed * 100 * Time.timeScale));
+
+                    if(RB.velocity != Vector3.zero)
+                    {
+                        GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
+                    }
+                }
 
                 if (TileManager.Instance.Grid[TileManager.Instance.Width - 1, 0].transform.position.x < transform.position.x) //Bottom Right X
                 {
@@ -118,11 +126,51 @@ public class CameraMove : MonoBehaviour
         LerpTo();
     }
 
+    bool BoundaryCameraMove()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        // Check if the mouse cursor is at the edge of the screen
+        if (mousePosition.x >= screenWidth - 1)
+        {
+            // Move the camera to the right
+            RB.velocity = new Vector3(SmoothSpeed * 100 * Time.timeScale, RB.velocity.y, RB.velocity.z);
+            GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
+            return true;
+        }
+        else if (mousePosition.x <= 1)
+        {
+            // Move the camera to the left
+            RB.velocity = new Vector3(-SmoothSpeed * 100 * Time.timeScale, RB.velocity.y, RB.velocity.z);
+            GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
+            return true;
+        }
+
+        if (mousePosition.y >= screenHeight - 1)
+        {
+            // Move the camera up
+            RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y, SmoothSpeed * 100 * Time.timeScale);
+            GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
+            return true;
+        }
+        else if (mousePosition.y <= 1)
+        {
+            // Move the camera down
+            RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y, -SmoothSpeed * 100 * Time.timeScale);
+            GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
+            return true;
+        }
+
+        return false;
+    }
+
     void LerpTo()
     {
         if (FollowTarget)
         {
-            Vector3 DesiredPosition = FollowTarget.position + offSet;
+            Vector3 DesiredPosition = FollowTarget.position + offSet + (new Vector3(offSet.x,0,offSet.z));
             Vector3 SmoothPosition;
 
             if (!FollowTarget.GetComponent<InteractOnGrid>())

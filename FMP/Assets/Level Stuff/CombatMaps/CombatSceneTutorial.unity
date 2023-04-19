@@ -1804,6 +1804,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 41cbf2e64583e8241bf2e4ad931de938, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 02ea2023b143b7f408226355568d41ef, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e63154b1666883a429d46397a878ae56, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 01a971c2d588cda47b21bee731165e63, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: de214ba12a3d92c438db3b64f53f0457, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a64e3d964401f14fb70295b403f1b28, type: 2}
+    - target: {fileID: 5280715758483416000, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
+      propertyPath: Tooltips.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b9e03adc73c30942882adc904faefe3, type: 2}
     - target: {fileID: 6146107985311742310, guid: a0bca997260be7542b4107c488c9ba0f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4125,6 +4157,7 @@ MonoBehaviour:
   MaxRecruitable: 2
   Convoy: []
   Money: 0
+  PPCombatSpeed: 1
   inCombat: 0
   StartedGame: 0
   GodMode: 1

@@ -20,6 +20,8 @@ public class PlayerOverworld : MonoBehaviour
     public CinemachineFreeLook FreelookCam;
     public PostProcessVolume PPVolume;
 
+    public GameObject HealPartical;
+
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
@@ -47,7 +49,7 @@ public class PlayerOverworld : MonoBehaviour
 
     private void Update()
     {
-        if(!CanMove)
+        if (!CanMove)
         {
             Anim.ResetTrigger("Fall");
             Anim.ResetTrigger("Move");
@@ -56,12 +58,25 @@ public class PlayerOverworld : MonoBehaviour
             return;
         }
 
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             Anim.ResetTrigger("Fall");
             Anim.ResetTrigger("Move");
             Anim.SetTrigger("Idle");
             RB.velocity = Vector3.zero;
+            return;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!CanMove)
+        {
+            return;
+        }
+
+        if (Time.timeScale == 0)
+        {
             return;
         }
 
@@ -143,6 +158,11 @@ public class PlayerOverworld : MonoBehaviour
                 Anim.SetTrigger("Fall");
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 
     private void OnDestroy()
