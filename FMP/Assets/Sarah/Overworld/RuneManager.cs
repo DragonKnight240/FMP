@@ -16,17 +16,20 @@ public class RuneManager : MonoBehaviour
     Runes[] Runes;
     public MoveObject ObjectOpen;
     public AudioClip AllRunesActiveSound;
+    List<Runes> PuzzleRunes;
 
     // Start is called before the first frame update
     void Start()
     {
         Runes = FindObjectsOfType<Runes>();
+        PuzzleRunes = new List<Runes>();
 
         for(int i = 0; i < Runes.Length; i++)
         {
             if (Runes[i].RuneLocation == PuzzleLocation)
             {
                 Runes[i].RuneNumber = i + 1;
+                PuzzleRunes.Add(Runes[i]);
             }
         }
     }
@@ -34,7 +37,7 @@ public class RuneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(Runes Rune in Runes)
+        foreach(Runes Rune in PuzzleRunes)
         {
             if(!Rune.isActive)
             {
@@ -49,5 +52,6 @@ public class RuneManager : MonoBehaviour
     {
         ObjectOpen.Activate = true;
         SoundManager.Instance.PlaySFX(AllRunesActiveSound);
+        Destroy(this);
     }
 }
