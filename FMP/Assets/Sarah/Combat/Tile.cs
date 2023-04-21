@@ -262,9 +262,12 @@ public class Tile : MonoBehaviour
             }
         }
 
-        if(Special)
+        if (Special)
         {
-            Special.HoverTip.Hovering = true;
+            if (Special.HoverTip)
+            {
+                Special.HoverTip.Hovering = true;
+            }
         }
 
         if (!Interact.Instance.CombatMenu.AttackMenuObject.gameObject.activeInHierarchy
@@ -288,14 +291,17 @@ public class Tile : MonoBehaviour
 
         if (Special)
         {
-            Special.HoverTip.Hovering = false;
-            HoverTooltipManager.OnMouseLoseFocus();
-
-            if (Special.GetComponent<MagicOrb>())
+            if (Special.HoverTip)
             {
-                Special.GetComponent<MagicOrb>().HideRange();
-                WhichColour(Interact.Instance.SelectedUnit);
-                return;
+                Special.HoverTip.Hovering = false;
+                HoverTooltipManager.OnMouseLoseFocus();
+
+                if (Special.GetComponent<MagicOrb>())
+                {
+                    Special.GetComponent<MagicOrb>().HideRange();
+                    WhichColour(Interact.Instance.SelectedUnit);
+                    return;
+                }
             }
         }
 
