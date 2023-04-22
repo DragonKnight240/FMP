@@ -744,11 +744,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c6fc2722020185341bfe898dd19a2382, type: 2}
   - {fileID: 11400000, guid: 7a9f4098418c8384eb7542a0cd43ceed, type: 2}
   WeaponImage: {fileID: 7023822515099512498}
-  AttackSound: {fileID: 0}
+  AttackSound: {fileID: 8300000, guid: d89f652af6e417f48b7fb42cd210b0af, type: 3}
   HitSound: {fileID: 0}
   DeathSound: {fileID: 0}
   WeaponHitSound: {fileID: 0}
   HealingParticle: {fileID: 5472074190169230234}
+  PartSwordLoc: {fileID: 0}
+  PartMagicLoc: {fileID: 0}
+  PartBowLoc: {fileID: 0}
+  PartGauntletLoc: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Recruited: 0
@@ -4412,6 +4416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeDisable: 2
+  ToDestroy: 0
 --- !u!114 &1138084797872593676
 MonoBehaviour:
   m_ObjectHideFlags: 0

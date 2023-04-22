@@ -413,10 +413,15 @@ MonoBehaviour:
   InRangeTargets: []
   SupportsWith: []
   WeaponImage: {fileID: 3245401895718932567}
-  AttackSound: {fileID: 8300000, guid: f88be00359c06f942bc02ac0ca7c26b1, type: 3}
-  HitSound: {fileID: 8300000, guid: 1aae02a619be7de4f9d7045b1a86444a, type: 3}
-  DeathSound: {fileID: 8300000, guid: 15342aa0290f62140b5d12d5dbff432c, type: 3}
+  AttackSound: {fileID: 8300000, guid: dcb64bd9b0eca2a408ad0a6ae6ea23e9, type: 3}
+  HitSound: {fileID: 8300000, guid: 5c1fb079d13d5b148aa495183f4cbc25, type: 3}
+  DeathSound: {fileID: 8300000, guid: 6913189c24ee5be4baa83a5c565dece8, type: 3}
   WeaponHitSound: {fileID: 0}
+  HealingParticle: {fileID: 0}
+  PartSwordLoc: {fileID: 0}
+  PartMagicLoc: {fileID: 0}
+  PartBowLoc: {fileID: 0}
+  PartGauntletLoc: {fileID: 0}
   MoneyDrop: 2
   ItemDrop: {fileID: 0}
   Behaviour: 0

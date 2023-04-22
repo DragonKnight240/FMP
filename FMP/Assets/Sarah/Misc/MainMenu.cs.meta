@@ -3,7 +3,15 @@ guid: 613010b0c9007394ebef9264177a8483
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - MainMenuCanvas: {instanceID: 0}
+  - OptionsMenu: {instanceID: 0}
+  - DollyCart: {instanceID: 0}
+  - MainCamera: {instanceID: 0}
+  - options: {instanceID: 0}
+  - VirtualCamera: {instanceID: 0}
+  - CompassObj: {instanceID: 0}
+  - ButtonPress: {fileID: 8300000, guid: be57ecbc1925e004eb6fd92a73d48496, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
