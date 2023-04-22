@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviour
     internal bool Rune2Desert2;
     internal bool Rune3Desert2;
 
+    [Header("Sound Effects")]
+    public AudioClip OpenChestSound;
+
     private void Awake()
     {
         if (Instance == null)

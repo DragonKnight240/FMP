@@ -159,9 +159,11 @@ public class UnitBase : MonoBehaviour
     public GameObject TauntParticle;
     public GameObject PartSwordLoc;
     public GameObject PartMagicLoc;
-    public GameObject PartBowLoc;
-    public GameObject PartGauntletLocL;
-    public GameObject PartGauntletLocR;
+    //public GameObject PartBowLoc;
+    //public GameObject PartGauntletLocL;
+    //public GameObject PartGauntletLocR;
+
+    public Sprite EyesSprite;
 
     [Header("Drops")]
     public int MoneyDrop;
@@ -389,17 +391,17 @@ public class UnitBase : MonoBehaviour
                     CurrentParticle = Instantiate(CurrentAttack.Particles, PartSwordLoc.transform);
                     break;
                 }
-            case WeaponType.Bow:
-                {
-                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartBowLoc.transform);
-                    break;
-                }
-            case WeaponType.Gauntlets:
-                {
-                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLocL.transform);
-                    Instantiate(CurrentAttack.Particles, PartGauntletLocR.transform);
-                    break;
-                }
+            //case WeaponType.Bow:
+            //    {
+            //        CurrentParticle = Instantiate(CurrentAttack.Particles, PartBowLoc.transform);
+            //        break;
+            //    }
+            //case WeaponType.Gauntlets:
+            //    {
+            //        CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLocL.transform);
+            //        Instantiate(CurrentAttack.Particles, PartGauntletLocR.transform);
+            //        break;
+            //    }
             case WeaponType.Staff:
                 {
                     CurrentParticle = Instantiate(CurrentAttack.Particles, PartMagicLoc.transform);
@@ -407,8 +409,8 @@ public class UnitBase : MonoBehaviour
                 }
             default:
                 {
-                    CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLocL.transform);
-                    Instantiate(CurrentAttack.Particles, PartGauntletLocR.transform);
+                    //CurrentParticle = Instantiate(CurrentAttack.Particles, PartGauntletLocL.transform);
+                    //Instantiate(CurrentAttack.Particles, PartGauntletLocR.transform);
                     break;
                 }
         }
@@ -894,6 +896,7 @@ public class UnitBase : MonoBehaviour
             if (CalculateCritChance() >= Random.Range(0, 101) && CanCrit)
             {
                 AttackTarget.DamageToTake *= 3;
+                Interact.Instance.CombatMenu.CritEyesImage.sprite = EyesSprite;
                 Interact.Instance.CombatMenu.ShowCritMessage();
             }
 

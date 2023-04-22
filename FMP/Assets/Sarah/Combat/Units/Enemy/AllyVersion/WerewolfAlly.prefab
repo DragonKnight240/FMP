@@ -241,7 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4350246387452165340}
   - component: {fileID: 5602776154090049863}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,11 +449,10 @@ MonoBehaviour:
   CritParticle: {fileID: 331858629849060307}
   HitParticle: {fileID: 4759437926584614285}
   BossHitParticle: {fileID: 6511104414943323904}
+  TauntParticle: {fileID: 0}
   PartSwordLoc: {fileID: 0}
   PartMagicLoc: {fileID: 0}
-  PartBowLoc: {fileID: 0}
-  PartGauntletLocL: {fileID: 0}
-  PartGauntletLocR: {fileID: 0}
+  EyesSprite: {fileID: 21300000, guid: b653c8330e307ce4299eb31e4c242b60, type: 3}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Recruited: 1
@@ -477,7 +476,7 @@ GameObject:
   - component: {fileID: 2451251723273866032}
   - component: {fileID: 5452759651572352762}
   - component: {fileID: 6614787330501310021}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +610,7 @@ GameObject:
   - component: {fileID: 1670915748754381171}
   - component: {fileID: 8001177885749001381}
   - component: {fileID: 3867081185877930462}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7509351223826812512}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbersFar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -893,7 +892,7 @@ GameObject:
   - component: {fileID: 5020183218169776637}
   - component: {fileID: 1737367563560942575}
   - component: {fileID: 671436714410487828}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbersCanvas (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1390,7 +1389,7 @@ GameObject:
   - component: {fileID: 76905596540352339}
   - component: {fileID: 7674742011078274195}
   - component: {fileID: 6468962831785428847}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbersCanvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1517,7 +1516,7 @@ GameObject:
   - component: {fileID: 2857827607148106983}
   - component: {fileID: 6926918526889985167}
   - component: {fileID: 5244427431652568613}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbersCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4478,7 +4477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7593209708783490632}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UpLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4510,7 +4509,7 @@ GameObject:
   - component: {fileID: 8633558670647361799}
   - component: {fileID: 3235620656461057805}
   - component: {fileID: 7141262759777509369}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4677,7 +4676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6668587798450977978}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumbersClose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4786,7 +4785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7026700613965608084}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DamageNumberStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
