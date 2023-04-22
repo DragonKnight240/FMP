@@ -56,7 +56,10 @@ public class MusicSwitch : MonoBehaviour
         {
             if (Audio.clip != BiomeMusic)
             {
-                Compass.Instance.ChangeMarkerLocation(Zone);
+                if (Compass.Instance)
+                {
+                    Compass.Instance.ChangeMarkerLocation(Zone);
+                }
                 PendingChange = true;
             }
         }

@@ -7,6 +7,7 @@ public class DialoguePlayAnimation : MonoBehaviour
     public Dialogue Line;
     public Animator Animator;
     public string TriggerName;
+    internal bool Done = false;
 
 
     // Start is called before the first frame update
@@ -21,10 +22,14 @@ public class DialoguePlayAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DialogueSystem.Instance.CurrentLine == Line)
+        if (DialogueSystem.Instance.CurrentLine == Line && !Done)
         {
             Animator.SetTrigger(TriggerName);
-            Destroy(this);
+            Done = true;
+        }
+        else
+        {
+            Done = false;
         }
     }
 }

@@ -41,6 +41,7 @@ public class OverworldChest : MonoBehaviour
 
     internal void OpenChest()
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.OpenChestSound);
         if(Anim)
         {
             Anim.speed = 1;
