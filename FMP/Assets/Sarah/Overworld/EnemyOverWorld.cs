@@ -26,7 +26,9 @@ public class EnemyOverWorld : MonoBehaviour
     Rigidbody RB;
 
     //Sound
+    public List<AudioClip> SpottedPlayerSounds;
     public AudioClip SpottedPlayer;
+    public List<AudioClip> LostPlayerSounds;
     public AudioClip LostPlayer;
 
     Animator Anim;
@@ -114,7 +116,7 @@ public class EnemyOverWorld : MonoBehaviour
                 if(!PlayerInRange)
                 {
                     Anim.SetTrigger("Chase");
-                    SoundManager.Instance.PlaySFX(SpottedPlayer);
+                    SoundManager.Instance.PlaySFX(RandomSound(SpottedPlayerSounds));
                 }
 
                 PlayerInRange = true;
@@ -124,7 +126,7 @@ public class EnemyOverWorld : MonoBehaviour
                 if (PlayerInRange)
                 {
                     Anim.SetTrigger("Walk");
-                    SoundManager.Instance.PlaySFX(LostPlayer);
+                    SoundManager.Instance.PlaySFX(RandomSound(LostPlayerSounds));
                 }
                 PlayerInRange = false;
             }
@@ -136,6 +138,11 @@ public class EnemyOverWorld : MonoBehaviour
     internal string RandomMap()
     {
         return CombatMapNames[Random.Range(0, CombatMapNames.Count - 1)];
+    }
+
+    internal AudioClip RandomSound(List<AudioClip> AudioClips)
+    {
+        return AudioClips[Random.Range(0, AudioClips.Count - 1)];
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -152,15 +159,11 @@ public class EnemyOverWorld : MonoBehaviour
                     {
                         GameManager.Instance.PlayerReturnToOverworld = Player.transform.position;
                         GameManager.Instance.PlayerReturnToOverworld.y += 1;
-
-                        //foreach(PostProcessEffectSettings PPESetting in Player.GetComponent<PlayerOverworld>().BattleProfile.settings)
-                        //{
-                        //    PPESetting.active = true;
-                        //    print(PPESetting.name);
-                        //}
                     }
 
                     GameManager.Instance.inCombat = true;
+
+                    SoundManager.Instance.PlaySFX(Player.GetComponent<PlayerOverworld>().EnterBattleSound);
                 }
             }
         }

@@ -122,8 +122,10 @@ public class CombatMenu : MonoBehaviour
 
     internal SpecialAttacks NewAttack;
 
+    //Crit
     public GameObject CritPanel;
     public AudioClip CritSound;
+    public Image CritEyesImage;
 
     //Ending Scences
     public GameObject VictoryScreen;
@@ -134,6 +136,7 @@ public class CombatMenu : MonoBehaviour
     [Header("Sound Effects")]
     public AudioClip ButtonPress;
     public AudioClip ChangeWeaponSound;
+    public AudioClip LevelUpSound;
 
 
     private void Start()
@@ -332,6 +335,8 @@ public class CombatMenu : MonoBehaviour
     {
         OldLevel.text = (Unit.Level - 1).ToString();
         NewLevel.text = (Unit.Level).ToString();
+
+        SoundManager.Instance.PlaySFX(LevelUpSound);
 
         LevelScreen.SetActive(true);
         LevelScreen.GetComponent<UIFade>().ToFadeIn();

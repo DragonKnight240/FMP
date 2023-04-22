@@ -6,6 +6,7 @@ public class DialoguePlaySound : MonoBehaviour
 {
     public Dialogue Line;
     public AudioClip SoundToPlay;
+    internal bool Done = false;
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +17,14 @@ public class DialoguePlaySound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Line == DialogueSystem.Instance.CurrentLine)
+        if(Line == DialogueSystem.Instance.CurrentLine && !Done)
         {
             SoundManager.Instance.PlaySFX(SoundToPlay);
-            Destroy(this);
+            Done = true;
+        }
+        else
+        {
+            Done = false;
         }
     }
 }

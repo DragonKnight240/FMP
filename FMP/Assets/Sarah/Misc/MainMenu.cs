@@ -105,6 +105,7 @@ public class MainMenu : MonoBehaviour
 
     public void Option()
     {
+        SoundManager.Instance.PlaySFX(ButtonPress);
         if (!GameManager.Instance.StartedGame)
         {
             Options.Instance.QuitButton.SetActive(false);

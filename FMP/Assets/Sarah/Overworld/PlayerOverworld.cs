@@ -22,6 +22,8 @@ public class PlayerOverworld : MonoBehaviour
 
     public GameObject HealPartical;
 
+    public AudioClip EnterBattleSound;
+
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
