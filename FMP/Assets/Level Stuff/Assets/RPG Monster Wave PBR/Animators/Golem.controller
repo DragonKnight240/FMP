@@ -406,8 +406,7 @@ AnimatorState:
   m_Name: WalkFWD
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 1101386774083348226}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -838,8 +837,7 @@ AnimatorState:
   m_Name: Die
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 1101367681097129020}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -865,23 +863,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 1102083742241195100}
-    m_Position: {x: 276, y: 12, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102751364099746178}
-    m_Position: {x: 276, y: 96, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102383425283245302}
-    m_Position: {x: 276, y: 180, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102126153122520848}
-    m_Position: {x: 276, y: 264, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1102025725620662682}
     m_Position: {x: 552, y: 12, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102280968814267940}
-    m_Position: {x: 552, y: 96, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102871867965858338}
     m_Position: {x: 552, y: 180, z: 0}
@@ -924,4 +907,4 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 48, y: 216, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102083742241195100}
+  m_DefaultState: {fileID: 1102025725620662682}
