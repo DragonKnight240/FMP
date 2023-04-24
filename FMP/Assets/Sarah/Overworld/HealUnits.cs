@@ -15,13 +15,19 @@ public class HealUnits : MonoBehaviour
 
     internal void Heal()
     {
-        print("Heal");
-        foreach(CharacterData Unit in GameManager.Instance.UnitData)
+        if (GameManager.Instance)
         {
-            Unit.CurrentHealth = Unit.HealthMax;
-        }
+            if (GameManager.Instance.CombatTutorialComplete)
+            {
+                print("Heal");
+                foreach (CharacterData Unit in GameManager.Instance.UnitData)
+                {
+                    Unit.CurrentHealth = Unit.HealthMax;
+                }
 
-        SoundManager.Instance.PlaySFX(HealSound);
-        Player.HealPartical.SetActive(true);
+                SoundManager.Instance.PlaySFX(HealSound);
+                Player.HealPartical.SetActive(true);
+            }
+        }
     }
 }

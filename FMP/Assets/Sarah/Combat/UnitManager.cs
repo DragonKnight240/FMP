@@ -434,7 +434,7 @@ public class UnitManager : MonoBehaviour
 
                         UnitBase.GetComponent<BossAI>().ToCenter = new Vector3(BaseOffset, BaseOffset, (UnitBase.GetComponent<CapsuleCollider>().height/2));
 
-                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y + UnitBase.ToCenter[2], UnitBase.transform.position.z + UnitBase.ToCenter[1]);
+                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y/* + UnitBase.ToCenter[2]*/, UnitBase.transform.position.z + UnitBase.ToCenter[1]);
                     }
                 }
             }

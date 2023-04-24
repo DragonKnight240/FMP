@@ -361,6 +361,12 @@ public class OverworldMenu : MonoBehaviour
             }
 
             Health.text = OpenCharacterData.CurrentHealth.ToString() + " / " + OpenCharacterData.HealthMax.ToString();
+
+            OpenCharacterData.Inventory.Remove(HealthItem);
+
+            CloseTradeWindow();
+
+            UpdateInventorySlots(OpenCharacterData);
         }
             
     }

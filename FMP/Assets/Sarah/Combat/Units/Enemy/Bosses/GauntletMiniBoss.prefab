@@ -242,7 +242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127706495414892139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.46}
+  m_LocalPosition: {x: 0, y: 0.48, z: 2.07}
   m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_Children:
   - {fileID: 6668587798450977978}
@@ -425,9 +425,7 @@ MonoBehaviour:
   TauntParticle: {fileID: 139908293294517760}
   PartSwordLoc: {fileID: 0}
   PartMagicLoc: {fileID: 0}
-  PartBowLoc: {fileID: 0}
-  PartGauntletLocL: {fileID: 0}
-  PartGauntletLocR: {fileID: 0}
+  EyesSprite: {fileID: 0}
   MoneyDrop: 0
   ItemDrop: {fileID: 0}
   Behaviour: 2
@@ -1959,7 +1957,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263118778866251419}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.12, y: 3.93, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children:
   - {fileID: 4259257775166277429}
@@ -2260,7 +2258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8233712281560068257}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.12000008, y: 3.930001, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children: []
   m_Father: {fileID: 6238273283075082795}
