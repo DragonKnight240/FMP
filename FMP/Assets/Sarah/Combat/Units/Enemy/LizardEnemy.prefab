@@ -457,7 +457,7 @@ MonoBehaviour:
   HitParticle: {fileID: 3998828954300739194}
   BossHitParticle: {fileID: 2604665389348277262}
   TauntParticle: {fileID: 0}
-  PartSwordLoc: {fileID: 1452408765696754994}
+  PartSwordLoc: {fileID: 5401097338684156975}
   PartMagicLoc: {fileID: 0}
   EyesSprite: {fileID: 21300000, guid: e8e6b9fcdad38464193d6f24b5ef80d9, type: 3}
   MoneyDrop: 2
@@ -5063,6 +5063,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+--- !u!1 &5401097338684156975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1011817122949597024, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+  m_PrefabInstance: {fileID: 4971480471952304975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5451876258794716570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1105294733700896469, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
