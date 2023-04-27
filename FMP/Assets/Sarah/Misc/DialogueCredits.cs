@@ -7,6 +7,7 @@ public class DialogueCredits : MonoBehaviour
     public Dialogue ActivateDialogue;
     public GameObject CreditsMain;
     internal bool Pending = false;
+    public GameObject OutsideDungeon;
 
     private void Start()
     {
@@ -32,14 +33,19 @@ public class DialogueCredits : MonoBehaviour
                 CreditsMain.SetActive(true);
                 CreditsMain.GetComponent<UIFade>().ToFadeIn();
                 CreditsMain.GetComponentInChildren<Animator>().enabled = true;
+                Pending = false;
             }
         }
     }
 
     public void LoadMenu()
     {
-        Options.Instance.LoadWebpage("https://forms.gle/s29mEgD3bTF735759");
-        GameManager.Instance.ReturnToDefault();
+        //Options.Instance.LoadWebpage("https://forms.gle/s29mEgD3bTF735759");
+        //GameManager.Instance.ReturnToDefault();
+        //SceneLoader.Instance.ReloadScene();
+
+        GameManager.Instance.PlayerReturnToOverworld = OutsideDungeon.transform.position;
         SceneLoader.Instance.ReloadScene();
+        //print("Done");
     }
 }

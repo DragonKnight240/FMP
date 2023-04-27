@@ -170,9 +170,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Credits\n\nDesigner\nRafail Theodorou\n\nProgrammer\nSarah Butlin\n\nUI
-    Graphics\n40+ Simple Icons by shuvadanil\nFantasy Wooden GUI by \rBlack Hammer\nRPG
-    inventory icons by \rREXARD\r\n\n"
+  m_text: 'Credits
+
+
+    A game by Rafael Theodorou & Sarah Butlin
+
+
+
+    Please
+    fill out our survey form, which will soon be opened up in your browser. :)
+
+
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
@@ -273,7 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivateDialogue: {fileID: 0}
-  CreditsMain: {fileID: 0}
+  CreditsMain: {fileID: 23521659}
+  OutsideDungeon: {fileID: 0}
 --- !u!1 &1029745194
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +495,11 @@ MonoBehaviour:
   MainObjectives:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  OtherObjectives:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4462,7 +4479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3796709657792722902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7287,6 +7304,9 @@ MonoBehaviour:
   SpeakerName: {fileID: 4188848718426083735}
   DialoguePrompt: {fileID: 6618375245135043075}
   LetterDiplayTime: 0.05
+  OpenDialogue: {fileID: 8300000, guid: 66398b3ef08fee746b6fd453f6f1d3fa, type: 3}
+  NextDialogue: {fileID: 8300000, guid: 66398b3ef08fee746b6fd453f6f1d3fa, type: 3}
+  EndDialogueSound: {fileID: 8300000, guid: be57ecbc1925e004eb6fd92a73d48496, type: 3}
 --- !u!114 &5833548794545982573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11904,6 +11924,11 @@ MonoBehaviour:
   HitRateNum: {fileID: 1375535860844890298}
   DurabilityNum: {fileID: 3744588834856755704}
   RangeNum: {fileID: 2264021688747401071}
+  BuySound: {fileID: 8300000, guid: 66398b3ef08fee746b6fd453f6f1d3fa, type: 3}
+  NotEnoughMoney: {fileID: 8300000, guid: 5212e386a2377314fa8ded6a38da3a02, type: 3}
+  OpenShopSound: {fileID: 8300000, guid: 84cb5a180bcdb3f4686eae66bc68a6de, type: 3}
+  CloseShopSound: {fileID: 8300000, guid: be57ecbc1925e004eb6fd92a73d48496, type: 3}
+  ShowDetailsSound: {fileID: 8300000, guid: 66398b3ef08fee746b6fd453f6f1d3fa, type: 3}
 --- !u!1 &2387919566250225735
 GameObject:
   m_ObjectHideFlags: 0
@@ -16445,7 +16470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4483917864909906584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29367,6 +29392,10 @@ MonoBehaviour:
   ConvoyPrefab: {fileID: 2734473348323457105, guid: be8b992dc7b5b634a8e2fb76a664e83c, type: 3}
   InventoryTooltip: {fileID: 11400000, guid: 7dc141e49cdd32349a24b9bfff70e15d, type: 2}
   TradeTooltip: {fileID: 11400000, guid: 86c068617cc771549865b8ed9ae2b2fd, type: 2}
+  CloseTradeSound: {fileID: 8300000, guid: be57ecbc1925e004eb6fd92a73d48496, type: 3}
+  OpenTradeSound: {fileID: 8300000, guid: 84cb5a180bcdb3f4686eae66bc68a6de, type: 3}
+  OpenInventorySound: {fileID: 8300000, guid: 84cb5a180bcdb3f4686eae66bc68a6de, type: 3}
+  CloseInventorySound: {fileID: 8300000, guid: be57ecbc1925e004eb6fd92a73d48496, type: 3}
 --- !u!1 &6846901182097867772
 GameObject:
   m_ObjectHideFlags: 0
@@ -37561,6 +37590,7 @@ MonoBehaviour:
   options: {fileID: 8578700664455334411}
   VirtualCamera: {fileID: 0}
   CompassObj: {fileID: 1029745194}
+  ButtonPress: {fileID: 0}
 --- !u!114 &8578700664455334411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37667,6 +37697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActivateDialogue: {fileID: 11400000, guid: a97893f15703ab84597efeed987470b5, type: 2}
   CreditsMain: {fileID: 23521659}
+  OutsideDungeon: {fileID: 0}
 --- !u!1 &8578700664519244490
 GameObject:
   m_ObjectHideFlags: 0
