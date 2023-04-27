@@ -417,6 +417,11 @@ public class UnitBase : MonoBehaviour
 
     }
 
+    public void TurnOffTauntParticle()
+    {
+        TauntParticle.SetActive(false);
+    }
+
     public void PlayTauntParticle()
     {
         TauntParticle.SetActive(true);

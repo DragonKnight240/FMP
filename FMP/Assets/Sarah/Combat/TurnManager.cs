@@ -47,7 +47,7 @@ public class TurnManager : MonoBehaviour
         {
             if (UnitsToMove <= 0 && Interact.Instance.VirtualCam.activeInHierarchy && !PendingAction)
             {
-                print("Turn Change to Enemy");
+                //print("Turn Change to Enemy");
                 isPlayerTurn = false;
                 TurnChange.Invoke();
                 Interact.Instance.SelectedUnit = null;

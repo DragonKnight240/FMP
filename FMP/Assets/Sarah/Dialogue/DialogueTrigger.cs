@@ -130,7 +130,7 @@ public class DialogueTrigger : MonoBehaviour
             {
                 if (GetComponent<Objectives>())
                 {
-                    print("Objective");
+                    //print("Objective");
                     GetComponent<Objectives>().InRange = true;
                 }
 

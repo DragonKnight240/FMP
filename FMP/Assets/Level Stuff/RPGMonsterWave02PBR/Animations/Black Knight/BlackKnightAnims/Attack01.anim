@@ -60498,6 +60498,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.033333335
+    functionName: TurnOffTauntParticle
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
     functionName: DisplayAttack
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 9c62df0853585604dabb17cf5736e1ea, type: 3}

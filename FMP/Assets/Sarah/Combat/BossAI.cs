@@ -161,12 +161,15 @@ public class BossAI : UnitAI
 
         //print(Route.Count);
 
+        int LastIndex = Path.Count - 1;
+
         if (Path.Count > 1)
         {
-            //print("Actual PAth");
-            if (Position[1] == Path[1].GridPosition[1])
+            print(Path[0].GridPosition[0] + " , " + Path[0].GridPosition[1]);
+            print(AttackTarget.Position[0] + " , " + AttackTarget.Position[1]);
+            if (AttackTarget.Position[1] == Path[LastIndex].GridPosition[1])
             {
-                if (Path[0].GridPosition[0] > Position[0])
+                if (Path[LastIndex].GridPosition[0] < AttackTarget.Position[0])
                 {
                     Dir = Direction.Right;
                 }
@@ -177,7 +180,7 @@ public class BossAI : UnitAI
             }
             else
             {
-                if (Path[1].GridPosition[1] > Position[1])
+                if (Path[LastIndex].GridPosition[1] < AttackTarget.Position[1])
                 {
                     Dir = Direction.Up;
                 }
@@ -187,7 +190,9 @@ public class BossAI : UnitAI
                 }
             }
 
-            ClosestTile = Path[0];
+            print(Dir);
+
+            ClosestTile = Path[LastIndex];
         }
         else
         {
@@ -269,7 +274,7 @@ public class BossAI : UnitAI
 
     internal void ShowDamageRange()
     {
-        print("Damge Range");
+        //print("Damge Range");
 
         foreach(Tile tile in AoELocations)
         {

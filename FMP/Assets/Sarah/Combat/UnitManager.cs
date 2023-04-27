@@ -261,6 +261,8 @@ public class UnitManager : MonoBehaviour
                             DeadAllyUnits.Add(NewUnit.GetComponent<UnitBase>());
                         }
 
+                        UnitBase.Setup = data.Setup;
+
                         data = new CharacterData();
                     }
                     else
@@ -342,13 +344,15 @@ public class UnitManager : MonoBehaviour
                     {
                         InventoryInstances.Add(Instantiate(weapon));
                         WeaponInventory.Add((Weapon)InventoryInstances[InventoryInstances.Count - 1]);
+                        WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
                     }
                     else
                     {
                         WeaponInventory.Add((Weapon)item);
+                        //print(weapon.CurrentDurablity);
                     }
 
-                    WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
+                    
 
                     if (weapon.Special)
                     {
