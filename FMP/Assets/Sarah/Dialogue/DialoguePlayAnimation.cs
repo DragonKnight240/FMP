@@ -27,7 +27,7 @@ public class DialoguePlayAnimation : MonoBehaviour
             Animator.SetTrigger(TriggerName);
             Done = true;
         }
-        else
+        else if(DialogueSystem.Instance.CurrentLine != Line)
         {
             Done = false;
         }

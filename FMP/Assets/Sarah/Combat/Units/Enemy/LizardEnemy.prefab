@@ -457,7 +457,7 @@ MonoBehaviour:
   HitParticle: {fileID: 3998828954300739194}
   BossHitParticle: {fileID: 2604665389348277262}
   TauntParticle: {fileID: 0}
-  PartSwordLoc: {fileID: 1452408765696754994}
+  PartSwordLoc: {fileID: 5401097338684156975}
   PartMagicLoc: {fileID: 0}
   EyesSprite: {fileID: 21300000, guid: e8e6b9fcdad38464193d6f24b5ef80d9, type: 3}
   MoneyDrop: 2
@@ -4503,7 +4503,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263118778866251419}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.28, y: 3.33, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children:
   - {fileID: 4259257775166277429}
@@ -4804,7 +4804,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8233712281560068257}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.28, y: 3.33, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children: []
   m_Father: {fileID: 6238273283075082795}
@@ -5063,6 +5063,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+--- !u!1 &5401097338684156975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1011817122949597024, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+  m_PrefabInstance: {fileID: 4971480471952304975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5451876258794716570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1105294733700896469, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}

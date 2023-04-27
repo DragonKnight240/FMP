@@ -2827,7 +2827,7 @@ MonoBehaviour:
   HitParticle: {fileID: 3228194337503022396}
   BossHitParticle: {fileID: 4591149982855834037}
   TauntParticle: {fileID: 0}
-  PartSwordLoc: {fileID: 551535185755633230}
+  PartSwordLoc: {fileID: 1250006300947640434}
   PartMagicLoc: {fileID: 0}
   EyesSprite: {fileID: 21300000, guid: 47178ce99fc8e7347a9a785d1332c0ac, type: 3}
   MoneyDrop: 2
@@ -4357,7 +4357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263118778866251419}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.03999996, y: 3.1899998, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children:
   - {fileID: 4259257775166277429}
@@ -4658,7 +4658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8233712281560068257}
   m_LocalRotation: {x: 0, y: 0.9848078, z: -0.17364816, w: 0}
-  m_LocalPosition: {x: 0.78, y: 3.45, z: 5.61}
+  m_LocalPosition: {x: 0.04, y: 3.19, z: 5.61}
   m_LocalScale: {x: 1.6666667, y: 1.6666667, z: 1.6666666}
   m_Children: []
   m_Father: {fileID: 6238273283075082795}
@@ -4846,14 +4846,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f18c32efccdebe42b56f6de27c8c92e, type: 3}
---- !u!4 &1915975190043180194 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400010, guid: 2f18c32efccdebe42b56f6de27c8c92e, type: 3}
-  m_PrefabInstance: {fileID: 1915975190043043368}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1915975190043140226 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100010, guid: 2f18c32efccdebe42b56f6de27c8c92e, type: 3}
+  m_PrefabInstance: {fileID: 1915975190043043368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1915975190043180194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400010, guid: 2f18c32efccdebe42b56f6de27c8c92e, type: 3}
   m_PrefabInstance: {fileID: 1915975190043043368}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2256963482709292818
@@ -4921,6 +4921,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+--- !u!1 &1250006300947640434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1011817122949597024, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}
+  m_PrefabInstance: {fileID: 2256963482709292818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1154209995461517767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1105294733700896469, guid: a30264175d8111f43aeafaec2ba14a7b, type: 3}

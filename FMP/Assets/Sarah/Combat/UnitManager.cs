@@ -261,6 +261,8 @@ public class UnitManager : MonoBehaviour
                             DeadAllyUnits.Add(NewUnit.GetComponent<UnitBase>());
                         }
 
+                        UnitBase.Setup = data.Setup;
+
                         data = new CharacterData();
                     }
                     else
@@ -342,13 +344,15 @@ public class UnitManager : MonoBehaviour
                     {
                         InventoryInstances.Add(Instantiate(weapon));
                         WeaponInventory.Add((Weapon)InventoryInstances[InventoryInstances.Count - 1]);
+                        WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
                     }
                     else
                     {
                         WeaponInventory.Add((Weapon)item);
+                        //print(weapon.CurrentDurablity);
                     }
 
-                    WeaponInventory[WeaponInventory.Count - 1].CurrentDurablity = WeaponInventory[WeaponInventory.Count - 1].Durablity;
+                    
 
                     if (weapon.Special)
                     {
@@ -434,7 +438,7 @@ public class UnitManager : MonoBehaviour
 
                         UnitBase.GetComponent<BossAI>().ToCenter = new Vector3(BaseOffset, BaseOffset, (UnitBase.GetComponent<CapsuleCollider>().height/2));
 
-                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y + UnitBase.ToCenter[2], UnitBase.transform.position.z + UnitBase.ToCenter[1]);
+                        UnitBase.transform.position = new Vector3(UnitBase.transform.position.x + UnitBase.ToCenter[0], UnitBase.transform.position.y/* + UnitBase.ToCenter[2]*/, UnitBase.transform.position.z + UnitBase.ToCenter[1]);
                     }
                 }
             }

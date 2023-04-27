@@ -22,7 +22,7 @@ public class DialoguePlaySound : MonoBehaviour
             SoundManager.Instance.PlaySFX(SoundToPlay);
             Done = true;
         }
-        else
+        else if(DialogueSystem.Instance.CurrentLine != Line)
         {
             Done = false;
         }
