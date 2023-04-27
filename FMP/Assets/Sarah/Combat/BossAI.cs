@@ -165,8 +165,8 @@ public class BossAI : UnitAI
 
         if (Path.Count > 1)
         {
-            print(Path[0].GridPosition[0] + " , " + Path[0].GridPosition[1]);
-            print(AttackTarget.Position[0] + " , " + AttackTarget.Position[1]);
+            //print(Path[0].GridPosition[0] + " , " + Path[0].GridPosition[1]);
+            //print(AttackTarget.Position[0] + " , " + AttackTarget.Position[1]);
             if (AttackTarget.Position[1] == Path[LastIndex].GridPosition[1])
             {
                 if (Path[LastIndex].GridPosition[0] < AttackTarget.Position[0])
@@ -190,7 +190,7 @@ public class BossAI : UnitAI
                 }
             }
 
-            print(Dir);
+            //print(Dir);
 
             ClosestTile = Path[LastIndex];
         }
@@ -232,7 +232,7 @@ public class BossAI : UnitAI
             }
         }
 
-        print(ClosestTile);
+        //print(ClosestTile);
 
 
         if (ClosestTile != null)
