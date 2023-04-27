@@ -116,7 +116,7 @@ public class EnemyOverWorld : MonoBehaviour
                 if(!PlayerInRange)
                 {
                     Anim.SetTrigger("Chase");
-                    SoundManager.Instance.PlaySFX(RandomSound(SpottedPlayerSounds));
+                    SoundManager.Instance.PlaySFX(/*RandomSound(SpottedPlayerSounds)*/ SpottedPlayer);
                 }
 
                 PlayerInRange = true;
@@ -126,7 +126,7 @@ public class EnemyOverWorld : MonoBehaviour
                 if (PlayerInRange)
                 {
                     Anim.SetTrigger("Walk");
-                    SoundManager.Instance.PlaySFX(RandomSound(LostPlayerSounds));
+                    SoundManager.Instance.PlaySFX(/*RandomSound(LostPlayerSounds)*/ LostPlayer);
                 }
                 PlayerInRange = false;
             }
