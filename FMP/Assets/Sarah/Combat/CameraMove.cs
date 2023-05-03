@@ -133,14 +133,14 @@ public class CameraMove : MonoBehaviour
         float screenHeight = Screen.height;
 
         // Check if the mouse cursor is at the edge of the screen
-        if (mousePosition.x >= screenWidth - 1)
+        if (mousePosition.x >= screenWidth - 5)
         {
             // Move the camera to the right
             RB.velocity = new Vector3(SmoothSpeed * 100 * Time.timeScale, RB.velocity.y, RB.velocity.z);
             GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
             return true;
         }
-        else if (mousePosition.x <= 1)
+        else if (mousePosition.x <= 5)
         {
             // Move the camera to the left
             RB.velocity = new Vector3(-SmoothSpeed * 100 * Time.timeScale, RB.velocity.y, RB.velocity.z);
@@ -148,14 +148,14 @@ public class CameraMove : MonoBehaviour
             return true;
         }
 
-        if (mousePosition.y >= screenHeight - 1)
+        if (mousePosition.y >= screenHeight - 5)
         {
             // Move the camera up
             RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y, SmoothSpeed * 100 * Time.timeScale);
             GameManager.Instance.ToolTipCheck(Tutorial.CMoveCamera);
             return true;
         }
-        else if (mousePosition.y <= 1)
+        else if (mousePosition.y <= 5)
         {
             // Move the camera down
             RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y, -SmoothSpeed * 100 * Time.timeScale);
