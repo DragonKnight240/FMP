@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     public float PPCombatSpeed = 1;
 
+    internal Zone CurrentZone = Zone.Village;
+
     //Progress
     internal bool CombatTutorialComplete = false;
     internal bool OverworldTutorialComplete = false;

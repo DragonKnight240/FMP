@@ -38,7 +38,7 @@ public class Compass : MonoBehaviour
 
     private void Start()
     {
-        ChangeMarkerLocation(Zone.Village);
+        ChangeMarkerLocation(GameManager.Instance? GameManager.Instance.CurrentZone: Zone.Village);
     }
 
     // Update is called once per frame
@@ -170,5 +170,6 @@ public class Compass : MonoBehaviour
         }
 
         CurrentZone = NewZone;
+        GameManager.Instance.CurrentZone = NewZone;
     }
 }
